@@ -10,6 +10,8 @@ package island.players;
 public abstract class Player {
 
 	private String name;
+	private IslandTile startingTile;
+	private Pawn pawn;
 	
 	public void takeAction() {
 		
@@ -39,5 +41,9 @@ public abstract class Player {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public IslandTile getStartingTile() {
+		return startingTile;
 	}
 }
