@@ -40,6 +40,11 @@ public abstract class Player {
 		
 	}
 	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 	// getters and setters
 	
 	public String getName() {

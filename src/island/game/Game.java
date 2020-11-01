@@ -5,10 +5,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 import island.board.IslandBoard;
+import island.board.IslandTile;
+import island.board.IslandTileName;
 import island.board.IslandTileStack;
 import island.players.Diver;
+import island.players.Engineer;
+import island.players.Explorer;
+import island.players.Messenger;
+import island.players.Navigator;
+import island.players.Pilot;
 import island.players.Player;
 
 /**
@@ -21,20 +29,44 @@ public class Game {
 	// Game attributes describing the current state of the game
 	private int playerCount;
 	private List<Player> players;
+	private IslandBoard islandBoard;
 	
+	// Maybe just have the IslandTiles defined like...
+	private Stack<IslandTileName> islandTileStack;
+	
+	/**
+	 * Game constructor, instantiates all required game components
+	 */
 	public Game() {
 
-		//Create a stack of all the island tiles
-		IslandTileStack islandTileStack = new IslandTileStack();//Do this inside IslandBoard constructor?
-		//Shuffle it - do this inside IslandTileStack??
-		islandTileStack.shuffle();
-		//Create island board with this stack of tiles
-		IslandBoard islandBoard = new IslandBoard(islandTileStack.getIslandTileStack());
-		
+		createIsland();
 		addPlayers();
 		
 	}
 	
+	/**
+	 * method to handle the creation of the island tiles and board
+	 */
+	private void createIsland() {
+		
+		// Create a stack of all the island tiles
+//		islandTileStack = new Stack<IslandTile>(EnumSet.allOf(IslandTileName.class));//Do this inside IslandBoard constructor?
+		islandTileStack = new Stack();
+		
+		// Add all enum IslandTile values to stack TODO: CHANGE TO IslandTile FROM IslandTileName
+		islandTileStack.addAll(Arrays.asList(IslandTileName.values()));
+//		List<IslandTileName> test = Arrays.asList(IslandTileName.values());
+		Collections.shuffle(islandTileStack);
+//		//Create island board with this stack of tiles
+//		IslandBoard islandBoard = new IslandBoard(islandTileStack.getIslandTileStack());
+		
+		
+		// draw cards from stack into data structure IslandBoard
+	}
+	
+	/**
+	 * method to handle the creation of the game's players
+	 */
 	private void addPlayers() {
 
 		// create scanner to read input from players
@@ -56,7 +88,7 @@ public class Game {
 		// iterate over number of players
 		for (int i = 0; i < playerCount; i++) {
 			
-			System.out.println("Enter name of Player " + i);
+			System.out.println("Enter the name of Player " + (i+1) + ":");
 			String playerName = userInput.nextLine();
 			
 			// instantiate specific player subclasses 
@@ -66,12 +98,41 @@ public class Game {
 					players.add(new Diver(playerName));
 					break;
 					
-				// add rest of player subclasses here
+				case "Engineer":
+					players.add(new Engineer(playerName));
+					break;
+				
+				case "Explorer":
+					players.add(new Explorer(playerName));
+					break;
+				
+				case "Messenger":
+					players.add(new Messenger(playerName));
+					break;
+					
+				case "Navigator":
+					players.add(new Navigator(playerName));
+					break;
+					
+				case "Pilot":
+					players.add(new Pilot(playerName));
+					break;
 				
 			}
-				
-			
 		}
 		
+		// close Scanner
+		userInput.close();
 	}
+	
+	// getters and setters
+	
+	/**
+	 * @return List of Player's playing the game
+	 */
+	public List<Player> getPlayers() {
+		return players;
+	}
+	
+	
 }
