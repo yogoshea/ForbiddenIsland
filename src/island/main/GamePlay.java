@@ -1,6 +1,8 @@
 package island.main;
 
-import island.board.*;
+import java.util.Scanner;
+
+import island.game.Game;
 
 /**
  * GamePlay class controls the game events at the highest level
@@ -9,13 +11,19 @@ import island.board.*;
  */
 public class GamePlay {
 	
+	/**
+	 * main method to control the gameplay
+	 * @param args, command line arguments
+	 */
 	public static void main(String[] args) {
-		//Create a stack of all the island tiles
-		IslandTileStack islandTileStack = new IslandTileStack();//Do this inside IslandBoard constructor?
-		//Shuffle it - do this inside IslandTileStack??
-		islandTileStack.shuffle();
-		//Create island board with this stack of tiles
-		IslandBoard islandBoard = new IslandBoard(islandTileStack.getIslandTileStack());
+		
+		
+		System.out.println("Creating Game");
+		Game game = new Game();
+		
+		// ask if they would like to play again
+//		System.out.println("Would you like to play again?");
+//		Scanner reader = new Scanner(System.in);
 		
 	}
 

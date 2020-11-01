@@ -8,6 +8,8 @@ package island.board;
 
 //Make just an Enum???
 
+// Yeah, I think this should be an enum with the attribute isFlooded
+
 public class IslandTile extends Tile {
 	
 	//name is Enum

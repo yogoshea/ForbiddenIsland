@@ -1,5 +1,8 @@
 package island.players;
 
+import island.board.IslandTile;
+import island.board.Pawn;
+
 /**
  * Player is an abstract class to describe the common behaviour of
  * the player types present in the Forbidden Island game, for
@@ -12,6 +15,10 @@ public abstract class Player {
 	private String name;
 	private IslandTile startingTile;
 	private Pawn pawn;
+	
+	public Player(String name) {
+		this.name = name;
+	}
 	
 	public void takeAction() {
 		
