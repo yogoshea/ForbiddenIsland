@@ -9,6 +9,7 @@ import java.util.Stack;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
+@SuppressWarnings("serial")
 public class IslandTileStack extends Stack<IslandTile> {
 	
 	/**

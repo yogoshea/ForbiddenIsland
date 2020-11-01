@@ -47,16 +47,25 @@ public class Game {
 	 */
 	private void createIsland() {
 		
-		// Instantiate stack of island tiles
-		IslandTileStack islandTiles = new IslandTileStack(); // maybe just put this in IslandBoard constructor?
-//		for (IslandTile t : test) {
-//			System.out.println(t);
-//		}
+		// Instantiate stack of island tiles using IslandTileStack
+//		IslandTileStack islandTiles = new IslandTileStack(); // maybe just put this in IslandBoard constructor?
+		
+		// I don't think we need the IslandTileStack class really
+
+		// OR GET RID OF IslandTileStack AND JUST DO THE FOLLOWING
+		// Create stack of IslandTiles
+		Stack<IslandTile> islandTiles = new Stack<>();
+		
+		// Add all island tiles to stack when instantiated
+		islandTiles.addAll(Arrays.asList(IslandTile.values()));
+		
+		// Shuffle the tiles in the stack
+		Collections.shuffle(islandTiles);
 		
 		// Create island board with this stack of island tiles
 		IslandBoard islandBoard = new IslandBoard(islandTiles);
 		
-		// draw cards from stack into data structure IslandBoard...
+		System.out.println(islandBoard);
 	}
 	
 	/**
