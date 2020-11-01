@@ -30,9 +30,7 @@ public class Game {
 	private int playerCount;
 	private List<Player> players;
 	private IslandBoard islandBoard;
-	
-	// Maybe just have the IslandTiles defined like...
-	private Stack<IslandTileName> islandTileStack;
+	private IslandTileStack islandTileStack;
 	
 	/**
 	 * Game constructor, instantiates all required game components
@@ -41,7 +39,7 @@ public class Game {
 
 		createIsland();
 		addPlayers();
-		
+
 	}
 	
 	/**
@@ -49,19 +47,16 @@ public class Game {
 	 */
 	private void createIsland() {
 		
-		// Create a stack of all the island tiles
-//		islandTileStack = new Stack<IslandTile>(EnumSet.allOf(IslandTileName.class));//Do this inside IslandBoard constructor?
-		islandTileStack = new Stack();
+		// Instantiate stack of island tiles
+		IslandTileStack islandTiles = new IslandTileStack(); // maybe just put this in IslandBoard constructor?
+//		for (IslandTile t : test) {
+//			System.out.println(t);
+//		}
 		
-		// Add all enum IslandTile values to stack TODO: CHANGE TO IslandTile FROM IslandTileName
-		islandTileStack.addAll(Arrays.asList(IslandTileName.values()));
-//		List<IslandTileName> test = Arrays.asList(IslandTileName.values());
-		Collections.shuffle(islandTileStack);
-//		//Create island board with this stack of tiles
-//		IslandBoard islandBoard = new IslandBoard(islandTileStack.getIslandTileStack());
+		// Create island board with this stack of island tiles
+		IslandBoard islandBoard = new IslandBoard(islandTiles);
 		
-		
-		// draw cards from stack into data structure IslandBoard
+		// draw cards from stack into data structure IslandBoard...
 	}
 	
 	/**

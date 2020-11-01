@@ -7,4 +7,8 @@ public class Messenger extends Player {
 		System.out.println(name + " is the Messenger");
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " (Messenger)";
+	}
 }

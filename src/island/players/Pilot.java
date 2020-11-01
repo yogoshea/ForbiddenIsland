@@ -7,4 +7,8 @@ public class Pilot extends Player {
 		System.out.println(name + " is the Pilot");
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " (Pilot)";
+	}
 }

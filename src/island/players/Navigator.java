@@ -7,4 +7,8 @@ public class Navigator extends Player {
 		System.out.println(name + " is the Navigator");
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " (Navigator)";
+	}
 }

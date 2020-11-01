@@ -13,4 +13,8 @@ public class Engineer extends Player {
 //		startingTile = new IslandTile("Bronze Gate");
 	}
 	
+	@Override
+	public String toString() {
+		return super.toString() + " (Engineer)";
+	}
 }

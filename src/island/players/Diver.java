@@ -7,4 +7,8 @@ public class Diver extends Player {
 		System.out.println(name + " is the Diver");
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " (Diver)";
+	}
 }

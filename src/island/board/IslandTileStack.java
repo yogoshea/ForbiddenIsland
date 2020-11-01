@@ -1,21 +1,27 @@
 package island.board;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Stack;
 
-public class IslandTileStack {
+/**
+ * Data structure extending Stack and containing all IslandTiles
+ * @author Eoghan O'Shea and Robert McCarthy
+ *
+ */
+public class IslandTileStack extends Stack<IslandTile> {
 	
-	Stack<IslandTile> islandTileStack = new Stack<IslandTile>();
-	
+	/**
+	 * constructor fills stack with island tiles and randomises the order
+	 */
 	public IslandTileStack() {
+		super(); // calling superclass Stack constructor
 		
-		for(IslandTileName tileName : IslandTileName.values()) {
-			islandTileStack.add(new IslandTile(tileName));
-		}
+		// Add all island tiles to stack when instantiated
+		this.addAll(Arrays.asList(IslandTile.values()));
 		
-	}
-	
-	public Stack<IslandTile> getIslandTileStack(){
-		return islandTileStack;
+		// Shuffle the tiles in the stack
+		Collections.shuffle(this);
 	}
 
 }

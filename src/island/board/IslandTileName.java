@@ -6,13 +6,14 @@ package island.board;
  *
  */
 
+// TODO: DELETE THIS FILE
 public enum IslandTileName {
 	
 	TWILIGHT_HOLLOW,
 	TIDAL_PALACE,
 	BREAKERS_BRIDGE,
 	BRONZE_GATE,
-	CAVE_OF_EMBERS,
+	CAVE_OF_EMBERS;
 	//etc
 
 }
