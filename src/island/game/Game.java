@@ -65,6 +65,8 @@ public class Game {
 		// Create island board with this stack of island tiles
 		IslandBoard islandBoard = new IslandBoard(islandTiles);
 		
+		// display newly generated island board
+		System.out.println("Welcome to the Forbidden Island!");
 		System.out.println(islandBoard);
 	}
 	

@@ -20,7 +20,7 @@ public class GamePlay {
 		
 		
 		// Create new Game instance
-		System.out.println("Creating Game");
+		System.out.println("Creating Game...");
 		Game game = new Game();
 
 		// Iterate over each  Player to take turns (Randomise order?)

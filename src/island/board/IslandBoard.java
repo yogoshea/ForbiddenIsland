@@ -29,12 +29,12 @@ public class IslandBoard {
 		
 		// Assign appropriate lengths to 2D structure, can change this to for loop if needed
 		gameBoard = new IslandTile[6][];
-		gameBoard[0] = new IslandTile[2];
-		gameBoard[1] = new IslandTile[4];
-		gameBoard[2] = new IslandTile[6];
-		gameBoard[3] = new IslandTile[6];
-		gameBoard[4] = new IslandTile[4];
-		gameBoard[5] = new IslandTile[2];
+		gameBoard[0] = new IslandTile[2];	//		  [][]
+		gameBoard[1] = new IslandTile[4];	//		[][][][]
+		gameBoard[2] = new IslandTile[6];	//	  [][][][][][]	
+		gameBoard[3] = new IslandTile[6];	//	  [][][][][][]
+		gameBoard[4] = new IslandTile[4];	//		[][][][]
+		gameBoard[5] = new IslandTile[2];	//		  [][]
 		
 		for (int i = 0; i < gameBoard.length; i++) {
 			for (int j = 0; j < gameBoard[i].length; j++) {
@@ -62,15 +62,47 @@ public class IslandBoard {
 //		}
 	}
 	
+	/* Describe relationship between 2D arrays and island shape:
+	 *
+	 * row length % 3 
+	 */
+	
+	/**
+	 * toString method to display current state of IslandBoard
+	 * and to visualise the island in the correct format
+	 */
 	@Override
 	public String toString() {
 		String outputString = "";
+		int tileCharWidth = 25; // change to make tiles wider
+		String vertBars = "-".repeat(tileCharWidth);
+		
+		// iterate of island grid rows
 		for (int i = 0; i < gameBoard.length; i++) {
+			
+			int rowLength = gameBoard[i].length;
+			int rowOffset = ((rowLength * 2) % 6) / 2; // offset needed to from island structure
+
+			// add top bar of island tiles
+			outputString += " ".repeat(tileCharWidth * rowOffset) + vertBars.repeat(rowLength)
+							+ " ".repeat(tileCharWidth * rowOffset) + "\n";
+			
+			// add row structure offset before
+			outputString += " ".repeat(tileCharWidth * rowOffset);
+			
+			// iterate over island grid columns
 			for (int j = 0; j < gameBoard[i].length; j++) {
-				outputString += gameBoard[i][j].toString();
-				outputString += "\t";
+				
+				// add specific tile details
+				outputString += "| ";
+				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
+						String.format("%" + ((tileCharWidth - 4 + (gameBoard[i][j].toString()).length()) / 2) + "s", gameBoard[i][j]));
+				outputString += " |";
 			}
-			outputString += "\n";
+
+			// add bottom bar of island tiles
+			outputString += "\n" + " ".repeat(tileCharWidth * rowOffset) + vertBars.repeat(rowLength)
+							+ " ".repeat(tileCharWidth * rowOffset) + "\n";
 		}
 		return outputString;
 	}
