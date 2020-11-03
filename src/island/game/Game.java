@@ -1,5 +1,7 @@
 package island.game;
 
+import island.cards.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,12 +34,19 @@ public class Game {
 	private IslandBoard islandBoard;
 	private IslandTileStack islandTileStack;
 	
+	private Stack<FloodDeckCard> floodDeck = new Stack<>();
+	private Stack<FloodDeckCard> floodDiscardPile = new Stack<>();
+	private Stack<TreasureDeckCard> treasureDeck;
+	private Stack<TreasureDeckCard> treasureDiscardPile;
+	
 	/**
 	 * Game constructor, instantiates all required game components
 	 */
 	public Game() {
 
 		createIsland();
+		createFloodDeck();
+		startSinking();
 		addPlayers();
 
 	}
@@ -130,6 +139,31 @@ public class Game {
 		// close Scanner
 		userInput.close();
 	}
+	
+	/**
+	 * method to handle creation of flood deck
+	 */
+	private void createFloodDeck() {
+		// Add all island cards to stack when instantiated
+		floodDeck.addAll(Arrays.asList(FloodDeckCard.values()));
+		// Shuffle the cards in the stack
+		Collections.shuffle(floodDeck);
+	}
+	
+	/**
+	 * method to flood 6 tiles at start of game
+	 */
+	private void startSinking() {
+		for(int i = 0; i < 6; i++) {
+			FloodDeckCard temp = floodDeck.pop();
+			//Flood corresponding tile
+			islandBoard.floodTile(temp);
+			//Add card to discard pile
+			floodDiscardPile.push(temp);
+		}
+		//Print out tiles that were flooded
+	}
+	
 	
 	// getters and setters
 	

@@ -2,6 +2,8 @@ package island.board;
 
 import java.util.Stack;
 
+import island.cards.FloodDeckCard;
+
 /**
  * IslandBoard class represents island board and holds tiles
  * @author Eoghan O'Shea and Robert McCarthy
@@ -106,5 +108,40 @@ public class IslandBoard {
 		}
 		return outputString;
 	}
+	
+	/**
+	 * Takes a flood deck card and either floods or removes corresponding tile
+	 * @return true if successful, false if tile already removed
+	 */
+	public boolean floodTile(FloodDeckCard card) {
+		//Search through game board - should we save tile locations at start instead of searching each time?
+		for (int i = 0; i < gameBoard.length; i++) {
+			for (int j = 0; j < gameBoard[i].length; j++) {
+				
+				if(gameBoard[i][j] != null) {
+				
+					//If island tile has same name as card (could also have associated tile for card)
+					if ( gameBoard[i][j].toString().equals(card.toString()) ) {
+						
+						//If not flooded
+						if(!gameBoard[i][j].isFlooded()) {
+							//Flood tile
+							gameBoard[i][j].setToFlooded();
+						} else {
+							//Else remove - does setting to null work?????
+							gameBoard[i][j] = null;
+						}
+						return true;
+					}
+				}
+				
+			}
+			
+		}
+		//Action doesn't count as turn if you couldn't use card? Check before this?
+		return false;
+	}
+	
+	
 	
 }
