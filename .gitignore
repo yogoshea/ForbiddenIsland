@@ -1,3 +1,4 @@
 # file types to be ignored by git
 .classpath
 .project
+/bin/
