@@ -9,8 +9,6 @@ import java.util.Stack;
 
 import island.board.IslandBoard;
 import island.board.IslandTile;
-import island.board.IslandTileName;
-import island.board.IslandTileStack;
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.Explorer;
@@ -30,7 +28,7 @@ public class Game {
 	private int playerCount;
 	private List<Player> players;
 	private IslandBoard islandBoard;
-	private IslandTileStack islandTileStack;
+//	private IslandTileStack islandTileStack;
 	
 	/**
 	 * Game constructor, instantiates all required game components
@@ -62,8 +60,8 @@ public class Game {
 		// Shuffle the tiles in the stack
 		Collections.shuffle(islandTiles);
 		
-		// Create island board with this stack of island tiles
-		IslandBoard islandBoard = new IslandBoard(islandTiles);
+		// Instantiate island board with this stack of island tiles
+		islandBoard = new IslandBoard(islandTiles);
 		
 		// display newly generated island board
 		System.out.println("Welcome to the Forbidden Island!");
