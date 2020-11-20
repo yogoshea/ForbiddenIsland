@@ -1,4 +1,4 @@
-package island.board;
+package island.components;
 
 public class Pawn {
 	

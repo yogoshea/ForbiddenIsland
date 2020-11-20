@@ -1,7 +1,7 @@
 package island.players;
 
-import island.board.IslandTile;
-import island.board.Pawn;
+import island.components.IslandTile;
+import island.components.Pawn;
 
 /**
  * Player is an abstract class to describe the common behaviour of

@@ -1,6 +1,6 @@
 package island.players;
 
-import island.board.IslandTile;
+import island.components.IslandTile;
 
 public class Engineer extends Player {
 

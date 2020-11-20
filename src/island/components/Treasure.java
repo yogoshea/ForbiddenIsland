@@ -1,4 +1,4 @@
-package island.board;
+package island.components;
 
 public enum Treasure {
 	THE_CRYSTAL_OF_FIRE,

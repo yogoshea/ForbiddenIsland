@@ -1,4 +1,4 @@
-package island.board;
+package island.components;
 
 import java.util.Stack;
 
@@ -41,6 +41,7 @@ public class IslandBoard {
 		for (int i = 0; i < gameBoard.length; i++) {
 			for (int j = 0; j < gameBoard[i].length; j++) {
 				gameBoard[i][j] = islandTiles.pop();
+				// ADD to TreeMap / HashMap tile location reference
 			}
 		}
 		

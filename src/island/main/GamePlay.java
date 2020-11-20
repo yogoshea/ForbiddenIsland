@@ -6,7 +6,7 @@ import island.game.Game;
 import island.players.Player;
 
 /**
- * GamePlay class controls the game events at the highest level
+ * GamePlay class controls the game events at the highest level; client code for game
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */

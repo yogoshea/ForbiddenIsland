@@ -1,4 +1,4 @@
-package island.board;
+package island.components;
 
 /**
  * IslandTile enum for island tiles

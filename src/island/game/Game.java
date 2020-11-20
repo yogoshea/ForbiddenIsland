@@ -1,6 +1,8 @@
 package island.game;
 
 import island.cards.*;
+import island.components.IslandBoard;
+import island.components.IslandTile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,8 +11,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
-import island.board.IslandBoard;
-import island.board.IslandTile;
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.Explorer;
@@ -20,7 +20,8 @@ import island.players.Pilot;
 import island.players.Player;
 
 /**
- * Game class describes in full the status of the game
+ * Game class describes in full the status of the game and 
+ * acts as Facade for client code to interact with game
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */

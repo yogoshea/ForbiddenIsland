@@ -1,4 +1,4 @@
-package island.board;
+package island.components;
 
 /**
  * SeaTile class represents a sea tile (wow very informative)

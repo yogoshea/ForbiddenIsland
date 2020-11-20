@@ -1,4 +1,4 @@
-package island.board;
+package island.components;
 
 /**
  * Class holding the enumerated types for the Island tiles

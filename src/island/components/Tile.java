@@ -1,4 +1,4 @@
-package island.board;
+package island.components;
 
 /**
  * Tile class is parent class of SeaTile and IslandTile to allow for polymorphism
