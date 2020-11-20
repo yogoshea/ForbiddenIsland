@@ -1,5 +1,10 @@
 package island.players;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import island.cards.TreasureCard;
+import island.cards.TreasureDeckCard;
 import island.components.IslandTile;
 import island.components.Pawn;
 
@@ -15,9 +20,11 @@ public abstract class Player {
 	private String name;
 	private IslandTile startingTile;
 	private Pawn pawn;
+	private List<TreasureDeckCard> treasureDeckCards; // check for null when using
 	
 	public Player(String name) {
 		this.name = name;
+		treasureDeckCards = new ArrayList<TreasureDeckCard>(); // TODO: check for overflow, set max size five
 	}
 	
 	public void takeAction() {
@@ -36,8 +43,8 @@ public abstract class Player {
 		
 	}
 	
-	public void receiveCard() {
-		
+	public void takeTreasureCard(TreasureDeckCard newTreasureDeckCard) {
+		treasureDeckCards.add(newTreasureDeckCard);
 	}
 	
 	@Override
@@ -57,5 +64,9 @@ public abstract class Player {
 	
 	public IslandTile getStartingTile() {
 		return startingTile;
+	}
+	
+	public List<TreasureDeckCard> getTreasureCards() {
+		return treasureDeckCards;
 	}
 }

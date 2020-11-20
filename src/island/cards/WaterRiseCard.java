@@ -1,5 +1,5 @@
 package island.cards;
 
-public class WaterRiseCard implements TreasureDeckCard{
+public class WaterRiseCard implements TreasureDeckCard {
 	
 }

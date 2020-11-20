@@ -2,6 +2,7 @@ package island.main;
 
 import java.util.Scanner;
 
+import island.cards.TreasureDeckCard;
 import island.game.Game;
 import island.players.Player;
 
@@ -24,10 +25,14 @@ public class GamePlay {
 		Game game = new Game();
 
 		// Iterate over each  Player to take turns (Randomise order?)
-//		for (Player p : game.getPlayers()) {
+		for (Player p : game.getPlayers()) {
+			
 //			p.takeTurn();
-//			System.out.println(p);
-//		}
+			System.out.println(p);
+			for (TreasureDeckCard tc : p.getTreasureCards()) {
+				System.out.println(tc);
+			}
+		}
 		
 		// ask if they would like to play again
 //		System.out.println("Would you like to play again?");
