@@ -1,11 +1,18 @@
 package island.cards;
 
-public class SandbagCard implements TreasureDeckCard {
+/**
+ * Class to represent Sandbag cards.
+ * @author Eoghan O'Shea and Robert McCarthy
+ *
+ */
+public class SandbagCard extends Card implements TreasureDeckCard {
 	
-	public SandbagCard() {}
+	public SandbagCard() {
+//		super();
+	}
 	
 	public String toString() {
-		return "***Sandbag Card***";
+		return "*** Sandbag Card ***";
 	}
 
 }

@@ -1,6 +1,6 @@
 package island.decks;
 
-import island.cards.FloodDeckCard;
+import island.cards.FloodCard;
 
 /**
  * TreasureDeck class is a deck filled with TreasureCards,
@@ -8,7 +8,7 @@ import island.cards.FloodDeckCard;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class FloodDeck extends Deck<FloodDeckCard> {
+public class FloodDeck extends Deck<FloodCard> {
 	
 	// Instantiate singleton
 	private static FloodDeck floodDeck = new FloodDeck();

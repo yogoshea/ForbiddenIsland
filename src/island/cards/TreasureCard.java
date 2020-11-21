@@ -1,10 +1,30 @@
 package island.cards;
 
-public enum TreasureCard implements TreasureDeckCard {
+import island.components.Treasure;
+
+/**
+ * Class to represent treasure cards. 
+ * @author Eoghan O'Shea and Robert McCarthy
+ *
+ */
+public class TreasureCard extends Card implements TreasureDeckCard {
 	
-	THE_CRYSTAL_OF_FIRE,
-	THE_EARTH_STONE,
-	THE_OCEANS_CHALICE,
-	THE_STATUE_OF_THE_WIND;
+	private Treasure associatedTreasure;
+
+	// Associated Treasure must be set in constructor
+	public TreasureCard(Treasure treasure) {
+//		super();
+		this.associatedTreasure = treasure;
+	}
+
+	public Treasure getAssociatedTreasure() {
+		return associatedTreasure;
+	}
+
+	
+//	THE_CRYSTAL_OF_FIRE,
+//	THE_EARTH_STONE,
+//	THE_OCEANS_CHALICE,
+//	THE_STATUE_OF_THE_WIND;
 
 }

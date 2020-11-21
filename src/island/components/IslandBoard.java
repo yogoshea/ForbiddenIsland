@@ -2,7 +2,7 @@ package island.components;
 
 import java.util.Stack;
 
-import island.cards.FloodDeckCard;
+import island.cards.FloodCard;
 
 /**
  * IslandBoard class represents island board and holds tiles
@@ -114,7 +114,7 @@ public class IslandBoard {
 	 * Takes a flood deck card and either floods or removes corresponding tile
 	 * @return true if successful, false if tile already removed
 	 */
-	public boolean floodTile(FloodDeckCard card) {
+	public boolean floodTile(FloodCard card) {
 		//Search through game board - should we save tile locations at start instead of searching each time?
 		for (int i = 0; i < gameBoard.length; i++) {
 			for (int j = 0; j < gameBoard[i].length; j++) {

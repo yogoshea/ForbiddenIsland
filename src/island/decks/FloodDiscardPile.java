@@ -1,8 +1,8 @@
 package island.decks;
 
-import island.cards.FloodDeckCard;
+import island.cards.FloodCard;
 
-public class FloodDiscardPile extends DiscardPile<FloodDeckCard> {
+public class FloodDiscardPile extends DiscardPile<FloodCard> {
 	
 	// Instantiate singleton
 	private static FloodDiscardPile floodDiscardPile = new FloodDiscardPile();

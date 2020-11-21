@@ -11,6 +11,13 @@ package island.cards;
 
 //Weird having empty classes for sandbag, helicopterlift etc....
 
+/**
+ * Simple interface used to denote if a card can be placed
+ * in the TreasureDeck.
+ * @author Eoghan O'Shea and Robert McCarthy
+ *
+ */
 public interface TreasureDeckCard {
-
+	
+	// TODO: add display() method maybe
 }
