@@ -88,7 +88,7 @@ public class Game { // TODO: rename to GameFacade?
 		
 		// display newly generated island board
 		System.out.println("Welcome to the Forbidden Island!");
-		System.out.println(islandBoard);
+//		System.out.println(islandBoard);
 	}
 	
 	/**
