@@ -1,6 +1,11 @@
 package island.decks;
 
+import island.cards.HelicopterLiftCard;
+import island.cards.SandbagCard;
+import island.cards.TreasureCard;
 import island.cards.TreasureDeckCard;
+import island.cards.WaterRiseCard;
+import island.components.Treasure;
 
 /**
  * TreasureDeck class is a deck filled with TreasureCards,
@@ -15,10 +20,29 @@ public class TreasureDeck extends Deck<TreasureDeckCard> {
 	
 	private TreasureDeck() {
 		super();
+		
+		// populate deck with necessary cards
+		final int cardsPerTreasure = 5;
+		final int helicopterCardCount = 3;
+		final int sandbagCardCount = 2;
+		final int waterRiseCardCount = 3;
+		
+		for (int i = 0; i < cardsPerTreasure; i++)
+			for (Treasure t : Treasure.values())
+				this.addCardToDeck(new TreasureCard(t));
+		
+		for (int i = 0; i < helicopterCardCount; i++)
+			this.addCardToDeck(new HelicopterLiftCard());
+		
+		for (int i = 0; i < sandbagCardCount; i++)
+			this.addCardToDeck(new SandbagCard());
+
+		for (int i = 0; i < waterRiseCardCount; i++)
+			this.addCardToDeck(new WaterRiseCard());
 	}
 	
 	public static TreasureDeck getInstance() {
 		return treasureDeck;
 	}
-
+	
 }

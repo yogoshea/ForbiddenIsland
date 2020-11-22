@@ -1,74 +1,104 @@
 package island.components;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Stack;
 
 import island.cards.FloodCard;
+import island.decks.FloodDeck;
+import island.decks.FloodDiscardPile;
 
 /**
  * IslandBoard class represents island board and holds tiles
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-
-//I created the board as just a 2D array of tiles here.
-//Thought it would be better to have tiles in a proper grid -> keep moving between tiles simple
-//Possibly not a good way to do it
-
-//Potential problems: Duplicates, ?
-
-//Alternative method: Multidimensional Collection -> would this be hard to move player around?
-//Better to not use SeaTiles? Yeah, I don't think we need them
-
 public class IslandBoard {
 	
-	// Create 2D array of IslandTiles to represent game board
-	private IslandTile[][] gameBoard;
+	// Instantiate singleton
+	private static IslandBoard islandBoard = new IslandBoard();
 	
-	//Takes stack of island tiles as input and and puts them in island positions.
-	//Assumes stack already shuffled
-	//Puts sea tiles in remaining positions - 8x8 array so island surrounded by sea
-	public IslandBoard(Stack<IslandTile> islandTiles) {
+	// Create 2D array of IslandTiles to represent game board
+	private IslandTile[][] boardStructure;
+	
+	private FloodDeck floodDeck;
+	private FloodDiscardPile floodDiscardPile;
+	
+	// Fills structure with IslandTile Enum types
+	private IslandBoard() {
+		
+		// get instances of required classes
+		floodDeck = FloodDeck.getInstance();
+		floodDiscardPile = FloodDiscardPile.getInstance();
+		
+		// Source all IslandTiles form Enum values
+		Stack<IslandTile> islandTiles = new Stack<>();
+		
+		// Add all island tiles to stack when instantiated
+		islandTiles.addAll(Arrays.asList(IslandTile.values()));
+		
+		// Shuffle the tiles in the stack
+		Collections.shuffle(islandTiles);
 		
 		// Assign appropriate lengths to 2D structure, can change this to for loop if needed
-		gameBoard = new IslandTile[6][];
-		gameBoard[0] = new IslandTile[2];	//		  [][]
-		gameBoard[1] = new IslandTile[4];	//		[][][][]
-		gameBoard[2] = new IslandTile[6];	//	  [][][][][][]	
-		gameBoard[3] = new IslandTile[6];	//	  [][][][][][]
-		gameBoard[4] = new IslandTile[4];	//		[][][][]
-		gameBoard[5] = new IslandTile[2];	//		  [][]
+		boardStructure = new IslandTile[6][];
+		boardStructure[0] = new IslandTile[2];	//		  [][]
+		boardStructure[1] = new IslandTile[4];	//		[][][][]
+		boardStructure[2] = new IslandTile[6];	//	  [][][][][][]	
+		boardStructure[3] = new IslandTile[6];	//	  [][][][][][]
+		boardStructure[4] = new IslandTile[4];	//		[][][][]
+		boardStructure[5] = new IslandTile[2];	//		  [][]
 		
-		for (int i = 0; i < gameBoard.length; i++) {
-			for (int j = 0; j < gameBoard[i].length; j++) {
-				gameBoard[i][j] = islandTiles.pop();
-				// ADD to TreeMap / HashMap tile location reference
+		for (int i = 0; i < boardStructure.length; i++) {
+			for (int j = 0; j < boardStructure[i].length; j++) {
+				boardStructure[i][j] = islandTiles.pop();
+				// TODO: ADD to TreeMap / HashMap tile location reference
 			}
 		}
 		
 //		//Add sea tiles
 //		for(int i=0; i<4; i++) {
 //			for(int j=3-i; j>0; j--) {
-//				gameBoard[i][j] = new SeaTile();
-//				gameBoard[i][7-j] = new SeaTile();
-//				gameBoard[7-i][j] = new SeaTile();
-//				gameBoard[7-i][7-j] = new SeaTile();
+//				boardStructure[i][j] = new SeaTile();
+//				boardStructure[i][7-j] = new SeaTile();
+//				boardStructure[7-i][j] = new SeaTile();
+//				boardStructure[7-i][7-j] = new SeaTile();
 //			}
 //		}
 //		//Add Island tiles
 //		for(int i=0; i<4; i++) {
 //			for(int j=3; j>3-i; j--) {
-//				gameBoard[i][j] = tiles.pop();
-//				gameBoard[i][7-j] = tiles.pop();
-//				gameBoard[7-i][j] = tiles.pop();
-//				gameBoard[7-i][7-j] = tiles.pop();
+//				boardStructure[i][j] = tiles.pop();
+//				boardStructure[i][7-j] = tiles.pop();
+//				boardStructure[7-i][j] = tiles.pop();
+//				boardStructure[7-i][7-j] = tiles.pop();
 //			}
 //		}
 	}
 	
-	/* Describe relationship between 2D arrays and island shape:
-	 *
-	 * row length % 3 
+	
+	public static IslandBoard getInstance() {
+		return islandBoard;
+	}
+	
+	/**
+	 * method to start island sinking at beginning of game
 	 */
+	public void startSinking() {
+		
+		for (int i = 0; i < 6; i++) {
+			
+			// Draw FloddCard from deck
+			FloodCard fc = floodDeck.drawCard();
+			
+			// Flood corresponding IslandTile on board
+			islandBoard.floodTile(fc);
+
+			// Add card to flood discard pile
+			floodDiscardPile.addCard(fc);
+		}
+		//TODO: Print out tiles that were flooded
+	}
 	
 	/**
 	 * toString method to display current state of IslandBoard
@@ -81,9 +111,9 @@ public class IslandBoard {
 		String vertBars = "-".repeat(tileCharWidth);
 		
 		// iterate of island grid rows
-		for (int i = 0; i < gameBoard.length; i++) {
+		for (int i = 0; i < boardStructure.length; i++) {
 			
-			int rowLength = gameBoard[i].length;
+			int rowLength = boardStructure[i].length;
 			int rowOffset = ((rowLength * 2) % 6) / 2; // offset needed to from island structure
 
 			// add top bar of island tiles
@@ -94,12 +124,12 @@ public class IslandBoard {
 			outputString += " ".repeat(tileCharWidth * rowOffset);
 			
 			// iterate over island grid columns
-			for (int j = 0; j < gameBoard[i].length; j++) {
+			for (int j = 0; j < boardStructure[i].length; j++) {
 				
 				// add specific tile details
 				outputString += "| ";
 				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-						String.format("%" + ((tileCharWidth - 4 + (gameBoard[i][j].toString()).length()) / 2) + "s", gameBoard[i][j]));
+						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].toString()).length()) / 2) + "s", boardStructure[i][j]));
 				outputString += " |";
 			}
 
@@ -114,26 +144,28 @@ public class IslandBoard {
 	 * Takes a flood deck card and either floods or removes corresponding tile
 	 * @return true if successful, false if tile already removed
 	 */
-	public boolean floodTile(FloodCard card) {
-		//Search through game board - should we save tile locations at start instead of searching each time?
-		for (int i = 0; i < gameBoard.length; i++) {
-			for (int j = 0; j < gameBoard[i].length; j++) {
+	public boolean floodTile(FloodCard fc) {
+
+		// TODO: save tile locations at start instead of searching each time?
+		for (int i = 0; i < boardStructure.length; i++) {
+			for (int j = 0; j < boardStructure[i].length; j++) {
 				
-				if(gameBoard[i][j] != null) {
+//				if(boardStructure[i][j] != null) {
 				
-					//If island tile has same name as card (could also have associated tile for card)
-					if ( gameBoard[i][j].toString().equals(card.toString()) ) {
-						
-						//If not flooded
-						if(!gameBoard[i][j].isFlooded()) {
-							//Flood tile
-							gameBoard[i][j].setToFlooded();
-						} else {
-							//Else remove - does setting to null work?????
-							gameBoard[i][j] = null;
-						}
-						return true;
+				//If island tile has same name as card (could also have associated tile for card)
+//				if ( boardStructure[i][j].toString().equals(card.toString()) ) {
+				if (boardStructure[i][j].equals(fc.getCorrespondingIslandTile())) {
+					// TODO: implement equals() method in IslandTile to compare enum value
+					
+					//If not flooded
+					if(!boardStructure[i][j].isFlooded()) {
+						//Flood tile
+						boardStructure[i][j].setToFlooded();
+					} else {
+						//Else remove - does setting to null work?????
+						boardStructure[i][j] = null;
 					}
+					return true;
 				}
 				
 			}

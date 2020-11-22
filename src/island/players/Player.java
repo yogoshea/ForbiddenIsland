@@ -43,6 +43,7 @@ public abstract class Player {
 		
 	}
 	
+	// TODO: change this to drawFromTreasureDeck(int cardCount) {}
 	public void takeTreasureCard(TreasureDeckCard newTreasureDeckCard) {
 		treasureDeckCards.add(newTreasureDeckCard);
 	}

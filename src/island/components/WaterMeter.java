@@ -30,6 +30,6 @@ public class WaterMeter {
 		return waterLevel;
 	}
 	
-	// TODO: toString() method for diplaying in terminal UI
+	// TODO: toString() method for displaying in terminal UI
 
 }

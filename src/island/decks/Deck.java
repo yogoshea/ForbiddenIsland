@@ -30,5 +30,10 @@ public abstract class Deck<E> {
 	public Stack<E> getAllCards() {
 		return deck;
 	}
+	
+	public void addCardToDeck(E card) {
+		deck.add(card);
+		this.shuffle(); // shuffle deck whenever new card added
+	}
 
 }

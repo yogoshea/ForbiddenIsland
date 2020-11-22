@@ -1,6 +1,7 @@
 package island.decks;
 
 import island.cards.FloodCard;
+import island.components.IslandTile;
 
 /**
  * TreasureDeck class is a deck filled with TreasureCards,
@@ -14,8 +15,12 @@ public class FloodDeck extends Deck<FloodCard> {
 	private static FloodDeck floodDeck = new FloodDeck();
 	
 	private FloodDeck() {
-		super();
-		// TODO: add card for each IslandTile
+		super(); // TODO: check if needed
+		
+		// add FloodCard to deck for each IslandTile
+		for (IslandTile it : IslandTile.values()) {
+			this.addCardToDeck(new FloodCard(it));
+		}
 	}
 	
 	public static FloodDeck getInstance() {
