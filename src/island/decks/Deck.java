@@ -3,6 +3,8 @@ package island.decks;
 import java.util.Collections;
 import java.util.Stack;
 
+import island.cards.Card;
+
 /**
  * Abstract class to be implemented by decks used in game;
  * TreasureDeck, FloodDeck
@@ -13,6 +15,7 @@ import java.util.Stack;
 public abstract class Deck<E> {
 	
 	private Stack<E> deck;
+	// private DiscardPile<E> associatedDiscardPile;??
 	
 	// constructor accessible to subclasses
 	protected Deck() {
@@ -24,6 +27,10 @@ public abstract class Deck<E> {
 	}
 	
 	public E drawCard() {
+		//TODO refill deck as soon as it empties??
+		if (deck.empty()) {
+			refill();
+		}
 		return deck.pop();
 	}
 	
@@ -35,5 +42,9 @@ public abstract class Deck<E> {
 		deck.add(card);
 		this.shuffle(); // shuffle deck whenever new card added
 	}
+	
+	//TODO Polymorphism? - implement this method here (rather than separate subclasses) using an associatedDiscardPile??
+	//Could be a bit tricky to do?
+	public abstract void refill();
 
 }

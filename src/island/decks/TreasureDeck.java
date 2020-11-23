@@ -1,5 +1,9 @@
 package island.decks;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import island.cards.Card;
 import island.cards.HelicopterLiftCard;
 import island.cards.SandbagCard;
 import island.cards.TreasureCard;
@@ -39,6 +43,15 @@ public class TreasureDeck extends Deck<TreasureDeckCard> {
 
 		for (int i = 0; i < waterRiseCardCount; i++)
 			this.addCardToDeck(new WaterRiseCard());
+	}
+	
+	@Override
+	public void refill() {
+		List<TreasureDeckCard> temp = new ArrayList<TreasureDeckCard>();
+		temp = TreasureDiscardPile.getInstance().removeAllCards();
+		for(TreasureDeckCard c : temp) {
+			treasureDeck.addCardToDeck(c);
+		}
 	}
 	
 	public static TreasureDeck getInstance() {

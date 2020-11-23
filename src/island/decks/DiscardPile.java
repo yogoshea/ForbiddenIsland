@@ -2,6 +2,7 @@ package island.decks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 /**
  * Abstract class to be extending by game's discard piles;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public abstract class DiscardPile<E> {
 
-	private List<E> pile;
+	private List<E> pile; //make stack??
 	
 	protected DiscardPile() {
 		pile = new ArrayList<E>();
@@ -25,5 +26,21 @@ public abstract class DiscardPile<E> {
 	public void addCard(E card) {
 		pile.add(card);
 	}
+	
+	public void shuffle() {
+	    Collections.shuffle(this.pile);
+	}
+	
+	/**
+	 * method to remove and return all cards from the pile 
+	 */
+	public List<E> removeAllCards() {
+		//check if pile is empty??
+		shuffle();
+		List<E> temp = pile;
+	    pile.clear();
+	    return temp;
+	}
+
 	
 }
