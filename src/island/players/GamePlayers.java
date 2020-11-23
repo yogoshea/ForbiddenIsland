@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import island.components.IslandTile;
+import island.components.Treasure;
+
 /**
  * Class to represent the group of Players currently
  * playing the game.
@@ -18,9 +21,11 @@ public class GamePlayers {
 	private static GamePlayers gamePlayers = new GamePlayers();
 	private int playerCount;
 	private List<Player> playersList;
+	private List<Treasure> capturedTreasures; //Better for each player to have individually? Think they're just pooled in rules
 	
 	private GamePlayers() {
 		playersList = new ArrayList<Player>();
+		capturedTreasures = new ArrayList<Treasure>();
 		playerCount = 0;
 	}
 	
@@ -77,6 +82,16 @@ public class GamePlayers {
 					break;
 			}
 		}
+	}
+	
+	public void setInitialPositions() {
+		for(Player p : playersList) {
+			p.setCurrentTile(IslandTile.FOOLS_LANDING);
+		}
+	}
+	
+	public void addTreasure(Treasure t) {
+		capturedTreasures.add(t);
 	}
 	
 	public List<Player> getPlayersList() {

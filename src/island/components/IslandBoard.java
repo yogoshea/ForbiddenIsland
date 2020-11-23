@@ -145,36 +145,42 @@ public class IslandBoard {
 	 * @return true if successful, false if tile already removed
 	 */
 	public boolean floodTile(FloodCard fc) {
-
-		// TODO: save tile locations at start instead of searching each time?
-		for (int i = 0; i < boardStructure.length; i++) {
-			for (int j = 0; j < boardStructure[i].length; j++) {
-				
-//				if(boardStructure[i][j] != null) {
-				
-				//If island tile has same name as card (could also have associated tile for card)
-//				if ( boardStructure[i][j].toString().equals(card.toString()) ) {
-				if (boardStructure[i][j].equals(fc.getCorrespondingIslandTile())) {
-					// TODO: implement equals() method in IslandTile to compare enum value
-					
-					//If not flooded
-					if(!boardStructure[i][j].isFlooded()) {
-						//Flood tile
-						boardStructure[i][j].setToFlooded();
-					} else {
-						//Else remove - does setting to null work?????
-						boardStructure[i][j] = null;
-					}
-					return true;
-				}
-				
+		int[] pos = findTileLocation(fc.getCorrespondingIslandTile());
+		int i = pos[0];
+		int j = pos[1];
+		if(i >= 0 && j >= 0) {
+			//If not flooded
+			if(!boardStructure[i][j].isFlooded()) {
+				//Flood tile
+				boardStructure[i][j].setToFlooded();
+			} else {
+				//Else remove - does setting to null work?????
+				boardStructure[i][j] = null;
 			}
-			
+			return true;
 		}
 		//Action doesn't count as turn if you couldn't use card? Check before this?
 		return false;
 	}
 	
-	
-	
+	/**
+	 * Takes an island tile and finds its position on board
+	 * @return position in array: [x,y]
+	 */
+	public int[] findTileLocation(IslandTile tile) {
+		// TODO: save tile locations at start instead of searching each time?
+		int[] pos = {-1,-1};
+		for (int i = 0; i < boardStructure.length; i++) {
+			for (int j = 0; j < boardStructure[i].length; j++) {
+				
+				if (boardStructure[i][j].equals(tile)) {
+					// TODO: implement equals() method in IslandTile to compare enum value
+					pos[0] = i;
+					pos[1] = j;
+				}	
+			}
+		}
+		return pos;
+	}
+
 }

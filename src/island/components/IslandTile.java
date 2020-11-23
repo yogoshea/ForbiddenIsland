@@ -52,6 +52,12 @@ public enum IslandTile {
 		floodedStatus = false; // all island tile are initially not flooded
 	}
 	
+	public Treasure captureAssociatedTreasure() {
+		Treasure temp = associatedTreasure;
+		associatedTreasure = null;
+		return temp;
+	}
+	
 	/**
 	 * getter method for treasure associated with island tile
 	 * @return associated Treasure enum type

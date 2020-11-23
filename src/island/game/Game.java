@@ -41,6 +41,7 @@ public class Game { // TODO: rename to GameFacade?
 		handOutTreasureCards();
 		waterMeter = WaterMeter.getInstance(); 
 //		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
+		players.setInitialPositions();
 	}
 	
 	public void playGame() {
@@ -49,7 +50,7 @@ public class Game { // TODO: rename to GameFacade?
 		// Iterate over each  Player to take turns (Randomise order?)
 		for (Player p : players.getPlayersList()) {
 			
-//			p.takeTurn();
+//			p.takeTurn(userInput);
 //			System.out.println(p);
 //			for (TreasureDeckCard tc : p.getTreasureCards()) {
 //				System.out.println(tc);
