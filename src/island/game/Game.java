@@ -10,6 +10,8 @@ import java.util.Scanner;
 import island.players.GamePlayers;
 import island.players.Player;
 
+//TODO: Make game singleton?
+
 /**
  * Game class describes in full the status of the game and 
  * acts as Facade for client code to interact with game
@@ -27,10 +29,10 @@ public class Game { // TODO: rename to GameFacade?
 	/**
 	 * Game constructor, instantiates all required game components
 	 */
-	public Game() {
+	public Game(Scanner userInput) {
 
 		// create scanner to read input from players
-		userInput = new Scanner(System.in);
+		this.userInput = userInput;
 		
 		// initialise game components
 		islandBoard = IslandBoard.getInstance();
