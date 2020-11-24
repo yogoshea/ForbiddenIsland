@@ -23,11 +23,16 @@ public class Game { // TODO: rename to GameFacade?
 	private GamePlayers players;
 	private TreasureDeck treasureDeck;
 	private WaterMeter waterMeter;
+	private boolean gameOver;
+	private boolean gameWon;
 	
 	/**
 	 * Game constructor, instantiates all required game components
 	 */
 	public Game() {
+		
+		gameOver = false;
+		gameWon = false;
 
 		// create scanner to read input from players
 		userInput = new Scanner(System.in);
@@ -48,16 +53,24 @@ public class Game { // TODO: rename to GameFacade?
 		// TODO: control the flow of game in here...
 		
 		// Iterate over each  Player to take turns (Randomise order?)
-		for (Player p : players.getPlayersList()) {
-			
-//			p.takeTurn(userInput);
-//			System.out.println(p);
-//			for (TreasureDeckCard tc : p.getTreasureCards()) {
-//				System.out.println(tc);
-//			}
+		while(!gameOver && !gameWon) {
+			for (Player p : players.getPlayersList()) {
+				if(!gameOver && !gameWon) {
+					System.out.println("It is "+p.toString()+"s turn");
+					p.takeTurn(userInput);
+					//TODO: How to end game if game over happens mid turn???? 
+				}
+			}
+		}
+		
+		if(gameWon) {
+			//TODO: Implement game win
+		} else {
+			//TODO: Implement game loss
 		}
 		
 	}
+	
 	
 	/**
 	 * method to initially give players cards from the Treasure Deck
@@ -90,5 +103,7 @@ public class Game { // TODO: rename to GameFacade?
 	}
 	
 	// TODO: getters and setters for Game info
-	
+	public void setGameOver() {
+		gameOver = true;
+	}
 }

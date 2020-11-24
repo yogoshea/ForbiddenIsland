@@ -292,7 +292,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		treasureDeckCards.add(c);
 		//If more than 5 in hand, choose cards to discard
 		while(treasureDeckCards.size() > 5) {
-			chooseCardToDiscard(userInput);
+			//chooseCardToDiscard(userInput);
 			//TODO: figure out how to get userInput to here - put this call in an observer class?
 		}
 	}

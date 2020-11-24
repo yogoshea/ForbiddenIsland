@@ -9,6 +9,9 @@ import java.util.Stack;
 import island.cards.FloodCard;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
+import island.game.GameOverObserver;
+import island.players.GamePlayers;
+import island.players.Player;
 
 /**
  * IslandBoard class represents island board and holds tiles
@@ -199,8 +202,16 @@ public class IslandBoard {
 				//Flood tile
 				boardStructure[i][j].setToFlooded();
 			} else {
-				//Else remove - does setting to null work?????
+				//Else sink tile - does setting to null work?????
+				//If player on tile, give chance to move
+				for(Player p : GamePlayers.getInstance().getPlayersList()) {
+					if(p.getCurrentTile().equals(boardStructure[i][j])) {
+						//p.move(userScanner);
+					}
+				}
 				boardStructure[i][j] = null;
+				//Alert gObserver that something happened which may cause game to be over
+				GameOverObserver.getInstance().checkIfGameOver();
 			}
 			return true;
 		}
