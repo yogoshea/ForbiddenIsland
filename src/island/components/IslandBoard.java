@@ -1,7 +1,9 @@
 package island.components;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 import island.cards.FloodCard;
@@ -88,9 +90,9 @@ public class IslandBoard {
 		
 		for (int i = 0; i < 6; i++) {
 			
-			// Draw FloddCard from deck
+			// Draw FloodCard from deck
 			FloodCard fc = floodDeck.drawCard();
-			
+			//TODO: Flood tile within drawCard method??
 			// Flood corresponding IslandTile on board
 			islandBoard.floodTile(fc);
 
@@ -141,6 +143,49 @@ public class IslandBoard {
 	}
 	
 	/**
+	 * Takes a tile and returns a list of adjacent island tiles (which methods should be static in singleton?)
+	 */
+	public List<IslandTile> findAdjacentTiles(IslandTile tile) {
+		//TODO: Give IslandTile a location variable??
+		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
+		int[] currentPos = findTileLocation(tile);
+		if(currentPos[0] < 0 || currentPos[1] < 0) {
+			return adjTiles;
+		}
+		int curRowLength = boardStructure[currentPos[0]].length;
+		int curRowOffset = ((curRowLength * 2) % 6) / 2;
+		
+		//First search left and right
+		for(int i = -1; i <= 1; i += 2) {
+			int searchCol = currentPos[1] + i;
+			if(searchCol >= 0 && searchCol <= 5 - (2*curRowOffset)) { //if within bounds of board
+				if(boardStructure[currentPos[0]][searchCol] != null) { //or use instanceof IslandTile??
+					adjTiles.add(boardStructure[currentPos[0]][searchCol]);
+				}
+			}
+		}
+		
+		//Then search up and down
+		for(int i = -1; i <= 1; i += 2) {
+			int searchRow = currentPos[0] + i;
+			if(searchRow >= 0 && searchRow <= 5) {
+				//takes offsets into account with 'shift'
+				int searchRowLength = boardStructure[searchRow].length;
+				int searchRowOffset = ((searchRowLength * 2) % 6) / 2;
+				int shift = curRowOffset - searchRowOffset;
+				int searchCol = currentPos[1] + shift;
+				if(searchCol >= 0 && searchCol <= 5 - (2*searchRowOffset)) {
+					if(boardStructure[searchRow][searchCol] != null) {
+						adjTiles.add(boardStructure[searchRow][searchCol]);
+					}
+				}
+			}
+		}
+		return adjTiles;
+	}
+	
+	
+	/**
 	 * Takes a flood deck card and either floods or removes corresponding tile
 	 * @return true if successful, false if tile already removed
 	 */
@@ -164,12 +209,26 @@ public class IslandBoard {
 	}
 	
 	/**
+	 * Takes an IslandTile and shores-up corresponding tile on board
+	 * @return true if successful, false if not
+	 */
+	public boolean shoreUp(IslandTile t) {
+		int[] pos = findTileLocation(t);
+		int i = pos[0];
+		int j = pos[1];
+		if(i >= 0 && j >= 0) {
+			return boardStructure[i][j].shoreUp();
+		}
+		return false;
+	}
+	
+	/**
 	 * Takes an island tile and finds its position on board
-	 * @return position in array: [x,y]
+	 * @return position in array: [x,y]. returns [-1,-1] if not found
 	 */
 	public int[] findTileLocation(IslandTile tile) {
 		// TODO: save tile locations at start instead of searching each time?
-		int[] pos = {-1,-1};
+		int[] pos = {-1,-1}; // [row, column]
 		for (int i = 0; i < boardStructure.length; i++) {
 			for (int j = 0; j < boardStructure[i].length; j++) {
 				

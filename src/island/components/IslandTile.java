@@ -80,5 +80,16 @@ public enum IslandTile {
 	public void setToFlooded() {
 		floodedStatus = true;
 	}
+	
+	public boolean shoreUp() {
+		if(!floodedStatus) {
+			System.out.println(name()+" already shored-up");
+			return false;
+		} else {
+			floodedStatus = false;
+			System.out.println(name()+" has been shored-up");
+			return true;
+		}
+	}
 
 }

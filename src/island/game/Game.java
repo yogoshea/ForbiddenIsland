@@ -81,7 +81,7 @@ public class Game { // TODO: rename to GameFacade?
 					treasureDeck.addCardToDeck(drawnCard);
 				} else {
 					cardsDrawnCount++;
-					p.takeTreasureCard(drawnCard);
+					p.receiveTreasureDeckCard(drawnCard);
 					// TODO: change to p.drawFromTreasureDeck(2);
 				}
 			} while (cardsDrawnCount < numberOfCardsPerPlayer);
