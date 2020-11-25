@@ -51,15 +51,19 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		String takeAction = userInput.nextLine();
 		
 		while(availableActions > 0 && takeAction.equals("Y")) {
+			
 			//take an action
 			successfullyTaken = takeAction(userInput);
 			
 			//decrease available actions if successful
 			availableActions -= successfullyTaken ? 1 : 0;
 			
-			System.out.println("Do you wish to take another action? ("+Integer.toString(availableActions)+" remaining)");
-			System.out.println("[Y]/[N]");
-			takeAction = userInput.nextLine();
+			if(availableActions > 0) { //Bit clunky
+				System.out.println("Do you wish to take another action? ("+Integer.toString(availableActions)+" remaining)");
+				System.out.println("[Y]/[N]");
+				takeAction = userInput.nextLine();
+			}
+	
 		}
 		
 		//Draw Treasure deck cards

@@ -110,4 +110,10 @@ public class Game { // TODO: rename to GameFacade?
 	public void setGameOver() {
 		gameOver = true;
 	}
+	
+	public String toString() {
+		String gameState = "Info";
+		//TODO: Implement -> Print island map, treasures captured, watermeter, player cards (or do cards during turns?) 
+		return gameState;
+	}
 }

@@ -84,6 +84,24 @@ public class GamePlayers {
 		}
 	}
 	
+	public List<Treasure> getCapturedTreasures() {
+		return capturedTreasures;
+	}
+	
+	/*
+	 * Method to check if all treasures have been captured
+	 * @return true if they all have, false otherwise
+	 */
+	public boolean allTreasuresCaptured() {
+		
+		for(Treasure t : Arrays.asList(Treasure.values())) {
+			if( !capturedTreasures.contains(t) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void setInitialPositions() {
 		for(Player p : playersList) {
 			p.setCurrentTile(IslandTile.FOOLS_LANDING);
