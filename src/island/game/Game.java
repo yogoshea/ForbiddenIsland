@@ -52,13 +52,16 @@ public class Game { // TODO: rename to GameFacade?
 	public void playGame() {
 		// TODO: control the flow of game in here...
 		
-		// Iterate over each  Player to take turns (Randomise order?)
 		while(!gameOver && !gameWon) {
+			// Iterate over each  Player to take turns (Randomise order?)
 			for (Player p : players.getPlayersList()) {
+				
 				if(!gameOver && !gameWon) {
+					
+					System.out.println(islandBoard.toString());
 					System.out.println("It is "+p.toString()+"s turn");
 					p.takeTurn(userInput);
-					//TODO: How to end game if game over happens mid turn???? 
+					//TODO: How to end game if Game Over happens mid turn???? 
 				}
 			}
 		}
@@ -103,6 +106,7 @@ public class Game { // TODO: rename to GameFacade?
 	}
 	
 	// TODO: getters and setters for Game info
+	
 	public void setGameOver() {
 		gameOver = true;
 	}

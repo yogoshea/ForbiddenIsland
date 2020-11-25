@@ -1,6 +1,10 @@
 package island.game;
 
+import java.util.List;
 import java.util.Scanner;
+
+import island.players.GamePlayers;
+import island.players.Player;
 
 /**
  * Class to allow checking of user input for a heli/sandbag card use request
@@ -10,12 +14,16 @@ import java.util.Scanner;
 public class GameScanner {
 	
 	//Are there any cases we should do lazy instantiation rather than eager???
-	GameScanner gameScanner = new GameScanner();
+	private static GameScanner gameScanner = new GameScanner();
 	
-	Scanner userInput;
+	private Scanner userInput;
 	
 	private GameScanner() {
 		userInput = new Scanner(System.in);
+	}
+	
+	public static GameScanner getInstance() {
+		return gameScanner;
 	}
 	
 	/*
@@ -25,16 +33,16 @@ public class GameScanner {
 	 * Then returns scanned string to be used back in game flow 
 	 */
 	public String scanNextLine(String initialPrompt) {
-		//Print prompt in here aswell (rather than before)??
+		//Print prompt in here (rather than before function)??
 		
 		String input = userInput.nextLine();
 		
 		while(input.equals("Heli") || input.equals("Sandbag")) {
 			if(input.equals("Heli")) {
-				//TODO: a user has requested to use heli card -> implement
+				heliRequest();
 			}
 			if(input.equals("Sandbag")) {
-				//TODO: a user has requested to use sandbag card -> implement
+				sandbagRequest();
 			}
 			
 			System.out.println(initialPrompt);
@@ -42,6 +50,40 @@ public class GameScanner {
 		}
 		 
 		return input;
+	}
+	
+	public void heliRequest() {
+		String prompt = "Which player wishes to play a heli card?";
+		//System.out.println(prompt);
+		//Just make sandbag and heli cards communal in GamePlayers?
+		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt);
+		p.playHeliCard();
+	}
+	
+	public void sandbagRequest() {
+		String prompt = "Which player wishes to play a sandbag card?";
+		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt); //bad practice to instantiate here?
+		p.playSandBagCard();
+	}
+	
+	/*
+	 * Class prompts user to pick an item from input list and returns chosen item
+	 */
+	public <E> E pickFromList(List<E> items, String prompt){
+		//system.out.println("Choose "+E.toString():);
+		
+		int index;
+		
+		int i = 1;
+		String options = "";
+		for(E item : items) {
+			options += item.toString()+" ["+Integer.toString(i)+"]";
+			i++;
+		}
+		System.out.println(options);
+		prompt += "\n"+options;
+		index = Integer.parseInt(scanNextLine(prompt)) - 1;
+		return items.get(index);
 	}
 
 }

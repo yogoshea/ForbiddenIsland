@@ -110,7 +110,7 @@ public class IslandBoard {
 	 * and to visualise the island in the correct format
 	 */
 	@Override
-	public String toString() {
+	public String toString() { //TODO: print players, treasures and flood status of each tile
 		String outputString = "";
 		int tileCharWidth = 25; // change to make tiles wider
 		String vertBars = "-".repeat(tileCharWidth);
@@ -252,5 +252,23 @@ public class IslandBoard {
 		}
 		return pos;
 	}
+	
+	
+	public List<IslandTile> getFloodedTiles() {
+		List<IslandTile> floodedTiles = new ArrayList<IslandTile>();//Arraylist good?
+		
+		for (int i = 0; i < boardStructure.length; i++) {
+			for (int j = 0; j < boardStructure[i].length; j++) {
+				
+				if(boardStructure[i][j].isFlooded()) {
+					floodedTiles.add(boardStructure[i][j]);
+				}
+			}
+		}
+		
+		return floodedTiles;
+	}
+	
+
 
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import island.cards.FloodCard;
+import island.cards.HelicopterLiftCard;
+import island.cards.SandbagCard;
 import island.cards.TreasureCard;
 import island.cards.TreasureDeckCard;
 import island.components.IslandBoard;
@@ -319,6 +321,9 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		treasureDeckCards.remove(iChoice);
 	}
 	
+	//TODO: getCard() function which finds card in player hand and returns it - to make things cleaner??
+
+	
 	
 	public void drawFromFloodDeck(int cardCount) {
 		for(int i = 0; i < cardCount; i++) {
@@ -329,9 +334,44 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		}
 	}
 	
+	public void playSandBagCard() {
+		
+		boolean used;
+		for(TreasureDeckCard c : treasureDeckCards) {
+			//if card found then use it
+			if(c instanceof SandbagCard) {
+				used = ((SandbagCard) c).use();
+				if(used) {
+					TreasureDiscardPile.getInstance().addCard(c);
+					treasureDeckCards.remove(c);
+				}
+				return;
+			}
+		}
+		
+		System.out.println("No Sandbag Card in hand");
+		
+	}
+	/*
+	 * Is there a way to use Generics to combine method above and below into one? instanceof doesn't work with generic types
+	 */
+	public void playHeliCard() {
+		
+		for(TreasureDeckCard c : treasureDeckCards) {
+			//If heli card in hand then use it
+			if(c instanceof HelicopterLiftCard) {
+				((HelicopterLiftCard) c).use();
+				return;
+			}
+		}
+		
+		System.out.println("No Heli Card in hand");
+		
+	}
+	
 	
 	@Override
-	public String toString() {
+	public String toString() { //TODO: add cards and current tile?
 		return getName();
 	}
 	
