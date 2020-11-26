@@ -209,6 +209,7 @@ public class IslandBoard {
 						//p.move(userScanner);
 					}
 				}
+				System.out.println(boardStructure[i][j].name()+ "has sunk!!!!");
 				boardStructure[i][j] = null;
 				//Alert gameOverObserver that something happened which may cause game to be over
 				GameOverObserver.getInstance().checkIfGameOver();

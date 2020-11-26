@@ -136,6 +136,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 			
 			int choice = Integer.parseInt(userInput.nextLine()) - 1;
 			currentTile = adjTiles.get(choice);
+			System.out.println("Moved to "+currentTile.toString());
 			return true;
 			
 		} else {
@@ -190,6 +191,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	private boolean giveTreasureCard(Scanner userInput) {
 		
 		List<Player> playersOnSameTile = new ArrayList<Player>();
+		List<TreasureDeckCard> treasureCards = new ArrayList<TreasureDeckCard>();
 		
 		//Find players on same tile
 		for(Player p : GamePlayers.getInstance().getPlayersList()) {
@@ -198,43 +200,56 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 			}
 		}
 		
-		if(playersOnSameTile.size() > 0) { //player found
-			
-			//User chooses player to give card to
-			System.out.println("Which player do you wish to give a card to?");
-			
-			int i = 1;
-			for(Player p : playersOnSameTile) {
-				System.out.print(p.toString()+" ["+Integer.toString(i)+"], ");
-				i++;
-			}
-			System.out.println();
-			
-			int playerChoice = Integer.parseInt(userInput.nextLine()) - 1;
-			
-			//User chooses card to give
-			System.out.println("Which card do you wish to give");
-			
-			int j = 1;
-			for(TreasureDeckCard c : treasureDeckCards) {
-				if(c instanceof TreasureCard) {
-					System.out.print(c.toString()+" ["+Integer.toString(j)+"], ");
-				}
-				j++;//TODO: Fix printing so not skipping numbers
-			}
-			System.out.println();
-			
-			int cardChoice = Integer.parseInt(userInput.nextLine()) - 1;
-			
-			//give card
-			playersOnSameTile.get(playerChoice).receiveTreasureDeckCard(treasureDeckCards.get(cardChoice));
-			treasureDeckCards.remove(cardChoice);
-			return true;
-			
-		} else {
-			System.out.println("Could not give card");//Explain why..
+		if(playersOnSameTile.size() <= 0) {
+			System.out.println("No players on your tile :(");
 			return false;
 		}
+		
+		int j = 1;
+		for(TreasureDeckCard c : treasureDeckCards) {
+			if(c instanceof TreasureCard) {
+				treasureCards.add(c);
+				System.out.print(c.toString()+" ["+Integer.toString(j)+"], ");
+			}
+			j++;//TODO: Fix printing so not skipping numbers
+		}
+		
+		if(treasureCards.size() <= 0) {
+			System.out.println("No treasure cards in hand :(");
+			return false;
+		}
+		
+		
+		
+		//User chooses player to give card to
+		System.out.println("Which player do you wish to give a card to?");
+		
+		int i = 1;
+		for(Player p : playersOnSameTile) {
+			System.out.print(p.toString()+" ["+Integer.toString(i)+"], ");
+			i++;
+		}
+		System.out.println();
+		
+		int playerChoice = Integer.parseInt(userInput.nextLine()) - 1;
+		
+		//User chooses card to give
+		System.out.println("Which card do you wish to give");
+		
+		int k = 1;
+		for(TreasureDeckCard c : treasureCards) {
+			System.out.print(c.toString()+" ["+Integer.toString(j)+"], ");
+			k++;//TODO: Fix printing so not skipping numbers
+		}
+		System.out.println();
+		
+		int cardChoice = Integer.parseInt(userInput.nextLine()) - 1;
+		
+		//give card
+		playersOnSameTile.get(playerChoice).receiveTreasureDeckCard(treasureDeckCards.get(cardChoice));
+		treasureDeckCards.remove(cardChoice);
+		return true;
+		
 	}
 	
 	
@@ -271,7 +286,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 				
 				//capture treasure
 				GamePlayers.getInstance().addTreasure(currentTile.captureAssociatedTreasure());
-				
+				System.out.println("You captured " +currentTile.getAssociatedTreasure().name()+"!!!!" );
 				//if there, add extra card back
 				if(tradeCards.size() > 0) {treasureDeckCards.add(tradeCards.get(0));}
 				//TODO: Don't assume only 1 card left? Don't add the extra one?
@@ -280,12 +295,14 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 				
 			} else {
 				//if can't capture treasure, return cards to player deck
+				System.out.println("Not enough "+currentTile.getAssociatedTreasure().name()+" cards to capture the treasure!!");
 				for(int i = 0; i < tradeCards.size(); i++) {
 					treasureDeckCards.add(tradeCards.get(i));
 				}
 			}
 			
 		}
+		System.out.println("No treasure found at " +currentTile.name());
 		return false;
 	}
 	

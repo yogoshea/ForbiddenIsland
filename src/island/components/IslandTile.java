@@ -79,6 +79,7 @@ public enum IslandTile {
 	 * setter method for flooded status of island tile
 	 */
 	public void setToFlooded() {
+		System.out.println(name()+" has been flooded!!!");
 		floodedStatus = true;
 	}
 	
