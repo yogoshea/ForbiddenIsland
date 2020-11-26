@@ -3,7 +3,9 @@ package island.components;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import island.cards.FloodCard;
@@ -28,6 +30,7 @@ public class IslandBoard {
 	
 	private FloodDeck floodDeck;
 	private FloodDiscardPile floodDiscardPile;
+	private GamePlayers players;
 	
 	// Fills structure with IslandTile Enum types
 	private IslandBoard() {
@@ -35,6 +38,7 @@ public class IslandBoard {
 		// get instances of required classes
 		floodDeck = FloodDeck.getInstance();
 		floodDiscardPile = FloodDiscardPile.getInstance();
+		players = GamePlayers.getInstance();
 		
 		// Source all IslandTiles form Enum values
 		Stack<IslandTile> islandTiles = new Stack<>();
@@ -61,24 +65,6 @@ public class IslandBoard {
 			}
 		}
 		
-//		//Add sea tiles
-//		for(int i=0; i<4; i++) {
-//			for(int j=3-i; j>0; j--) {
-//				boardStructure[i][j] = new SeaTile();
-//				boardStructure[i][7-j] = new SeaTile();
-//				boardStructure[7-i][j] = new SeaTile();
-//				boardStructure[7-i][7-j] = new SeaTile();
-//			}
-//		}
-//		//Add Island tiles
-//		for(int i=0; i<4; i++) {
-//			for(int j=3; j>3-i; j--) {
-//				boardStructure[i][j] = tiles.pop();
-//				boardStructure[i][7-j] = tiles.pop();
-//				boardStructure[7-i][j] = tiles.pop();
-//				boardStructure[7-i][7-j] = tiles.pop();
-//			}
-//		}
 	}
 	
 	
@@ -109,11 +95,20 @@ public class IslandBoard {
 	 * toString method to display current state of IslandBoard
 	 * and to visualise the island in the correct format
 	 */
+	// TODO: move this to GameView
 	@Override
 	public String toString() { //TODO: print players, treasures and flood status of each tile
 		String outputString = "";
 		int tileCharWidth = 25; // change to make tiles wider
 		String vertBars = "-".repeat(tileCharWidth);
+		Map<IslandTile, Player> playerLocations = new HashMap<IslandTile, Player>();
+		
+		
+		// get player positions TODO: move this to getPlayerLocations method
+		for (Player p : players.getPlayersList()) {
+			playerLocations.put(p.getCurrentTile(), p);
+		}
+		
 		
 		// iterate of island grid rows
 		for (int i = 0; i < boardStructure.length; i++) {
@@ -127,21 +122,71 @@ public class IslandBoard {
 			
 			// add row structure offset before
 			outputString += " ".repeat(tileCharWidth * rowOffset);
+		
+			// iterate over island grid columns
+			for (int j = 0; j < boardStructure[i].length; j++) {
+				
+				// add specific tile name
+				outputString += "| ";
+				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
+						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].toString()).length()) / 2) + "s", boardStructure[i][j]));
+				outputString += " |";
+			}
+			
+			// add row structure offset before
+			outputString += "\n";
+			outputString += " ".repeat(tileCharWidth * rowOffset);
+			
+			// iterate over island grid columns
+			for (int j = 0; j < boardStructure[i].length; j++) {
+				
+				// add specific tile status TODO: change to Enum values with Strings "--- Not Flooded ---", "~~~ Flooded ~~~", "XXX Sank XXX"
+				outputString += "| ";
+				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
+						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].isFlooded().toString()).length()) / 2) + "s", boardStructure[i][j].isFlooded().toString()));
+				outputString += " |";
+			}
+			
+			// add row structure offset before
+			outputString += "\n";
+			outputString += " ".repeat(tileCharWidth * rowOffset);
+			
+			// iterate over island grid columns
+			for (int j = 0; j < boardStructure[i].length; j++) {
+				
+				// add space
+				outputString += "| ";
+				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
+						String.format("%" + ((tileCharWidth - 4 + " ".length()) / 2) + "s", " "));
+				outputString += " |";
+			}
+
+			// add row structure offset before
+			outputString += "\n";
+			outputString += " ".repeat(tileCharWidth * rowOffset);
 			
 			// iterate over island grid columns
 			for (int j = 0; j < boardStructure[i].length; j++) {
 				
 				// add specific tile details
 				outputString += "| ";
-				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].toString()).length()) / 2) + "s", boardStructure[i][j]));
-				outputString += " |";
+				if (playerLocations.containsKey(boardStructure[i][j])) {
+					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
+							String.format("%" + ((tileCharWidth - 4 + (playerLocations.get(boardStructure[i][j]).toString().length())) / 2) + "s", playerLocations.get(boardStructure[i][j]).toString()));
+					outputString += " |";
+				} else {
+					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
+						String.format("%" + ((tileCharWidth - 4 + " ".length()) / 2) + "s", " "));
+					outputString += " |";
+				}
 			}
+			
 
 			// add bottom bar of island tiles
 			outputString += "\n" + " ".repeat(tileCharWidth * rowOffset) + vertBars.repeat(rowLength)
 							+ " ".repeat(tileCharWidth * rowOffset) + "\n";
 		}
+		
 		return outputString;
 	}
 	
