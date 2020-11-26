@@ -43,6 +43,7 @@ public class GameOverObserver {
 			//Game.getInstance().setGameOver();
 		}
 	}
+	// TODO: make separate observers?
 	//Unnecessary to check every thing each time??
 	//Have memory and/or only check applicable ones???
 	

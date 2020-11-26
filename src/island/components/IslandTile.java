@@ -42,6 +42,7 @@ public enum IslandTile {
 	private IslandTile() {
 		this(null); // check for null when using enums at later stage
 	}
+	// TODO: make floodStatus Enum {"notFlooded", "Flooded", "Sank"}
 	
 	/**
 	 * constructor to set associatedTreasure and floodedStatus

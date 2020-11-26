@@ -13,7 +13,6 @@ import island.players.Player;
  */
 public class GameScanner {
 	
-	//Are there any cases we should do lazy instantiation rather than eager???
 	private static GameScanner gameScanner = new GameScanner();
 	
 	private Scanner userInput;

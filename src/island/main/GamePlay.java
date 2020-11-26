@@ -16,7 +16,7 @@ public class GamePlay {
 	public static void main(String[] args) {
 		
 		System.out.println("Creating Game...");
-		Game game = new Game();
+		Game game = Game.getInstance();
 		game.playGame();
 		System.out.println("Game Over");
 

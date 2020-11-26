@@ -18,6 +18,8 @@ import island.players.Player;
  */
 public class Game { // TODO: rename to GameFacade?
 	
+	private static Game game = new Game();
+
 	private Scanner userInput;
 	private IslandBoard islandBoard;
 	private GamePlayers players;
@@ -29,7 +31,8 @@ public class Game { // TODO: rename to GameFacade?
 	/**
 	 * Game constructor, instantiates all required game components
 	 */
-	public Game() {
+	private Game() {
+		
 		
 		gameOver = false;
 		gameWon = false;
@@ -46,7 +49,11 @@ public class Game { // TODO: rename to GameFacade?
 		handOutTreasureCards();
 		waterMeter = WaterMeter.getInstance(); 
 //		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
-		players.setInitialPositions();
+//		players.setInitialPositions(); // TODO: delete?
+	}
+	
+	public static Game getInstance() {
+		return game;
 	}
 	
 	public void playGame() {
@@ -68,6 +75,7 @@ public class Game { // TODO: rename to GameFacade?
 		
 		if(gameWon) {
 			//TODO: Implement game win
+//			return true;
 		} else {
 			//TODO: Implement game loss
 		}
@@ -109,5 +117,10 @@ public class Game { // TODO: rename to GameFacade?
 	
 	public void setGameOver() {
 		gameOver = true;
+		// GameView.showEndGameScreen()
+		// TODO: Ask about this!
+		// System.exit(0);
+		// OR
+		// return 0
 	}
 }

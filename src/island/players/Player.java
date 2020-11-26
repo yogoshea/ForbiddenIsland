@@ -33,9 +33,10 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	private Pawn pawn; //TODO: start making use of pawn
 	private List<TreasureDeckCard> treasureDeckCards; // check for null when using
 	
-	public Player(String name) {
+	public Player(String name, IslandTile startingTile) {
 		this.name = name;
 		treasureDeckCards = new ArrayList<TreasureDeckCard>(); // TODO: check for overflow, set max size five
+		currentTile = startingTile;
 	}
 	
 	/**

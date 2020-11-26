@@ -84,6 +84,7 @@ public class GamePlayers {
 		}
 	}
 	
+	// TODO: change this to go inside Player subclasses
 	public void setInitialPositions() {
 		for(Player p : playersList) {
 			p.setCurrentTile(IslandTile.FOOLS_LANDING);

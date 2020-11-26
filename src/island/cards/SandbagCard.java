@@ -24,7 +24,7 @@ public class SandbagCard extends Card implements TreasureDeckCard {
 /*
  * Method to use card and de-flood a tile
  */
-	public boolean use() {
+	public boolean use() { // TODO: should this throw a NoFloodedTiles Exception
 		
 		List<IslandTile> floodedTiles = IslandBoard.getInstance().getFloodedTiles(); //TODO: implement getFloodedTiles()
 		
