@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import island.components.IslandTile;
+import island.components.Treasure;
+
 /**
  * Class to represent the group of Players currently
  * playing the game.
@@ -18,9 +21,11 @@ public class GamePlayers {
 	private static GamePlayers gamePlayers = new GamePlayers();
 	private int playerCount;
 	private List<Player> playersList;
+	private List<Treasure> capturedTreasures; //Better for each player to have individually? Think they're just pooled in rules
 	
 	private GamePlayers() {
 		playersList = new ArrayList<Player>();
+		capturedTreasures = new ArrayList<Treasure>();
 		playerCount = 0;
 	}
 	
@@ -30,7 +35,7 @@ public class GamePlayers {
 	
 	public void addPlayers(Scanner userInput) {
 
-		System.out.println("How many players are there?");
+		System.out.println("\nHow many players are there?");
 		playerCount = Integer.parseInt(userInput.nextLine());
 		// TODO: check for max allowed player count
 		
@@ -77,6 +82,37 @@ public class GamePlayers {
 					break;
 			}
 		}
+	}
+	
+
+	// TODO: change this to go inside Player subclasses
+	public List<Treasure> getCapturedTreasures() {
+		return capturedTreasures;
+	}
+	
+	/*
+	 * Method to check if all treasures have been captured
+	 * @return true if they all have, false otherwise
+	 */
+	public boolean allTreasuresCaptured() {
+		
+		for(Treasure t : Arrays.asList(Treasure.values())) {
+			if( !capturedTreasures.contains(t) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+
+	public void setInitialPositions() {
+		for(Player p : playersList) {
+			p.setCurrentTile(IslandTile.FOOLS_LANDING);
+		}
+	}
+	
+	public void addTreasure(Treasure t) {
+		capturedTreasures.add(t);
 	}
 	
 	public List<Player> getPlayersList() {
