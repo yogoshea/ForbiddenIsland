@@ -3,11 +3,11 @@ package island.main;
 import island.game.Game;
 
 /**
- * GamePlay class controls the game events at the highest level; client code for game
+ * Main class controls the game events at the highest level; client code for game
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class GamePlay {
+public class Main {
 	
 	/**
 	 * main method to control the game-play (client code)

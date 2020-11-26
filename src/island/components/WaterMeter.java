@@ -24,7 +24,7 @@ public class WaterMeter {
 	}
 	
 	public void setLevel(int level) {
-		// TODO: check for valid water level between 1-10
+		// TODO: check for valid water level between 1-5
 		this.waterLevel = level;
 		//Alert gameOverObserver that something happened which may cause game to be over
 		GameOverObserver.getInstance().checkIfGameOver();

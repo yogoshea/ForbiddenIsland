@@ -84,5 +84,8 @@ public class GameScanner {
 		index = Integer.parseInt(scanNextLine(prompt)) - 1;
 		return items.get(index);
 	}
+	
+	
+	// updateDisplay() {}
 
 }
