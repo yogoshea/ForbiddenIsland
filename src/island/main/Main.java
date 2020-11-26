@@ -4,11 +4,11 @@ import island.game.Game;
 import island.mvc.GameController;
 
 /**
- * GamePlay class controls the game events at the highest level; client code for game
+ * Main class controls the game events at the highest level; client code for game
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class GamePlay {
+public class Main {
 	
 	/**
 	 * main method to control the game-play (client code)
@@ -18,6 +18,8 @@ public class GamePlay {
 		
 		System.out.println("Creating Game...");
 		GameController gameController = new GameController();
+		Game game = Game.getInstance();
+		game.playGame();
 		System.out.println("Game Over");
 
 	}

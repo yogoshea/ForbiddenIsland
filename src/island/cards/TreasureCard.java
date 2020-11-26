@@ -20,6 +20,10 @@ public class TreasureCard extends Card implements TreasureDeckCard {
 	public Treasure getAssociatedTreasure() {
 		return associatedTreasure;
 	}
+	
+	public String toString() {
+		return associatedTreasure.name()+" Treasure Card";
+	}
 
 	
 //	THE_CRYSTAL_OF_FIRE,

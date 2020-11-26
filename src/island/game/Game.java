@@ -20,16 +20,23 @@ import island.players.Player;
  */
 public class Game { // TODO: rename to GameFacade?
 	
+	private static Game game = new Game();
+
 	private Scanner userInput;
 	private IslandBoard islandBoard;
 	private GamePlayers players;
 	private TreasureDeck treasureDeck;
 	private WaterMeter waterMeter;
+	private boolean gameOver;
+	private boolean gameWon;
 	
 	/**
 	 * Game constructor, instantiates all required game components
 	 */
 	public Game(Scanner userInput) {
+		
+		gameOver = false;
+		gameWon = false;
 
 		// create scanner to read input from players
 		this.userInput = userInput;
@@ -43,22 +50,39 @@ public class Game { // TODO: rename to GameFacade?
 		handOutTreasureCards();
 		waterMeter = WaterMeter.getInstance(); 
 //		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
+//		players.setInitialPositions(); // TODO: delete?
+	}
+	
+	public static Game getInstance() {
+		return game;
 	}
 	
 	public void playGame() {
 		// TODO: control the flow of game in here...
 		
-		// Iterate over each  Player to take turns (Randomise order?)
-		for (Player p : players.getPlayersList()) {
-			
-//			p.takeTurn();
-//			System.out.println(p);
-//			for (TreasureDeckCard tc : p.getTreasureCards()) {
-//				System.out.println(tc);
-//			}
+		while(!gameOver && !gameWon) {
+			// Iterate over each  Player to take turns (Randomise order?)
+			for (Player p : players.getPlayersList()) {
+				
+				if(!gameOver && !gameWon) {
+					
+					System.out.println(islandBoard.toString());
+					System.out.println("It is "+p.toString()+"s turn");
+					p.takeTurn(userInput);
+					//TODO: How to end game if Game Over happens mid turn???? 
+				}
+			}
+		}
+		
+		if(gameWon) {
+			//TODO: Implement game win
+//			return true;
+		} else {
+			//TODO: Implement game loss
 		}
 		
 	}
+	
 	
 	/**
 	 * method to initially give players cards from the Treasure Deck
@@ -82,7 +106,7 @@ public class Game { // TODO: rename to GameFacade?
 					treasureDeck.addCardToDeck(drawnCard);
 				} else {
 					cardsDrawnCount++;
-					p.takeTreasureCard(drawnCard);
+					p.receiveTreasureDeckCard(drawnCard);
 					// TODO: change to p.drawFromTreasureDeck(2);
 				}
 			} while (cardsDrawnCount < numberOfCardsPerPlayer);
@@ -92,4 +116,18 @@ public class Game { // TODO: rename to GameFacade?
 	
 	// TODO: getters and setters for Game info
 	
+	public void setGameOver() {
+		gameOver = true;
+		// GameView.showEndGameScreen()
+		// TODO: Ask about this!
+		// System.exit(0);
+		// OR
+		// return 0
+	}
+	
+	public String toString() {
+		String gameState = "Info";
+		//TODO: Implement -> Print island map, treasures captured, watermeter, player cards (or do cards during turns?) 
+		return gameState;
+	}
 }
