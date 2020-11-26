@@ -123,4 +123,10 @@ public class Game { // TODO: rename to GameFacade?
 		// OR
 		// return 0
 	}
+	
+	public String toString() {
+		String gameState = "Info";
+		//TODO: Implement -> Print island map, treasures captured, watermeter, player cards (or do cards during turns?) 
+		return gameState;
+	}
 }

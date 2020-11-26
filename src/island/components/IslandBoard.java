@@ -210,7 +210,7 @@ public class IslandBoard {
 					}
 				}
 				boardStructure[i][j] = null;
-				//Alert gObserver that something happened which may cause game to be over
+				//Alert gameOverObserver that something happened which may cause game to be over
 				GameOverObserver.getInstance().checkIfGameOver();
 			}
 			return true;

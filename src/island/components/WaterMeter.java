@@ -1,5 +1,7 @@
 package island.components;
 
+import island.game.GameOverObserver;
+
 /**
  * WaterMeter, singleton design pattern, indicates water level status
  * during game play.
@@ -24,6 +26,8 @@ public class WaterMeter {
 	public void setLevel(int level) {
 		// TODO: check for valid water level between 1-10
 		this.waterLevel = level;
+		//Alert gameOverObserver that something happened which may cause game to be over
+		GameOverObserver.getInstance().checkIfGameOver();
 	}
 	
 	public int getLevel() { 

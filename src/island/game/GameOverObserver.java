@@ -1,7 +1,10 @@
 package island.game;
 
+import java.util.List;
+
 import island.components.IslandBoard;
 import island.components.IslandTile;
+import island.components.Treasure;
 import island.components.WaterMeter;
 import island.players.GamePlayers;
 import island.players.Player;
@@ -19,14 +22,15 @@ public class GameOverObserver {
 	
 	private static GameOverObserver gameOverObserver = new GameOverObserver();
 	
-	private IslandTile[][] treasureTiles;
+	//Used to check if treasure tile are sunk
+	private static IslandTile[][] treasureTiles;
 	
 	private GameOverObserver() {
 		treasureTiles = new IslandTile[4][];
 		treasureTiles[0] = new IslandTile[] {IslandTile.CAVE_OF_EMBERS, IslandTile.CAVE_OF_SHADOWS};
 		treasureTiles[1] = new IslandTile[] {IslandTile.CORAL_PALACE, IslandTile.TIDAL_PALACE};
-		treasureTiles[2] = new IslandTile[] {IslandTile.CAVE_OF_EMBERS, IslandTile.CAVE_OF_SHADOWS};
-		treasureTiles[3] = new IslandTile[] {IslandTile.CAVE_OF_EMBERS, IslandTile.CAVE_OF_SHADOWS};
+		treasureTiles[2] = new IslandTile[] {IslandTile.HOWLING_GARDEN, IslandTile.WHISPERING_GARDEN};
+		treasureTiles[3] = new IslandTile[] {IslandTile.TEMPLE_OF_THE_MOON, IslandTile.TEMPLE_OF_THE_SUN};
 	}
 	
 	public static GameOverObserver getInstance() {
@@ -48,19 +52,28 @@ public class GameOverObserver {
 	//Have memory and/or only check applicable ones???
 	
 	
-	
-	public boolean checkTreasureTiles() {
+	/*
+	 * Method to check if game is over as one of the treasures can no longer be captured 
+	 */
+	public static boolean checkTreasureTiles() {
 		
 		for(int i = 0; i < 4; i++) {
 			int[] pos1 = IslandBoard.getInstance().findTileLocation( treasureTiles[i][1] );
 			int[] pos2 = IslandBoard.getInstance().findTileLocation( treasureTiles[i][2] );
-			if(pos1[0] < 0 || pos2[0] < 0) {
+			List<Treasure> capturedTreasures = GamePlayers.getInstance().getCapturedTreasures();
+			boolean alreadyCaptured = capturedTreasures.contains(treasureTiles[i][1].getAssociatedTreasure());
+			
+			//If both tiles are sunk and associated treasure not captured
+			if( (pos1[0] < 0 && pos2[0] < 0) && !alreadyCaptured) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	/*
+	 * Method to check if game is over due to FoolsLanding being sunkeded
+	 */
 	public static boolean checkFoolsLanding() {
 		int[] pos = IslandBoard.getInstance().findTileLocation(IslandTile.FOOLS_LANDING);
 		if(pos[0] < 0) {
@@ -70,6 +83,10 @@ public class GameOverObserver {
 		}
 	}
 	
+	/*
+	 * Method to check if game is over due to player being on a sunken tile
+	 * Should player be an observer here? check via player?
+	 */
 	public static boolean checkPlayerTiles() {
 		for(Player p : GamePlayers.getInstance().getPlayersList()) {
 			int[] pos = IslandBoard.getInstance().findTileLocation( p.getCurrentTile() );
@@ -80,9 +97,12 @@ public class GameOverObserver {
 		return false;
 	}
 	
+	/*
+	 * Method to check if Game Over due to water level above threshold
+	 */
 	public static boolean checkWaterLevel() {
 		return WaterMeter.getInstance().getLevel() > 5;
-		//TODO: make max level a game variable
+		//TODO: make make level a final game variable
 	}
 
 }

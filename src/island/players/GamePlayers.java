@@ -84,7 +84,28 @@ public class GamePlayers {
 		}
 	}
 	
+<<<<<<< HEAD
 	// TODO: change this to go inside Player subclasses
+=======
+	public List<Treasure> getCapturedTreasures() {
+		return capturedTreasures;
+	}
+	
+	/*
+	 * Method to check if all treasures have been captured
+	 * @return true if they all have, false otherwise
+	 */
+	public boolean allTreasuresCaptured() {
+		
+		for(Treasure t : Arrays.asList(Treasure.values())) {
+			if( !capturedTreasures.contains(t) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+>>>>>>> e6552ac916352ca84fba310003a6fc56b16ec7bd
 	public void setInitialPositions() {
 		for(Player p : playersList) {
 			p.setCurrentTile(IslandTile.FOOLS_LANDING);
