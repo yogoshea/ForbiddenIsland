@@ -9,6 +9,7 @@ import island.cards.HelicopterLiftCard;
 import island.cards.SandbagCard;
 import island.cards.TreasureCard;
 import island.cards.TreasureDeckCard;
+import island.cards.WaterRiseCard;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Pawn;
@@ -309,8 +310,15 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	
 	public void drawFromTreasureDeck(int cardCount) {
 		//draw cardCount cards
+		TreasureDeckCard c;
 		for(int i = 0; i < cardCount; i++) {
-			receiveTreasureDeckCard( TreasureDeck.getInstance().drawCard() );
+			c = TreasureDeck.getInstance().drawCard();
+			if(c instanceof WaterRiseCard) {
+				//TODO: Increment water level
+				TreasureDiscardPile.getInstance().addCard(c);
+			} else {
+				receiveTreasureDeckCard(c);
+			}
 		}
 	}
 	
@@ -321,7 +329,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		treasureDeckCards.add(c);
 		//If more than 5 in hand, choose cards to discard
 		while(treasureDeckCards.size() > 5) {
-			//chooseCardToDiscard(userInput);
+			chooseCardToDiscard();
 			//TODO: figure out how to get userInput to here - put this call in an observer class?
 		}
 	}
@@ -329,8 +337,8 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	/**
 	 * method to choose a card to discard from treasureDeckCards
 	 */
-	public void chooseCardToDiscard(Scanner userInput) {
-		
+	public void chooseCardToDiscard() {
+		Scanner userInput = new Scanner(System.in);
 		System.out.println("Which card do you wish to discard?");
 		
 		int i = 1;

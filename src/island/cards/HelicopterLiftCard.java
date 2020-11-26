@@ -39,6 +39,7 @@ public class HelicopterLiftCard extends Card implements TreasureDeckCard {
 		destination = GameScanner.getInstance().pickFromList(Arrays.asList(IslandTile.values()), prompt);
 		
 		String ans;
+		
 		for(Player p : GamePlayers.getInstance().getPlayersList()) {
 			prompt = "Does "+p.toString()+" wish to move to "+destination.name()+"?";
 			prompt += "\n[Y]/[N]";

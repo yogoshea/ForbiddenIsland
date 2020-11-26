@@ -35,7 +35,7 @@ public class GamePlayers {
 	
 	public void addPlayers(Scanner userInput) {
 
-		System.out.println("How many players are there?");
+		System.out.println("\nHow many players are there?");
 		playerCount = Integer.parseInt(userInput.nextLine());
 		// TODO: check for max allowed player count
 		
