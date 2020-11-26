@@ -84,9 +84,8 @@ public class GamePlayers {
 		}
 	}
 	
-<<<<<<< HEAD
+
 	// TODO: change this to go inside Player subclasses
-=======
 	public List<Treasure> getCapturedTreasures() {
 		return capturedTreasures;
 	}
@@ -105,7 +104,7 @@ public class GamePlayers {
 		return true;
 	}
 	
->>>>>>> e6552ac916352ca84fba310003a6fc56b16ec7bd
+
 	public void setInitialPositions() {
 		for(Player p : playersList) {
 			p.setCurrentTile(IslandTile.FOOLS_LANDING);

@@ -47,6 +47,8 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		boolean successfullyTaken;
 		int availableActions = 3;
 		
+		System.out.println(toStringDetailed());
+		
 		System.out.println("Do you wish to take an action? ("+Integer.toString(availableActions)+" remaining)");
 		System.out.println("[Y]/[N]");
 		String takeAction = userInput.nextLine();
@@ -60,16 +62,18 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 			availableActions -= successfullyTaken ? 1 : 0;
 			
 			if(availableActions > 0) { //Bit clunky
-				System.out.println("Do you wish to take another action? ("+Integer.toString(availableActions)+" remaining)");
+				System.out.println("\nDo you wish to take another action? ("+Integer.toString(availableActions)+" remaining)");
 				System.out.println("[Y]/[N]");
 				takeAction = userInput.nextLine();
 			}
+			System.out.println(toStringDetailed());
 	
 		}
 		
 		//Draw Treasure deck cards
 		System.out.println("Drawing 2 cards from Treasure Deck...");
 		drawFromTreasureDeck(2); //make 2 a final value??
+		System.out.println(toStringDetailed());
 		
 		//draw Flood cards
 		System.out.println("Drawing Flood cards...");
@@ -145,11 +149,12 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	 * @return true if shore-up action successful, false otherwise
 	 */
 	private boolean shoreUp(Scanner userInput) {
-		
+
 		List<IslandTile> adjTiles = IslandBoard.getInstance().findAdjacentTiles(currentTile);
 		adjTiles.add(currentTile); //can shore-up current tile
+		List<IslandTile> holder = new ArrayList<>(adjTiles);
 		
-		for(IslandTile t : adjTiles) {
+		for(IslandTile t : holder) {
 			//remove tiles that aren't flooded
 			if(!t.isFlooded()) {
 				adjTiles.remove(t);
@@ -378,6 +383,17 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	@Override
 	public String toString() { //TODO: add cards and current tile?
 		return getName();
+	}
+	
+	public String toStringDetailed() {
+		String details = "\n**** "+toString()+" ****\n";
+		details += "Current tile: "+ currentTile.name()+"\n";
+		details += "Treasure Deck Cards: ";
+		for(TreasureDeckCard c : treasureDeckCards) {
+			details += c.toString() +", ";
+		}
+		details += "\n\n";
+		return details;
 	}
 	
 	// getters and setters
