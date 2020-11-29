@@ -1,6 +1,6 @@
 package island.components;
 
-import island.game.GameOverObserver;
+import island.observers.GameOverObserver;
 
 /**
  * WaterMeter, singleton design pattern, indicates water level status

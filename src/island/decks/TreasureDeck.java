@@ -10,6 +10,8 @@ import island.cards.TreasureCard;
 import island.cards.TreasureDeckCard;
 import island.cards.WaterRiseCard;
 import island.components.Treasure;
+import island.players.GamePlayers;
+import island.players.Player;
 
 /**
  * TreasureDeck class is a deck filled with TreasureCards,
@@ -18,6 +20,7 @@ import island.components.Treasure;
  *
  */
 public class TreasureDeck extends Deck<TreasureDeckCard> {
+	//TODO: just change this to Deck<Card>
 	
 	// Instantiate singleton
 	private static TreasureDeck treasureDeck = new TreasureDeck();
@@ -56,6 +59,33 @@ public class TreasureDeck extends Deck<TreasureDeckCard> {
 	
 	public static TreasureDeck getInstance() {
 		return treasureDeck;
+	}
+	
+	/**
+	 * method to initially give players cards from the Treasure Deck
+	 */
+	public void handOutInitialTreasureCards(int numberOfCardsPerPlayer) {
+
+		int cardsDrawnCount;
+		TreasureDeckCard drawnCard;
+		
+		// iterate of players in game
+		for (Player p : GamePlayers.getInstance().getPlayersList()) {
+			
+			cardsDrawnCount = 0;
+			do {
+				drawnCard = this.drawCard();
+//				System.out.println("Drawn card: " + drawnCard);
+				if (drawnCard instanceof WaterRiseCard) {
+					this.addCardToDeck(drawnCard); // Put water Rise cards back in deck
+				} else {
+					cardsDrawnCount++;
+					p.receiveTreasureDeckCard(drawnCard);
+					// TODO: change to p.drawFromTreasureDeck(2);
+				}
+			} while (cardsDrawnCount < numberOfCardsPerPlayer);
+		}
+//		System.out.println("Finished handing out cards!");
 	}
 	
 }

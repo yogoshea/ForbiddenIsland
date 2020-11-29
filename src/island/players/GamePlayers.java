@@ -3,8 +3,10 @@ package island.players;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 import island.components.IslandTile;
 import island.components.Treasure;
@@ -15,47 +17,57 @@ import island.components.Treasure;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class GamePlayers {
+public class GamePlayers implements Iterable<Player> {
 	
 	// Instantiate singleton
 	private static GamePlayers gamePlayers = new GamePlayers();
-	private int playerCount;
 	private List<Player> playersList;
-	private List<Treasure> capturedTreasures; //Better for each player to have individually? Think they're just pooled in rules
+	private List<Treasure> capturedTreasures; //TODO: Better for each player to have individually? Think they're just pooled in rules
 	
+	/**
+	 * Constructor to instantiate list attributes
+	 */
 	private GamePlayers() {
 		playersList = new ArrayList<Player>();
 		capturedTreasures = new ArrayList<Treasure>();
-		playerCount = 0;
 	}
 	
+	/**
+	 * @return single instance of game players
+	 */
 	public static GamePlayers getInstance() {
 		return gamePlayers;
 	}
 	
-	public void addPlayers(Scanner userInput) {
+	/**
+	 * Allow iteration over game players
+	 */
+	@Override
+	public Iterator<Player> iterator() {
+		return playersList.iterator();
+	}
+	
+	/**
+	 * Assigns in-game roles to each new player
+	 * @param String list containing names of new players
+	 */
+	public void assignPlayerRoles(List<String> playerNames) {
 
-		System.out.println("\nHow many players are there?");
-		playerCount = Integer.parseInt(userInput.nextLine());
-		// TODO: check for max allowed player count
+		// create stack of possible roles players can have
+		Stack<String> possibleRoles = new Stack<String>();
+		possibleRoles.addAll(Arrays.asList("Diver", "Engineer", "Explorer", 
+				"Messenger", "Navigator", "Pilot"));
 		
-		// create list of possible roles players can have
-		List<String> possibleRoles = Arrays.asList("Diver", "Engineer", "Explorer", 
-				"Messenger", "Navigator", "Pilot");
-		
-		// randomise list order
+		// randomise stack order
 		Collections.shuffle(possibleRoles); 
 		
 		// iterate over number of players
-		for (int i = 0; i < playerCount; i++) {
-			
-			System.out.println("Enter the name of Player " + (i+1) + ":");
-			String playerName = userInput.nextLine();
+		for (String playerName : playerNames) {
 			
 			// TODO: check if player name already given
 			
 			// instantiate specific player subclasses 
-			switch (possibleRoles.get(i)) {
+			switch (possibleRoles.pop()) {
 
 				case "Diver":
 					playersList.add(new Diver(playerName));
@@ -105,11 +117,11 @@ public class GamePlayers {
 	}
 	
 
-	public void setInitialPositions() {
-		for(Player p : playersList) {
-			p.setCurrentTile(IslandTile.FOOLS_LANDING);
-		}
-	}
+//	public void setInitialPositions() {
+//		for(Player p : playersList) {
+//			p.setCurrentTile(IslandTile.FOOLS_LANDING);
+//		}
+//	}
 	
 	public void addTreasure(Treasure t) {
 		capturedTreasures.add(t);
@@ -118,5 +130,7 @@ public class GamePlayers {
 	public List<Player> getPlayersList() {
 		return playersList;
 	}
+
+
 
 }

@@ -11,7 +11,7 @@ import java.util.Stack;
 import island.cards.FloodCard;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
-import island.game.GameOverObserver;
+import island.observers.GameOverObserver;
 import island.players.GamePlayers;
 import island.players.Player;
 
@@ -67,9 +67,19 @@ public class IslandBoard {
 		
 	}
 	
-	
+	/**
+	 * @return single instance of IslandBoard
+	 */
 	public static IslandBoard getInstance() {
 		return islandBoard;
+	}
+	
+	/**
+	 * Getter method for Island board structure
+	 * @return current 2D array of IslandTiles
+	 */
+	public IslandTile[][] getBoardStructure() {
+		return boardStructure;
 	}
 	
 	/**

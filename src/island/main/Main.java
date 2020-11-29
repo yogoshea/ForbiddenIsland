@@ -1,7 +1,7 @@
 package island.main;
 
-import island.game.Game;
-import island.mvc.GameController;
+import island.game.GameController;
+import island.game.GameModel;
 
 /**
  * Main class controls the game events at the highest level; client code for game
@@ -17,9 +17,11 @@ public class Main {
 	public static void main(String[] args) {
 		
 		System.out.println("Creating Game...");
-		GameController gameController = new GameController();
-		Game game = Game.getInstance();
-		game.playGame();
+		
+		GameController gameController = GameController.getInstance();
+		gameController.setupGame();
+		gameController.playGame();
+		
 		System.out.println("Game Over");
 
 	}

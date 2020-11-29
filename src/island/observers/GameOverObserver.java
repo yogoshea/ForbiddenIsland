@@ -1,4 +1,4 @@
-package island.game;
+package island.observers;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import island.players.Player;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class GameOverObserver {
+public class GameOverObserver extends Observer {
 	
 	private static GameOverObserver gameOverObserver = new GameOverObserver();
 	
@@ -103,6 +103,13 @@ public class GameOverObserver {
 	public static boolean checkWaterLevel() {
 		return WaterMeter.getInstance().getLevel() > 5;
 		//TODO: make make level a final game variable
+	}
+
+	@Override
+	public void update() {
+		// TODO: call the above methods to check new status
+		// tell GameController to endGame() ??
+		
 	}
 
 }
