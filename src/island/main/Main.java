@@ -2,6 +2,7 @@ package island.main;
 
 import island.game.GameController;
 import island.game.GameModel;
+import island.game.GameView;
 
 /**
  * Main class controls the game events at the highest level; client code for game
@@ -18,8 +19,11 @@ public class Main {
 		
 		System.out.println("Creating Game...");
 		
-		GameController gameController = GameController.getInstance();
-		gameController.setupGame();
+		GameModel gameModel = GameModel.getInstance();
+		GameView gameView =  GameView.getInstance();
+		GameController gameController = GameController.getInstance(gameModel, gameView);
+
+		gameController.setup();
 		gameController.playGame();
 		
 		System.out.println("Game Over");

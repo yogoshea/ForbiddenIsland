@@ -2,6 +2,8 @@ package island.game;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import island.components.WaterMeter;
 import island.players.Player;
 
 /**
@@ -13,72 +15,75 @@ import island.players.Player;
 public class GameController {
 	
 	// Instantiate singleton
-	private static GameController gameController = new GameController();
+	private static GameController gameController;
 	
 	private GameView gameView;
 	private GameModel gameModel;
+	private SetupController setupController;
 	private ActionController actionController;
 	
 	/**
 	 * Constructor to retrieve view and model instances
 	 */
-	private GameController() {
-		gameView = GameView.getInstance();
-		gameModel = GameModel.getInstance();
+	private GameController(GameModel gameModel, GameView gameView) {
+		this.gameModel = gameModel;
+		this.gameView = gameView;
+		setupController = SetupController.getInstance(gameModel, gameView);
+		actionController = ActionController.getInstance(gameModel, gameView);
 	}
 	
 	/**
 	 * @return single instance of GameController
 	 */
-	public static GameController getInstance() {
+	public static GameController getInstance(GameModel gameModel, GameView gameView) {
+		if (gameController == null) {
+			gameController = new GameController(gameModel, gameView);
+		}
 		return gameController;
 	}
 	
 	/**
 	 * Initialise game components and add players to game
 	 */
-	public void setupGame() {
+	public void setup() {
 		
 		// Show gameView welcome screen
 		gameView.showWelcome();
 		
-		// Request players from user through GameView TODO: check for valid user input
-		String temp = gameView.promptUser("How many players are there?");
-		int playerCount = Integer.parseInt(temp);
-		List<String> playerNames = new ArrayList<String>();
+		// Setup game components with new players obtain form user through GameView
+		setupController.setupGame();
 		
-		// iterate over number of players
-		for (int i = 1; i <= playerCount; i++) {
-			playerNames.add(gameView.promptUser("Please enter the name of Player " + i)); // TODO: check for valid name input
-		}
+		// Update user view
+		gameView.updateView(gameModel.getIslandBoard(), gameModel.getPlayers());
 		
-		// setup game components with new players
-		gameModel.setupGameComponents(playerNames);
-		
-		// update user view
-		gameView.updateView(gameModel);
-		
-		System.exit(0);
+//		System.exit(0);
 	}
 	
 	/**
 	 * Control the overall flow of gameplay 
 	 */
 	public void playGame() {
+		
+		// get player action controller instance
 		actionController = ActionController.getInstance();
-		for (Player p : gameModel.getPlayers()) {
-			
-			// take a number of actions
-			actionController.takeActions(p);
-			
-			// Draw two cards from Treasure Deck
-			p.drawFromTreasureDeck(2); // TODO: call gameView update from this method?
-			
-			// Draw number of Flood card equal to Water Level
-//			p.drawFromFloodDeck();
+		
+		// repeat player turns until winning/losing conditions observed
+		while(true) {
+			for (Player p : gameModel.getPlayers()) {
+				
+				// take a number of actions
+				actionController.takeActions(p);
+				
+				// Draw two cards from Treasure Deck
+//				System.out.println("Drawing 2 cards from Treasure Deck...");
+				p.drawFromTreasureDeck(2); // TODO: call gameView update from this method?
+				
+				// Draw number of Flood card equal to Water Level
+//				System.out.println("Drawing Flood cards...");
+	//			p.drawFromFloodDeck(WaterMeter.getInstance().getLevel());
+			}
 		}
 	}
-
 	
 	/**
 	 * method call by observers that have encountered game ending conditions

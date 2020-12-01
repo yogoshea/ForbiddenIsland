@@ -1,11 +1,15 @@
 package island.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import island.cards.TreasureDeckCard;
+import island.components.IslandBoard;
 import island.components.IslandTile;
+import island.players.GamePlayers;
 import island.players.Player;
 
 /**
@@ -15,7 +19,7 @@ import island.players.Player;
  */
 public class GameView {
 	
-	private static GameView gameView = new GameView(); // Instantiate Singleton
+	private static GameView gameView;
 	private Scanner userInput;
 	
 	// display component dimensions
@@ -30,6 +34,9 @@ public class GameView {
 	 * @return single instance of GameView
 	 */
 	public static GameView getInstance() {
+		if (gameView == null) {
+			gameView = new GameView();
+		}
 		return gameView;
 	}
 
@@ -41,12 +48,25 @@ public class GameView {
 		// TODO: add ASCII art
 	}
 	
+	// Request players from user TODO: check for valid user input
+	public List<String> getPlayers() {
+		String temp = promptUser("How many players are there?");
+		int playerCount = Integer.parseInt(temp);
+		List<String> playerNames = new ArrayList<String>();
+		
+		// iterate over number of players
+		for (int i = 1; i <= playerCount; i++) {
+			playerNames.add(promptUser("Please enter the name of Player " + i)); // TODO: check for valid name input
+		}
+		return playerNames;
+	}
+	
 	/**
 	 * Asks user question specified by string
 	 * @param String to print to view
 	 * @return String entered by user
 	 */
-	public String promptUser(String string) {
+	private String promptUser(String string) {
 		System.out.println(string);
 		return userInput.nextLine();		
 	}
@@ -55,7 +75,7 @@ public class GameView {
 	/**
 	 * Called from within model to provide latest game status to display
 	 */
-	public void updateView(GameModel gameModel) {
+	public void updateView(IslandBoard islandBoard, GamePlayers gameplayers) {
 		// similar to observer to model changes
 		
 		// TODO: better way to update screen?
@@ -65,13 +85,13 @@ public class GameView {
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println("FORBIDDEN ISLAND");
 		System.out.println("=".repeat(displayCharWidth));
-		displayIslandBoard(gameModel);
+		displayIslandBoard(islandBoard);
 		
 		// display current player information
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println("PLAYER INFORMATION");
 		System.out.println("=".repeat(displayCharWidth));
-		displayPlayerInformation(gameModel);
+		displayPlayerInformation(gamePlayers);
 		
 		// display Dialog box
 		System.out.println("=".repeat(displayCharWidth));
@@ -81,7 +101,7 @@ public class GameView {
 		
 	}
 	
-	private void displayIslandBoard(GameModel gameModel) {
+	private void displayIslandBoard(IslandBoard islandBoard) {
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
@@ -125,10 +145,10 @@ public class GameView {
 			// iterate over island grid columns
 			for (int j = 0; j < boardStructure[i].length; j++) {
 				
-				// add specific tile status TODO: change to Enum values with Strings "--- Not Flooded ---", "~~~ Flooded ~~~", "XXX Sank XXX"
+				// add flooded status String
 				outputString += "| ";
 				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].isFlooded().toString()).length()) / 2) + "s", boardStructure[i][j].isFlooded().toString()));
+						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].getFloodStatus().toString()).length()) / 2) + "s", boardStructure[i][j].getFloodStatus().toString()));
 				outputString += " |";
 			}
 			
@@ -183,6 +203,12 @@ public class GameView {
 			}
 			System.out.print("\n\n");
 		}
+	}
+	
+	
+	public String getPlayerActionChoice() {
+		// TODO: implement how view handles player action choices
+		return null;
 	}
 	
 	

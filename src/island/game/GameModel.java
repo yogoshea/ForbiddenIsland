@@ -3,6 +3,8 @@ package island.game;
 import island.cards.*;
 import island.components.IslandBoard;
 import island.components.WaterMeter;
+import island.decks.FloodDeck;
+import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
 
 import java.util.List;
@@ -22,9 +24,11 @@ import island.players.Player;
 public class GameModel { 
 	
 	// Instantiate Singleton
-	private static GameModel gameModel = new GameModel();
+	private static GameModel gameModel;
 
 	private IslandBoard islandBoard;
+	private FloodDeck floodDeck;
+	private FloodDiscardPile floodDiscardPile;
 	private GamePlayers players;
 	private TreasureDeck treasureDeck;
 	private WaterMeter waterMeter;
@@ -36,12 +40,14 @@ public class GameModel {
 	 */
 	private GameModel() {
 		
-//		// TODO: delete these
+//		// TODO: delete these, use observers instead
 //		gameOver = false;
 //		gameWon = false;
 
-		// retrieve game component instances
+		// retrieve game component instances TODO: make sure in correct order prevent race conditions!
 		islandBoard = IslandBoard.getInstance();
+		floodDeck = FloodDeck.getInstance();
+		floodDiscardPile = FloodDiscardPile.getInstance();
 		players = GamePlayers.getInstance();
 		treasureDeck = TreasureDeck.getInstance();
 		waterMeter = WaterMeter.getInstance(); 
@@ -51,22 +57,48 @@ public class GameModel {
 	 * @return single instance of GameModel class
 	 */
 	public static GameModel getInstance() {
+		if (gameModel == null) {
+			gameModel = new GameModel();
+		}
 		return gameModel;
 	}
 	
-	/**
-	 * Setup the initial conditions of the game components
-	 */
-	public void setupGameComponents(List<String> playerNames) {
-		islandBoard.startSinking();
-		players.assignPlayerRoles(playerNames);
-		treasureDeck.handOutInitialTreasureCards(2); // hand out 2 card to each player
-
-//		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
-//		players.setInitialPositions(); // TODO: delete?
-	}
+//	/**
+//	 * Setup the initial conditions of the game components
+//	 */
+//	public void setupGameComponents(List<String> playerNames) {
+//		islandBoard.startSinking();
+//		players.assignPlayerRoles(playerNames);
+//		treasureDeck.handOutInitialTreasureCards(2); // hand out 2 card to each player
+//
+////		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
+////		players.setInitialPositions(); // TODO: delete?
+//	}
 	
 	// TODO: getters and setters for Game info
+	/**
+	 * Island board getter method
+	 * @return single instance of Island board
+	 */
+	public IslandBoard getIslandBoard() {
+		return islandBoard;
+	}
+	
+	/**
+	 * Flood deck getter method
+	 * @return single instance of flood deck
+	 */
+	public FloodDeck getFloodDeck() {
+		return floodDeck;
+	}	
+	
+	/**
+	 * Flood discard pile getter method
+	 * @return single instance of flood deck
+	 */
+	public FloodDiscardPile getFloodDiscardPile() {
+		return floodDiscardPile;
+	}	
 	
 	/**
 	 * Game players getter method
@@ -77,23 +109,31 @@ public class GameModel {
 	}
 	
 	/**
-	 * Island board getter method
-	 * @return single instance of Island board
+	 * Treasure deck getter method
+	 * @return single instance of treasure deck
 	 */
-	public IslandBoard getIslandBoard() {
-		return islandBoard;
+	public TreasureDeck getTreasureDeck() {
+		return treasureDeck;
+	}
+	
+	/**
+	 * Water meter getter method
+	 * @return single instance of water meter
+	 */
+	public WaterMeter getWaterMeter() {
+		return waterMeter;
 	}
 	
 	
-	
-	public void setGameOver() {
-		gameOver = true;
-		// GameView.showEndGameScreen()
-		// TODO: Ask about this!
-		// System.exit(0);
-		// OR
-		// return 0
-	}
+//	
+//	public void setGameOver() {
+//		gameOver = true;
+//		// GameView.showEndGameScreen()
+//		// TODO: Ask about this!
+//		// System.exit(0);
+//		// OR
+//		// return 0
+//	}
 	
 	public String toString() {
 		String gameState = "Info";

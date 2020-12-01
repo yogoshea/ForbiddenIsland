@@ -20,7 +20,7 @@ import island.components.Treasure;
 public class GamePlayers implements Iterable<Player> {
 	
 	// Instantiate singleton
-	private static GamePlayers gamePlayers = new GamePlayers();
+	private static GamePlayers gamePlayers;
 	private List<Player> playersList;
 	private List<Treasure> capturedTreasures; //TODO: Better for each player to have individually? Think they're just pooled in rules
 	
@@ -36,6 +36,9 @@ public class GamePlayers implements Iterable<Player> {
 	 * @return single instance of game players
 	 */
 	public static GamePlayers getInstance() {
+		if (gamePlayers == null) {
+			gamePlayers = new GamePlayers();
+		}
 		return gamePlayers;
 	}
 	
