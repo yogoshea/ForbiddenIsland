@@ -11,7 +11,9 @@ import java.util.Stack;
 import island.cards.FloodCard;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
+import island.game.GameModel;
 import island.observers.GameOverObserver;
+import island.observers.Subject;
 import island.players.GamePlayers;
 import island.players.Player;
 
@@ -20,7 +22,7 @@ import island.players.Player;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class IslandBoard {
+public class IslandBoard extends Subject {
 	
 	// Instantiate singleton
 	private static IslandBoard islandBoard = new IslandBoard();
@@ -168,7 +170,7 @@ public class IslandBoard {
 				System.out.println(boardStructure[i][j].name()+ "has sunk!!!!"); // TODO: change this to notify SunkObserver
 				boardStructure[i][j] = null;
 				//Alert gameOverObserver that something happened which may cause game to be over
-				GameOverObserver.getInstance().checkIfGameOver();
+				notifyAllObservers();
 			}
 			return true;
 		}

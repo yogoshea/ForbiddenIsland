@@ -69,7 +69,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		} while (remainingTurns > 0);
 		
 	}
-	
+	//TODO: Merge takeActions() and takeAction() OR rename
 	/**
 	 * method to choose the action to take during a turn
 	 * @return whether action successfully taken
@@ -185,7 +185,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		playerToRecieve = gameView.pickFromList(playersOnSameTile, prompt); //OR create choose player method in gameView???
 		
 		//User chooses card to give
-		prompt = "Which card do you wish to give";
+		prompt = "Which card do you wish to give?";
 		card = gameView.pickFromList(treasureCards, prompt);
 		
 		//give card

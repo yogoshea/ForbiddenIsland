@@ -7,6 +7,7 @@ import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
 import island.decks.TreasureDiscardPile;
+import island.observers.Subject;
 
 import java.util.List;
 import java.util.Scanner;
@@ -34,7 +35,7 @@ public class GameModel {
 	private TreasureDeck treasureDeck;
 	private TreasureDiscardPile treasureDiscardPile; //left out for reason??
 	private WaterMeter waterMeter;
-	private boolean gameOver;
+	private boolean gameOver; //Still using these??
 	private boolean gameWon;
 	
 	/**

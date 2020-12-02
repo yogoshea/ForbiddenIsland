@@ -239,10 +239,6 @@ public class GameView {
 	}
 	
 	
-	/////////////////////////////////////////////////////////////////////////////
-	//Game scanner pasted in between these lines
-	//TODO: Figure out whether to keep separate game scanner class -> probably neater to
-	//TODO: Uses scanNextLine() in all appropriate scanning cases (when heli and sand cards van be played)
 	
 	public <E> E pickFromList(List<E> items, String prompt){
 		//TODO: check for correct user input, check list isn't empty
@@ -266,6 +262,11 @@ public class GameView {
 		return items.get(index);
 	}
 	
+/////////////////////////////////////////////////////////////////////////////
+//Game scanner pasted in between these lines
+//TODO: Figure out whether to keep separate game scanner class -> probably neater to
+//TODO: Uses scanNextLine() in all appropriate scanning cases (when heli and sand cards van be played)
+	
 	public String scanNextLine(String initialPrompt) {
 		//Print prompt in here (rather than before function)??
 		
@@ -288,8 +289,6 @@ public class GameView {
 	
 	public void heliRequest() {
 		String prompt = "Which player wishes to play a heli card?";
-		//System.out.println(prompt);
-		//Just make sandbag and heli cards communal in GamePlayers?
 		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt);
 		p.playHeliCard();
 	}
@@ -329,7 +328,7 @@ public class GameView {
 	 */
 	public void showEnding() {
 		// TODO Auto-generated method stub
-		
+		//System.out.exit(0);
 	}		
 
 }

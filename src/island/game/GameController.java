@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import island.components.WaterMeter;
+import island.observers.GameOverObserver;
+import island.observers.SunkTileObserver;
 import island.players.Player;
 
 /**
@@ -21,6 +23,8 @@ public class GameController {
 	private GameModel gameModel;
 	private SetupController setupController;
 	private ActionController actionController;
+	private SunkTileObserver sunkTileObserver; //Do we need to attach observer to controller? Not currently using it
+	//Haven't attached waterMeterObserver yet
 	
 	/**
 	 * Constructor to retrieve view and model instances
@@ -30,6 +34,8 @@ public class GameController {
 		this.gameView = gameView;
 		setupController = SetupController.getInstance(gameModel, gameView);
 		actionController = ActionController.getInstance(gameModel, gameView);
+		sunkTileObserver = SunkTileObserver.getInstance(gameModel);
+		//Will getInstance() be needed elsewhere?? if so is it good to pass gameModel in every time?
 	}
 	
 	/**
