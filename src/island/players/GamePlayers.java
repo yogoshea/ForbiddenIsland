@@ -21,6 +21,7 @@ public class GamePlayers implements Iterable<Player> {
 	
 	// Instantiate singleton
 	private static GamePlayers gamePlayers;
+	
 	private List<Player> playersList;
 	private List<Treasure> capturedTreasures; //TODO: Better for each player to have individually? Think they're just pooled in rules
 	

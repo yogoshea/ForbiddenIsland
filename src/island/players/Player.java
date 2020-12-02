@@ -115,36 +115,36 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 //		return successfullyTaken;
 //	}
 	
-	/**
-	 * Changes players current tile to adjacent tile of their choice
-	 * @returns true if successful move made
-	 */
-	private boolean move(Scanner userInput) {
-		//TODO: print island board? - or give option to do that at any time??
-		
-		List<IslandTile> adjTiles = IslandBoard.getInstance().findAdjacentTiles(currentTile);
-		
-		if(adjTiles.size() > 0) {
-			
-			System.out.println("Which tile do you wish to move to?");
-			
-			int i = 1;
-			for(IslandTile t : adjTiles) {
-				System.out.print(t.name()+" ["+Integer.toString(i)+"], ");
-				i++;
-			}
-			System.out.println();
-			
-			int choice = Integer.parseInt(userInput.nextLine()) - 1;
-			currentTile = adjTiles.get(choice);
-			System.out.println("Moved to "+currentTile.toString());
-			return true;
-			
-		} else {
-			System.out.println("No available tiles, Unlucky m8");
-			return false;
-		}
-	}
+//	/**
+//	 * Changes players current tile to adjacent tile of their choice
+//	 * @returns true if successful move made
+//	 */
+//	private boolean move(Scanner userInput) {
+//		//TODO: print island board? - or give option to do that at any time??
+//		
+//		List<IslandTile> adjTiles = IslandBoard.getInstance().findAdjacentTiles(currentTile);
+//		
+//		if(adjTiles.size() > 0) {
+//			
+//			System.out.println("Which tile do you wish to move to?");
+//			
+//			int i = 1;
+//			for(IslandTile t : adjTiles) {
+//				System.out.print(t.name()+" ["+Integer.toString(i)+"], ");
+//				i++;
+//			}
+//			System.out.println();
+//			
+//			int choice = Integer.parseInt(userInput.nextLine()) - 1;
+//			currentTile = adjTiles.get(choice);
+//			System.out.println("Moved to "+currentTile.toString());
+//			return true;
+//			
+//		} else {
+//			System.out.println("No available tiles, Unlucky m8");
+//			return false;
+//		}
+//	}
 	
 	/**
 	 * method to shore up tile of users choice
@@ -363,7 +363,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	public void drawFromFloodDeck(int cardCount) {
 		for(int i = 0; i < cardCount; i++) {
 			FloodCard fc = FloodDeck.getInstance().drawCard();
-			IslandBoard.getInstance().floodTile(fc);
+			IslandBoard.getInstance().floodTile(fc.getCorrespondingIslandTile());
 			FloodDiscardPile.getInstance().addCard(fc);
 			//This is duplicated code from startSinking()!! -> implement in drawCard()?
 		}
@@ -404,6 +404,20 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		
 	}
 	
+	public List<Player> getPlayersOnSameTile(){
+		
+		List<Player> playersOnSameTile = new ArrayList<Player>();
+		
+		for(Player p : GamePlayers.getInstance().getPlayersList()) {
+			if( getCurrentTile().equals(p.getCurrentTile()) && !this.equals(p) ) {
+				playersOnSameTile.add(p);
+			}
+		}
+		
+		return playersOnSameTile;
+	}
+	
+	
 	
 	@Override
 	public String toString() { //TODO: add cards and current tile?
@@ -433,13 +447,29 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	
 	public void setCurrentTile(IslandTile t) {
 		currentTile = t;
+		//TODO: alert observer that tile has changed so can print it out
 	}
 	
 	public IslandTile getCurrentTile() {
 		return currentTile;
 	}
 	
-	public List<TreasureDeckCard> getTreasureCards() {
+	public List<TreasureDeckCard> getTreasureDeckCards() {
 		return treasureDeckCards;
 	}
+	
+	public List<TreasureDeckCard> findTreasureCards() { //TODO: Split players treasureDeckCard deck into treasureCard deck and other deck?
+		
+		List<TreasureDeckCard> treasureCards = new ArrayList<TreasureDeckCard>();
+	
+		for(TreasureDeckCard c : treasureDeckCards) {
+			if(c instanceof TreasureDeckCard) {
+				treasureCards.add(c);
+			}
+
+		}
+		
+		return treasureCards;
+	}
+	
 }

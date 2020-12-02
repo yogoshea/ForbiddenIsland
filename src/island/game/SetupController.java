@@ -7,10 +7,19 @@ import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
+import island.players.Diver;
+import island.players.Engineer;
+import island.players.Explorer;
 import island.players.GamePlayers;
+import island.players.Messenger;
+import island.players.Navigator;
+import island.players.Pilot;
 import island.players.Player;
 
 
@@ -37,11 +46,11 @@ public class SetupController {
 	/**
 	 * Setup the initial conditions of the game components
 	 */
-	public void setupGame(List<String> playerNames) {
+	public void setupGame() {
+		List<String> playerNames = gameView.getPlayers();
 		startIslandSinking();
 		assignPlayerRoles(playerNames);
 		handOutInitialTreasureCards();
-
 //		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
 //		players.setInitialPositions(); // TODO: delete?
 	}
@@ -68,18 +77,60 @@ public class SetupController {
 			// Add card to flood discard pile
 			floodDiscardPile.addCard(newFloodCard);
 		}
-		//TODO: Print out tiles that were flooded
+		//TODO: Print out tiles that were flooded (via observer?)
 	}
 	
-	private void assignPlayerRoles() {
+	private void assignPlayerRoles(List<String> playerNames) {
 		
-		// TODO: take functionality out of GamePlayers/ Player classes and move to controllers
+		List<Player> playersList = gameModel.getGamePlayers().getPlayersList();
+		
+		// create stack of possible roles players can have
+		Stack<String> possibleRoles = new Stack<String>();
+		possibleRoles.addAll(Arrays.asList("Diver", "Engineer", "Explorer", 
+				"Messenger", "Navigator", "Pilot"));
+		
+		// randomise stack order
+		Collections.shuffle(possibleRoles); 
+		
+		// iterate over number of players
+		for (String playerName : playerNames) {
+			
+			// TODO: check if player name already given
+			
+			// instantiate specific player subclasses 
+			switch (possibleRoles.pop()) {
+
+				case "Diver":
+					playersList.add(new Diver(playerName));
+					break;
+					
+				case "Engineer":
+					playersList.add(new Engineer(playerName));
+					break;
+				
+				case "Explorer":
+					playersList.add(new Explorer(playerName));
+					break;
+				
+				case "Messenger":
+					playersList.add(new Messenger(playerName));
+					break;
+					
+				case "Navigator":
+					playersList.add(new Navigator(playerName));
+					break;
+					
+				case "Pilot":
+					playersList.add(new Pilot(playerName));
+					break;
+			}
+		}
 	}
 	
 	/**
 	 * Initially give players two Treasure Cards
 	 */
-	private void handOutTreasureCards() {
+	private void handOutInitialTreasureCards() {
 		
 		int cardsDrawnCount;
 		final int numberOfCardsPerPlayer = 2;
@@ -105,9 +156,13 @@ public class SetupController {
 			} while (cardsDrawnCount < numberOfCardsPerPlayer);
 		}
 	}
-	
+/*	Don't need as level set to 1 in constructor
 	private void setWaterLevel() {
 		
+		final int initialWaterLevel = 5;
+		
+		gameModel.getWaterMeter();
+		
 	}
-	
+*/
 }

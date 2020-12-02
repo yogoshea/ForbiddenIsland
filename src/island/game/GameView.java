@@ -71,13 +71,16 @@ public class GameView {
 		return userInput.nextLine();		
 	}
 	
+	public void printToUser(String string) { //TODO:Make private? Should model be allowed pass string??
+		System.out.println(string);		
+	}
 	
 	/**
 	 * Called from within model to provide latest game status to display
 	 */
-	public void updateView(IslandBoard islandBoard, GamePlayers gameplayers) {
+	public void updateView(GameModel gameModel) {
 		// similar to observer to model changes
-		
+		//TODO: add time delays between prints? make more readable rather than whole bunch of text suddenly appearing?
 		// TODO: better way to update screen?
 		System.out.println("\n".repeat(20));
 		
@@ -85,13 +88,13 @@ public class GameView {
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println("FORBIDDEN ISLAND");
 		System.out.println("=".repeat(displayCharWidth));
-		displayIslandBoard(islandBoard);
+		displayIslandBoard(gameModel);
 		
 		// display current player information
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println("PLAYER INFORMATION");
 		System.out.println("=".repeat(displayCharWidth));
-		displayPlayerInformation(gamePlayers);
+		displayPlayerInformation(gameModel);
 		
 		// display Dialog box
 		System.out.println("=".repeat(displayCharWidth));
@@ -101,14 +104,14 @@ public class GameView {
 		
 	}
 	
-	private void displayIslandBoard(IslandBoard islandBoard) {
+	private void displayIslandBoard(GameModel gameModel) {
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
 		Map<IslandTile, Player> playerLocations = new HashMap<IslandTile, Player>();
 		
 		// retrieve players' current positions from model TODO: move this to getPlayerLocations method
-		for (Player p : gameModel.getPlayers()) {
+		for (Player p : gameModel.getGamePlayers()) {
 			playerLocations.put(p.getCurrentTile(), p);
 		}
 		
@@ -196,9 +199,9 @@ public class GameView {
 	
 	private void displayPlayerInformation(GameModel gameModel) {
 		// retrieve players' current information from model
-		for (Player p : gameModel.getPlayers()) {
+		for (Player p : gameModel.getGamePlayers()) {
 			System.out.print("\n" + p.toString() + "\nTreasure Cards:\t");
-			for (TreasureDeckCard tdc : p.getTreasureCards()) {
+			for (TreasureDeckCard tdc : p.findTreasureCards()) {
 				System.out.print(tdc + "\t");
 			}
 			System.out.print("\n\n");
@@ -206,17 +209,99 @@ public class GameView {
 	}
 	
 	
-	public String getPlayerActionChoice() {
-		// TODO: implement how view handles player action choices
-		return null;
+	public String getPlayerActionChoice(int availableActions) {
+		
+		System.out.println("\nDo you wish to take an action? ("+Integer.toString(availableActions)+" remaining)");
+		System.out.println("[Y]/[N]");
+		
+		if(userInput.nextLine().equals("Y")) {
+			
+			System.out.println("Select one of the following actions:");
+			System.out.println("Move [M], Shore-Up [S], Give Treasure Card [G], Capture a Treasure [C]");
+			return userInput.nextLine();
+			//TODO: what if user doesn't select a proper action -> give another chance or return "NO ACTION"??
+			
+		} else { return "NO ACTION";}
+		
+	}
+	
+	//OR just go straight to pickFromList() from ActionController???
+	//This way just means you aren't passing a string
+	public IslandTile pickTileDestination(List<IslandTile> tiles) {//TODO:Give chance to change mind?
+		String prompt = "Which tile do you wish to move to?";
+		//System.out.println("Which tile do you wish to move to?");
+		return pickFromList(tiles, prompt);
+	}
+	
+	public IslandTile pickShoreUpTile(List<IslandTile> tiles) {
+		String prompt = "Which tile do you wish to shore up?";
+		return pickFromList(tiles, prompt);
 	}
 	
 	
+	/////////////////////////////////////////////////////////////////////////////
+	//Game scanner pasted in between these lines
+	//TODO: Figure out whether to keep separate game scanner class -> probably neater to
+	//TODO: Uses scanNextLine() in all appropriate scanning cases (when heli and sand cards van be played)
 	
+	public <E> E pickFromList(List<E> items, String prompt){
+		//TODO: check for correct user input, check list isn't empty
+		int index;
+		System.out.println(prompt);
+		
+		int i = 1;
+		String options = "";
+		for(E item : items) {
+			options += item.toString()+" ["+Integer.toString(i)+"]";
+			i++;
+		}
+		System.out.println(options);
+		prompt += "\n"+options;
+		index = Integer.parseInt(scanNextLine(prompt)) - 1;
+		
+		if(index > items.size() - 1) {
+			System.out.println("Invalid Choice, choose again");
+			pickFromList(items, prompt);
+		}
+		return items.get(index);
+	}
 	
+	public String scanNextLine(String initialPrompt) {
+		//Print prompt in here (rather than before function)??
+		
+		String input = userInput.nextLine();
+		
+		while(input.equals("Heli") || input.equals("Sandbag")) {
+			if(input.equals("Heli")) {
+				heliRequest();
+			}
+			if(input.equals("Sandbag")) {
+				sandbagRequest();
+			}
+			
+			System.out.println(initialPrompt);
+			input = userInput.nextLine();
+		}
+		 
+		return input;
+	}
 	
+	public void heliRequest() {
+		String prompt = "Which player wishes to play a heli card?";
+		//System.out.println(prompt);
+		//Just make sandbag and heli cards communal in GamePlayers?
+		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt);
+		p.playHeliCard();
+	}
 	
+	public void sandbagRequest() {
+		String prompt = "Which player wishes to play a sandbag card?";
+		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt); //bad practice to instantiate here?
+		p.playSandBagCard();
+	}
 	
+	//End of GameScanner
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	

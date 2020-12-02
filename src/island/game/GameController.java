@@ -54,7 +54,7 @@ public class GameController {
 		setupController.setupGame();
 		
 		// Update user view
-		gameView.updateView(gameModel.getIslandBoard(), gameModel.getPlayers());
+		gameView.updateView(gameModel);
 		
 //		System.exit(0);
 	}
@@ -64,12 +64,9 @@ public class GameController {
 	 */
 	public void playGame() {
 		
-		// get player action controller instance
-		actionController = ActionController.getInstance();
-		
 		// repeat player turns until winning/losing conditions observed
 		while(true) {
-			for (Player p : gameModel.getPlayers()) {
+			for (Player p : gameModel.getGamePlayers()) {
 				
 				// take a number of actions
 				actionController.takeActions(p);

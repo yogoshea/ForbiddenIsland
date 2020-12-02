@@ -104,7 +104,7 @@ public class IslandBoard {
 	/**
 	 * Takes a tile and returns a list of adjacent island tiles (which methods should be static in singleton?)
 	 */
-	public List<IslandTile> findAdjacentTiles(IslandTile tile) {
+	public List<IslandTile> findAdjacentTiles(IslandTile tile) { //TODO: update to make use of Coordinates
 		//TODO: Give IslandTile a location variable??
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
 		int[] currentPos = findTileLocation(tile);

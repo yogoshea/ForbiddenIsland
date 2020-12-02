@@ -6,6 +6,7 @@ import island.components.WaterMeter;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
+import island.decks.TreasureDiscardPile;
 
 import java.util.List;
 import java.util.Scanner;
@@ -29,8 +30,9 @@ public class GameModel {
 	private IslandBoard islandBoard;
 	private FloodDeck floodDeck;
 	private FloodDiscardPile floodDiscardPile;
-	private GamePlayers players;
+	private GamePlayers gamePlayers;
 	private TreasureDeck treasureDeck;
+	private TreasureDiscardPile treasureDiscardPile; //left out for reason??
 	private WaterMeter waterMeter;
 	private boolean gameOver;
 	private boolean gameWon;
@@ -48,8 +50,9 @@ public class GameModel {
 		islandBoard = IslandBoard.getInstance();
 		floodDeck = FloodDeck.getInstance();
 		floodDiscardPile = FloodDiscardPile.getInstance();
-		players = GamePlayers.getInstance();
+		gamePlayers = GamePlayers.getInstance();
 		treasureDeck = TreasureDeck.getInstance();
+		treasureDiscardPile = TreasureDiscardPile.getInstance();
 		waterMeter = WaterMeter.getInstance(); 
 	}
 
@@ -104,8 +107,8 @@ public class GameModel {
 	 * Game players getter method
 	 * @return single instance of game players
 	 */
-	public GamePlayers getPlayers() {
-		return players;
+	public GamePlayers getGamePlayers() {
+		return gamePlayers;
 	}
 	
 	/**
@@ -114,6 +117,14 @@ public class GameModel {
 	 */
 	public TreasureDeck getTreasureDeck() {
 		return treasureDeck;
+	}
+	
+	/**
+	 * Treasure discard pile getter method
+	 * @return single instance of treasure deck
+	 */
+	public TreasureDiscardPile getTreasureDiscardPile() {
+		return treasureDiscardPile;
 	}
 	
 	/**
