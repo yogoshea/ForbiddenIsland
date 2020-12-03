@@ -18,7 +18,7 @@ public class SunkTileObserver extends GameOverObserver { //or extends abstract c
 	
 	private SunkTileObserver(GameModel gameModel) {
 		
-		subject = gameModel.getIslandBoard();
+		subject = gameModel.getIslandBoard(); //OR just use IslandBoard.getInstance()?? like in waterMeterObserver
 		subject.attach(this);
 		
 		//This array is used for checkTreasureTiles() method

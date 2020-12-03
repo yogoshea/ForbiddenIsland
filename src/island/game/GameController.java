@@ -23,8 +23,8 @@ public class GameController {
 	private GameModel gameModel;
 	private SetupController setupController;
 	private ActionController actionController;
-	private SunkTileObserver sunkTileObserver; //Do we need to attach observer to controller? Not currently using it
-	//Haven't attached waterMeterObserver yet
+	private DrawCardsController drawCardsController;
+	//private SunkTileObserver sunkTileObserver; //Do we need to attach observer to controller? Not currently using it
 	
 	/**
 	 * Constructor to retrieve view and model instances
@@ -34,7 +34,7 @@ public class GameController {
 		this.gameView = gameView;
 		setupController = SetupController.getInstance(gameModel, gameView);
 		actionController = ActionController.getInstance(gameModel, gameView);
-		sunkTileObserver = SunkTileObserver.getInstance(gameModel);
+		//sunkTileObserver = SunkTileObserver.getInstance(gameModel);
 		//Will getInstance() be needed elsewhere?? if so is it good to pass gameModel in every time?
 	}
 	
@@ -78,12 +78,10 @@ public class GameController {
 				actionController.takeActions(p);
 				
 				// Draw two cards from Treasure Deck
-//				System.out.println("Drawing 2 cards from Treasure Deck...");
-				p.drawFromTreasureDeck(2); // TODO: call gameView update from this method?
+				drawCardsController.drawTreasureCards(p);
 				
-				// Draw number of Flood card equal to Water Level
-//				System.out.println("Drawing Flood cards...");
-	//			p.drawFromFloodDeck(WaterMeter.getInstance().getLevel());
+				// Draw two cards from Treasure Deck
+				drawCardsController.drawFloodCards();
 			}
 		}
 	}

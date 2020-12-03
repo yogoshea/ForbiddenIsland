@@ -160,15 +160,16 @@ public class IslandBoard extends Subject {
 				//Flood tile
 				boardStructure[i][j].setToFlooded();
 			} else {
-				//Else sink tile - does setting to null work?????
+				
 				//If player on tile, give chance to move
+				//TODO: should this happen via observer?
 				for(Player p : GamePlayers.getInstance().getPlayersList()) {
 					if(p.getCurrentTile().equals(boardStructure[i][j])) {
 						//p.move(userScanner);
 					}
 				}
 				System.out.println(boardStructure[i][j].name()+ "has sunk!!!!"); // TODO: change this to notify SunkObserver
-				boardStructure[i][j] = null;
+				boardStructure[i][j] = null; //TODO: set to enum Sunk
 				//Alert gameOverObserver that something happened which may cause game to be over
 				notifyAllObservers();
 			}

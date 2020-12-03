@@ -146,166 +146,166 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 //		}
 //	}
 	
-	/**
-	 * method to shore up tile of users choice
-	 * @return true if shore-up action successful, false otherwise
-	 */
-	private boolean shoreUp(Scanner userInput) {
-
-		List<IslandTile> adjTiles = IslandBoard.getInstance().findAdjacentTiles(currentTile);
-		adjTiles.add(currentTile); //can shore-up current tile
-		List<IslandTile> holder = new ArrayList<>(adjTiles);
-		
-		for(IslandTile t : holder) {
-			//remove tiles that aren't flooded
-			if(!t.isFlooded()) {
-				adjTiles.remove(t);
-			}
-		}
-		
-		if(adjTiles.size() > 0) {
-			System.out.println("Which tile do you wish to shore-up?");
-			
-			int i = 1;
-			for(IslandTile t : adjTiles) {
-				System.out.print(t.name()+" ["+Integer.toString(i)+"], ");
-				i++;
-			}
-			System.out.println();
-			
-			int choice = Integer.parseInt(userInput.nextLine()) - 1;
-			return IslandBoard.getInstance().shoreUp(adjTiles.get(choice));
-			
-		} else {
-			System.out.println("No available tiles to shore-up");
-			return false;
-		}
-		//Is it better to show user what tiles they can perform action on
-		//OR let them choose a tile based on map and then we tell them if its a valid choice?
-	}
-	
-	
-	/**
-	 * method to give a treasure card from hand to another player on the same tile
-	 * @return whether or not treasure successfully given
-	 */
-	private boolean giveTreasureCard(Scanner userInput) {
-		
-		List<Player> playersOnSameTile = new ArrayList<Player>();
-		List<TreasureDeckCard> treasureCards = new ArrayList<TreasureDeckCard>();
-		
-		//Find players on same tile
-		for(Player p : GamePlayers.getInstance().getPlayersList()) {
-			if( currentTile.equals(p.getCurrentTile()) && !this.equals(p) ) {
-				playersOnSameTile.add(p);
-			}
-		}
-		
-		if(playersOnSameTile.size() <= 0) {
-			System.out.println("No players on your tile :(");
-			return false;
-		}
-		
-		int j = 1;
-		for(TreasureDeckCard c : treasureDeckCards) {
-			if(c instanceof TreasureCard) {
-				treasureCards.add(c);
-				System.out.print(c.toString()+" ["+Integer.toString(j)+"], ");
-			}
-			j++;//TODO: Fix printing so not skipping numbers
-		}
-		
-		if(treasureCards.size() <= 0) {
-			System.out.println("No treasure cards in hand :(");
-			return false;
-		}
-		
-		
-		
-		//User chooses player to give card to
-		System.out.println("Which player do you wish to give a card to?");
-		
-		int i = 1;
-		for(Player p : playersOnSameTile) {
-			System.out.print(p.toString()+" ["+Integer.toString(i)+"], ");
-			i++;
-		}
-		System.out.println();
-		
-		int playerChoice = Integer.parseInt(userInput.nextLine()) - 1;
-		
-		//User chooses card to give
-		System.out.println("Which card do you wish to give");
-		
-		int k = 1;
-		for(TreasureDeckCard c : treasureCards) {
-			System.out.print(c.toString()+" ["+Integer.toString(j)+"], ");
-			k++;//TODO: Fix printing so not skipping numbers
-		}
-		System.out.println();
-		
-		int cardChoice = Integer.parseInt(userInput.nextLine()) - 1;
-		
-		//give card
-		playersOnSameTile.get(playerChoice).receiveTreasureDeckCard(treasureDeckCards.get(cardChoice));
-		treasureDeckCards.remove(cardChoice);
-		return true;
-		
-	}
-	
-	
-	/**
-	 * method to capture a treasure from current tile
-	 * @return whether or not treasure successfully captured
-	 */
-	private boolean captureTreasure() { //Overcomplicated - improve?
-		
-		//If true - Collect all cards which can be used to capture treasure
-		if(currentTile.getAssociatedTreasure() != null) {
-			
-			List<TreasureDeckCard> tradeCards = new ArrayList<TreasureDeckCard>();
-			
-			//Take out all relevant treasure cards
-			for(TreasureDeckCard c : treasureDeckCards) {
-				if(c instanceof TreasureCard) {
-					if( ((TreasureCard) c).getAssociatedTreasure().equals(currentTile.getAssociatedTreasure())) {
-						tradeCards.add(c);
-						treasureDeckCards.remove(c);
-					}
-				}
-			}
-			
-			//Capture Treasure if have enough cards
-			if(tradeCards.size() >= 4) {
-				//TODO: make 4 a final value
-				
-				//Discard 4 treasure cards
-				for(int i = 0; i < 4; i++) {
-					TreasureDiscardPile.getInstance().addCard(tradeCards.get(i));
-					tradeCards.remove(i);
-				}
-				
-				//capture treasure
-				GamePlayers.getInstance().addTreasure(currentTile.captureAssociatedTreasure());
-				System.out.println("You captured " +currentTile.getAssociatedTreasure().name()+"!!!!" );
-				//if there, add extra card back
-				if(tradeCards.size() > 0) {treasureDeckCards.add(tradeCards.get(0));}
-				//TODO: Don't assume only 1 card left? Don't add the extra one?
-				
-				return true;
-				
-			} else {
-				//if can't capture treasure, return cards to player deck
-				System.out.println("Not enough "+currentTile.getAssociatedTreasure().name()+" cards to capture the treasure!!");
-				for(int i = 0; i < tradeCards.size(); i++) {
-					treasureDeckCards.add(tradeCards.get(i));
-				}
-			}
-			
-		}
-		System.out.println("No treasure found at " +currentTile.name());
-		return false;
-	}
+//	/**
+//	 * method to shore up tile of users choice
+//	 * @return true if shore-up action successful, false otherwise
+//	 */
+//	private boolean shoreUp(Scanner userInput) {
+//
+//		List<IslandTile> adjTiles = IslandBoard.getInstance().findAdjacentTiles(currentTile);
+//		adjTiles.add(currentTile); //can shore-up current tile
+//		List<IslandTile> holder = new ArrayList<>(adjTiles);
+//		
+//		for(IslandTile t : holder) {
+//			//remove tiles that aren't flooded
+//			if(!t.isFlooded()) {
+//				adjTiles.remove(t);
+//			}
+//		}
+//		
+//		if(adjTiles.size() > 0) {
+//			System.out.println("Which tile do you wish to shore-up?");
+//			
+//			int i = 1;
+//			for(IslandTile t : adjTiles) {
+//				System.out.print(t.name()+" ["+Integer.toString(i)+"], ");
+//				i++;
+//			}
+//			System.out.println();
+//			
+//			int choice = Integer.parseInt(userInput.nextLine()) - 1;
+//			return IslandBoard.getInstance().shoreUp(adjTiles.get(choice));
+//			
+//		} else {
+//			System.out.println("No available tiles to shore-up");
+//			return false;
+//		}
+//		//Is it better to show user what tiles they can perform action on
+//		//OR let them choose a tile based on map and then we tell them if its a valid choice?
+//	}
+//	
+//	
+//	/**
+//	 * method to give a treasure card from hand to another player on the same tile
+//	 * @return whether or not treasure successfully given
+//	 */
+//	private boolean giveTreasureCard(Scanner userInput) {
+//		
+//		List<Player> playersOnSameTile = new ArrayList<Player>();
+//		List<TreasureDeckCard> treasureCards = new ArrayList<TreasureDeckCard>();
+//		
+//		//Find players on same tile
+//		for(Player p : GamePlayers.getInstance().getPlayersList()) {
+//			if( currentTile.equals(p.getCurrentTile()) && !this.equals(p) ) {
+//				playersOnSameTile.add(p);
+//			}
+//		}
+//		
+//		if(playersOnSameTile.size() <= 0) {
+//			System.out.println("No players on your tile :(");
+//			return false;
+//		}
+//		
+//		int j = 1;
+//		for(TreasureDeckCard c : treasureDeckCards) {
+//			if(c instanceof TreasureCard) {
+//				treasureCards.add(c);
+//				System.out.print(c.toString()+" ["+Integer.toString(j)+"], ");
+//			}
+//			j++;//TODO: Fix printing so not skipping numbers
+//		}
+//		
+//		if(treasureCards.size() <= 0) {
+//			System.out.println("No treasure cards in hand :(");
+//			return false;
+//		}
+//		
+//		
+//		
+//		//User chooses player to give card to
+//		System.out.println("Which player do you wish to give a card to?");
+//		
+//		int i = 1;
+//		for(Player p : playersOnSameTile) {
+//			System.out.print(p.toString()+" ["+Integer.toString(i)+"], ");
+//			i++;
+//		}
+//		System.out.println();
+//		
+//		int playerChoice = Integer.parseInt(userInput.nextLine()) - 1;
+//		
+//		//User chooses card to give
+//		System.out.println("Which card do you wish to give");
+//		
+//		int k = 1;
+//		for(TreasureDeckCard c : treasureCards) {
+//			System.out.print(c.toString()+" ["+Integer.toString(j)+"], ");
+//			k++;//TODO: Fix printing so not skipping numbers
+//		}
+//		System.out.println();
+//		
+//		int cardChoice = Integer.parseInt(userInput.nextLine()) - 1;
+//		
+//		//give card
+//		playersOnSameTile.get(playerChoice).receiveTreasureDeckCard(treasureDeckCards.get(cardChoice));
+//		treasureDeckCards.remove(cardChoice);
+//		return true;
+//		
+//	}
+//	
+//	
+//	/**
+//	 * method to capture a treasure from current tile
+//	 * @return whether or not treasure successfully captured
+//	 */
+//	private boolean captureTreasure() { //Overcomplicated - improve?
+//		
+//		//If true - Collect all cards which can be used to capture treasure
+//		if(currentTile.getAssociatedTreasure() != null) {
+//			
+//			List<TreasureDeckCard> tradeCards = new ArrayList<TreasureDeckCard>();
+//			
+//			//Take out all relevant treasure cards
+//			for(TreasureDeckCard c : treasureDeckCards) {
+//				if(c instanceof TreasureCard) {
+//					if( ((TreasureCard) c).getAssociatedTreasure().equals(currentTile.getAssociatedTreasure())) {
+//						tradeCards.add(c);
+//						treasureDeckCards.remove(c);
+//					}
+//				}
+//			}
+//			
+//			//Capture Treasure if have enough cards
+//			if(tradeCards.size() >= 4) {
+//				//TODO: make 4 a final value
+//				
+//				//Discard 4 treasure cards
+//				for(int i = 0; i < 4; i++) {
+//					TreasureDiscardPile.getInstance().addCard(tradeCards.get(i));
+//					tradeCards.remove(i);
+//				}
+//				
+//				//capture treasure
+//				GamePlayers.getInstance().addTreasure(currentTile.captureAssociatedTreasure());
+//				System.out.println("You captured " +currentTile.getAssociatedTreasure().name()+"!!!!" );
+//				//if there, add extra card back
+//				if(tradeCards.size() > 0) {treasureDeckCards.add(tradeCards.get(0));}
+//				//TODO: Don't assume only 1 card left? Don't add the extra one?
+//				
+//				return true;
+//				
+//			} else {
+//				//if can't capture treasure, return cards to player deck
+//				System.out.println("Not enough "+currentTile.getAssociatedTreasure().name()+" cards to capture the treasure!!");
+//				for(int i = 0; i < tradeCards.size(); i++) {
+//					treasureDeckCards.add(tradeCards.get(i));
+//				}
+//			}
+//			
+//		}
+//		System.out.println("No treasure found at " +currentTile.name());
+//		return false;
+//	}
 	
 	
 	public void drawFromTreasureDeck(int cardCount) {
@@ -314,7 +314,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		for(int i = 0; i < cardCount; i++) {
 			c = TreasureDeck.getInstance().drawCard();
 			if(c instanceof WaterRiseCard) {
-				//TODO: Increment water level
+				WaterMeter.getInstance().incrementLevel(); //pass card into function? like a transaction?
 				TreasureDiscardPile.getInstance().addCard(c);
 			} else {
 				receiveTreasureDeckCard(c);
@@ -327,10 +327,10 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	 */
 	public void receiveTreasureDeckCard(TreasureDeckCard c) {
 		treasureDeckCards.add(c);
+		//notifyAllObservers();
 		//If more than 5 in hand, choose cards to discard
 		while(treasureDeckCards.size() > 5) {
 			chooseCardToDiscard();
-			//TODO: figure out how to get userInput to here - put this call in an observer class?
 		}
 	}
 	

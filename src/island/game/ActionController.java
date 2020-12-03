@@ -9,6 +9,7 @@ import island.cards.TreasureCard;
 import island.cards.TreasureDeckCard;
 import island.components.IslandBoard;
 import island.components.IslandTile;
+import island.components.Treasure;
 import island.decks.TreasureDiscardPile;
 import island.players.GamePlayers;
 import island.players.Player;
@@ -26,6 +27,11 @@ public class ActionController { //Name PlayerActionController for clarity?
 	
 	private GameView gameView;
 	private GameModel gameModel;
+	
+
+	public enum Action { //TODO: add strings??
+		Move, SHORE_UP, GIVE_TREASURE, CAPTURE_TREASURE, NONE;
+	}
 	
 	/**
 	 * Constructor to retrieve view and model instances
@@ -46,58 +52,54 @@ public class ActionController { //Name PlayerActionController for clarity?
 	}
 	
 	public void takeActions(Player p) {
-		//TODO: print which player turn it is and possibly move all into gameView
-		String choice;
+		
+		gameView.showPlayerTurn(p);
+		Action actionChoice;
 		boolean actionSuccessfullyTaken = false;
 		int remainingTurns = 3;
-		
-		String[] actions = new String[]{"M", "S", "G", "C"}; //TODO: private static final String MOVE = "M" etc.???
-		List<String> actionList = Arrays.asList(actions);
-//		System.out.println(toStringDetailed());
+		//System.out.println(p.toStringDetailed());
 		
 		do {
 			
-			choice = gameView.getPlayerActionChoice(remainingTurns);
+			actionChoice = gameView.getPlayerActionChoice(remainingTurns);
 			
-			if(actionList.contains(choice)) {
+			if(actionChoice.equals(Action.NONE)) {
 				
-				actionSuccessfullyTaken = takeAction(p, choice);
+				break;
+				
+			} else {
+				
+				switch(actionChoice) {
+				
+				case Move:
+					actionSuccessfullyTaken = move(p); // TODO: check for validity in Player class, throw Exception
+					break;
+				
+				case SHORE_UP:
+					actionSuccessfullyTaken = shoreUp(p);
+					break;
+					
+				case GIVE_TREASURE:
+					actionSuccessfullyTaken = giveTreasureCard(p);
+					break;
+					
+				case CAPTURE_TREASURE:
+					actionSuccessfullyTaken = captureTreasure(p);
+					break;
+					
+				case NONE:
+					
+				}
+
 				remainingTurns -= actionSuccessfullyTaken ? 1 : 0;
-				
-			} else {break;}
+			}
 			
 		} while (remainingTurns > 0);
 		
 	}
-	//TODO: Merge takeActions() and takeAction() OR rename
-	/**
-	 * method to choose the action to take during a turn
-	 * @return whether action successfully taken
-	 */
-	public boolean takeAction(Player p, String choice) {
-		
-		boolean successfullyTaken = false;
-		
-		switch(choice) {
-			case "M":
-				successfullyTaken = move(p); // TODO: check for validity in Player class, throw Exception
-				break;
-			
-			case "S":
-				successfullyTaken = shoreUp(p);
-				break;
-				
-			case "G":
-				successfullyTaken = giveTreasureCard(p);
-				break;
-				
-			case "C":
-				successfullyTaken = captureTreasure(p);
-				break;
-		}
-		
-		return successfullyTaken;
-	}
+	
+	
+	
 	
 	
 	/**
@@ -116,7 +118,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			return true;
 			
 		} else {
-			gameView.printToUser("No available tiles, Unlucky m8"); //If this is ok to do, can use promptUser() more
+			gameView.showNoMoveTiles();
 			return false;
 		}
 	}
@@ -144,7 +146,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			return true;
 			
 		} else {
-			gameView.printToUser("No available tiles to shore-up");//TODO: Is this ok??
+			gameView.showNoShoreUpTiles();
 			return false;
 		}
 		//Is it better to show user what tiles they can perform action on
@@ -162,13 +164,12 @@ public class ActionController { //Name PlayerActionController for clarity?
 		List<TreasureDeckCard> treasureCards = new ArrayList<TreasureDeckCard>();
 		Player playerToRecieve;
 		TreasureDeckCard card;
-		String prompt;
 		
 		//find players on same tile
 		playersOnSameTile = p.getPlayersOnSameTile();
 		
 		if(playersOnSameTile.size() <= 0) {
-			gameView.printToUser("No players on your tile :(");
+			gameView.showNoPlayersOnSameTile();
 			return false;
 		}
 		
@@ -176,17 +177,15 @@ public class ActionController { //Name PlayerActionController for clarity?
 		treasureCards = p.findTreasureCards();
 		
 		if(treasureCards.size() <= 0) {
-			gameView.printToUser("No treasure cards in hand :(");
+			gameView.showNoTreasureCards();
 			return false;
 		}
 		
 		//User chooses player to give card to
-		prompt = "Which player do you wish to give a card to?";
-		playerToRecieve = gameView.pickFromList(playersOnSameTile, prompt); //OR create choose player method in gameView???
+		playerToRecieve = gameView.pickPlayerToRecieveCard(playersOnSameTile);
 		
 		//User chooses card to give
-		prompt = "Which card do you wish to give?";
-		card = gameView.pickFromList(treasureCards, prompt);
+		card = gameView.pickCardToGive(treasureCards);
 		
 		//give card
 		playerToRecieve.receiveTreasureDeckCard(card);
@@ -203,7 +202,6 @@ public class ActionController { //Name PlayerActionController for clarity?
 	private boolean captureTreasure(Player p) { //Overcomplicated - improve?
 		
 		final int numCardsRequired = 4;
-		String prompt;
 		
 		//If true - Collect all cards which can be used to capture treasure
 		if(p.getCurrentTile().getAssociatedTreasure() != null) {
@@ -234,9 +232,9 @@ public class ActionController { //Name PlayerActionController for clarity?
 				}
 			}
 			
-			//if couldn't capture treasure, return cards to player deck
-			prompt = "Not enough "+p.getCurrentTile().getAssociatedTreasure().toString()+" cards to capture the treasure!!";
-			gameView.printToUser(prompt); //???????????
+			//if couldn't capture treasure
+			gameView.showNotEnoughCards(p.getCurrentTile().getAssociatedTreasure());
+			//Return cards to player deck
 			for(int i = 0; i < tradeCards.size(); i++) {
 				gameModel.getTreasureDeck().addCardToDeck(tradeCards.get(i));
 			}
@@ -244,8 +242,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			
 		}
 		
-		prompt = "No treasure found at " + p.getCurrentTile().toString();
-		gameView.printToUser(prompt);
+		gameView.showNoTreasure(p.getCurrentTile());
 		return false;
 	}
 

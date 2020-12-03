@@ -2,12 +2,14 @@ package island.observers;
 
 import island.components.WaterMeter;
 
+//TODO: integrate observers more with controllers?
+
 public class WaterMeterObserver extends GameOverObserver {
 	
 	private static WaterMeterObserver waterMeterObserver;
 	
 	private WaterMeterObserver() {
-		subject = WaterMeter.getInstance(); //This way (use getInstance()) or SunkTileObserver constructor way (pass in gameModel)?
+		subject = WaterMeter.getInstance(); //ok to use WaterMeter.getInstance()?
 		subject.attach(this);
 	}
 	

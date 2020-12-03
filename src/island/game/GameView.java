@@ -1,6 +1,7 @@
 package island.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,8 @@ import java.util.Scanner;
 import island.cards.TreasureDeckCard;
 import island.components.IslandBoard;
 import island.components.IslandTile;
+import island.components.Treasure;
+import island.game.ActionController.Action;
 import island.players.GamePlayers;
 import island.players.Player;
 
@@ -21,6 +24,8 @@ public class GameView {
 	
 	private static GameView gameView;
 	private Scanner userInput;
+	
+	//TODO: make appropriate strings constant variables
 	
 	// display component dimensions
 	final int tileCharWidth = 25; // change to make tiles wider
@@ -40,6 +45,8 @@ public class GameView {
 		return gameView;
 	}
 
+	
+	//TODO: New class for these show methods? How to clean up/shorten?
 	/**
 	 * Displays welcome view
 	 */
@@ -47,6 +54,62 @@ public class GameView {
 		System.out.println("Welcome to Forbidden Island!");
 		// TODO: add ASCII art
 	}
+	
+	/**
+	 * Displays message telling user there are no tiles to move to
+	 */
+	public void showNoMoveTiles() {
+		System.out.println("No tiles available to move to");
+	}
+	
+	/**
+	 * Displays message telling user there are no tiles to move to
+	 */
+	public void showNoShoreUpTiles() {
+		System.out.println("No available tiles to shore-up");
+	}
+	
+	/**
+	 * Displays message telling user there are no other players on their tile
+	 */
+	public void showNoPlayersOnSameTile() {
+		System.out.println("No other players on your tile");
+	}
+	
+	/**
+	 * Displays message telling user they have no treasure cards
+	 */
+	public void showNoTreasureCards() {
+		System.out.println("No treasure cards in your hand");
+	}
+	
+	/**
+	 * Displays message telling user there is no treasure on their current tile
+	 */
+	public void showNoTreasure(IslandTile tile) {
+		System.out.println("No treasure found at " + tile.toString());
+	}
+	
+	/**
+	 * Displays message telling user there is no treasure on their current tile
+	 */
+	public void showNotEnoughCards(Treasure treasure) {
+		System.out.println("You need 4 " + treasure.toString() + "cards to capture this treasure");
+	}
+	
+	/**
+	 * Tells user which players turn it is
+	 */
+	public void showPlayerTurn(Player p) {
+		System.out.println();
+		System.out.println("\nIt is the turn of: " + p.toString()); //SJould I be using prompt user function??
+		//displayPlayerInformation(p)?????
+	}
+	
+	public void showDrawingTreasureCards() {
+		System.out.println("Drawing 2 treasure cards...");
+	}
+	
 	
 	// Request players from user TODO: check for valid user input
 	public List<String> getPlayers() {
@@ -71,9 +134,6 @@ public class GameView {
 		return userInput.nextLine();		
 	}
 	
-	public void printToUser(String string) { //TODO:Make private? Should model be allowed pass string??
-		System.out.println(string);		
-	}
 	
 	/**
 	 * Called from within model to provide latest game status to display
@@ -104,7 +164,7 @@ public class GameView {
 		
 	}
 	
-	private void displayIslandBoard(GameModel gameModel) {
+	private void displayIslandBoard(GameModel gameModel) { //TOD: print associated treasure, Print in separate window??
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
@@ -209,19 +269,13 @@ public class GameView {
 	}
 	
 	
-	public String getPlayerActionChoice(int availableActions) {
+	/**
+	 * Called from within model to get player action choice
+	 */
+	public Action getPlayerActionChoice(int availableActions) {
 		
-		System.out.println("\nDo you wish to take an action? ("+Integer.toString(availableActions)+" remaining)");
-		System.out.println("[Y]/[N]");
-		
-		if(userInput.nextLine().equals("Y")) {
-			
-			System.out.println("Select one of the following actions:");
-			System.out.println("Move [M], Shore-Up [S], Give Treasure Card [G], Capture a Treasure [C]");
-			return userInput.nextLine();
-			//TODO: what if user doesn't select a proper action -> give another chance or return "NO ACTION"??
-			
-		} else { return "NO ACTION";}
+		String prompt = "\nSelect one of the following actions: ("+availableActions+" remaining)";
+		return pickFromList( Arrays.asList(Action.values()) , prompt);
 		
 	}
 	
@@ -238,6 +292,17 @@ public class GameView {
 		return pickFromList(tiles, prompt);
 	}
 	
+	public Player pickPlayerToRecieveCard(List<Player> players) {
+		String prompt = "Which player do you wish to give a card to?";
+		return pickFromList(players, prompt);
+	}
+	
+	public TreasureDeckCard pickCardToGive(List<TreasureDeckCard> cards) {
+		String prompt = "Which card do you wish to give?";
+		return pickFromList(cards, prompt);
+	}
+	
+	
 	
 	
 	public <E> E pickFromList(List<E> items, String prompt){
@@ -248,7 +313,7 @@ public class GameView {
 		int i = 1;
 		String options = "";
 		for(E item : items) {
-			options += item.toString()+" ["+Integer.toString(i)+"]";
+			options += item.toString()+"["+Integer.toString(i)+"], ";
 			i++;
 		}
 		System.out.println(options);
