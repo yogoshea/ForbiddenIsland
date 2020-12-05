@@ -30,7 +30,7 @@ public class WaterMeter extends Subject {
 		notifyAllObservers();
 	}
 	
-	public int getLevel() { 
+	public int getWaterLevel() { 
 		return waterLevel;
 	}
 	

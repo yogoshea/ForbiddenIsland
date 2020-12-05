@@ -107,9 +107,29 @@ public class GameView {
 		//displayPlayerInformation(p)????? Yeah, maybe include this in the updatable display
 	}
 	
+	/**
+	 * Tells user that treasure cards are being drawn
+	 */
 	public void showDrawingTreasureCards() {
 		System.out.println("Drawing 2 treasure cards...");
 	}
+	
+	/**
+	 * Tells user that treasure cards are being drawn
+	 */
+	public void showTreasureCardDrawn(TreasureDeckCard card) {
+		System.out.println("You have drawn: " + card.toString());
+	}
+	
+	/**
+	 * Tells user that treasure cards are being drawn
+	 */
+	public void showWaterRise(int level) {
+		System.out.println("The island is flooding!! \n" + "NEW WATER LEVEL: " + Integer.toString(level));
+	}
+	
+	
+	
 	
 	
 	// Request players from user TODO: check for valid user input
@@ -141,13 +161,13 @@ public class GameView {
 	 */
 	public void updateView(GameModel gameModel) {
 		// similar to observer to model changes, no
-		//TODO: add time delays between prints? make more readable rather than whole bunch of text suddenly appearing? Maybe, yeah
+		//TODO: add time delays between prints? Maybe, yeah. Or just user press return/input any key to continue
 		// TODO: better way to update screen?
 		System.out.println("\n".repeat(20));
 		
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
-				"FORBIDDEN ISLAND", "WATER LEVEL: " + gameModel.getWaterMeter().getLevel())); // TODO: This make sense ??
+				"FORBIDDEN ISLAND", "WATER LEVEL: " + gameModel.getWaterMeter().getWaterLevel())); // TODO: This make sense ??
 		System.out.println("=".repeat(displayCharWidth));
 		displayIslandBoard(gameModel);
 		
@@ -160,14 +180,14 @@ public class GameView {
 		// display Dialog box
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
-				"GAME DIALOG", "NOTE: To use Heli Lift or Sandbag at any time, press H or S")); // TODO: This make sense ??
+				"GAME DIALOG", "NOTE: To use Heli Lift or Sandbag at any time, enter [H] or [S]")); // TODO: This make sense ??
 		System.out.println("=".repeat(displayCharWidth));
 //		displayGameDialog();
 		
 	}
 	
 	// TODO: maybe move to something like GameGraphics, to store all lengthy terminal image type outputs ??
-	private void displayIslandBoard(GameModel gameModel) { //TOD: print associated treasure, Print in separate window??
+	private void displayIslandBoard(GameModel gameModel) { //TOD: print associated treasure
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
@@ -321,13 +341,19 @@ public class GameView {
 		return pickFromList(cards, prompt);
 	}
 	
+	public TreasureDeckCard pickCardToDiscard(List<TreasureDeckCard> cards) {
+		String prompt = "You have too many cards in your hand, which do you wish to discard?";
+		TreasureDeckCard card = pickFromList(cards, prompt);
+		System.out.println("You have discarded a" + card.toString() + "card");
+		return card;
+	}
 	
 	
 	
 	public <E> E pickFromList(List<E> items, String prompt){
 		//TODO: check for correct user input, check list isn't empty
 		int index;
-		System.out.println(prompt);
+		System.out.println("\n" + prompt);
 		
 		int i = 1;
 		String options = "";
@@ -335,13 +361,13 @@ public class GameView {
 			options += item.toString()+" ["+Integer.toString(i)+"], ";
 			i++;
 		}
-		System.out.println(options);
-		prompt += "\n"+options;
-		index = Integer.parseInt(scanNextLine(prompt)) - 1;
+		System.out.println(options); //TODO: print vertically to look better?
+		
+		index = Integer.parseInt(scanNextLine(prompt)) - 1; //TODO:proper check for invalid input
 		
 		if(index > items.size() - 1) {
 			System.out.println("Invalid Choice, choose again");
-			pickFromList(items, prompt);
+			return pickFromList(items, "");
 		}
 		return items.get(index);
 	}

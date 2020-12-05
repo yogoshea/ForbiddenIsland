@@ -2,9 +2,13 @@ package island.game;
 
 import java.util.Scanner;
 
+import island.cards.FloodCard;
 import island.cards.TreasureDeckCard;
 import island.cards.WaterRiseCard;
+import island.components.IslandBoard;
 import island.components.WaterMeter;
+import island.decks.FloodDeck;
+import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
 import island.decks.TreasureDiscardPile;
 import island.players.Player;
@@ -23,6 +27,7 @@ public class DrawCardsController {
 	 * Constructor to retrieve view and model instances
 	 */
 	private DrawCardsController(GameModel gameModel, GameView gameView) {
+		//TODO: Do we need to be passing in gameModel when constructing? Can just use getInstance() for everything (as they are all singletons)
 		this.gameModel = gameModel;
 		this.gameView = gameView;
 	}
@@ -37,69 +42,88 @@ public class DrawCardsController {
 		return drawCardsController;
 	}
 	
-	public void drawTreasureCards(Player p) {
-		
-		drawFromTreasureDeck(p);
+	
+	/**
+	 * Method to draw 2 treasure cards during a players turn
+	 */
+	public void drawTreasureCards(Player player) { //TODO: use this function at the start of game as well?
 
 		//Could leave these draw methods in Player class and notify an observer when they are executed
 		//Then if player has too many cards, the observer can prompt to choose which one to discard
-		//OR
-		//Implement all draw methods in this controller class, as I've started below
 		
-	}
-	
-	public void drawFloodCards() {
-		
-	}
-	
-
-	public void drawFromTreasureDeck(Player p) {
-		//draw cardCount cards
-		final int cardCount = 2;
-		TreasureDeckCard c;
+		final int cardCount = 2; //TODO: should this be final static or something at start of class? 
+		TreasureDeckCard card;
 		
 		for(int i = 0; i < cardCount; i++) {
 			
-			c = TreasureDeck.getInstance().drawCard();
+			card = gameModel.getTreasureDeck().drawCard();
+			gameView.showTreasureCardDrawn(card);
 			
-			if(c instanceof WaterRiseCard) {
-				WaterMeter.getInstance().incrementLevel(); //pass card into function? like a transaction?
-				TreasureDiscardPile.getInstance().addCard(c);
+			if(card instanceof WaterRiseCard) {
+				gameModel.getWaterMeter().incrementLevel(); //OR pass card into function? like a transaction?
+				gameModel.getTreasureDiscardPile().addCard(card);
+				gameView.showWaterRise( gameModel.getWaterMeter().getWaterLevel() );
+				//TODO: OR have an observer of the WaterMeter call gameView.showWaterRise() when a rise occurs?? Probably the proper way to do it
 			} else {
-				receiveTreasureDeckCard(p, c);
+				addCardToHand(player, card);
 			}
+			
 		}
+		
 	}
 	
 	
-	public void receiveTreasureDeckCard(Player p, TreasureDeckCard c) {
+	/**
+	 * Method to draw 2 flood cards during a players turn
+	 */
+	public void drawFloodCards() {
+		//TODO: use this function for initial flooding as well?
+		FloodCard card;
+		int cardCount = gameModel.getWaterMeter().getWaterLevel();
 		
-		p.getTreasureDeckCards().add(c);
-		//notifyAllObservers();
+		for(int i = 0; i < cardCount; i++) {
+			
+			//draw a card
+			card = gameModel.getFloodDeck().drawCard();
+			
+			//Perform action on appropriate tile
+			gameModel.getIslandBoard().floodOrSinkTile( card.getCorrespondingIslandTile() ); //TODO: rename to floodOrSinkTile()
+			
+			//Add card to discard pile
+			FloodDiscardPile.getInstance().addCard(card);
+			
+		}
+		
+	}
+	
+	
+	/**
+	 * Method to add a Treasure deck card to the players hand
+	 */
+	public void addCardToHand(Player player, TreasureDeckCard card) {
+		
+		player.getTreasureDeckCards().add(card);
+		
 		//If more than 5 in hand, choose cards to discard
-		while(p.getTreasureDeckCards().size() > 5) {
-			chooseCardToDiscard(p);
+		while( player.getTreasureDeckCards().size() > 5 ) {
+			chooseCardToDiscard(player);
 		}
 	}
 	
-	
-	public void chooseCardToDiscard(Player p) {
-		Scanner userInput = new Scanner(System.in);
-		System.out.println("Which card do you wish to discard?");
+	/**
+	 * Method for players to choose a card to discard if they have too many in their hand
+	 */
+	public void chooseCardToDiscard(Player player) {
 		
-		int i = 1;
-		for(TreasureDeckCard c : p.getTreasureDeckCards()) {
-			System.out.print(c.toString()+" ["+Integer.toString(i)+"], ");
-			i++;
-		}
-		System.out.println();
+		TreasureDeckCard card;
 		
-		int iChoice = Integer.parseInt(userInput.nextLine()) - 1;
-		//Have used the block of code above alot -> make into some sort of function??
+		//choose card
+		card = gameView.pickCardToDiscard(player.getTreasureDeckCards());
 		
-		//add and remove
-		TreasureDiscardPile.getInstance().addCard(p.getTreasureDeckCards().get(iChoice));
-		p.getTreasureDeckCards().remove(iChoice);
+		//remove chosen card from hand and discard it
+		player.getTreasureDeckCards().remove(card);
+		gameModel.getTreasureDiscardPile().addCard(card);
+		
 	}
 
 }

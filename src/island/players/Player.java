@@ -363,7 +363,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	public void drawFromFloodDeck(int cardCount) {
 		for(int i = 0; i < cardCount; i++) {
 			FloodCard fc = FloodDeck.getInstance().drawCard();
-			IslandBoard.getInstance().floodTile(fc.getCorrespondingIslandTile());
+			IslandBoard.getInstance().floodOrSinkTile(fc.getCorrespondingIslandTile());
 			FloodDiscardPile.getInstance().addCard(fc);
 			//This is duplicated code from startSinking()!! -> implement in drawCard()?
 		}

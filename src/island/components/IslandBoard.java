@@ -150,7 +150,7 @@ public class IslandBoard extends Subject {
 	 * Takes a flood deck card and either floods or removes corresponding tile
 	 * @return true if successful, false if tile already removed
 	 */
-	public boolean floodTile(IslandTile tile) {
+	public boolean floodOrSinkTile(IslandTile tile) {
 		int[] pos = findTileLocation(tile);
 		int i = pos[0];
 		int j = pos[1];
@@ -171,7 +171,7 @@ public class IslandBoard extends Subject {
 				System.out.println(boardStructure[i][j].name()+ "has sunk!!!!"); // TODO: change this to notify SunkObserver
 				boardStructure[i][j] = null; //TODO: set to enum Sunk
 				//Alert gameOverObserver that something happened which may cause game to be over
-				notifyAllObservers();
+				//notifyAllObservers();
 			}
 			return true;
 		}

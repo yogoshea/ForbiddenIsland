@@ -35,7 +35,7 @@ public class WaterMeterObserver extends GameOverObserver {
 	 * Method to check if Game Over due to water level above threshold
 	 */
 	public static boolean checkWaterLevel() {
-		return WaterMeter.getInstance().getLevel() > 5;
+		return WaterMeter.getInstance().getWaterLevel() > 5;
 		//TODO: make make level a final game variable
 	}
 

@@ -72,7 +72,7 @@ public class SetupController {
 			FloodCard newFloodCard = floodDeck.drawCard();
 
 			// Flood corresponding IslandTile on board
-			islandBoard.floodTile(newFloodCard.getCorrespondingIslandTile());
+			islandBoard.floodOrSinkTile(newFloodCard.getCorrespondingIslandTile());
 
 			// Add card to flood discard pile
 			floodDiscardPile.addCard(newFloodCard);

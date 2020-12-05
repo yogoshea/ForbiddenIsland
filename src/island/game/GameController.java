@@ -34,6 +34,7 @@ public class GameController {
 		this.gameView = gameView;
 		setupController = SetupController.getInstance(gameModel, gameView);
 		actionController = ActionController.getInstance(gameModel, gameView);
+		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
 		//sunkTileObserver = SunkTileObserver.getInstance(gameModel);
 		//Will getInstance() be needed elsewhere?? if so is it good to pass gameModel in every time?
 	}
@@ -76,7 +77,7 @@ public class GameController {
 				
 				// take a number of actions
 				actionController.takeActions(p);
-				System.out.println("Finished Actions!");
+				System.out.println("Finished Actions!"); //TODO: move to view
 				
 				// Draw two cards from Treasure Deck
 				drawCardsController.drawTreasureCards(p);
