@@ -459,6 +459,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	}
 	
 	public List<TreasureDeckCard> findTreasureCards() { //TODO: Split players treasureDeckCard deck into treasureCard deck and other deck?
+		// TODO: why findTreasureCards, can this replace getTreasureCards above?
 		
 		List<TreasureDeckCard> treasureCards = new ArrayList<TreasureDeckCard>();
 	

@@ -11,7 +11,7 @@ import island.players.Player;
 /**
  * Controls the flow of the gameplay and obtains player choices
  * through GameView
- * @author Eoghan O'Shea
+ * @author Eoghan O'Shea and Robert McCarthy
  *
  */
 public class GameController {
@@ -60,7 +60,7 @@ public class GameController {
 		setupController.setupGame();
 		
 		// Update user view
-		gameView.updateView(gameModel);
+//		gameView.updateView(gameModel);
 		
 //		System.exit(0);
 	}
@@ -76,6 +76,7 @@ public class GameController {
 				
 				// take a number of actions
 				actionController.takeActions(p);
+				System.out.println("Finished Actions!");
 				
 				// Draw two cards from Treasure Deck
 				drawCardsController.drawTreasureCards(p);
@@ -89,7 +90,7 @@ public class GameController {
 	/**
 	 * method call by observers that have encountered game ending conditions
 	 */
-	public void endGame() {
+	public void endGame() { // TODO:  move to EndGameController implements Observer
 		gameView.showEnding();	
 	}
 

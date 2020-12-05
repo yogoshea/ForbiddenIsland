@@ -22,7 +22,7 @@ public class TreasureCard extends Card implements TreasureDeckCard {
 	}
 	
 	public String toString() {
-		return associatedTreasure.name()+" Treasure Card";
+		return associatedTreasure.toString() + " Card";
 	}
 
 	

@@ -47,7 +47,7 @@ public class GameModel {
 //		gameOver = false;
 //		gameWon = false;
 
-		// retrieve game component instances TODO: make sure in correct order prevent race conditions!
+		// retrieve game component instances TODO: make sure in correct order prevent race conditions! or get rid of dependencies in constructors
 		islandBoard = IslandBoard.getInstance();
 		floodDeck = FloodDeck.getInstance();
 		floodDiscardPile = FloodDiscardPile.getInstance();

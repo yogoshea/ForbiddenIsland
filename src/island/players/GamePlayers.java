@@ -24,6 +24,7 @@ public class GamePlayers implements Iterable<Player> {
 	
 	private List<Player> playersList;
 	private List<Treasure> capturedTreasures; //TODO: Better for each player to have individually? Think they're just pooled in rules
+	private int playerCount;
 	
 	/**
 	 * Constructor to instantiate list attributes
@@ -31,6 +32,7 @@ public class GamePlayers implements Iterable<Player> {
 	private GamePlayers() {
 		playersList = new ArrayList<Player>();
 		capturedTreasures = new ArrayList<Treasure>();
+		playerCount = 0; // set player count to zero at beginning
 	}
 	
 	/**

@@ -29,6 +29,7 @@ public class GameView {
 	
 	// display component dimensions
 	final int tileCharWidth = 25; // change to make tiles wider
+	final int displayCharWidth = 6 * tileCharWidth; // display width in characters
 	
 	
 	private GameView() {
@@ -101,9 +102,9 @@ public class GameView {
 	 * Tells user which players turn it is
 	 */
 	public void showPlayerTurn(Player p) {
-		System.out.println();
-		System.out.println("\nIt is the turn of: " + p.toString()); //SJould I be using prompt user function??
-		//displayPlayerInformation(p)?????
+//		System.out.println();
+		System.out.println("It is the turn of: " + p.toString()); //SJould I be using prompt user function??
+		//displayPlayerInformation(p)????? Yeah, maybe include this in the updatable display
 	}
 	
 	public void showDrawingTreasureCards() {
@@ -139,14 +140,14 @@ public class GameView {
 	 * Called from within model to provide latest game status to display
 	 */
 	public void updateView(GameModel gameModel) {
-		// similar to observer to model changes
-		//TODO: add time delays between prints? make more readable rather than whole bunch of text suddenly appearing?
+		// similar to observer to model changes, no
+		//TODO: add time delays between prints? make more readable rather than whole bunch of text suddenly appearing? Maybe, yeah
 		// TODO: better way to update screen?
 		System.out.println("\n".repeat(20));
 		
-		int displayCharWidth = 6 * tileCharWidth;
 		System.out.println("=".repeat(displayCharWidth));
-		System.out.println("FORBIDDEN ISLAND");
+		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
+				"FORBIDDEN ISLAND", "WATER LEVEL: " + gameModel.getWaterMeter().getLevel())); // TODO: This make sense ??
 		System.out.println("=".repeat(displayCharWidth));
 		displayIslandBoard(gameModel);
 		
@@ -158,19 +159,21 @@ public class GameView {
 		
 		// display Dialog box
 		System.out.println("=".repeat(displayCharWidth));
-		System.out.println("GAME DIALOG");
+		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
+				"GAME DIALOG", "NOTE: To use Heli Lift or Sandbag at any time, press H or S")); // TODO: This make sense ??
 		System.out.println("=".repeat(displayCharWidth));
 //		displayGameDialog();
 		
 	}
 	
+	// TODO: maybe move to something like GameGraphics, to store all lengthy terminal image type outputs ??
 	private void displayIslandBoard(GameModel gameModel) { //TOD: print associated treasure, Print in separate window??
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
 		Map<IslandTile, Player> playerLocations = new HashMap<IslandTile, Player>();
 		
-		// retrieve players' current positions from model TODO: move this to getPlayerLocations method
+		// retrieve players' current positions from model TODO: CHANGE this to getPlayerLocations method
 		for (Player p : gameModel.getGamePlayers()) {
 			playerLocations.put(p.getCurrentTile(), p);
 		}
@@ -259,12 +262,28 @@ public class GameView {
 	
 	private void displayPlayerInformation(GameModel gameModel) {
 		// retrieve players' current information from model
+		final int maxTreasureCards = 5;
+		final int playerCount = gameModel.getGamePlayers().getPlayersList().size();
+		final List<Player> playerList = gameModel.getGamePlayers().getPlayersList();
+//		TreasureDeckCard currentTreasureCard;
 		for (Player p : gameModel.getGamePlayers()) {
-			System.out.print("\n" + p.toString() + "\nTreasure Cards:\t");
-			for (TreasureDeckCard tdc : p.findTreasureCards()) {
-				System.out.print(tdc + "\t");
+			System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", p); // left alignment 
+		}
+		System.out.println(); // newline 
+		for (Player p : gameModel.getGamePlayers()) {
+			System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "Cards in hand:"); // left alignment 
+		}
+		System.out.println(); // newline 
+		
+		// list currently held treasure cards
+		for (int i = 0; i < maxTreasureCards; i++) {
+			for (int j = 0; j < playerCount; j++) {
+				if (i < playerList.get(j).getTreasureDeckCards().size())
+					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". " + playerList.get(j).getTreasureDeckCards().get(i)); // left alignment 
+				else
+					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". "+ "----------"); // left alignment 
 			}
-			System.out.print("\n\n");
+			System.out.println();
 		}
 	}
 	
@@ -313,7 +332,7 @@ public class GameView {
 		int i = 1;
 		String options = "";
 		for(E item : items) {
-			options += item.toString()+"["+Integer.toString(i)+"], ";
+			options += item.toString()+" ["+Integer.toString(i)+"], ";
 			i++;
 		}
 		System.out.println(options);

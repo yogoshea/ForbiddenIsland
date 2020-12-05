@@ -22,15 +22,26 @@ import island.players.Player;
  */
 public class ActionController { //Name PlayerActionController for clarity?
 	
-	// Instantiate singleton
+	// Singleton to be instantiated
 	private static ActionController actionController;
 	
 	private GameView gameView;
 	private GameModel gameModel;
 	
-
-	public enum Action { //TODO: add strings??
-		Move, SHORE_UP, GIVE_TREASURE, CAPTURE_TREASURE, NONE;
+	public enum Action {
+		MOVE("Move"),
+		SHORE_UP("Shore Up"),
+		GIVE_TREASURE_CARD("Give Treasure Card"),
+		CAPTURE_TREASURE("Capture Treasure"),
+		NONE("None");
+		
+		private String actionString;
+		Action(String s) {
+			this.actionString = s;
+		}
+		public String toString() {
+			return actionString;
+		}
 	}
 	
 	/**
@@ -53,7 +64,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 	
 	public void takeActions(Player p) {
 		
-		gameView.showPlayerTurn(p);
+//		gameView.showPlayerTurn(p);
 		Action actionChoice;
 		boolean actionSuccessfullyTaken = false;
 		int remainingTurns = 3;
@@ -61,6 +72,8 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		do {
 			
+			gameView.updateView(gameModel); // display updated full game view after every action
+			gameView.showPlayerTurn(p);
 			actionChoice = gameView.getPlayerActionChoice(remainingTurns);
 			
 			if(actionChoice.equals(Action.NONE)) {
@@ -71,7 +84,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 				
 				switch(actionChoice) {
 				
-				case Move:
+				case MOVE:
 					actionSuccessfullyTaken = move(p); // TODO: check for validity in Player class, throw Exception
 					break;
 				
@@ -79,7 +92,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 					actionSuccessfullyTaken = shoreUp(p);
 					break;
 					
-				case GIVE_TREASURE:
+				case GIVE_TREASURE_CARD:
 					actionSuccessfullyTaken = giveTreasureCard(p);
 					break;
 					
@@ -97,10 +110,6 @@ public class ActionController { //Name PlayerActionController for clarity?
 		} while (remainingTurns > 0);
 		
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Changes players current tile to adjacent tile of their choice
