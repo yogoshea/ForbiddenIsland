@@ -15,7 +15,7 @@ import island.components.IslandTile;
 public class FloodDeck extends Deck<FloodCard> {
 	
 	// Instantiate singleton
-	private static FloodDeck floodDeck = new FloodDeck();
+	private static FloodDeck floodDeck;
 	
 	private FloodDeck() {
 		super(); // TODO: check if needed
@@ -26,6 +26,13 @@ public class FloodDeck extends Deck<FloodCard> {
 		}
 	}
 	
+	public static FloodDeck getInstance() {
+		if (floodDeck == null) {
+			floodDeck = new FloodDeck();
+		}
+		return floodDeck;
+	}
+	
 	@Override
 	public void refill() {
 		List<FloodCard> temp = new ArrayList<FloodCard>();
@@ -33,10 +40,6 @@ public class FloodDeck extends Deck<FloodCard> {
 		for(FloodCard c : temp) {
 			floodDeck.addCardToDeck(c);
 		}
-	}
-	
-	public static FloodDeck getInstance() {
-		return floodDeck;
 	}
 
 }

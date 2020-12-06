@@ -10,6 +10,8 @@ import island.cards.TreasureCard;
 import island.cards.TreasureDeckCard;
 import island.cards.WaterRiseCard;
 import island.components.Treasure;
+import island.players.GamePlayers;
+import island.players.Player;
 
 /**
  * TreasureDeck class is a deck filled with TreasureCards,
@@ -18,6 +20,7 @@ import island.components.Treasure;
  *
  */
 public class TreasureDeck extends Deck<TreasureDeckCard> {
+	//TODO: just change this to Deck<Card>
 	
 	// Instantiate singleton
 	private static TreasureDeck treasureDeck = new TreasureDeck();

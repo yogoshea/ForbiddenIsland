@@ -35,7 +35,14 @@ public enum IslandTile {
 	
 	private String name;
 	private Treasure associatedTreasure;
-	private boolean floodedStatus;
+	
+	// Enum to store flood status of each tile TODO:  move this to individual class?
+	public enum FloodStatus { SAFE("--- Safe ---"), FLOODED("~~~ Flooded ~~~"), SUNK("XXX Sunk XXX"); 
+		private final String sign;
+		private FloodStatus(String sign) { this.sign = sign; }
+		public String toString() { return sign; }
+	}
+	private FloodStatus status;
 	
 	/**
 	 * no argument constructor sets associatedTreasure to null
@@ -43,7 +50,6 @@ public enum IslandTile {
 	private IslandTile(String name) {
 		this(name, null); // check for null when using enums at later stage
 	}
-	// TODO: make floodStatus Enum {"notFlooded", "Flooded", "Sank"}
 	
 	/**
 	 * constructor to set associatedTreasure and floodedStatus
@@ -52,7 +58,7 @@ public enum IslandTile {
 	private IslandTile(String name, Treasure treasure) {
 		this.name = name;
 		this.associatedTreasure = treasure;
-		this.floodedStatus = false; // all island tile are initially not flooded
+		this.status = FloodStatus.SAFE; // all island tile are initially not flooded
 	}
 	
 	@Override
@@ -73,13 +79,17 @@ public enum IslandTile {
 	public Treasure getAssociatedTreasure() {
 		return associatedTreasure;
 	}
+	
+	public FloodStatus getFloodStatus() {
+		return status;
+	}
 
 	/**
 	 * getter method for flooded status of an island tile
 	 * @return boolean corresponding to flood status
 	 */
 	public Boolean isFlooded() {
-		return floodedStatus;
+		return this.status.equals(FloodStatus.FLOODED); // TODO: change to isFloodedorSunk
 	}
 	
 	/**
@@ -87,15 +97,15 @@ public enum IslandTile {
 	 */
 	public void setToFlooded() {
 		System.out.println(name()+" has been flooded!!!");
-		floodedStatus = true;
+		status = FloodStatus.FLOODED;
 	}
 	
 	public boolean shoreUp() {
-		if(!floodedStatus) {
+		if(!this.isFlooded()) { // TODO: change to check for Sunk also 
 			System.out.println(name()+" already shored-up");
 			return false;
 		} else {
-			floodedStatus = false;
+			status = FloodStatus.SAFE;
 			System.out.println(name()+" has been shored-up");
 			return true;
 		}
