@@ -1,11 +1,17 @@
 package island.components;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import island.observers.Observer;
+import island.observers.Subject;
+
 /**
  * IslandTile enum for island tiles
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public enum IslandTile {
+public enum IslandTile implements Subject {
 	
 	// Maybe add another String attribute so can print like "Cave of Embers" instead of "CAVE_OF_EMBERS"
 	BREAKERS_BRIDGE("Breakers Bridge"),
@@ -35,6 +41,7 @@ public enum IslandTile {
 	
 	private String name;
 	private Treasure associatedTreasure;
+	private List<Observer> observers = new ArrayList<Observer>();
 	
 	// Enum to store flood status of each tile TODO:  move this to individual class?
 	public enum FloodStatus { SAFE("--- Safe ---"), FLOODED("~~~ Flooded ~~~"), SUNK("XXX Sunk XXX"); 
@@ -96,8 +103,14 @@ public enum IslandTile {
 	 * setter method for flooded status of island tile
 	 */
 	public void setToFlooded() {
-		System.out.println(name()+" has been flooded!!!");
-		status = FloodStatus.FLOODED;
+		if(this.status.equals(FloodStatus.SAFE)) { // TODO:  implement equals method
+			status = FloodStatus.FLOODED;
+			System.out.println(name() + " has been flooded !!");
+		} else if(this.status.equals(FloodStatus.FLOODED)) {
+			status = FloodStatus.SUNK;
+			System.out.println(name() + " has been sunk !!!");
+			notifyAllObservers(); // When a tile has sunk, notify observers
+		}
 	}
 	
 	public boolean shoreUp() {
@@ -108,6 +121,18 @@ public enum IslandTile {
 			status = FloodStatus.SAFE;
 			System.out.println(name()+" has been shored-up");
 			return true;
+		}
+	}
+
+	@Override
+	public void attach(Observer observer) {
+		observers.add(observer);
+	}
+	
+	@Override
+	public void notifyAllObservers() {
+		for (Observer observer : observers) {
+			observer.update(this);
 		}
 	}
 

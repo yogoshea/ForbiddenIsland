@@ -5,7 +5,7 @@ package island.cards;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class WaterRiseCard extends Card implements TreasureDeckCard {
+public class WaterRiseCard extends Card {
 	
 	public WaterRiseCard() {
 //		super();

@@ -6,6 +6,7 @@ import java.util.List;
 import island.components.WaterMeter;
 import island.observers.GameOverObserver;
 import island.observers.SunkTileObserver;
+import island.observers.WaterMeterObserver;
 import island.players.Player;
 
 /**
@@ -60,10 +61,11 @@ public class GameController {
 		// Setup game components with new players obtain form user through GameView
 		setupController.setupGame();
 		
+		// Create game observers
+		createObservers();
+		
 		// Update user view
 //		gameView.updateView(gameModel);
-		
-//		System.exit(0);
 	}
 	
 	/**
@@ -89,36 +91,18 @@ public class GameController {
 	}
 	
 	/**
-	 * method call by observers that have encountered game ending conditions
+	 * Call instances of observer classes to create observers
 	 */
-	public void endGame() { // TODO:  move to EndGameController implements Observer
-		gameView.showEnding();	
+	private void createObservers() {
+		WaterMeterObserver.getInstance(gameModel.getWaterMeter(), this);
+	}
+	
+	/**
+	 * Method called by observers that have encountered game ending conditions
+	 */
+	public void endGame(String message) {
+		gameView.showEnding(message);	
+		System.exit(0);
 	}
 
 }
-
-
-// TODO: control the flow of game in here...
-
-//while(!gameOver && !gameWon) {
-//	// Iterate over each  Player to take turns (Randomise order?)
-//	for (Player p : players.getPlayersList()) {
-//		
-//		if(!gameOver && !gameWon) {
-//			
-//			System.out.println(islandBoard.toString());
-//			System.out.println("It is "+p.toString()+"s turn");
-//			p.takeTurn(userInput);
-//			//TODO: How to end game if Game Over happens mid turn???? 
-//		}
-//	}
-//}
-//
-//if(gameWon) {
-//	//TODO: Implement game win
-////	return true;
-//} else {
-//	//TODO: Implement game loss
-//}
-//
-//}

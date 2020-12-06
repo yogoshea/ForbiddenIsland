@@ -119,7 +119,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		//TODO: print island board? - or give option to do that at any time??
 		//Could just move all of this into Gameview?
 
-		List<IslandTile> adjTiles = gameModel.getIslandBoard().findAdjacentTiles(p.getCurrentTile());
+		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getCurrentTile());
 		
 		if(adjTiles.size() > 0) {
 			
@@ -138,7 +138,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 */
 	private boolean shoreUp(Player p) {
 
-		List<IslandTile> adjTiles = gameModel.getIslandBoard().findAdjacentTiles(p.getCurrentTile());
+		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getCurrentTile());
 		adjTiles.add(p.getCurrentTile()); //can shore-up current tile
 		List<IslandTile> holder = new ArrayList<>(adjTiles);
 		

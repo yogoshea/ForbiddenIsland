@@ -47,7 +47,7 @@ public class SunkTileObserver extends GameOverObserver { //or extends abstract c
 	public void checkIfGameOver() {
 		boolean gameOver = checkTreasureTiles() || checkFoolsLanding() || checkPlayerTiles();
 		if(gameOver) {
-			setGameOver();
+			setGameOver(); // TODO: change to GameController.endGame() I think
 		}
 	}
 	
@@ -59,8 +59,8 @@ public class SunkTileObserver extends GameOverObserver { //or extends abstract c
 		
 		//Can't use subject.findTileLocation() as subject has no method findTileLocation()???
 		for(int i = 0; i < 4; i++) {
-			int[] pos1 = IslandBoard.getInstance().findTileLocation( pairedTreasureTiles[i][1] ); 
-			int[] pos2 = IslandBoard.getInstance().findTileLocation( pairedTreasureTiles[i][2] );
+			int[] pos1 = IslandBoard.getInstance().getTileLocation( pairedTreasureTiles[i][1] ); 
+			int[] pos2 = IslandBoard.getInstance().getTileLocation( pairedTreasureTiles[i][2] );
 			List<Treasure> capturedTreasures = GamePlayers.getInstance().getCapturedTreasures();
 			boolean alreadyCaptured = capturedTreasures.contains(pairedTreasureTiles[i][1].getAssociatedTreasure());
 			
@@ -76,7 +76,7 @@ public class SunkTileObserver extends GameOverObserver { //or extends abstract c
 	 * Method to check if game is over due to FoolsLanding being sunkeded
 	 */
 	public static boolean checkFoolsLanding() {
-		int[] pos = IslandBoard.getInstance().findTileLocation(IslandTile.FOOLS_LANDING);
+		int[] pos = IslandBoard.getInstance().getTileLocation(IslandTile.FOOLS_LANDING);
 		if(pos[0] < 0) {
 			return true;
 		} else {
@@ -90,7 +90,7 @@ public class SunkTileObserver extends GameOverObserver { //or extends abstract c
 	 */
 	public static boolean checkPlayerTiles() {
 		for(Player p : GamePlayers.getInstance().getPlayersList()) {
-			int[] pos = IslandBoard.getInstance().findTileLocation( p.getCurrentTile() );
+			int[] pos = IslandBoard.getInstance().getTileLocation( p.getCurrentTile() );
 			if(pos[0] < 0) {
 				return true;				
 			}

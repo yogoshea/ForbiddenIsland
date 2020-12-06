@@ -22,7 +22,7 @@ import island.players.Player;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class IslandBoard extends Subject {
+public class IslandBoard {
 	
 	// Instantiate singleton
 	private static IslandBoard islandBoard = new IslandBoard();
@@ -72,7 +72,6 @@ public class IslandBoard extends Subject {
 		
 		// create HashMap to store locations
 		tileCoordinates = new HashMap<IslandTile, Coordinate>();
-		
 		for (int i = 0; i < boardStructure.length; i++) {
 			for (int j = 0; j < boardStructure[i].length; j++) {
 				boardStructure[i][j] = islandTiles.pop();
@@ -106,10 +105,10 @@ public class IslandBoard extends Subject {
 	/**
 	 * Takes a tile and returns a list of adjacent island tiles (which methods should be static in singleton?)
 	 */
-	public List<IslandTile> findAdjacentTiles(IslandTile tile) { //TODO: update to make use of Coordinates
+	public List<IslandTile> getAdjacentTiles(IslandTile tile) { //TODO: update to make use of Coordinates
 		//TODO: Give IslandTile a location variable??
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
-		int[] currentPos = findTileLocation(tile);
+		int[] currentPos = getTileLocation(tile);
 		if(currentPos[0] < 0 || currentPos[1] < 0) {
 			return adjTiles;
 		}
@@ -151,7 +150,7 @@ public class IslandBoard extends Subject {
 	 * @return true if successful, false if tile already removed
 	 */
 	public boolean floodOrSinkTile(IslandTile tile) {
-		int[] pos = findTileLocation(tile);
+		int[] pos = getTileLocation(tile);
 		int i = pos[0];
 		int j = pos[1];
 		if(i >= 0 && j >= 0) {
@@ -184,7 +183,7 @@ public class IslandBoard extends Subject {
 	 * @return true if successful, false if not
 	 */
 	public boolean shoreUp(IslandTile t) {
-		int[] pos = findTileLocation(t);
+		int[] pos = getTileLocation(t);
 		int i = pos[0];
 		int j = pos[1];
 		if(i >= 0 && j >= 0) {
@@ -197,7 +196,7 @@ public class IslandBoard extends Subject {
 	 * Takes an island tile and finds its position on board
 	 * @return position in array: [x,y]. returns [-1,-1] if not found
 	 */
-	public int[] findTileLocation(IslandTile tile) {
+	public int[] getTileLocation(IslandTile tile) {
 		// TODO: save tile locations at start instead of searching each time?
 		int[] pos = {-1,-1}; // [row, column]
 		for (int i = 0; i < boardStructure.length; i++) {

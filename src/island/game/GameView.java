@@ -434,11 +434,11 @@ public class GameView {
 	}
 
 	/**
-	 * Displays ending view, explains why win or lose?
+	 * Displays ending view, with message giving reason for game end
 	 */
-	public void showEnding() {
-		// TODO Auto-generated method stub
-		//System.out.exit(0);
+	public void showEnding(String message) {
+		System.out.println(message);
+		System.out.println("GAME OVER!");
 	}		
 
 }

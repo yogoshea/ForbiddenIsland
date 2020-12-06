@@ -6,6 +6,7 @@ import island.components.WaterMeter;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
+import island.observers.WaterMeterObserver;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -52,9 +53,8 @@ public class SetupController {
 		assignPlayerRoles(playerNames);
 		handOutInitialTreasureCards();
 //		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
-//		players.setInitialPositions(); // TODO: delete?
 	}
-	
+
 	/**
 	 * Begin the sinking of the island
 	 */
@@ -156,13 +156,5 @@ public class SetupController {
 			} while (cardsDrawnCount < numberOfCardsPerPlayer);
 		}
 	}
-/*	Don't need as level set to 1 in constructor
-	private void setWaterLevel() {
-		
-		final int initialWaterLevel = 5;
-		
-		gameModel.getWaterMeter();
-		
-	}
-*/
+
 }
