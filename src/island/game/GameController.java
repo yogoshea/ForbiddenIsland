@@ -3,8 +3,10 @@ package island.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import island.components.IslandTile;
 import island.components.WaterMeter;
 import island.observers.GameOverObserver;
+import island.observers.FoolsLandingObserver;
 import island.observers.SunkTileObserver;
 import island.observers.WaterMeterObserver;
 import island.players.Player;
@@ -79,7 +81,7 @@ public class GameController {
 				
 				// take a number of actions
 				actionController.takeActions(p);
-				System.out.println("Finished Actions!"); //TODO: move to view
+//				System.out.println("Finished Actions!"); //TODO: move to view
 				
 				// Draw two cards from Treasure Deck
 				drawCardsController.drawTreasureCards(p);
@@ -95,13 +97,15 @@ public class GameController {
 	 */
 	private void createObservers() {
 		WaterMeterObserver.getInstance(gameModel.getWaterMeter(), this);
+		FoolsLandingObserver.getInstance(gameModel.getIslandBoard().getTile(IslandTile.FOOLS_LANDING), this);
+		
 	}
 	
 	/**
 	 * Method called by observers that have encountered game ending conditions
 	 */
 	public void endGame(String message) {
-		gameView.showEnding(message);	
+		gameView.showEnding(message);	// gameView
 		System.exit(0);
 	}
 

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import island.cards.TreasureDeckCard;
+import island.cards.Card;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Treasure;
@@ -117,7 +117,7 @@ public class GameView {
 	/**
 	 * Tells user that treasure cards are being drawn
 	 */
-	public void showTreasureCardDrawn(TreasureDeckCard card) {
+	public void showTreasureCardDrawn(Card card) {
 		System.out.println("You have drawn: " + card.toString());
 	}
 	
@@ -298,8 +298,8 @@ public class GameView {
 		// list currently held treasure cards
 		for (int i = 0; i < maxTreasureCards; i++) {
 			for (int j = 0; j < playerCount; j++) {
-				if (i < playerList.get(j).getTreasureDeckCards().size())
-					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". " + playerList.get(j).getTreasureDeckCards().get(i)); // left alignment 
+				if (i < playerList.get(j).getCards().size())
+					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". " + playerList.get(j).getCards().get(i)); // left alignment 
 				else
 					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". "+ "----------"); // left alignment 
 			}
@@ -336,14 +336,14 @@ public class GameView {
 		return pickFromList(players, prompt);
 	}
 	
-	public TreasureDeckCard pickCardToGive(List<TreasureDeckCard> cards) {
+	public Card pickCardToGive(List<Card> cards) {
 		String prompt = "Which card do you wish to give?";
 		return pickFromList(cards, prompt);
 	}
 	
-	public TreasureDeckCard pickCardToDiscard(List<TreasureDeckCard> cards) {
+	public Card pickCardToDiscard(List<Card> cards) {
 		String prompt = "You have too many cards in your hand, which do you wish to discard?";
-		TreasureDeckCard card = pickFromList(cards, prompt);
+		Card card = pickFromList(cards, prompt);
 		System.out.println("You have discarded a" + card.toString() + "card");
 		return card;
 	}

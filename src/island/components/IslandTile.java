@@ -103,12 +103,12 @@ public enum IslandTile implements Subject {
 	 * setter method for flooded status of island tile
 	 */
 	public void setToFlooded() {
-		if(this.status.equals(FloodStatus.SAFE)) { // TODO:  implement equals method
+		if (this.status.equals(FloodStatus.SAFE)) { // TODO:  implement equals method
 			status = FloodStatus.FLOODED;
-			System.out.println(name() + " has been flooded !!");
-		} else if(this.status.equals(FloodStatus.FLOODED)) {
+//			System.out.println(name() + " has been flooded !!");
+		} else if (this.status.equals(FloodStatus.FLOODED)) {
 			status = FloodStatus.SUNK;
-			System.out.println(name() + " has been sunk !!!");
+//			System.out.println(name() + " has been sunk !!!");
 			notifyAllObservers(); // When a tile has sunk, notify observers
 		}
 	}
@@ -132,7 +132,7 @@ public enum IslandTile implements Subject {
 	@Override
 	public void notifyAllObservers() {
 		for (Observer observer : observers) {
-			observer.update(this);
+			observer.update();
 		}
 	}
 

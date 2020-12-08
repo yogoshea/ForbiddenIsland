@@ -7,15 +7,14 @@ import island.game.GameController;
  * Observer class to act on updates to state of WaterMeter class
  * @author Eoghan O'Shea and Robert McCarthy
  */
-public class WaterMeterObserver implements Observer {
+public class WaterMeterObserver extends Observer {
 	
 	private static WaterMeterObserver waterMeterObserver;
 	private GameController gameController;
 	
 	private WaterMeterObserver(Subject subject, GameController gc) {
-//		this.subject = subject;
-//		this.subject.attach(this);
-		subject.attach(this);
+		this.subject = subject;
+		this.subject.attach(this);
 		this.gameController = gc;
 	}
 	
@@ -33,8 +32,8 @@ public class WaterMeterObserver implements Observer {
 	 * Update methods called when Water Meter changes water level
 	 */
 	@Override
-	public void update(Subject updatedWaterMeter) {
-		if (((WaterMeter) updatedWaterMeter).getWaterLevel() == 5)
+	public void update() {
+		if (((WaterMeter) this.subject).getWaterLevel() == 5)
 			gameController.endGame("Water Level has reached Level 5");
 	}
 

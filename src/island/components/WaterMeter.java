@@ -3,7 +3,6 @@ package island.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import island.observers.GameOverObserver;
 import island.observers.Observer;
 import island.observers.Subject;
 
@@ -29,9 +28,9 @@ public class WaterMeter implements Subject {
 		return instance;
 	}
 	
-	public void incrementLevel() { //Is there a situation where specific level needed/level can go down?
+	public void incrementLevel() {
 		this.waterLevel++;
-		notifyAllObservers(); //Alert gameOverObserver that something happened which may cause game to be over
+		notifyAllObservers(); // Notify observers of WaterMeter state
 	}
 	
 	public int getWaterLevel() { 

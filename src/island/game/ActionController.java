@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import island.cards.Card;
 import island.cards.TreasureCard;
-import island.cards.TreasureDeckCard;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Treasure;
@@ -170,9 +170,9 @@ public class ActionController { //Name PlayerActionController for clarity?
 	private boolean giveTreasureCard(Player p) {
 		
 		List<Player> playersOnSameTile = new ArrayList<Player>();
-		List<TreasureDeckCard> treasureCards = new ArrayList<TreasureDeckCard>();
+		List<Card> treasureCards = new ArrayList<Card>();
 		Player playerToRecieve;
-		TreasureDeckCard card;
+		Card card;
 		
 		//find players on same tile
 		playersOnSameTile = p.getPlayersOnSameTile();
@@ -198,7 +198,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		//give card
 		playerToRecieve.receiveTreasureDeckCard(card);
-		p.getTreasureDeckCards().remove(card);
+		p.getCards().remove(card);
 		return true;
 		
 	}
@@ -215,15 +215,15 @@ public class ActionController { //Name PlayerActionController for clarity?
 		//If true - Collect all cards which can be used to capture treasure
 		if(p.getCurrentTile().getAssociatedTreasure() != null) {
 			
-			List<TreasureDeckCard> tradeCards = new ArrayList<TreasureDeckCard>();
+			List<Card> tradeCards = new ArrayList<Card>();
 			int cardsFound = 0;
 			
 			//Take out all relevant treasure cards
-			for(TreasureDeckCard c : p.findTreasureCards()) {
+			for(Card c : p.findTreasureCards()) {
 				//TODO: Are subclasses making these treasure deck cards hard to deal with??
 				if(((TreasureCard) c).getAssociatedTreasure().equals( p.getCurrentTile().getAssociatedTreasure())) {
 					tradeCards.add(c);
-					p.getTreasureDeckCards().remove(c);
+					p.getCards().remove(c);
 					cardsFound++;
 				}
 				

@@ -9,8 +9,6 @@ import island.cards.SandbagCard;
 import island.cards.TreasureCard;
 import island.cards.WaterRiseCard;
 import island.components.Treasure;
-import island.players.GamePlayers;
-import island.players.Player;
 
 /**
  * TreasureDeck class is a deck filled with TreasureCards,

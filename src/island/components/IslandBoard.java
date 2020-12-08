@@ -12,7 +12,6 @@ import island.cards.FloodCard;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.game.GameModel;
-import island.observers.GameOverObserver;
 import island.observers.Subject;
 import island.players.GamePlayers;
 import island.players.Player;
@@ -30,27 +29,27 @@ public class IslandBoard {
 	// Create 2D array of IslandTiles to represent game board
 	private IslandTile[][] boardStructure;
 	
-	private FloodDeck floodDeck;
-	private FloodDiscardPile floodDiscardPile;
+//	private FloodDeck floodDeck;
+//	private FloodDiscardPile floodDiscardPile;
 	private Map<Pawn,IslandTile> pawnLocations;
 	
-	// Small inner class to store IslandTile coordinates for quicker access TODO: make sure this is okay to do!
-	private class Coordinate {
-		int row;
-		int column;
-		Coordinate(int row, int column) {
-			this.row = row;
-			this.column = column;
-		}
-	}
+//	// Small inner class to store IslandTile coordinates for quicker access TODO: make sure this is okay to do!
+//	private class Coordinate {
+//		int row;
+//		int column;
+//		Coordinate(int row, int column) {
+//			this.row = row;
+//			this.column = column;
+//		}
+//	}
 	private Map<IslandTile, Coordinate> tileCoordinates;
 	
 	// Fills structure with IslandTile Enum types
 	private IslandBoard() {
 		
 		// get instances of required classes
-		floodDeck = FloodDeck.getInstance();
-		floodDiscardPile = FloodDiscardPile.getInstance();
+//		floodDeck = FloodDeck.getInstance();
+//		floodDiscardPile = FloodDiscardPile.getInstance();
 		
 		// Source all IslandTiles form Enum values
 		Stack<IslandTile> islandTiles = new Stack<>();
@@ -145,73 +144,73 @@ public class IslandBoard {
 	}
 	
 	
-	/**
-	 * Takes a flood deck card and either floods or removes corresponding tile
-	 * @return true if successful, false if tile already removed
-	 */
-	public boolean floodOrSinkTile(IslandTile tile) {
-		int[] pos = getTileLocation(tile);
-		int i = pos[0];
-		int j = pos[1];
-		if(i >= 0 && j >= 0) {
-			//If not flooded
-			if(!boardStructure[i][j].isFlooded()) {
-				//Flood tile
-				boardStructure[i][j].setToFlooded();
-			} else {
-				
-				//If player on tile, give chance to move
-				//TODO: should this happen via observer?
-				for(Player p : GamePlayers.getInstance().getPlayersList()) {
-					if(p.getCurrentTile().equals(boardStructure[i][j])) {
-						//p.move(userScanner);
-					}
-				}
-				System.out.println(boardStructure[i][j].name()+ "has sunk!!!!"); // TODO: change this to notify SunkObserver
-				boardStructure[i][j] = null; //TODO: set to enum Sunk
-				//Alert gameOverObserver that something happened which may cause game to be over
-				//notifyAllObservers();
-			}
-			return true;
-		}
-		//Action doesn't count as turn if you couldn't use card? Check before this?
-		return false;
-	}
+//	/**
+//	 * Takes a flood deck card and either floods or removes corresponding tile
+//	 * @return true if successful, false if tile already removed
+//	 */
+//	public boolean floodOrSinkTile(IslandTile tile) {
+//		int[] pos = getTileLocation(tile);
+//		int i = pos[0];
+//		int j = pos[1];
+//		if(i >= 0 && j >= 0) {
+//			//If not flooded
+//			if(!boardStructure[i][j].isFlooded()) {
+//				//Flood tile
+//				boardStructure[i][j].setToFlooded();
+//			} else {
+//				
+//				//If player on tile, give chance to move
+//				//TODO: should this happen via observer?
+//				for(Player p : GamePlayers.getInstance().getPlayersList()) {
+//					if(p.getCurrentTile().equals(boardStructure[i][j])) {
+//						//p.move(userScanner);
+//					}
+//				}
+//				System.out.println(boardStructure[i][j].name()+ "has sunk!!!!"); // TODO: change this to notify SunkObserver
+//				boardStructure[i][j] = null; //TODO: set to enum Sunk
+//				//Alert gameOverObserver that something happened which may cause game to be over
+//				//notifyAllObservers();
+//			}
+//			return true;
+//		}
+//		//Action doesn't count as turn if you couldn't use card? Check before this?
+//		return false;
+//	}
 	
-	/**
-	 * Takes an IslandTile and shores-up corresponding tile on board
-	 * @return true if successful, false if not
-	 */
-	public boolean shoreUp(IslandTile t) {
-		int[] pos = getTileLocation(t);
-		int i = pos[0];
-		int j = pos[1];
-		if(i >= 0 && j >= 0) {
-			return boardStructure[i][j].shoreUp();
-		}
-		return false;
-	}
+//	/**
+//	 * Takes an IslandTile and shores-up corresponding tile on board
+//	 * @return true if successful, false if not
+//	 */
+//	public boolean shoreUp(IslandTile t) {
+//		int[] pos = getTileLocation(t);
+//		int i = pos[0];
+//		int j = pos[1];
+//		if(i >= 0 && j >= 0) {
+//			return boardStructure[i][j].shoreUp();
+//		}
+//		return false;
+//	}
 	
-	/**
-	 * Takes an island tile and finds its position on board
-	 * @return position in array: [x,y]. returns [-1,-1] if not found
-	 */
-	public int[] getTileLocation(IslandTile tile) {
-		// TODO: save tile locations at start instead of searching each time?
-		int[] pos = {-1,-1}; // [row, column]
-		for (int i = 0; i < boardStructure.length; i++) {
-			for (int j = 0; j < boardStructure[i].length; j++) {
-				
-				if (boardStructure[i][j].equals(tile)) {
-					// TODO: implement equals() method in IslandTile to compare enum value
-					pos[0] = i;
-					pos[1] = j;
-				}	
-			}
-		}
-		return pos;
-	}
-	
+//	/**
+//	 * Takes an island tile and finds its position on board
+//	 * @return position in array: [x,y]. returns [-1,-1] if not found
+//	 */
+//	public int[] getTileLocation(IslandTile tile) {
+//		// TODO: save tile locations at start instead of searching each time?
+//		int[] pos = {-1,-1}; // [row, column]
+//		for (int i = 0; i < boardStructure.length; i++) {
+//			for (int j = 0; j < boardStructure[i].length; j++) {
+//				
+//				if (boardStructure[i][j].equals(tile)) {
+//					// TODO: implement equals() method in IslandTile to compare enum value
+//					pos[0] = i;
+//					pos[1] = j;
+//				}	
+//			}
+//		}
+//		return pos;
+//	}
+//	
 	
 	public List<IslandTile> getFloodedTiles() {
 		List<IslandTile> floodedTiles = new ArrayList<IslandTile>();//Arraylist good?
@@ -227,6 +226,25 @@ public class IslandBoard {
 		
 		return floodedTiles;
 	}
+
+	public void setPawnLocation(Pawn playerPawn, IslandTile islandTile) {
+		pawnLocations.put(playerPawn, islandTile);
+	}
+	
+	public  Map<Pawn,IslandTile> getPawnLocations() {
+		return this.pawnLocations;
+	}
+
+	/**
+	 * Gets instance of specific island tile placed on board
+	 * @param IslandTile to retrieve from board
+	 * @return IslandTile instance present within IslandBoard
+	 */
+	public IslandTile getTile(IslandTile islandTile) {
+		Coordinate tileCoord = tileCoordinates.get(islandTile);
+		return this.boardStructure[tileCoord.getRow()][tileCoord.getColumn()];
+	}
+
 	
 
 

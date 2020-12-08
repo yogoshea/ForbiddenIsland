@@ -5,7 +5,7 @@ package island.observers;
  * @author Eoghan O'Shea and Robert McCarthy
  * @param <E> argument to store updated game component
  */
-public interface Observer {
-//	protected Subject subject;
-	public abstract void update(Subject updatedSubject);
+public abstract class Observer {
+	protected Subject subject;
+	public abstract void update();
 }

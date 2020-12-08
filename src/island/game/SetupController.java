@@ -134,7 +134,7 @@ public class SetupController {
 		
 		int cardsDrawnCount;
 		final int numberOfCardsPerPlayer = 2;
-		TreasureDeckCard drawnCard;
+		Card drawnCard;
 		
 		// Get component instances from model
 		TreasureDeck treasureDeck = gameModel.getTreasureDeck();

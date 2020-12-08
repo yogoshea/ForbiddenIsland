@@ -1,40 +1,40 @@
-package island.observers;
-
-import java.util.List;
-
-import island.components.IslandBoard;
-import island.components.IslandTile;
-import island.components.Treasure;
-import island.components.WaterMeter;
-import island.game.ActionController;
-import island.game.GameModel;
-import island.game.GameView;
-import island.players.GamePlayers;
-import island.players.Player;
-
-//TODO: Split into a tile observer (observing island board), and a watermeter observer?
-
-/**
- * Class which should be alerted at appropriate times so it can check if the game is over
- * @author Eoghan O'Shea and Robert McCarthy
- *
- */
-public abstract class GameOverObserver extends Observer {
-	
-	protected abstract void checkIfGameOver();
-	
-	@Override
-	public void update() {
-		checkIfGameOver();
-		// tell GameController to endGame() ??
-	}
-	
-	protected void setGameOver() {
-		//gameOver = true;
-		//gameView.showEnding()
-	}
-	
-}
+//package island.observers;
+//
+//import java.util.List;
+//
+//import island.components.IslandBoard;
+//import island.components.IslandTile;
+//import island.components.Treasure;
+//import island.components.WaterMeter;
+//import island.game.ActionController;
+//import island.game.GameModel;
+//import island.game.GameView;
+//import island.players.GamePlayers;
+//import island.players.Player;
+//
+////TODO: Split into a tile observer (observing island board), and a watermeter observer?
+//
+///**
+// * Class which should be alerted at appropriate times so it can check if the game is over
+// * @author Eoghan O'Shea and Robert McCarthy
+// *
+// */
+//public abstract class GameOverObserver extends Observer {
+//	
+//	protected abstract void checkIfGameOver();
+//	
+//	@Override
+//	public void update() {
+//		checkIfGameOver();
+//		// tell GameController to endGame() ??
+//	}
+//	
+//	protected void setGameOver() {
+//		//gameOver = true;
+//		//gameView.showEnding()
+//	}
+//	
+//}
 
 //public class GameOverObserver extends Observer {
 //	

@@ -2,8 +2,8 @@ package island.game;
 
 import java.util.Scanner;
 
+import island.cards.Card;
 import island.cards.FloodCard;
-import island.cards.TreasureDeckCard;
 import island.cards.WaterRiseCard;
 import island.components.IslandBoard;
 import island.components.WaterMeter;
@@ -52,7 +52,7 @@ public class DrawCardsController {
 		//Then if player has too many cards, the observer can prompt to choose which one to discard
 		
 		final int cardCount = 2; //TODO: should this be final static or something at start of class? 
-		TreasureDeckCard card;
+		Card card;
 		
 		for(int i = 0; i < cardCount; i++) {
 			
@@ -100,12 +100,12 @@ public class DrawCardsController {
 	/**
 	 * Method to add a Treasure deck card to the players hand
 	 */
-	public void addCardToHand(Player player, TreasureDeckCard card) {
+	public void addCardToHand(Player player, Card card) {
 		
-		player.getTreasureDeckCards().add(card);
+		player.getCards().add(card);
 		
 		//If more than 5 in hand, choose cards to discard
-		while( player.getTreasureDeckCards().size() > 5 ) {
+		while( player.getCards().size() > 5 ) {
 			chooseCardToDiscard(player);
 		}
 	}
@@ -115,13 +115,13 @@ public class DrawCardsController {
 	 */
 	public void chooseCardToDiscard(Player player) {
 		
-		TreasureDeckCard card;
+		Card card;
 		
 		//choose card
-		card = gameView.pickCardToDiscard(player.getTreasureDeckCards());
+		card = gameView.pickCardToDiscard(player.getCards());
 		
 		//remove chosen card from hand and discard it
-		player.getTreasureDeckCards().remove(card);
+		player.getCards().remove(card);
 		gameModel.getTreasureDiscardPile().addCard(card);
 		
 	}
