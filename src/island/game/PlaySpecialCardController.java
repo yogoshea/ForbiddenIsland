@@ -28,7 +28,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 	/**
 	 * Constructor to retrieve view and model instances
 	 */
-	private PlaySpecialCardController(GameModel gameModel, GameView gameView) {
+	private PlaySpecialCardController(GameModel gameModel, GameView gameView, GameController gameController) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
 		this.gameController = gameController;
@@ -87,7 +87,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 	/**
 	 * Method to play a sandbag card
 	 */
-	public void sandBagRequest() {
+	public void sandbagRequest() {
 		
 		IslandTile tileChoice;
 		List<Player> gamePlayers = gameModel.getGamePlayers().getPlayersList();
@@ -137,15 +137,4 @@ public class PlaySpecialCardController { //TODO: better name!!
 		
 	}
 	
-//	/**
-//	 * Displays win message and exits programme if game has been won
-//	 */
-//	public void winGame() {
-//		
-//		gameView.showGameWin();
-//		System.exit(0);
-//		
-//	}
-	
-
 }

@@ -29,7 +29,7 @@ import island.observers.Subject;
  * @author Eoghan O'Shea and Robert McCarthy
  * 
  */
-public abstract class Player { //TODO: Make class shorter!!!!?????
+public abstract class Player { 
 
 	private String name;
 	private Pawn pawn; //TODO: start making use of pawn
@@ -74,6 +74,10 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		}
 		
 		return treasureCards;
+	}
+
+	public List<IslandTile> getSwimmableTiles(IslandBoard islandBoard) {
+		return islandBoard.getAdjacentTiles(this.pawn.getLocation());
 	}
 
 	

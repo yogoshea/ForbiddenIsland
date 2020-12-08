@@ -216,12 +216,13 @@ public class GameView {
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
-		Map<IslandTile, Player> playerLocations = new HashMap<IslandTile, Player>();
+		Map<IslandTile, Player> pawnLocations = new HashMap<IslandTile, Player>(); // TODO: change to printing Pawn info
 		
 		// retrieve players' current positions from model TODO: CHANGE this to getPlayerLocations method
 		for (Player p : gameModel.getGamePlayers()) {
-			playerLocations.put(p.getCurrentTile(), p);
+			pawnLocations.put(p.getPawn().getLocation(), p);
 		}
+		
 		
 		// retrieve Island board state from model
 		IslandTile[][] boardStructure = gameModel.getIslandBoard().getBoardStructure();
@@ -286,9 +287,9 @@ public class GameView {
 				
 				// add specific tile details
 				outputString += "| ";
-				if (playerLocations.containsKey(boardStructure[i][j])) {
+				if (pawnLocations.containsKey(boardStructure[i][j])) {
 					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-							String.format("%" + ((tileCharWidth - 4 + (playerLocations.get(boardStructure[i][j]).toString().length())) / 2) + "s", playerLocations.get(boardStructure[i][j]).toString()));
+							String.format("%" + ((tileCharWidth - 4 + (pawnLocations.get(boardStructure[i][j]).toString().length())) / 2) + "s", pawnLocations.get(boardStructure[i][j]).toString()));
 					outputString += " |";
 				} else {
 					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
@@ -347,7 +348,11 @@ public class GameView {
 	//This way just means you aren't passing a string
 	public IslandTile pickTileDestination(List<IslandTile> tiles) {//TODO:Give chance to change mind?
 		String prompt = "Which tile do you wish to move to?";
-		//System.out.println("Which tile do you wish to move to?");
+		return pickFromList(tiles, prompt);
+	}
+	
+	public IslandTile pickSwimmableTile(List<IslandTile> tiles) {
+		String prompt = "YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
 		return pickFromList(tiles, prompt);
 	}
 	
@@ -446,7 +451,7 @@ public class GameView {
 				gameController.getPlaySpecialCardController().heliRequest();
 			}
 			if(input.equals("Sandbag")) {
-				sandbagRequest();
+				gameController.getPlaySpecialCardController().sandbagRequest();
 			}
 			
 			System.out.println(initialPrompt);

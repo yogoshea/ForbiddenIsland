@@ -6,10 +6,9 @@ import java.util.List;
 import island.components.IslandTile;
 import island.components.Pawn;
 import island.components.WaterMeter;
-import island.observers.GameOverObserver;
+import island.observers.PlayerSunkObserver;
 import island.observers.Subject;
 import island.observers.FoolsLandingObserver;
-import island.observers.SunkTileObserver;
 import island.observers.TreasureTilesObserver;
 import island.observers.WaterMeterObserver;
 import island.players.Player;
@@ -31,7 +30,6 @@ public class GameController {
 	private ActionController actionController;
 	private DrawCardsController drawCardsController;
 	private PlaySpecialCardController playSpecialCardController;
-	//private SunkTileObserver sunkTileObserver; //Do we need to attach observer to controller? Not currently using it
 	
 	/**
 	 * Constructor to retrieve view and model instances
@@ -42,9 +40,7 @@ public class GameController {
 		setupController = SetupController.getInstance(gameModel, gameView);
 		actionController = ActionController.getInstance(gameModel, gameView);
 		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
-		playSpecialCardController = PlaySpecialCardController.getInstance(gameModel, gameView);
-		//sunkTileObserver = SunkTileObserver.getInstance(gameModel);
-		//Will getInstance() be needed elsewhere?? if so is it good to pass gameModel in every time?
+		playSpecialCardController = PlaySpecialCardController.getInstance(gameModel, gameView, this);
 	}
 	
 	/**
@@ -116,7 +112,6 @@ public class GameController {
 		}
 		
 		// Instantiate observer for IslandTiles that sink with Players on them
-		
 		PlayerSunkObserver.getInstance(this, gameModel.getIslandBoard(), gameModel.getGamePlayers());
 	}
 	
@@ -126,9 +121,16 @@ public class GameController {
 	 * @param currentIslandTile
 	 * @return whether Player was successfully moved to safety
 	 */
-	public boolean movePlayerToSafety(Pawn playerPawn, IslandTile currentIslandTile) {
+	public boolean movePlayerToSafety(Pawn pawn) {
 		
-		return false;
+		List<IslandTile> swimmableTiles = pawn.getPlayer().getSwimmableTiles(gameModel.getIslandBoard());
+		
+		if (swimmableTiles.isEmpty()) {
+			return false;
+		} else {
+			pawn.setLocation(gameView.pickSwimmableTile(swimmableTiles));
+			return true;
+		}
 	}
 	
 	/**

@@ -27,7 +27,7 @@ public class IslandBoard implements Subject {
 //	private FloodDeck floodDeck;
 //	private FloodDiscardPile floodDiscardPile;
 //	private Map<Pawn,IslandTile> pawnLocations;
-	private List<Pawn> pawns = new ArrayList<Pawn>();
+//	private List<Pawn> pawns = new ArrayList<Pawn>();
 
 	private List<Observer> observers = new ArrayList<Observer>();
 	
@@ -44,10 +44,6 @@ public class IslandBoard implements Subject {
 	
 	// Fills structure with IslandTile Enum types
 	private IslandBoard() {
-		
-		// get instances of required classes
-//		floodDeck = FloodDeck.getInstance();
-//		floodDiscardPile = FloodDiscardPile.getInstance();
 		
 		// Source all IslandTiles form Enum values
 		Stack<IslandTile> islandTiles = new Stack<>();
@@ -96,48 +92,46 @@ public class IslandBoard implements Subject {
 		return boardStructure;
 	}
 	
-	// TODO: the methods below are too long, maybe add getTileAbove(), getTileBelow()... shorter methods
-	// Then these should be called from Controller classes
-	
 	/**
 	 * Takes a tile and returns a list of adjacent island tiles (which methods should be static in singleton?)
 	 */
-	public List<IslandTile> getAdjacentTiles(IslandTile tile) { //TODO: update to make use of Coordinates
-		//TODO: Give IslandTile a location variable??
+	public List<IslandTile> getAdjacentTiles(IslandTile tile) {
+
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
 		Coordinate currentCoord = tileCoordinates.get(tile);
+		int currentRow = currentCoord.getRow();
+		int currentColumn = currentCoord.getColumn();
 		
-		// TODO: change below to work with Coordinate
-		int[] currentPos = new int[2];
-		currentPos[0] = currentCoord.getRow();
-		currentPos[1] = currentCoord.getColumn();
-		if(currentPos[0] < 0 || currentPos[1] < 0) {
-			return adjTiles;
-		}
-		int curRowLength = boardStructure[currentPos[0]].length;
+//		int[] currentPos = new int[2];
+//		currentPos[0] = currentCoord.getRow();
+//		currentPos[1] = currentCoord.getColumn();
+//		if(currentPos[0] < 0 || currentPos[1] < 0) {
+//			return adjTiles;
+//		}
+		int curRowLength = boardStructure[currentRow].length;
 		int curRowOffset = ((curRowLength * 2) % 6) / 2;
 		
 		//First search left and right
 		for(int i = -1; i <= 1; i += 2) {
-			int searchCol = currentPos[1] + i;
+			int searchCol = currentColumn + i;
 			if(searchCol >= 0 && searchCol <= 5 - (2*curRowOffset)) { //if within bounds of board
-				if(boardStructure[currentPos[0]][searchCol] != null) { //or use instanceof IslandTile??
-					adjTiles.add(boardStructure[currentPos[0]][searchCol]);
+				if(! boardStructure[currentRow][searchCol].isSunk()) { //or use instanceof IslandTile??
+					adjTiles.add(boardStructure[currentRow][searchCol]);
 				}
 			}
 		}
 		
 		//Then search up and down
 		for(int i = -1; i <= 1; i += 2) {
-			int searchRow = currentPos[0] + i;
+			int searchRow = currentRow + i;
 			if(searchRow >= 0 && searchRow <= 5) {
 				//takes offsets into account with 'shift'
-				int searchRowLength = boardStructure[searchRow].length;
+				int searchRowLength = boardStructure[searchRow].length; // TODO: use getRowOffset function
 				int searchRowOffset = ((searchRowLength * 2) % 6) / 2;
 				int shift = curRowOffset - searchRowOffset;
-				int searchCol = currentPos[1] + shift;
+				int searchCol = currentColumn + shift;
 				if(searchCol >= 0 && searchCol <= 5 - (2*searchRowOffset)) {
-					if(boardStructure[searchRow][searchCol] != null) {
+					if(! boardStructure[searchRow][searchCol].isSunk()) {
 						adjTiles.add(boardStructure[searchRow][searchCol]);
 					}
 				}
@@ -146,8 +140,12 @@ public class IslandBoard implements Subject {
 		return adjTiles;
 	}
 	
-	public List<Pawn> getPawns() {
-		return this.pawns;
+//	public List<Pawn> getPawns() {
+//		return this.pawns;
+//	}
+	
+	private int getRowOffset(int rowIndex) {
+		return (((boardStructure[rowIndex].length) * 2) % 6) / 2;
 	}
 	
 //	public void setPawnLocation(Pawn playerPawn, IslandTile islandTile) {
@@ -243,6 +241,26 @@ public class IslandBoard implements Subject {
 		return treasureTiles;
 	}
 
+	/**
+	 * Disatnce between two tiles
+	 * @param currentTile
+	 * @param islandTile
+	 */
+	public double getDistanceBetweenTiles(IslandTile currentTile, IslandTile otherTile) {
+		
+		int currentRow = tileCoordinates.get(currentTile).getRow();
+		double x1 = currentRow + this.getRowOffset(currentRow);
+		
+		int otherRow = tileCoordinates.get(otherTile).getRow();
+		double x2 = currentRow + this.getRowOffset(otherRow);
+		
+		double y1 = tileCoordinates.get(currentTile).getColumn();
+		double y2 = tileCoordinates.get(otherTile).getColumn();
+		
+		return Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2);
+	}
+	
+	
 	@Override
 	public void attach(Observer observer) {
 		observers.add(observer);
@@ -254,6 +272,7 @@ public class IslandBoard implements Subject {
 			observer.update(this);
 		}
 	}
+
 
 }
 	

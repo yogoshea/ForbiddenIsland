@@ -43,7 +43,7 @@ public enum IslandTile implements Subject {
 	private List<Observer> observers = new ArrayList<Observer>();
 	
 	// Enum to store flood status of each tile TODO:  move this to individual class?
-	public enum FloodStatus { SAFE("--- Safe ---"), FLOODED("~~~ Flooded ~~~"), SUNK("XXX Sunk XXX"); 
+	public enum FloodStatus { SAFE("--- Safe ---"), FLOODED("~~~ Flooded ~~~"), SUNK("XXX Sunk XXX"); // TODO: move to GameView
 		private final String sign;
 		private FloodStatus(String sign) { this.sign = sign; }
 		public String toString() { return sign; }
@@ -86,9 +86,9 @@ public enum IslandTile implements Subject {
 		return associatedTreasure;
 	}
 	
-//	public FloodStatus getFloodStatus() {
-//		return status;
-//	}
+	public FloodStatus getFloodStatus() {
+		return status;
+	}
 
 	/**
 	 * @return boolean corresponding IslandTile being safe

@@ -16,7 +16,7 @@ public class PlayerSunkObserver implements Observer {
 	
 	private PlayerSunkObserver(GameController gc, IslandBoard islandBoard, GamePlayers players) {
 		this.gameController = gc;
-		this.islandBoard = islandBoard;
+//		this.islandBoard = islandBoard;
 		this.players = players;
 	}
 	
@@ -31,39 +31,21 @@ public class PlayerSunkObserver implements Observer {
 	public void update(Subject subject) {
 
 		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile
-
+		Pawn pawn;
 		
 		// Check if Player on IslandTile
-		for (Pawn pawn : islandBoard.getPawns()) {
+		for (Player player : players) {
 			
+			pawn = player.getPawn();
 			if (pawn.getLocation().equals(updatedTile)) {
 				
 				// Check if Player can move to another IslandTile
-				if (! gameController.movePlayerToSafety(pawn, updatedTile)) {
+				if (! gameController.movePlayerToSafety(pawn)) {
 					
-					gameController.endGame("Player has sunk :(");
+					gameController.endGame(); //TODO: end game enum
 				}
-//					Pawn playerPawn = islandBoard.getdd
-				
 			}
-			
 		}
-		
 	}
-	
 
 }
-
-///*
-// * Method to check if game is over due to player being on a sunken tile
-// * Should player be an observer here? check via player?
-// */
-//public static boolean checkPlayerTiles() {
-//	for(Player p : GamePlayers.getInstance().getPlayersList()) {
-//		int[] pos = IslandBoard.getInstance().getTileLocation( p.getCurrentTile() );
-//		if(pos[0] < 0) {
-//			return true;				
-//		}
-//	}
-//	return false;
-//}

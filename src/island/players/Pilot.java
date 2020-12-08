@@ -1,5 +1,8 @@
 package island.players;
 
+import java.util.List;
+
+import island.components.IslandBoard;
 import island.components.IslandTile;
 
 public class Pilot extends Player {
@@ -8,11 +11,15 @@ public class Pilot extends Player {
 	
 	public Pilot(String name) {
 		super(name, startingTile);
-		System.out.println(name + " is the Pilot");
 	}
 
 	@Override
 	public String toString() {
 		return super.toString() + " (Pilot)";
+	}
+	
+	@Override
+	public List<IslandTile> getSwimmableTiles(IslandBoard islandBoard) {
+		return islandBoard.getNonSunkTiles();
 	}
 }
