@@ -41,7 +41,7 @@ public class TreasureTilesObserver implements Observer {
 		Treasure associatedTreasure = updatedTile.getAssociatedTreasure();
 		
 		// Check if updated IslandTile has sunk
-		if ((updatedTile.getFloodStatus().equals(FloodStatus.SUNK))) {
+		if (updatedTile.isSunk()) {
 			
 			// Check if associated Treasure has already been captured
 			if (! players.getCapturedTreasures().contains(associatedTreasure)) {
@@ -53,7 +53,7 @@ public class TreasureTilesObserver implements Observer {
 					if (otherTreasureTile.getAssociatedTreasure().equals(associatedTreasure)) {
 						
 						// Check if this IlsandTile has already sunk
-						if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.getFloodStatus().equals(FloodStatus.SUNK))) {
+						if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
 							
 							// Invoke GameController method to end the game
 							gameController.endGame("Cannot capture all treasures anymore"); // TODO: name specific treasure??

@@ -145,6 +145,81 @@ public class IslandBoard implements Subject {
 		return adjTiles;
 	}
 	
+	public void setPawnLocation(Pawn playerPawn, IslandTile islandTile) {
+		pawnLocations.put(playerPawn, islandTile);
+	}
+	
+	public boolean isPawnOnTile(IslandTile islandtile) {
+		for (IslandTile tileToCheck : pawnLocations.values()) {
+			if (tileToCheck.equals(islandtile)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Pawn getPawnOnTile(IslandTile islandTile) {
+		return 
+	}
+	
+	public  Map<Pawn,IslandTile> getPawnLocations() {
+		return this.pawnLocations;
+	}
+
+	/**
+	 * Gets instance of specific island tile placed on board
+	 * @param IslandTile to retrieve from board
+	 * @return IslandTile instance present within IslandBoard
+	 */
+	public IslandTile getTile(IslandTile islandTile) {
+		Coordinate tileCoord = tileCoordinates.get(islandTile);
+		return this.boardStructure[tileCoord.getRow()][tileCoord.getColumn()];
+	}
+	
+	/**
+	 * Forms List of IslandTile instances
+	 * @return instances of each IslandTile on IslandBoard
+	 */
+	public List<IslandTile> getAllTiles() { // TODO: maybe implement iterator for IslandBoard if time
+		List<IslandTile> allTiles = new ArrayList<IslandTile>();
+		for (int i = 0; i < boardStructure.length; i++) {
+			for (int j = 0; j < boardStructure[i].length; j++) {
+					allTiles.add(boardStructure[i][j]);
+			}
+		}
+		return allTiles;
+	}
+	
+	/**
+	 * Identifies IslandTiles where Treasures are located
+	 * @return instances of IslandTile with associated Treasures
+	 */
+	public List<IslandTile> getTreasureTiles() { // TODO: maybe implement iterator for IslandBoard if time
+		List<IslandTile> treasureTiles = new ArrayList<IslandTile>();
+		for (int i = 0; i < boardStructure.length; i++) {
+			for (int j = 0; j < boardStructure[i].length; j++) {
+				if(boardStructure[i][j].getAssociatedTreasure() != null) {
+					treasureTiles.add(boardStructure[i][j]);
+				}
+			}
+		}
+		return treasureTiles;
+	}
+
+	@Override
+	public void attach(Observer observer) {
+		observers.add(observer);
+	}
+	
+	@Override
+	public void notifyAllObservers() {
+		for (Observer observer : observers) {
+			observer.update(this);
+		}
+	}
+
+}
+	
 	
 //	/**
 //	 * Takes a flood deck card and either floods or removes corresponding tile
@@ -229,50 +304,3 @@ public class IslandBoard implements Subject {
 //		return floodedTiles;
 //	}
 
-	public void setPawnLocation(Pawn playerPawn, IslandTile islandTile) {
-		pawnLocations.put(playerPawn, islandTile);
-	}
-	
-	public  Map<Pawn,IslandTile> getPawnLocations() {
-		return this.pawnLocations;
-	}
-
-	/**
-	 * Gets instance of specific island tile placed on board
-	 * @param IslandTile to retrieve from board
-	 * @return IslandTile instance present within IslandBoard
-	 */
-	public IslandTile getTile(IslandTile islandTile) {
-		Coordinate tileCoord = tileCoordinates.get(islandTile);
-		return this.boardStructure[tileCoord.getRow()][tileCoord.getColumn()];
-	}
-	
-	/**
-	 * Identifies IslandTiles where Treasures are located
-	 * @return instances of IslandTile with associated Treasures
-	 */
-	public List<IslandTile> getTreasureTiles() { // TODO: maybe implement iterator for IslandBoard if time
-		List<IslandTile> treasureTiles = new ArrayList<IslandTile>();
-		for (int i = 0; i < boardStructure.length; i++) {
-			for (int j = 0; j < boardStructure[i].length; j++) {
-				if(!(boardStructure[i][j].getAssociatedTreasure() == null)) {
-					treasureTiles.add(boardStructure[i][j]);
-				}
-			}
-		}
-		return treasureTiles;
-	}
-
-	@Override
-	public void attach(Observer observer) {
-		observers.add(observer);
-	}
-	
-	@Override
-	public void notifyAllObservers() {
-		for (Observer observer : observers) {
-			observer.update(this);
-		}
-	}
-
-}

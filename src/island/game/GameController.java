@@ -117,6 +117,17 @@ public class GameController {
 	}
 	
 	/**
+	 * 
+	 * @param player
+	 * @param currentIslandTile
+	 * @return whether Player was successfully moved to safety
+	 */
+	public boolean movePlayerToSafety(Player player, IslandTile currentIslandTile) {
+		
+		return false;
+	}
+	
+	/**
 	 * Method called by observers that have encountered game ending conditions
 	 */
 	public void endGame(String message) {

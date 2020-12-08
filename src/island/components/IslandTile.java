@@ -13,7 +13,6 @@ import island.observers.Subject;
  */
 public enum IslandTile implements Subject {
 	
-	// Maybe add another String attribute so can print like "Cave of Embers" instead of "CAVE_OF_EMBERS"
 	BREAKERS_BRIDGE("Breakers Bridge"),
 	BRONZE_GATE("Bronze Gate"),
 	CAVE_OF_EMBERS("Cave of Embers",Treasure.THE_CRYSTAL_OF_FIRE),
@@ -113,32 +112,54 @@ public enum IslandTile implements Subject {
 	}
 	
 	/**
-	 * Setter method for flooded status of island tile
 	 */
-	public void floodTile() {
-		if (this.isSafe()) {
-			status = FloodStatus.FLOODED;
-//			System.out.println(name() + " has been flooded !!");
-		} else if (this.isFlooded()) {
-			status = FloodStatus.SUNK;
-//			System.out.println(name() + " has been sunk !!!");
-		}
-		notifyAllObservers(); // When a tile has sunk, notify observers
+	public void setToSafe() {
+		this.status = FloodStatus.SAFE;
 	}
 	
 	/**
-	 * Reinstate an IslandTile as safe
+	 * Sets flood status to flooded
 	 */
-	public boolean shoreUp() {
-		if(!this.isFlooded()) { // TODO: change to check for Sunk also 
-			System.out.println(name()+" already shored-up");
-			return false;
-		} else {
-			status = FloodStatus.SAFE;
-			System.out.println(name()+" has been shored-up");
-			return true;
-		}
+	public void setToFlooded() {
+		this.status = FloodStatus.FLOODED;
 	}
+	
+	/**
+	 * Sets flood status to sunk
+	 */
+	public void setToSunk() {
+		this.status = FloodStatus.SUNK;
+	}
+	
+	
+	
+//	/**
+//	 * Setter method for flooded status of island tile
+//	 */
+//	public void floodTile() {
+//		if (this.isSafe()) {
+//			status = FloodStatus.FLOODED;
+////			System.out.println(name() + " has been flooded !!");
+//		} else if (this.isFlooded()) {
+//			status = FloodStatus.SUNK;
+////			System.out.println(name() + " has been sunk !!!");
+//		}
+//		notifyAllObservers(); // When a tile has sunk, notify observers
+//	}
+	
+//	/**
+//	 * Reinstate an IslandTile as safe
+//	 */
+//	public boolean shoreUp() {
+//		if(!this.isFlooded()) { // TODO: change to check for Sunk also 
+//			System.out.println(name()+" already shored-up");
+//			return false;
+//		} else {
+//			status = FloodStatus.SAFE;
+//			System.out.println(name()+" has been shored-up");
+//			return true;
+//		}
+//	}
 
 	@Override
 	public void attach(Observer observer) {
