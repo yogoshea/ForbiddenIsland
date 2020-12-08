@@ -77,54 +77,54 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	}
 
 	
-	public void drawFromTreasureDeck(int cardCount) {
-		//draw cardCount cards
-		Card c;
-		for(int i = 0; i < cardCount; i++) {
-			c = TreasureDeck.getInstance().drawCard();
-			if(c instanceof WaterRiseCard) {
-				WaterMeter.getInstance().incrementLevel(); //pass card into function? like a transaction?
-				TreasureDiscardPile.getInstance().addCard(c);
-			} else {
-				receiveTreasureDeckCard(c);
-			}
-		}
-	}
-	
-	/**
-	 * method to add a card to treasureDeckCards and prompt to remove if over 5 cards in hand
-	 */
-	public void receiveTreasureDeckCard(Card c) {
-		// TODO: add if instanceof card types
-		this.cards.add(c);
-		//notifyAllObservers();
-		//If more than 5 in hand, choose cards to discard
-		while(this.cards.size() > 5) {
-			chooseCardToDiscard();
-		}
-	}
-	
-	/**
-	 * method to choose a card to discard from treasureDeckCards
-	 */
-	public void chooseCardToDiscard() {
-		Scanner userInput = new Scanner(System.in);
-		System.out.println("Which card do you wish to discard?");
-		
-		int i = 1;
-		for(Card c : this.cards) { // TODO: move printing to controller
-			System.out.print(c.toString()+" ["+Integer.toString(i)+"], ");
-			i++;
-		}
-		System.out.println();
-		
-		int iChoice = Integer.parseInt(userInput.nextLine()) - 1;
-		//Have used the block of code above alot -> make into some sort of function??
-		
-		//add and remove
-		TreasureDiscardPile.getInstance().addCard(this.cards.get(iChoice));
-		this.cards.remove(iChoice);
-	}
+//	public void drawFromTreasureDeck(int cardCount) {
+//		//draw cardCount cards
+//		Card c;
+//		for(int i = 0; i < cardCount; i++) {
+//			c = TreasureDeck.getInstance().drawCard();
+//			if(c instanceof WaterRiseCard) {
+//				WaterMeter.getInstance().incrementLevel(); //pass card into function? like a transaction?
+//				TreasureDiscardPile.getInstance().addCard(c);
+//			} else {
+//				receiveTreasureDeckCard(c);
+//			}
+//		}
+//	}
+//	
+//	/**
+//	 * method to add a card to treasureDeckCards and prompt to remove if over 5 cards in hand
+//	 */
+//	public void receiveTreasureDeckCard(Card c) {
+//		// TODO: add if instanceof card types
+//		this.cards.add(c);
+//		//notifyAllObservers();
+//		//If more than 5 in hand, choose cards to discard
+//		while(this.cards.size() > 5) {
+//			chooseCardToDiscard();
+//		}
+//	}
+//	
+//	/**
+//	 * method to choose a card to discard from treasureDeckCards
+//	 */
+//	public void chooseCardToDiscard() {
+//		Scanner userInput = new Scanner(System.in);
+//		System.out.println("Which card do you wish to discard?");
+//		
+//		int i = 1;
+//		for(Card c : this.cards) { // TODO: move printing to controller
+//			System.out.print(c.toString()+" ["+Integer.toString(i)+"], ");
+//			i++;
+//		}
+//		System.out.println();
+//		
+//		int iChoice = Integer.parseInt(userInput.nextLine()) - 1;
+//		//Have used the block of code above alot -> make into some sort of function??
+//		
+//		//add and remove
+//		TreasureDiscardPile.getInstance().addCard(this.cards.get(iChoice));
+//		this.cards.remove(iChoice);
+//	}
 	
 	//TODO: getCard() function which finds card in player hand and returns it - to make things cleaner??
 
@@ -139,41 +139,41 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 //		}
 //	}
 	
-	public void playSandBagCard() {
-		
-		boolean used;
-		for(Card c : this.cards) {
-			//if card found then use it
-			if(c instanceof SandbagCard) {
-				used = ((SandbagCard) c).use();
-				if(used) {
-					TreasureDiscardPile.getInstance().addCard(c);
-					this.cards.remove(c);
-				}
-				return;
-			}
-		}
-		
-		System.out.println("No Sandbag Card in hand");
-		
-	}
-	/*
-	 * Is there a way to use Generics to combine method above and below into one? instanceof doesn't work with generic types
-	 */
-	public void playHeliCard() {
-		
-		for(Card c : this.cards) {
-			//If heli card in hand then use it
-			if(c instanceof HelicopterLiftCard) {
-				((HelicopterLiftCard) c).use(); // TODO: cahnge how this is done
-				return;
-			}
-		}
-		
-		System.out.println("No Heli Card in hand");
-		
-	}
-	
+//	public void playSandBagCard() {
+//		
+//		boolean used;
+//		for(Card c : this.cards) {
+//			//if card found then use it
+//			if(c instanceof SandbagCard) {
+//				used = ((SandbagCard) c).use();
+//				if(used) {
+//					TreasureDiscardPile.getInstance().addCard(c);
+//					this.cards.remove(c);
+//				}
+//				return;
+//			}
+//		}
+//		
+//		System.out.println("No Sandbag Card in hand");
+//		
+//	}
+//	/*
+//	 * Is there a way to use Generics to combine method above and below into one? instanceof doesn't work with generic types
+//	 */
+//	public void playHeliCard() {
+//		
+//		for(Card c : this.cards) {
+//			//If heli card in hand then use it
+//			if(c instanceof HelicopterLiftCard) {
+//				((HelicopterLiftCard) c).use(); // TODO: cahnge how this is done
+//				return;
+//			}
+//		}
+//		
+//		System.out.println("No Heli Card in hand");
+//		
+//	}
+//	
 
 	
 	

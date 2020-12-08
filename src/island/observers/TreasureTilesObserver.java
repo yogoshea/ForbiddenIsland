@@ -33,6 +33,7 @@ public class TreasureTilesObserver implements Observer {
 		return foolsLandingObserver;
 	}
 	
+	//TODO: simplify/make more readable
 	@Override
 	public void update(Subject subject) {
 		
@@ -40,23 +41,28 @@ public class TreasureTilesObserver implements Observer {
 		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile
 		Treasure associatedTreasure = updatedTile.getAssociatedTreasure(); // TODO: check for null Treasure or change to NO_TREASURE or try catch exception maybe?
 		
-		// Check if associated Treasure has already been captured
-		if (! players.getCapturedTreasures().contains(associatedTreasure)) {
+		if(associatedTreasure != null) {
 			
-			// Iterate of IslandTiles with Treasure on IslandBoard
-			for (IslandTile otherTreasureTile : islandBoard.getTreasureTiles()) {
+			// Check if associated Treasure has already been captured
+			if (! players.getCapturedTreasures().contains(associatedTreasure)) {
 				
-				// Check for IslandTile that holds the same Treasure as the newly sunk IslandTile
-				if (otherTreasureTile.getAssociatedTreasure().equals(associatedTreasure)) {
+				// Iterate of IslandTiles with Treasure on IslandBoard
+				for (IslandTile otherTreasureTile : islandBoard.getTreasureTiles()) {
 					
-					// Check if this IlsandTile has already sunk
-					if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
+					// Check for IslandTile that holds the same Treasure as the newly sunk IslandTile
+					if (otherTreasureTile.getAssociatedTreasure().equals(associatedTreasure)) {
 						
-						// Invoke GameController method to end the game
-						gameController.endGame("Cannot capture all treasures anymore"); // TODO: name specific treasure??
+						// Check if this IslandTile has already sunk
+						if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
+							
+							// Invoke GameController method to end the game
+							gameController.endGame(); // TODO: Enum
+						}
 					}
 				}
 			}
+			
 		}
+		
 	}
 }

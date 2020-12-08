@@ -2,6 +2,7 @@ package island.game;
 
 import island.cards.*;
 import island.components.IslandBoard;
+import island.components.IslandTile;
 import island.components.WaterMeter;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
@@ -65,20 +66,26 @@ public class SetupController {
 		FloodDeck floodDeck = gameModel.getFloodDeck();
 		IslandBoard islandBoard = gameModel.getIslandBoard();
 		FloodDiscardPile floodDiscardPile = gameModel.getFloodDiscardPile();
+		IslandTile tile;
+		FloodCard newFloodCard;
 
 		// Iterate over six new Flood Cards
 		for (int i = 0; i < 6; i++) {
 			
 			// Draw FloodCard from deck
-			FloodCard newFloodCard = floodDeck.drawCard();
+			newFloodCard = floodDeck.drawCard();
+			
+			tile = newFloodCard.getCorrespondingIslandTile();
 
 			// Flood corresponding IslandTile on board
-			islandBoard.getTile(newFloodCard.getCorrespondingIslandTile()).setToFlooded();
+			islandBoard.getTile(tile).setToFlooded();
+			
+			gameView.showTileFlooded(tile);
 
 			// Add card to flood discard pile
 			floodDiscardPile.addCard(newFloodCard);
 		}
-		//TODO: Print out tiles that were flooded (via observer?)
+		
 	}
 	
 	private void assignPlayerRoles(List<String> playerNames) {
@@ -141,18 +148,17 @@ public class SetupController {
 		TreasureDeck treasureDeck = gameModel.getTreasureDeck();
 		
 		// iterate of players in game
-		for (Player p : GamePlayers.getInstance().getPlayersList()) {
+		for (Player p : gameModel.getGamePlayers()) {
 			
 			cardsDrawnCount = 0;
 			do {
 				drawnCard = treasureDeck.drawCard();
-//				System.out.println("Drawn card: " + drawnCard);
+
 				if (drawnCard instanceof WaterRiseCard) {
 					treasureDeck.addCardToDeck(drawnCard); // Put water Rise cards back in deck
 				} else {
 					cardsDrawnCount++;
-					p.receiveTreasureDeckCard(drawnCard);
-					// TODO: change to p.drawFromTreasureDeck(2); ??
+					p.addCard(drawnCard);
 				}
 			} while (cardsDrawnCount < numberOfCardsPerPlayer);
 		}

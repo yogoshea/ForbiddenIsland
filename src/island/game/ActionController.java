@@ -211,9 +211,15 @@ public class ActionController { //Name PlayerActionController for clarity?
 	private boolean captureTreasure(Player p) { //Overcomplicated - improve?
 		
 		final int numCardsRequired = 4;
+		Treasure treasure = p.getPawn().getLocation().getAssociatedTreasure();
 		
 		//If true - Collect all cards which can be used to capture treasure
-		if(p.getCurrentTile().getAssociatedTreasure() != null) {
+		if(treasure != null) {
+			
+			if( gameModel.getGamePlayers().getCapturedTreasures().contains(treasure) ) {
+				//gameView.showAlreadyCaptured(treasure)
+				return false;
+			}
 			
 			List<Card> tradeCards = new ArrayList<Card>();
 			int cardsFound = 0;
@@ -221,7 +227,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			//Take out all relevant treasure cards
 			for(Card c : p.findTreasureCards()) {
 				//TODO: Are subclasses making these treasure deck cards hard to deal with??
-				if(((TreasureCard) c).getAssociatedTreasure().equals( p.getCurrentTile().getAssociatedTreasure())) {
+				if(((TreasureCard) c).getAssociatedTreasure().equals( p.getPawn().getLocation().getAssociatedTreasure())) {
 					tradeCards.add(c);
 					p.getCards().remove(c);
 					cardsFound++;

@@ -32,29 +32,25 @@ public class PlayerSunkObserver implements Observer {
 
 		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile
 
-		// Check if updated IslandTile has sunk
-		if (updatedTile.isSunk()) {
+		
+		// Check if Player on IslandTile
+		for (Pawn pawn : islandBoard.getPawns()) {
 			
-			// Check if Player on IslandTile
-			for (Pawn pawn : islandBoard.getPawns()) {
+			if (pawn.getLocation().equals(updatedTile)) {
 				
-				if (pawn.getLocation().equals(updatedTile)) {
+				// Check if Player can move to another IslandTile
+				if (! gameController.movePlayerToSafety(pawn, updatedTile)) {
 					
-					// Check if Player can move to another IslandTile
-					if (! gameController.movePlayerToSafety(pawn, updatedTile)) {
-						
-						gameController.endGame("Player has sunk :(");
-					}
-//					Pawn playerPawn = islandBoard.getdd
-					
+					gameController.endGame("Player has sunk :(");
 				}
+//					Pawn playerPawn = islandBoard.getdd
 				
 			}
-			
 			
 		}
 		
 	}
+	
 
 }
 

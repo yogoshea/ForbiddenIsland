@@ -117,7 +117,7 @@ public class GameController {
 		
 		// Instantiate observer for IslandTiles that sink with Players on them
 		
-		
+		PlayerSunkObserver.getInstance(this, gameModel.getIslandBoard(), gameModel.getGamePlayers());
 	}
 	
 	/**
@@ -134,8 +134,8 @@ public class GameController {
 	/**
 	 * Method called by observers that have encountered game ending conditions
 	 */
-	public void endGame(String message) {
-		gameView.showEnding(message);	// gameView
+	public void endGame() {
+		gameView.showEnding();	// gameView
 		System.exit(0);
 	}
 	

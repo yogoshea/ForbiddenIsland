@@ -34,9 +34,6 @@ public class FoolsLandingObserver implements Observer {
 	 */
 	@Override
 	public void update(Subject subject) {
-		// TODO: check instance of to cast??
-		if (((IslandTile) subject).isSunk()) {
-			gameController.endGame("Fools Landing has sunk!"); // TODO: change to GameEndings enum! e.g. GameEndings.FOOLS_LANDING_SUNK
-		}	
+		gameController.endGame(); // TODO: change to GameEndings enum! e.g. GameEndings.FOOLS_LANDING_SUNK
 	}
 }

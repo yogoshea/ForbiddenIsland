@@ -74,7 +74,7 @@ public enum IslandTile implements Subject {
 	
 	public Treasure captureAssociatedTreasure() {
 		Treasure temp = associatedTreasure;
-		associatedTreasure = null; // TODO: create NullTreasure class?
+		// TODO: create NullTreasure class?
 		return temp;
 	}
 	

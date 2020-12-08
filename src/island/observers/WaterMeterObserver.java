@@ -38,7 +38,7 @@ public class WaterMeterObserver implements Observer {
 	@Override
 	public void update(Subject subject) {
 		if (((WaterMeter) subject).getWaterLevel() == 5)
-			gameController.endGame(GameEnding.WATER_METER); // TODO: change to GameEndings enum
+			gameController.endGame(); // TODO: change to GameEndings enum
 	}
 
 }

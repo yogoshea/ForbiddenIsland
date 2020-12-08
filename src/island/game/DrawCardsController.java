@@ -102,7 +102,7 @@ public class DrawCardsController {
 	 */
 	public void addCardToHand(Player player, Card card) {
 		
-		player.getCards().add(card);
+		player.addCard(card);
 		
 		//If more than 5 in hand, choose cards to discard
 		while( player.getCards().size() > 5 ) {

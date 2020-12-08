@@ -147,6 +147,13 @@ public class GameView {
 		System.out.println("You win");
 	}
 	
+	/**
+	 * Tells user that the player doesn't have a helicopter lift card
+	 */
+	public void showTileFlooded(IslandTile tile) {
+		System.out.println(tile.toString() + "has been flooded!!!");
+	}
+	
 	
 	
 	
@@ -494,8 +501,8 @@ public class GameView {
 	/**
 	 * Displays ending view, with message giving reason for game end
 	 */
-	public void showEnding(String message) {
-		System.out.println(message);
+	public void showEnding() {
+		
 		System.out.println("GAME OVER!");
 	}		
 
