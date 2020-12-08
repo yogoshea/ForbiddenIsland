@@ -7,6 +7,7 @@ import island.cards.Card;
 import island.cards.HelicopterLiftCard;
 import island.cards.SandbagCard;
 import island.components.IslandTile;
+import island.components.Treasure;
 import island.players.GamePlayers;
 import island.players.Player;
 
@@ -22,6 +23,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 	
 	private GameView gameView;
 	private GameModel gameModel;
+	private GameController gameController;
 	
 	/**
 	 * Constructor to retrieve view and model instances
@@ -29,19 +31,23 @@ public class PlaySpecialCardController { //TODO: better name!!
 	private PlaySpecialCardController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
+		this.gameController = gameController;
 	}
 	
 	/**
 	 * @return single instance of action controller
 	 */
-	public static PlaySpecialCardController getInstance(GameModel gameModel, GameView gameView) {
+	public static PlaySpecialCardController getInstance(GameModel gameModel, GameView gameView, GameController gameController) {
 		if (playSpecialCardController == null) {
-			playSpecialCardController = new PlaySpecialCardController(gameModel, gameView);
+			playSpecialCardController = new PlaySpecialCardController(gameModel, gameView, gameController);
 		}
 		return playSpecialCardController;
 	}
 	
-	
+	//TODO: Some similarities between 
+	/**
+	 * Method to play a helicopter lift card
+	 */
 	public void heliRequest() {
 		
 		List<Player> gamePlayers = gameModel.getGamePlayers().getPlayersList();
@@ -55,6 +61,8 @@ public class PlaySpecialCardController { //TODO: better name!!
 			
 			//If helicopter card found then attempt to play it
 			if(card instanceof HelicopterLiftCard) {
+				
+				checkForGameWin();
 				
 				//Prompt for user to choose destination and players who wish to move
 				destination = gameView.pickHeliDestination(nonSunkTiles);
@@ -76,12 +84,15 @@ public class PlaySpecialCardController { //TODO: better name!!
 		gameView.showNoHeliCard(player);
 	}
 	
-	
+	/**
+	 * Method to play a sandbag card
+	 */
 	public void sandBagRequest() {
 		
-		List<Player> players = gameModel.getGamePlayers().getPlayersList();
+		IslandTile tileChoice;
+		List<Player> gamePlayers = gameModel.getGamePlayers().getPlayersList();
 		
-		Player player = gameView.pickSandbagPlayer(players);
+		Player player = gameView.pickSandbagPlayer(gamePlayers);
 		
 		for(Card card : player.getCards()) {
 			
@@ -91,17 +102,50 @@ public class PlaySpecialCardController { //TODO: better name!!
 				
 				if(floodedTiles.size() > 0) {
 					
-					
+					tileChoice = gameView.pickShoreUpTile(floodedTiles);
+					tileChoice.setToSafe();
+					player.getCards().remove(card);
 					
 				}
-				
+				return;
 			}
-			
 		}
+		//If you reach here then there was no card in hand
+		gameView.showNoSandbagCard(player);
 	}
 	
-
 	
+	/**
+	 * Method to check if game has been won when heli card played
+	 */
+	public void checkForGameWin() {
+		//TODO: give option to not win game??
+		
+		for(Player p : gameModel.getGamePlayers().getPlayersList()) {
+			if(!p.getPawn().getLocation().equals(IslandTile.FOOLS_LANDING)) {
+				return;
+			}
+		}
+		
+		for(Treasure t : Arrays.asList(Treasure.values())) {
+			if(!gameModel.getGamePlayers().getCapturedTreasures().contains(t)) {
+				return;
+			}
+		}
+		
+		gameController.endGame(); //TODO: ENUM
+		
+	}
+	
+//	/**
+//	 * Displays win message and exits programme if game has been won
+//	 */
+//	public void winGame() {
+//		
+//		gameView.showGameWin();
+//		System.exit(0);
+//		
+//	}
 	
 
 }

@@ -89,7 +89,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 					break;
 				
 				case SHORE_UP:
-					actionSuccessfullyTaken = shoreUp(p);
+					actionSuccessfullyTaken = shoreUpAction(p);
 					break;
 					
 				case GIVE_TREASURE_CARD:
@@ -136,7 +136,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * method to shore up tile of users choice
 	 * @return true if shore-up action successful, false otherwise
 	 */
-	private boolean shoreUp(Player p) {
+	private boolean shoreUpAction(Player p) {
 
 		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getCurrentTile());
 		adjTiles.add(p.getCurrentTile()); //can shore-up current tile
@@ -151,7 +151,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		if(adjTiles.size() > 0) { //Check if list empty in view??
 			IslandTile tileChoice = gameView.pickShoreUpTile(adjTiles);
-			gameModel.getIslandBoard().shoreUp(tileChoice);
+			shoreUpTile(tileChoice); //TODO: Implement
 			return true;
 			
 		} else {
@@ -253,6 +253,11 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		gameView.showNoTreasure(p.getCurrentTile());
 		return false;
+	}
+	
+	
+	public boolean shoreUpTile(IslandTile tileChoice) {
+		
 	}
 
 }

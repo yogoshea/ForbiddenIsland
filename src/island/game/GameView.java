@@ -136,6 +136,16 @@ public class GameView {
 		System.out.println(player.toString() + "does not have a Helicopter Lift card");
 	}
 	
+	/**
+	 * Tells user that the player doesn't have a helicopter lift card
+	 */
+	public void showNoSandbagCard(Player player) {
+		System.out.println(player.toString() + "does not have a Sandbag card");
+	}
+	
+	public void showGameWin() {
+		System.out.println("You win");
+	}
 	
 	
 	
