@@ -6,8 +6,10 @@ import java.util.List;
 import island.components.IslandTile;
 import island.components.WaterMeter;
 import island.observers.GameOverObserver;
+import island.observers.Subject;
 import island.observers.FoolsLandingObserver;
 import island.observers.SunkTileObserver;
+import island.observers.TreasureTilesObserver;
 import island.observers.WaterMeterObserver;
 import island.players.Player;
 
@@ -96,8 +98,21 @@ public class GameController {
 	 * Call instances of observer classes to create observers
 	 */
 	private void createObservers() {
+		
+		// Instantiate observer for WaterMeter
 		WaterMeterObserver.getInstance(gameModel.getWaterMeter(), this);
+		
+		// Instantiate observer for Fools Landing IslandTile
 		FoolsLandingObserver.getInstance(gameModel.getIslandBoard().getTile(IslandTile.FOOLS_LANDING), this);
+		
+		// Instantiate observer for IslandTiles with Treasure
+		TreasureTilesObserver newTreasureTilesObserver = TreasureTilesObserver.getInstance(this, gameModel.getIslandBoard(), gameModel.getGamePlayers());
+		for (Subject subject : gameModel.getIslandBoard().getTreasureTiles()) {
+			subject.attach(newTreasureTilesObserver); // Attach observer to each IslandTile that holds Treasure
+		}
+		
+		// Instantiate observer for IslandTiles that sink with Players on them
+		
 		
 	}
 	

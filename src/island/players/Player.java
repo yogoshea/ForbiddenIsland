@@ -19,6 +19,8 @@ import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
 import island.decks.TreasureDiscardPile;
+import island.observers.Observer;
+import island.observers.Subject;
 
 /**
  * Player is an abstract class to describe the common behaviour of
@@ -33,6 +35,7 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	private IslandTile currentTile;
 	private Pawn pawn; //TODO: start making use of pawn
 	private List<Card> cards; // check for null when using
+//	private List<Observer> observers = new ArrayList<Observer>();
 	
 	public Player(String name, IslandTile startingTile) {
 		this.name = name;
@@ -40,6 +43,17 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		currentTile = startingTile;
 	}
 	
+//	@Override
+//	public void attach(Observer observer) {
+//		observers.add(observer);
+//	}
+//	
+//	@Override
+//	public void notifyAllObservers() {
+//		for (Observer observer : observers) {
+//			observer.update(this);
+//		}
+//	}
 	
 	public void drawFromTreasureDeck(int cardCount) {
 		//draw cardCount cards
@@ -170,7 +184,6 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 	
 	public void setCurrentTile(IslandTile t) {
 		currentTile = t;
-		//TODO: alert observer that tile has changed so can print it out
 	}
 	
 	public IslandTile getCurrentTile() {

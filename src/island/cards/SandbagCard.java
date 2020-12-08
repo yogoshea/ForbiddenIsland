@@ -34,7 +34,7 @@ public class SandbagCard extends Card {
 			IslandTile tile;
 			prompt = "Which tile would you like to shore-up?";
 			tile = GameScanner.getInstance().pickFromList(floodedTiles, prompt);
-			tile.setToFlooded();
+			tile.floodTile();
 			return true;
 			
 		} else {

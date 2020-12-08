@@ -45,7 +45,7 @@ public class WaterMeter implements Subject {
 	@Override
 	public void notifyAllObservers() {
 		for (Observer observer : observers) {
-			observer.update();
+			observer.update(this);
 		}
 	}
 	

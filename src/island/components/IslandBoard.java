@@ -8,20 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import island.cards.FloodCard;
-import island.decks.FloodDeck;
-import island.decks.FloodDiscardPile;
-import island.game.GameModel;
+import island.observers.Observer;
 import island.observers.Subject;
-import island.players.GamePlayers;
-import island.players.Player;
 
 /**
  * IslandBoard class represents island board and holds tiles
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class IslandBoard {
+public class IslandBoard implements Subject {
 	
 	// Instantiate singleton
 	private static IslandBoard islandBoard = new IslandBoard();
@@ -32,6 +27,8 @@ public class IslandBoard {
 //	private FloodDeck floodDeck;
 //	private FloodDiscardPile floodDiscardPile;
 	private Map<Pawn,IslandTile> pawnLocations;
+
+	private List<Observer> observers = new ArrayList<Observer>();
 	
 //	// Small inner class to store IslandTile coordinates for quicker access TODO: make sure this is okay to do!
 //	private class Coordinate {
@@ -107,7 +104,12 @@ public class IslandBoard {
 	public List<IslandTile> getAdjacentTiles(IslandTile tile) { //TODO: update to make use of Coordinates
 		//TODO: Give IslandTile a location variable??
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
-		int[] currentPos = getTileLocation(tile);
+		Coordinate currentCoord = tileCoordinates.get(tile);
+		
+		// TODO: change below to work with Coordinate
+		int[] currentPos = new int[2];
+		currentPos[0] = currentCoord.getRow();
+		currentPos[1] = currentCoord.getColumn();
 		if(currentPos[0] < 0 || currentPos[1] < 0) {
 			return adjTiles;
 		}
@@ -212,20 +214,20 @@ public class IslandBoard {
 //	}
 //	
 	
-	public List<IslandTile> getFloodedTiles() {
-		List<IslandTile> floodedTiles = new ArrayList<IslandTile>();//Arraylist good?
-		
-		for (int i = 0; i < boardStructure.length; i++) {
-			for (int j = 0; j < boardStructure[i].length; j++) {
-				
-				if(boardStructure[i][j].isFlooded()) {
-					floodedTiles.add(boardStructure[i][j]);
-				}
-			}
-		}
-		
-		return floodedTiles;
-	}
+//	public List<IslandTile> getFloodedTiles() {
+//		List<IslandTile> floodedTiles = new ArrayList<IslandTile>();//Arraylist good?
+//		
+//		for (int i = 0; i < boardStructure.length; i++) {
+//			for (int j = 0; j < boardStructure[i].length; j++) {
+//				
+//				if(boardStructure[i][j].isFlooded()) {
+//					floodedTiles.add(boardStructure[i][j]);
+//				}
+//			}
+//		}
+//		
+//		return floodedTiles;
+//	}
 
 	public void setPawnLocation(Pawn playerPawn, IslandTile islandTile) {
 		pawnLocations.put(playerPawn, islandTile);
@@ -244,8 +246,33 @@ public class IslandBoard {
 		Coordinate tileCoord = tileCoordinates.get(islandTile);
 		return this.boardStructure[tileCoord.getRow()][tileCoord.getColumn()];
 	}
-
 	
+	/**
+	 * Identifies IslandTiles where Treasures are located
+	 * @return instances of IslandTile with associated Treasures
+	 */
+	public List<IslandTile> getTreasureTiles() { // TODO: maybe implement iterator for IslandBoard if time
+		List<IslandTile> treasureTiles = new ArrayList<IslandTile>();
+		for (int i = 0; i < boardStructure.length; i++) {
+			for (int j = 0; j < boardStructure[i].length; j++) {
+				if(!(boardStructure[i][j].getAssociatedTreasure() == null)) {
+					treasureTiles.add(boardStructure[i][j]);
+				}
+			}
+		}
+		return treasureTiles;
+	}
 
+	@Override
+	public void attach(Observer observer) {
+		observers.add(observer);
+	}
+	
+	@Override
+	public void notifyAllObservers() {
+		for (Observer observer : observers) {
+			observer.update(this);
+		}
+	}
 
 }

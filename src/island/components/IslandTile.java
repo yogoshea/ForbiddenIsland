@@ -87,32 +87,48 @@ public enum IslandTile implements Subject {
 		return associatedTreasure;
 	}
 	
-	public FloodStatus getFloodStatus() {
-		return status;
-	}
+//	public FloodStatus getFloodStatus() {
+//		return status;
+//	}
 
 	/**
-	 * getter method for flooded status of an island tile
-	 * @return boolean corresponding to flood status
+	 * @return boolean corresponding IslandTile being safe
 	 */
-	public Boolean isFlooded() {
-		return this.status.equals(FloodStatus.FLOODED); // TODO: change to isFloodedorSunk
+	public Boolean isSafe() {
+		return this.status.equals(FloodStatus.SAFE);
 	}
 	
 	/**
-	 * setter method for flooded status of island tile
+	 * @return boolean corresponding IslandTile being flooded
 	 */
-	public void setToFlooded() {
-		if (this.status.equals(FloodStatus.SAFE)) { // TODO:  implement equals method
-			status = FloodStatus.FLOODED;
-//			System.out.println(name() + " has been flooded !!");
-		} else if (this.status.equals(FloodStatus.FLOODED)) {
-			status = FloodStatus.SUNK;
-//			System.out.println(name() + " has been sunk !!!");
-			notifyAllObservers(); // When a tile has sunk, notify observers
-		}
+	public Boolean isFlooded() {
+		return this.status.equals(FloodStatus.FLOODED);
 	}
 	
+	/**
+	 * @return boolean corresponding IslandTile having sunk
+	 */
+	public Boolean isSunk() {
+		return this.status.equals(FloodStatus.SUNK);
+	}
+	
+	/**
+	 * Setter method for flooded status of island tile
+	 */
+	public void floodTile() {
+		if (this.isSafe()) {
+			status = FloodStatus.FLOODED;
+//			System.out.println(name() + " has been flooded !!");
+		} else if (this.isFlooded()) {
+			status = FloodStatus.SUNK;
+//			System.out.println(name() + " has been sunk !!!");
+		}
+		notifyAllObservers(); // When a tile has sunk, notify observers
+	}
+	
+	/**
+	 * Reinstate an IslandTile as safe
+	 */
 	public boolean shoreUp() {
 		if(!this.isFlooded()) { // TODO: change to check for Sunk also 
 			System.out.println(name()+" already shored-up");
@@ -132,7 +148,7 @@ public enum IslandTile implements Subject {
 	@Override
 	public void notifyAllObservers() {
 		for (Observer observer : observers) {
-			observer.update();
+			observer.update(this);
 		}
 	}
 

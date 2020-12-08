@@ -9,20 +9,19 @@ import island.game.GameController;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class FoolsLandingObserver extends Observer {
+public class FoolsLandingObserver implements Observer {
 	
 	private static FoolsLandingObserver foolsLandingObserver;
 	private GameController gameController;
 	
 	private FoolsLandingObserver(Subject subject, GameController gc) {
-		this.subject = subject;
-		this.subject.attach(this);
+		subject.attach(this);
 		this.gameController = gc;
 	}
 	
 	/**
-	 * @param IslandBoard, GameController
-	 * @return single instance of IslandBoardObserver class 
+	 * @param IslandTile, GameController
+	 * @return single instance of FoolsLandingObserver class 
 	 */
 	public static FoolsLandingObserver getInstance(IslandTile islandTile, GameController gc) {
 		if (foolsLandingObserver == null) {
@@ -35,9 +34,9 @@ public class FoolsLandingObserver extends Observer {
 	 * Update method called when state of IslandTile changes
 	 */
 	@Override
-	public void update() {
+	public void update(Subject subject) {
 		// TODO: check instance of to cast??
-		if (((IslandTile) this.subject).getFloodStatus().equals(FloodStatus.SUNK)) { // TODO: implement equals method
+		if (((IslandTile) subject).isSunk()) {
 			gameController.endGame("Fools Landing has sunk!"); // TODO: change to GameEndings enum! e.g. GameEndings.FOOLS_LANDING_SUNK
 		}	
 	}
