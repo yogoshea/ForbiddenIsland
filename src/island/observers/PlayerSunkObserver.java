@@ -2,6 +2,7 @@ package island.observers;
 
 import island.components.IslandBoard;
 import island.components.IslandTile;
+import island.components.Pawn;
 import island.game.GameController;
 import island.players.GamePlayers;
 import island.players.Player;
@@ -35,16 +36,12 @@ public class PlayerSunkObserver implements Observer {
 		if (updatedTile.isSunk()) {
 			
 			// Check if Player on IslandTile
-			for (IslandTile playerTile : islandBoard.getPawnLocations().values()) {
+			for (Pawn pawn : islandBoard.getPawns()) {
 				
-				if (playerTile.equals(updatedTile)) {
+				if (pawn.getLocation().equals(updatedTile)) {
 					
-					// Retrieve Player on IslandTile
-					Pawn playerPawn = islandBoard.getPawnOnTile(updatedTile);
-					Player playerOnTile = 
-							
 					// Check if Player can move to another IslandTile
-					if (! gameController.movePlayerToSafety(playerOnTile, updatedTile)) {
+					if (! gameController.movePlayerToSafety(pawn, updatedTile)) {
 						
 						gameController.endGame("Player has sunk :(");
 					}

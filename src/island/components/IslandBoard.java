@@ -26,7 +26,8 @@ public class IslandBoard implements Subject {
 	
 //	private FloodDeck floodDeck;
 //	private FloodDiscardPile floodDiscardPile;
-	private Map<Pawn,IslandTile> pawnLocations;
+//	private Map<Pawn,IslandTile> pawnLocations;
+	private List<Pawn> pawns = new ArrayList<Pawn>();
 
 	private List<Observer> observers = new ArrayList<Observer>();
 	
@@ -145,26 +146,30 @@ public class IslandBoard implements Subject {
 		return adjTiles;
 	}
 	
-	public void setPawnLocation(Pawn playerPawn, IslandTile islandTile) {
-		pawnLocations.put(playerPawn, islandTile);
+	public List<Pawn> getPawns() {
+		return this.pawns;
 	}
 	
-	public boolean isPawnOnTile(IslandTile islandtile) {
-		for (IslandTile tileToCheck : pawnLocations.values()) {
-			if (tileToCheck.equals(islandtile)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public Pawn getPawnOnTile(IslandTile islandTile) {
-		return 
-	}
-	
-	public  Map<Pawn,IslandTile> getPawnLocations() {
-		return this.pawnLocations;
-	}
+//	public void setPawnLocation(Pawn playerPawn, IslandTile islandTile) {
+//		pawnLocations.put(playerPawn, islandTile);
+//	}
+//	
+//	public boolean isPawnOnTile(IslandTile islandtile) {
+//		for (IslandTile tileToCheck : pawnLocations.values()) {
+//			if (tileToCheck.equals(islandtile)) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//	
+//	public Pawn getPawnOnTile(IslandTile islandTile) { // TODO: might throw null pointer exception
+//		return 
+//	}
+//	
+//	public  Map<Pawn,IslandTile> getPawnLocations() {
+//		return this.pawnLocations;
+//	}
 
 	/**
 	 * Gets instance of specific island tile placed on board

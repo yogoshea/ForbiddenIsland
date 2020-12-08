@@ -44,7 +44,7 @@ public class TreasureTilesObserver implements Observer {
 		if (updatedTile.isSunk()) {
 			
 			// Check if associated Treasure has already been captured
-			if (! players.getCapturedTreasures().contains(associatedTreasure)) {
+			if (! players.getCapturedTreasures().contains(associatedTreasure)) { // TODO: check for null Treasure or change to NO_TREASURE or try catch exception maybe?
 				
 				// Iterate of IslandTiles with Treasure on IslandBoard
 				for (IslandTile otherTreasureTile : islandBoard.getTreasureTiles()) {

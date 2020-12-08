@@ -53,54 +53,54 @@ public class GamePlayers implements Iterable<Player> {
 		return playersList.iterator();
 	}
 	
-	/**
-	 * Assigns in-game roles to each new player
-	 * @param String list containing names of new players
-	 */
-	public void assignPlayerRoles(List<String> playerNames) {
-
-		// create stack of possible roles players can have
-		Stack<String> possibleRoles = new Stack<String>();
-		possibleRoles.addAll(Arrays.asList("Diver", "Engineer", "Explorer", 
-				"Messenger", "Navigator", "Pilot"));
-		
-		// randomise stack order
-		Collections.shuffle(possibleRoles); 
-		
-		// iterate over number of players
-		for (String playerName : playerNames) {
-			
-			// TODO: check if player name already given
-			
-			// instantiate specific player subclasses 
-			switch (possibleRoles.pop()) {
-
-				case "Diver":
-					playersList.add(new Diver(playerName));
-					break;
-					
-				case "Engineer":
-					playersList.add(new Engineer(playerName));
-					break;
-				
-				case "Explorer":
-					playersList.add(new Explorer(playerName));
-					break;
-				
-				case "Messenger":
-					playersList.add(new Messenger(playerName));
-					break;
-					
-				case "Navigator":
-					playersList.add(new Navigator(playerName));
-					break;
-					
-				case "Pilot":
-					playersList.add(new Pilot(playerName));
-					break;
-			}
-		}
-	}
+//	/**
+//	 * Assigns in-game roles to each new player
+//	 * @param String list containing names of new players
+//	 */
+//	public void assignPlayerRoles(List<String> playerNames) {
+//
+//		// create stack of possible roles players can have
+//		Stack<String> possibleRoles = new Stack<String>();
+//		possibleRoles.addAll(Arrays.asList("Diver", "Engineer", "Explorer", 
+//				"Messenger", "Navigator", "Pilot"));
+//		
+//		// randomise stack order
+//		Collections.shuffle(possibleRoles); 
+//		
+//		// iterate over number of players
+//		for (String playerName : playerNames) {
+//			
+//			// TODO: check if player name already given
+//			
+//			// instantiate specific player subclasses 
+//			switch (possibleRoles.pop()) {
+//
+//				case "Diver":
+//					playersList.add(new Diver(playerName));
+//					break;
+//					
+//				case "Engineer":
+//					playersList.add(new Engineer(playerName));
+//					break;
+//				
+//				case "Explorer":
+//					playersList.add(new Explorer(playerName));
+//					break;
+//				
+//				case "Messenger":
+//					playersList.add(new Messenger(playerName));
+//					break;
+//					
+//				case "Navigator":
+//					playersList.add(new Navigator(playerName));
+//					break;
+//					
+//				case "Pilot":
+//					playersList.add(new Pilot(playerName));
+//					break;
+//			}
+//		}
+//	}
 	
 
 	// TODO: change this to go inside Player subclasses

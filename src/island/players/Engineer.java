@@ -11,7 +11,7 @@ public class Engineer extends Player {
 	 */
 	public Engineer(String name) {
 		super(name, startingTile);
-		System.out.println(name + " is the Engineer");
+//		System.out.println(name + " is the Engineer");
 //		startingTile = new IslandTile("Bronze Gate");
 	}
 	

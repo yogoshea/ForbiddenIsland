@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import island.components.IslandTile;
+import island.components.Pawn;
 import island.components.WaterMeter;
 import island.observers.GameOverObserver;
 import island.observers.Subject;
@@ -122,7 +123,7 @@ public class GameController {
 	 * @param currentIslandTile
 	 * @return whether Player was successfully moved to safety
 	 */
-	public boolean movePlayerToSafety(Player player, IslandTile currentIslandTile) {
+	public boolean movePlayerToSafety(Pawn playerPawn, IslandTile currentIslandTile) {
 		
 		return false;
 	}

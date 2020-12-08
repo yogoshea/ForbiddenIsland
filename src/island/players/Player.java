@@ -32,28 +32,50 @@ import island.observers.Subject;
 public abstract class Player { //TODO: Make class shorter!!!!?????
 
 	private String name;
-	private IslandTile currentTile;
 	private Pawn pawn; //TODO: start making use of pawn
 	private List<Card> cards; // check for null when using
-//	private List<Observer> observers = new ArrayList<Observer>();
 	
-	public Player(String name, IslandTile startingTile) {
+	protected Player(String name, IslandTile startingTile) {
 		this.name = name;
-		cards = new ArrayList<Card>(); // TODO: check for overflow, set max size five
-		currentTile = startingTile;
+		this.cards = new ArrayList<Card>();
+		this.pawn = new Pawn(this, startingTile);
 	}
 	
-//	@Override
-//	public void attach(Observer observer) {
-//		observers.add(observer);
-//	}
-//	
-//	@Override
-//	public void notifyAllObservers() {
-//		for (Observer observer : observers) {
-//			observer.update(this);
-//		}
-//	}
+	@Override
+	public String toString() { //TODO: add cards and current tile?
+		return this.name;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public Pawn getPawn() {
+		return this.pawn;
+	}
+	
+	public void addCard(Card card) {
+		cards.add(card); // TODO: check for TreasureCard instance
+	}
+	
+	public List<Card> getCards() {
+		return this.cards;
+	}
+	
+	// TODO: Remove below this
+	
+	public List<Card> findTreasureCards() { //TODO: Split players treasureDeckCard deck into treasureCard deck and other deck?
+		// TODO: why findTreasureCards, can this replace getTreasureCards above?
+		
+		List<Card> treasureCards = new ArrayList<Card>();
+	
+		for(Card c : treasureCards) { // TODO: pick out the TreasureCards
+			treasureCards.add(c);
+		}
+		
+		return treasureCards;
+	}
+
 	
 	public void drawFromTreasureDeck(int cardCount) {
 		//draw cardCount cards
@@ -152,58 +174,9 @@ public abstract class Player { //TODO: Make class shorter!!!!?????
 		
 	}
 	
-	public List<Player> getPlayersOnSameTile(){
-		
-		List<Player> playersOnSameTile = new ArrayList<Player>();
-		
-		for(Player p : GamePlayers.getInstance().getPlayersList()) {
-			if( getCurrentTile().equals(p.getCurrentTile()) && !this.equals(p) ) {
-				playersOnSameTile.add(p);
-			}
-		}
-		
-		return playersOnSameTile;
-	}
+
 	
 	
-	
-	@Override
-	public String toString() { //TODO: add cards and current tile?
-		return getName();
-	}
-	
-	// getters and setters
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public void setCurrentTile(IslandTile t) {
-		currentTile = t;
-	}
-	
-	public IslandTile getCurrentTile() {
-		return currentTile;
-	}
-	
-	public List<Card> getCards() {
-		return this.cards;
-	}
-	
-	public List<Card> findTreasureCards() { //TODO: Split players treasureDeckCard deck into treasureCard deck and other deck?
-		// TODO: why findTreasureCards, can this replace getTreasureCards above?
-		
-		List<Card> treasureCards = new ArrayList<Card>();
-	
-		for(Card c : treasureCards) { // TODO: pick out the TreasureCards
-			treasureCards.add(c);
-		}
-		
-		return treasureCards;
-	}
+
 	
 }
