@@ -30,6 +30,7 @@ public class GameController {
 	private SetupController setupController;
 	private ActionController actionController;
 	private DrawCardsController drawCardsController;
+	private PlaySpecialCardController playSpecialCardController;
 	//private SunkTileObserver sunkTileObserver; //Do we need to attach observer to controller? Not currently using it
 	
 	/**
@@ -41,6 +42,7 @@ public class GameController {
 		setupController = SetupController.getInstance(gameModel, gameView);
 		actionController = ActionController.getInstance(gameModel, gameView);
 		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
+		playSpecialCardController = PlaySpecialCardController.getInstance(gameModel, gameView);
 		//sunkTileObserver = SunkTileObserver.getInstance(gameModel);
 		//Will getInstance() be needed elsewhere?? if so is it good to pass gameModel in every time?
 	}
@@ -51,6 +53,7 @@ public class GameController {
 	public static GameController getInstance(GameModel gameModel, GameView gameView) {
 		if (gameController == null) {
 			gameController = new GameController(gameModel, gameView);
+			gameView.setController(gameController);
 		}
 		return gameController;
 	}
@@ -134,6 +137,11 @@ public class GameController {
 	public void endGame(String message) {
 		gameView.showEnding(message);	// gameView
 		System.exit(0);
+	}
+	
+	
+	public PlaySpecialCardController getPlaySpecialCardController() {
+		return playSpecialCardController;
 	}
 
 }

@@ -48,6 +48,7 @@ public class SetupController {
 	 * Setup the initial conditions of the game components
 	 */
 	public void setupGame() {
+		
 		List<String> playerNames = gameView.getPlayers();
 		startIslandSinking();
 		assignPlayerRoles(playerNames);

@@ -24,6 +24,7 @@ public class GameView {
 	
 	private static GameView gameView;
 	private Scanner userInput;
+	private GameController gameController;
 	
 	//TODO: make appropriate strings constant variables
 	
@@ -126,6 +127,13 @@ public class GameView {
 	 */
 	public void showWaterRise(int level) {
 		System.out.println("The island is flooding!! \n" + "NEW WATER LEVEL: " + Integer.toString(level));
+	}
+	
+	/**
+	 * Tells user that the player doesn't have a helicopter lift card
+	 */
+	public void showNoHeliCard(Player player) {
+		System.out.println(player.toString() + "does not have a Helicopter Lift card");
 	}
 	
 	
@@ -348,6 +356,40 @@ public class GameView {
 		return card;
 	}
 	
+	public Player pickHeliPlayer(List<Player> players) {
+		String prompt = "Which player requested a Helicopter Lift?";
+		return pickFromList(players, prompt);
+	}
+	
+	public IslandTile pickHeliDestination(List<IslandTile> availableTiles) {
+		String prompt = "Which tile do you wish to helicopter to?";
+		return pickFromList(availableTiles, prompt);
+	}
+	
+	public Player pickSandbagPlayer(List<Player> players) {
+		String prompt = "Which player wants to play a Sandbag card?";
+		return pickFromList(players, prompt);
+	} 
+	
+	public List<Player> pickHeliPlayers(List<Player> players, IslandTile destination) {
+		
+		String prompt;
+		List<Player> heliPlayers = new ArrayList<Player>();
+		
+		for(Player player : players) {
+			
+			prompt = "Does " + player.toString() + " wish to move to " + destination.toString() + "? \n";
+			prompt += "[Y]/[N]";
+			System.out.println(prompt);
+			
+			if(userInput.nextLine().equals("Y")) {
+				heliPlayers.add(player);
+			}
+		}
+		
+		return heliPlayers;
+	}
+	
 	
 	
 	public <E> E pickFromList(List<E> items, String prompt){
@@ -384,7 +426,7 @@ public class GameView {
 		
 		while(input.equals("Heli") || input.equals("Sandbag")) {
 			if(input.equals("Heli")) {
-				heliRequest();
+				gameController.getPlaySpecialCardController().heliRequest();
 			}
 			if(input.equals("Sandbag")) {
 				sandbagRequest();
@@ -397,23 +439,29 @@ public class GameView {
 		return input;
 	}
 	
-	public void heliRequest() {
-		String prompt = "Which player wishes to play a heli card?";
-		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt);
-		p.playHeliCard();
-	}
-	
-	public void sandbagRequest() {
-		String prompt = "Which player wishes to play a sandbag card?";
-		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt); //bad practice to instantiate here?
-		p.playSandBagCard();
-	}
+//	public void heliRequest() {
+//		String prompt = "Which player wishes to play a heli card?";
+//		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt);
+//		p.playHeliCard();
+//	}
+//	
+//	public void sandbagRequest() {
+//		String prompt = "Which player wishes to play a sandbag card?";
+//		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt); //bad practice to instantiate here?
+//		p.playSandBagCard();
+//	}
 	
 	//End of GameScanner
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	
+	/**
+	 * Sets the views controller
+	 * @param GameController
+	 */
+	public void setController(GameController gameController) {
+		this.gameController = gameController;
+	}
 	
 	
 	

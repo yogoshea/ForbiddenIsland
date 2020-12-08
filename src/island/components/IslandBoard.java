@@ -196,6 +196,38 @@ public class IslandBoard implements Subject {
 	}
 	
 	/**
+	 * Forms List of FLOODED IslandTile instances
+	 * @return instances of FLOODED IslandTiles on IslandBoard
+	 */
+	public List<IslandTile> getFloodedTiles(){
+		
+		List<IslandTile> floodedTiles = new ArrayList<IslandTile>();
+		
+		for(IslandTile tile: getAllTiles()) {
+			if(tile.isFlooded()) {
+				floodedTiles.add(tile);
+			}
+		}
+		return floodedTiles;
+	}
+	
+	/**
+	 * Forms List of SAFE and FLOODED IslandTile instances
+	 * @return instances of SAFE and FLOODED IslandTiles on IslandBoard
+	 */
+	public List<IslandTile> getNonSunkTiles(){
+		
+		List<IslandTile> nonSunkTiles = new ArrayList<IslandTile>();
+		
+		for(IslandTile tile: getAllTiles()) {
+			if(!tile.isSunk()) {
+				nonSunkTiles.add(tile);
+			}
+		}
+		return nonSunkTiles;
+	}
+	
+	/**
 	 * Identifies IslandTiles where Treasures are located
 	 * @return instances of IslandTile with associated Treasures
 	 */
