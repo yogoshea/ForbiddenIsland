@@ -8,7 +8,6 @@ public class Explorer extends Player {
 
 	public Explorer (String name) {
 		super(name, startingTile);
-		System.out.println(name + " is the Explorer");
 	}
 
 	@Override

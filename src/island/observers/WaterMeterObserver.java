@@ -12,6 +12,11 @@ public class WaterMeterObserver implements Observer {
 	private static WaterMeterObserver waterMeterObserver;
 	private GameController gameController;
 	
+	/**
+	 * Private constructor of observer for WaterMeter
+	 * @param WaterMeter subject to attach observer to
+	 * @param reference to GameController
+	 */
 	private WaterMeterObserver(Subject subject, GameController gc) {
 		subject.attach(this);
 		this.gameController = gc;
@@ -33,7 +38,7 @@ public class WaterMeterObserver implements Observer {
 	@Override
 	public void update(Subject subject) {
 		if (((WaterMeter) subject).getWaterLevel() == 5)
-			gameController.endGame("Water Level has reached Level 5"); // TODO: change to GameEndings enum
+			gameController.endGame(GameEnding.WATER_METER); // TODO: change to GameEndings enum
 	}
 
 }

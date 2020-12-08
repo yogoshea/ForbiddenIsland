@@ -1,7 +1,6 @@
 package island.observers;
 
 import island.components.IslandTile;
-import island.components.IslandTile.FloodStatus;
 import island.game.GameController;
 
 /**
@@ -41,11 +40,3 @@ public class FoolsLandingObserver implements Observer {
 		}	
 	}
 }
-	
-//	} else if (checkTreasures) {
-//	
-//	
-//} else if (islandBoard.getPawnLocations().containsValue(updatedIslandTile)) {
-////	ActionController.move(player)...
-//	
-//}

@@ -27,7 +27,7 @@ public class GamePlayers implements Iterable<Player> {
 	private int playerCount;
 	
 	/**
-	 * Constructor to instantiate list attributes
+	 * Constructor to instantiate GamePlayers class
 	 */
 	private GamePlayers() {
 		playersList = new ArrayList<Player>();
@@ -46,97 +46,50 @@ public class GamePlayers implements Iterable<Player> {
 	}
 	
 	/**
-	 * Allow iteration over game players
+	 * Allows iteration over game players
 	 */
 	@Override
 	public Iterator<Player> iterator() {
 		return playersList.iterator();
 	}
 	
-//	/**
-//	 * Assigns in-game roles to each new player
-//	 * @param String list containing names of new players
-//	 */
-//	public void assignPlayerRoles(List<String> playerNames) {
-//
-//		// create stack of possible roles players can have
-//		Stack<String> possibleRoles = new Stack<String>();
-//		possibleRoles.addAll(Arrays.asList("Diver", "Engineer", "Explorer", 
-//				"Messenger", "Navigator", "Pilot"));
-//		
-//		// randomise stack order
-//		Collections.shuffle(possibleRoles); 
-//		
-//		// iterate over number of players
-//		for (String playerName : playerNames) {
-//			
-//			// TODO: check if player name already given
-//			
-//			// instantiate specific player subclasses 
-//			switch (possibleRoles.pop()) {
-//
-//				case "Diver":
-//					playersList.add(new Diver(playerName));
-//					break;
-//					
-//				case "Engineer":
-//					playersList.add(new Engineer(playerName));
-//					break;
-//				
-//				case "Explorer":
-//					playersList.add(new Explorer(playerName));
-//					break;
-//				
-//				case "Messenger":
-//					playersList.add(new Messenger(playerName));
-//					break;
-//					
-//				case "Navigator":
-//					playersList.add(new Navigator(playerName));
-//					break;
-//					
-//				case "Pilot":
-//					playersList.add(new Pilot(playerName));
-//					break;
-//			}
-//		}
-//	}
-	
-
-	// TODO: change this to go inside Player subclasses
+	/**
+	 * Getter method for Treasure captured by Players
+	 * @return List of Treasures already captured by gamem players
+	 */
 	public List<Treasure> getCapturedTreasures() {
 		return capturedTreasures;
 	}
 	
-	/*
+	/**
 	 * Method to check if all treasures have been captured
 	 * @return true if they all have, false otherwise
 	 */
 	public boolean allTreasuresCaptured() {
 		
-		for(Treasure t : Arrays.asList(Treasure.values())) {
-			if( !capturedTreasures.contains(t) ) {
+		// Iterate of all Treasure values
+		for (Treasure t : Arrays.asList(Treasure.values())) {
+			if (! capturedTreasures.contains(t)) {
 				return false;
 			}
 		}
 		return true;
 	}
 	
-
-//	public void setInitialPositions() {
-//		for(Player p : playersList) {
-//			p.setCurrentTile(IslandTile.FOOLS_LANDING);
-//		}
-//	}
-	
-	public void addTreasure(Treasure t) {
-		capturedTreasures.add(t);
+	/**
+	 * Add treasure to List of captured treasures
+	 * @param Treasure to add to GamePlayer's collection
+	 */
+	public void addTreasure(Treasure treasure) {
+		capturedTreasures.add(treasure);
 	}
 	
+	/**
+	 * Getter method for the List of Players playing the game
+	 * @return List of Players of game
+	 */
 	public List<Player> getPlayersList() {
 		return playersList;
 	}
-
-
 
 }

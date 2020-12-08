@@ -8,7 +8,6 @@ public class Messenger extends Player {
 
 	public Messenger(String name) {
 		super(name, startingTile);
-		System.out.println(name + " is the Messenger");
 	}
 
 	@Override
