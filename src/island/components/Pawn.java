@@ -10,22 +10,23 @@ import island.players.Player;
 public class Pawn {
 	
 	private Player player;
-	private IslandTile currentLocation;
+	private IslandTile currentTile;
 	
-	public Pawn(Player newPlayer, IslandTile startingLocation) {
+	public Pawn(Player newPlayer, IslandTile startingTile) {
 		this.player = newPlayer;
+		this.currentTile = startingTile;
 	}
 	
 	public Player getPlayer() {
 		return this.player;
 	}
 	
-	public IslandTile getLocation() {
-		return this.currentLocation;
+	public IslandTile getTile() {
+		return this.currentTile;
 	}
 	
-	public void setLocation(IslandTile newIslandTile) {
-		this.currentLocation = newIslandTile;
+	public void setTile(IslandTile newIslandTile) {
+		this.currentTile = newIslandTile;
 	}
 
 }

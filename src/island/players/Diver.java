@@ -31,7 +31,7 @@ public class Diver extends Player {
 	@Override
 	public List<IslandTile> getSwimmableTiles(IslandBoard islandBoard) {
 		
-		IslandTile currentTile = this.getPawn().getLocation();
+		IslandTile currentTile = this.getPawn().getTile();
 		List<IslandTile> nearestTiles = islandBoard.getAdjacentTiles(currentTile);
 		double shortestDistance = 100;
 		double checkDistance;

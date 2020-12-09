@@ -2,25 +2,12 @@ package island.players;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import island.cards.Card;
-import island.cards.FloodCard;
-import island.cards.HelicopterLiftCard;
-import island.cards.SandbagCard;
 import island.cards.TreasureCard;
-import island.cards.WaterRiseCard;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Pawn;
-import island.components.Treasure;
-import island.components.WaterMeter;
-import island.decks.FloodDeck;
-import island.decks.FloodDiscardPile;
-import island.decks.TreasureDeck;
-import island.decks.TreasureDiscardPile;
-import island.observers.Observer;
-import island.observers.Subject;
 
 /**
  * Player is an abstract class to describe the common behaviour of
@@ -34,11 +21,13 @@ public abstract class Player {
 	private String name;
 	private Pawn pawn; //TODO: start making use of pawn
 	private List<Card> cards; // check for null when using
+	private int shoreUpQuantity; //TODO: maybe change to final 
 	
 	protected Player(String name, IslandTile startingTile) {
 		this.name = name;
 		this.cards = new ArrayList<Card>();
 		this.pawn = new Pawn(this, startingTile);
+		this.shoreUpQuantity = 1;
 	}
 	
 	@Override
@@ -62,22 +51,37 @@ public abstract class Player {
 		return this.cards;
 	}
 	
-	// TODO: Remove below this
+	public int getShoreUpQuantity() {
+		return this.shoreUpQuantity;
+	}
 	
-	public List<Card> findTreasureCards() { //TODO: Split players treasureDeckCard deck into treasureCard deck and other deck?
-		// TODO: why findTreasureCards, can this replace getTreasureCards above?
+	protected void setShoreUpQuantity(int quantity) {
+		this.shoreUpQuantity = quantity;
+	}
+	
+	public List<Card> getTreasureCards() {
 		
 		List<Card> treasureCards = new ArrayList<Card>();
 	
-		for(Card c : treasureCards) { // TODO: pick out the TreasureCards
-			treasureCards.add(c);
+		for(Card c : this.cards) {
+			if (c instanceof TreasureCard)
+				treasureCards.add(c);
 		}
-		
 		return treasureCards;
 	}
 
 	public List<IslandTile> getSwimmableTiles(IslandBoard islandBoard) {
-		return islandBoard.getAdjacentTiles(this.pawn.getLocation());
+		return islandBoard.getAdjacentTiles(this.pawn.getTile());
+	}
+
+	public List<Player> getGiveCardsPlayers(GamePlayers gamePlayers) {
+		List<Player> giveCardPlayers = new ArrayList<Player>();
+		for(Player p : gamePlayers) {
+			if (this.pawn.getTile().equals(p.getPawn().getTile())) {
+				giveCardPlayers.add(p);
+			}
+		}
+		return giveCardPlayers;
 	}
 
 	

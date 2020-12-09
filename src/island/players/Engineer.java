@@ -8,13 +8,14 @@ import island.components.IslandTile;
  */
 public class Engineer extends Player {
 
-	private static IslandTile startingTile = IslandTile.BRONZE_GATE;
+	private final static IslandTile startingTile = IslandTile.BRONZE_GATE;
 
 	/**
 	 * Constructor for Engineer class
 	 */
 	public Engineer(String name) {
 		super(name, startingTile);
+		this.setShoreUpQuantity(2);
 	}
 	
 	@Override

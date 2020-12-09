@@ -38,7 +38,7 @@ public class GameController {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
 		setupController = SetupController.getInstance(gameModel, gameView);
-		actionController = ActionController.getInstance(gameModel, gameView);
+		actionController = ActionController.getInstance(gameModel, gameView, this);
 		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
 		playSpecialCardController = PlaySpecialCardController.getInstance(gameModel, gameView, this);
 	}
@@ -128,7 +128,7 @@ public class GameController {
 		if (swimmableTiles.isEmpty()) {
 			return false;
 		} else {
-			pawn.setLocation(gameView.pickSwimmableTile(swimmableTiles));
+			pawn.setTile(gameView.pickSwimmableTile(swimmableTiles));
 			return true;
 		}
 	}
@@ -146,4 +146,11 @@ public class GameController {
 		return playSpecialCardController;
 	}
 
+	public DrawCardsController getDrawCardsController() {
+		return drawCardsController;
+	}
+	
+	public ActionController getActionController() {
+		return actionController;
+	}
 }

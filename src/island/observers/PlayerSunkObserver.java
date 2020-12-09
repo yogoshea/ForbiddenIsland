@@ -37,7 +37,7 @@ public class PlayerSunkObserver implements Observer {
 		for (Player player : players) {
 			
 			pawn = player.getPawn();
-			if (pawn.getLocation().equals(updatedTile)) {
+			if (pawn.getTile().equals(updatedTile)) {
 				
 				// Check if Player can move to another IslandTile
 				if (! gameController.movePlayerToSafety(pawn)) {

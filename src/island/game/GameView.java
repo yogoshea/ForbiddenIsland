@@ -151,9 +151,12 @@ public class GameView {
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
 	public void showTileFlooded(IslandTile tile) {
-		System.out.println(tile.toString() + "has been flooded!!!");
+		System.out.println(tile.toString() + "has been flooded!!");
 	}
 	
+	public void showTileSunk(IslandTile tile) {
+		System.out.println(tile.toString() + "has SUNK!!!");
+	}
 	
 	
 	
@@ -166,6 +169,7 @@ public class GameView {
 		// iterate over number of players
 		for (int i = 1; i <= playerCount; i++) {
 			playerNames.add(promptUser("Please enter the name of Player " + i)); // TODO: check for valid name input
+			// TODO: check for length less than tileCharWidth
 		}
 		return playerNames;
 	}
@@ -188,7 +192,7 @@ public class GameView {
 		// similar to observer to model changes, no
 		//TODO: add time delays between prints? Maybe, yeah. Or just user press return/input any key to continue
 		// TODO: better way to update screen?
-		System.out.println("\n".repeat(20));
+//		System.out.println("\n".repeat(20));
 		
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
@@ -207,12 +211,12 @@ public class GameView {
 		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
 				"GAME DIALOG", "NOTE: To use Heli Lift or Sandbag at any time, enter [H] or [S]")); // TODO: This make sense ??
 		System.out.println("=".repeat(displayCharWidth));
-//		displayGameDialog();
+//		displayGameDialog(); // TODO: gameView.addToUpcomingDialog
 		
 	}
 	
 	// TODO: maybe move to something like GameGraphics, to store all lengthy terminal image type outputs ??
-	private void displayIslandBoard(GameModel gameModel) { //TOD: print associated treasure
+	private void displayIslandBoard(GameModel gameModel) { //TODO: print associated treasure
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
@@ -220,9 +224,8 @@ public class GameView {
 		
 		// retrieve players' current positions from model TODO: CHANGE this to getPlayerLocations method
 		for (Player p : gameModel.getGamePlayers()) {
-			pawnLocations.put(p.getPawn().getLocation(), p);
+			pawnLocations.put(p.getPawn().getTile(), p);
 		}
-		
 		
 		// retrieve Island board state from model
 		IslandTile[][] boardStructure = gameModel.getIslandBoard().getBoardStructure();
@@ -371,8 +374,9 @@ public class GameView {
 		return pickFromList(cards, prompt);
 	}
 	
-	public Card pickCardToDiscard(List<Card> cards) {
-		String prompt = "You have too many cards in your hand, which do you wish to discard?";
+	public Card pickCardToDiscard(Player player) {
+		List<Card> cards = player.getCards();
+		String prompt = player.toString() + ", you have too many cards in your hand, which do you wish to discard?";
 		Card card = pickFromList(cards, prompt);
 		System.out.println("You have discarded a" + card.toString() + "card");
 		return card;

@@ -71,7 +71,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 				//If there are players who wish to move then move them
 				if(heliPlayers.size() > 0) {
 					for(Player p: heliPlayers) {
-						p.getPawn().setLocation(destination);
+						p.getPawn().setTile(destination);
 					}
 					player.getCards().remove(card);
 				}
@@ -122,7 +122,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 		//TODO: give option to not win game??
 		
 		for(Player p : gameModel.getGamePlayers().getPlayersList()) {
-			if(!p.getPawn().getLocation().equals(IslandTile.FOOLS_LANDING)) {
+			if(!p.getPawn().getTile().equals(IslandTile.FOOLS_LANDING)) {
 				return;
 			}
 		}

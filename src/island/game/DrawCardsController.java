@@ -6,14 +6,13 @@ import island.cards.Card;
 import island.cards.FloodCard;
 import island.cards.WaterRiseCard;
 import island.components.IslandBoard;
+import island.components.IslandTile;
 import island.components.WaterMeter;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
 import island.decks.TreasureDiscardPile;
 import island.players.Player;
-
-//TODO: Split into DrawTreasure and DrawFlood???
 
 public class DrawCardsController {
 	
@@ -46,7 +45,7 @@ public class DrawCardsController {
 	/**
 	 * Method to draw 2 treasure cards during a players turn
 	 */
-	public void drawTreasureCards(Player player) { //TODO: use this function at the start of game as well?
+	public void drawTreasureCards(Player player) {
 
 		//Could leave these draw methods in Player class and notify an observer when they are executed
 		//Then if player has too many cards, the observer can prompt to choose which one to discard
@@ -79,18 +78,26 @@ public class DrawCardsController {
 	public void drawFloodCards() {
 		//TODO: use this function for initial flooding as well?
 		FloodCard card;
+		IslandTile boardTile;
 		int cardCount = gameModel.getWaterMeter().getWaterLevel();
 		
 		for(int i = 0; i < cardCount; i++) {
 			
 			//draw a card
 			card = gameModel.getFloodDeck().drawCard();
+			boardTile = gameModel.getIslandBoard().getTile(card.getCorrespondingIslandTile());
 			
 			//Perform action on appropriate tile
-			gameModel.getIslandBoard().floodOrSinkTile( card.getCorrespondingIslandTile() ); //TODO: rename to floodOrSinkTile()
+			if (boardTile.isSafe()) {
+				gameView.showTileFlooded(boardTile);
+				boardTile.setToFlooded();
+			} else if (boardTile.isFlooded()) {
+				gameView.showTileSunk(boardTile);
+				boardTile.setToSunk();
+			}
 			
 			//Add card to discard pile
-			FloodDiscardPile.getInstance().addCard(card);
+			gameModel.getFloodDiscardPile().addCard(card);
 			
 		}
 		
@@ -118,7 +125,7 @@ public class DrawCardsController {
 		Card card;
 		
 		//choose card
-		card = gameView.pickCardToDiscard(player.getCards());
+		card = gameView.pickCardToDiscard(player);
 		
 		//remove chosen card from hand and discard it
 		player.getCards().remove(card);

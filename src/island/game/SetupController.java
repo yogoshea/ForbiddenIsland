@@ -80,7 +80,7 @@ public class SetupController {
 			// Flood corresponding IslandTile on board
 			islandBoard.getTile(tile).setToFlooded();
 			
-			gameView.showTileFlooded(tile);
+//			gameView.showTileFlooded(tile);
 
 			// Add card to flood discard pile
 			floodDiscardPile.addCard(newFloodCard);

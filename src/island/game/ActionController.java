@@ -1,17 +1,12 @@
 package island.game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 import island.cards.Card;
 import island.cards.TreasureCard;
-import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Treasure;
-import island.decks.TreasureDiscardPile;
-import island.players.GamePlayers;
 import island.players.Player;
 
 /**
@@ -27,8 +22,9 @@ public class ActionController { //Name PlayerActionController for clarity?
 	
 	private GameView gameView;
 	private GameModel gameModel;
+	private GameController gameController;
 	
-	public enum Action {
+	public enum Action { // TODO:  move strings to GameView
 		MOVE("Move"),
 		SHORE_UP("Shore Up"),
 		GIVE_TREASURE_CARD("Give Treasure Card"),
@@ -47,28 +43,28 @@ public class ActionController { //Name PlayerActionController for clarity?
 	/**
 	 * Constructor to retrieve view and model instances
 	 */
-	private ActionController(GameModel gameModel, GameView gameView) {
+	private ActionController(GameModel gameModel, GameView gameView, GameController gameController) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
+		this.gameController = gameController;
 	}
 	
 	/**
 	 * @return single instance of action controller
 	 */
-	public static ActionController getInstance(GameModel gameModel, GameView gameView) {
+	public static ActionController getInstance(GameModel gameModel, GameView gameView, GameController gameController) {
 		if (actionController == null) {
-			actionController = new ActionController(gameModel, gameView);
+			actionController = new ActionController(gameModel, gameView, gameController);
 		}
 		return actionController;
 	}
 	
 	public void takeActions(Player p) {
 		
-//		gameView.showPlayerTurn(p);
+//		gameView.showPlayerTurn(p); // TODO: make sure to print this
 		Action actionChoice;
 		boolean actionSuccessfullyTaken = false;
 		int remainingTurns = 3;
-		//System.out.println(p.toStringDetailed());
 		
 		do {
 			
@@ -76,36 +72,30 @@ public class ActionController { //Name PlayerActionController for clarity?
 			gameView.showPlayerTurn(p);
 			actionChoice = gameView.getPlayerActionChoice(remainingTurns);
 			
-			if(actionChoice.equals(Action.NONE)) {
-				
+			switch(actionChoice) {
+			
+			case MOVE:
+				actionSuccessfullyTaken = move(p); // TODO: check for validity in Player class, throw Exception
+				break;
+			
+			case SHORE_UP:
+				actionSuccessfullyTaken = shoreUpAction(p);
 				break;
 				
-			} else {
+			case GIVE_TREASURE_CARD:
+				actionSuccessfullyTaken = giveTreasureCard(p);
+				break;
 				
-				switch(actionChoice) {
-				
-				case MOVE:
-					actionSuccessfullyTaken = move(p); // TODO: check for validity in Player class, throw Exception
-					break;
-				
-				case SHORE_UP:
-					actionSuccessfullyTaken = shoreUpAction(p);
-					break;
-					
-				case GIVE_TREASURE_CARD:
-					actionSuccessfullyTaken = giveTreasureCard(p);
-					break;
-					
-				case CAPTURE_TREASURE:
-					actionSuccessfullyTaken = captureTreasure(p);
-					break;
-					
-				case NONE:
-					
-				}
+			case CAPTURE_TREASURE:
+				actionSuccessfullyTaken = captureTreasure(p);
+				break;
 
-				remainingTurns -= actionSuccessfullyTaken ? 1 : 0;
+			case NONE:
+				return;
+					
 			}
+			
+			remainingTurns -= actionSuccessfullyTaken ? 1 : 0;
 			
 		} while (remainingTurns > 0);
 		
@@ -116,14 +106,12 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * @returns true if successful move made
 	 */
 	private boolean move(Player p) {
-		//TODO: print island board? - or give option to do that at any time??
-		//Could just move all of this into Gameview?
 
-		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getCurrentTile());
+		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getPawn().getTile());
 		
-		if(adjTiles.size() > 0) {
+		if(! adjTiles.isEmpty()) {
 			
-			p.setCurrentTile( gameView.pickTileDestination(adjTiles) ); //TODO: check correct user input
+			p.getPawn().setTile(gameView.pickTileDestination(adjTiles)); // TODO: check for errors with simple function in GameView
 			return true;
 			
 		} else {
@@ -138,26 +126,34 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 */
 	private boolean shoreUpAction(Player p) {
 
-		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getCurrentTile());
-		adjTiles.add(p.getCurrentTile()); //can shore-up current tile
+		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getPawn().getTile());
+		adjTiles.add(p.getPawn().getTile()); //can shore-up current tile
 		List<IslandTile> holder = new ArrayList<>(adjTiles);
+		IslandTile tileChoice;
 		
+		//remove tiles that aren't flooded
 		for(IslandTile t : holder) {
-			//remove tiles that aren't flooded
 			if(!t.isFlooded()) {
 				adjTiles.remove(t);
 			}
 		}
 		
-		if(adjTiles.size() > 0) { //Check if list empty in view??
-			IslandTile tileChoice = gameView.pickShoreUpTile(adjTiles);
-			shoreUpTile(tileChoice); //TODO: Implement
-			return true;
+		if(! adjTiles.isEmpty()) {
 			
-		} else {
-			gameView.showNoShoreUpTiles();
-			return false;
+			tileChoice = gameView.pickShoreUpTile(adjTiles);
+			tileChoice.setToSafe();
+			adjTiles.remove(tileChoice);
+		
+			if (! adjTiles.isEmpty() && p.getShoreUpQuantity() > 1) {
+
+				tileChoice = gameView.pickShoreUpTile(adjTiles);
+				tileChoice.setToSafe();
+				
+			}
+			return true;
 		}
+		gameView.showNoShoreUpTiles();
+		return false;
 		//Is it better to show user what tiles they can perform action on
 		//OR let them choose a tile based on map and then we tell them if its a valid choice?
 	}
@@ -169,23 +165,26 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 */
 	private boolean giveTreasureCard(Player p) {
 		
+		DrawCardsController drawCardsController = gameController.getDrawCardsController();
 		List<Player> playersOnSameTile = new ArrayList<Player>();
 		List<Card> treasureCards = new ArrayList<Card>();
 		Player playerToRecieve;
 		Card card;
 		
 		//find players on same tile
-		playersOnSameTile = p.getPlayersOnSameTile();
+		playersOnSameTile = p.getGiveCardsPlayers(gameModel.getGamePlayers());
 		
-		if(playersOnSameTile.size() <= 0) {
+		if(playersOnSameTile.isEmpty()) {
 			gameView.showNoPlayersOnSameTile();
 			return false;
 		}
 		
 		//Find treasure cards in hand
-		treasureCards = p.findTreasureCards();
+		treasureCards = p.getTreasureCards();
+		System.out.println(treasureCards);
 		
-		if(treasureCards.size() <= 0) {
+		if(treasureCards.isEmpty()) {
+//			gameView.updateView(gameModel);
 			gameView.showNoTreasureCards();
 			return false;
 		}
@@ -197,7 +196,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		card = gameView.pickCardToGive(treasureCards);
 		
 		//give card
-		playerToRecieve.receiveTreasureDeckCard(card);
+		drawCardsController.addCardToHand(playerToRecieve, card);
 		p.getCards().remove(card);
 		return true;
 		
@@ -208,10 +207,10 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * method to capture a treasure from current tile
 	 * @return whether or not treasure successfully captured
 	 */
-	private boolean captureTreasure(Player p) { //Overcomplicated - improve?
+	private boolean captureTreasure(Player p) { //TODO: Overcomplicated - improve?
 		
 		final int numCardsRequired = 4;
-		Treasure treasure = p.getPawn().getLocation().getAssociatedTreasure();
+		Treasure treasure = p.getPawn().getTile().getAssociatedTreasure();
 		
 		//If true - Collect all cards which can be used to capture treasure
 		if(treasure != null) {
@@ -225,9 +224,9 @@ public class ActionController { //Name PlayerActionController for clarity?
 			int cardsFound = 0;
 			
 			//Take out all relevant treasure cards
-			for(Card c : p.findTreasureCards()) {
+			for(Card c : p.getTreasureCards()) {
 				//TODO: Are subclasses making these treasure deck cards hard to deal with??
-				if(((TreasureCard) c).getAssociatedTreasure().equals( p.getPawn().getLocation().getAssociatedTreasure())) {
+				if(((TreasureCard) c).getAssociatedTreasure().equals( p.getPawn().getTile().getAssociatedTreasure())) {
 					tradeCards.add(c);
 					p.getCards().remove(c);
 					cardsFound++;
@@ -241,14 +240,14 @@ public class ActionController { //Name PlayerActionController for clarity?
 						tradeCards.remove(i);
 					}
 					//capture
-					gameModel.getGamePlayers().addTreasure(p.getCurrentTile().captureAssociatedTreasure());
+					gameModel.getGamePlayers().addTreasure(p.getPawn().getTile().captureAssociatedTreasure());
 					//TODO: alert observer that treasure has been captured/print via gameView "You captured..."
 					return true;
 				}
 			}
 			
 			//if couldn't capture treasure
-			gameView.showNotEnoughCards(p.getCurrentTile().getAssociatedTreasure());
+			gameView.showNotEnoughCards(p.getPawn().getTile().getAssociatedTreasure());
 			//Return cards to player deck
 			for(int i = 0; i < tradeCards.size(); i++) {
 				gameModel.getTreasureDeck().addCardToDeck(tradeCards.get(i));
@@ -257,13 +256,8 @@ public class ActionController { //Name PlayerActionController for clarity?
 			
 		}
 		
-		gameView.showNoTreasure(p.getCurrentTile());
+		gameView.showNoTreasure(p.getPawn().getTile());
 		return false;
-	}
-	
-	
-	public boolean shoreUpTile(IslandTile tileChoice) {
-		
 	}
 
 }
