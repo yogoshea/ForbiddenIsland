@@ -1,11 +1,8 @@
 package island.observers;
 
-import java.util.List;
-
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Treasure;
-import island.components.IslandTile.FloodStatus;
 import island.game.GameController;
 import island.players.GamePlayers;
 
@@ -16,6 +13,12 @@ public class TreasureTilesObserver implements Observer {
 	private IslandBoard islandBoard;
 	private GamePlayers players;
 	
+	/**
+	 * Constructor for TreasureTilesObserver
+	 * @param Reference to GameController
+	 * @param Reference to IslandBoard
+	 * @param Reference to GamePlayers
+	 */
 	private TreasureTilesObserver(GameController gc, IslandBoard islandBoard, GamePlayers players) {
 		this.gameController = gc;
 		this.islandBoard = islandBoard;
@@ -23,7 +26,10 @@ public class TreasureTilesObserver implements Observer {
 	}
 	
 	/**
-	 * @param IslandBoard, GameController
+	 * Singleton instance getter method
+	 * @param Reference to GameController
+	 * @param Reference to IslandBoard
+	 * @param Reference to GamePlayers
 	 * @return single instance of IslandBoardObserver class 
 	 */
 	public static TreasureTilesObserver getInstance(GameController gc, IslandBoard islandBoard, GamePlayers players) {
@@ -34,6 +40,9 @@ public class TreasureTilesObserver implements Observer {
 	}
 	
 	//TODO: simplify/make more readable
+	/**
+	 * Update method called when state of IslandTile changes to sunk
+	 */
 	@Override
 	public void update(Subject subject) {
 		
@@ -41,6 +50,7 @@ public class TreasureTilesObserver implements Observer {
 		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile
 		Treasure associatedTreasure = updatedTile.getAssociatedTreasure(); // TODO: check for null Treasure or change to NO_TREASURE or try catch exception maybe?
 		
+		// Check if IslandTile has an associated Treasure
 		if(associatedTreasure != null) {
 			
 			// Check if associated Treasure has already been captured
@@ -56,7 +66,7 @@ public class TreasureTilesObserver implements Observer {
 						if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
 							
 							// Invoke GameController method to end the game
-							gameController.endGame(); // TODO: Enum
+							gameController.endGame(); // TODO: end game Enum
 						}
 					}
 				}

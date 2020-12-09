@@ -8,7 +8,6 @@ import island.cards.HelicopterLiftCard;
 import island.cards.SandbagCard;
 import island.components.IslandTile;
 import island.components.Treasure;
-import island.players.GamePlayers;
 import island.players.Player;
 
 /**

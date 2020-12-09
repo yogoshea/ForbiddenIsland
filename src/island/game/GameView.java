@@ -8,11 +8,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 import island.cards.Card;
-import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.game.ActionController.Action;
-import island.players.GamePlayers;
 import island.players.Player;
 
 /**
@@ -22,7 +20,9 @@ import island.players.Player;
  */
 public class GameView {
 	
+	// Singleton instance
 	private static GameView gameView;
+
 	private Scanner userInput;
 	private GameController gameController;
 	

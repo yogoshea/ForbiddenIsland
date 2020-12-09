@@ -3,8 +3,6 @@ package island.decks;
 import java.util.Collections;
 import java.util.Stack;
 
-import island.cards.Card;
-
 /**
  * Abstract class to be implemented by decks used in game;
  * TreasureDeck, FloodDeck

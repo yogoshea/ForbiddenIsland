@@ -13,9 +13,9 @@ public class WaterMeterObserver implements Observer {
 	private GameController gameController;
 	
 	/**
-	 * Private constructor of observer for WaterMeter
+	 * Constructor of observer for WaterMeter
 	 * @param WaterMeter subject to attach observer to
-	 * @param reference to GameController
+	 * @param Reference to GameController
 	 */
 	private WaterMeterObserver(Subject subject, GameController gc) {
 		subject.attach(this);
@@ -23,7 +23,8 @@ public class WaterMeterObserver implements Observer {
 	}
 	
 	/**
-	 * @return single instance of water meter observer
+	 * Singleton instance getter method
+	 * @return single instance of WaterMeterObserver
 	 */
 	public static WaterMeterObserver getInstance(Subject subject, GameController gc) {
 		if (waterMeterObserver == null) {

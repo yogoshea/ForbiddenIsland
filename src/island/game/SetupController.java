@@ -3,22 +3,18 @@ package island.game;
 import island.cards.*;
 import island.components.IslandBoard;
 import island.components.IslandTile;
-import island.components.WaterMeter;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
-import island.observers.WaterMeterObserver;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Stack;
 
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.Explorer;
-import island.players.GamePlayers;
 import island.players.Messenger;
 import island.players.Navigator;
 import island.players.Pilot;

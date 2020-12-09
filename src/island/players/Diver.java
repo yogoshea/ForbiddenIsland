@@ -1,9 +1,6 @@
 package island.players;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import island.components.IslandBoard;
 import island.components.IslandTile;

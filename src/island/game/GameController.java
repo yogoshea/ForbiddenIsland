@@ -1,11 +1,9 @@
 package island.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import island.components.IslandTile;
 import island.components.Pawn;
-import island.components.WaterMeter;
 import island.observers.PlayerSunkObserver;
 import island.observers.Subject;
 import island.observers.FoolsLandingObserver;
@@ -14,16 +12,17 @@ import island.observers.WaterMeterObserver;
 import island.players.Player;
 
 /**
- * Controls the flow of the gameplay and obtains player choices
+ * Controls the flow of the game play and obtains player choices
  * through GameView
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
 public class GameController {
 	
-	// Instantiate singleton
+	// Singleton instance
 	private static GameController gameController;
-	
+	 
+	// References for model, view and sub-controllers
 	private GameView gameView;
 	private GameModel gameModel;
 	private SetupController setupController;
@@ -32,7 +31,7 @@ public class GameController {
 	private PlaySpecialCardController playSpecialCardController;
 	
 	/**
-	 * Constructor to retrieve view and model instances
+	 * Constructor to retrieve model, view and sub-controller instances
 	 */
 	private GameController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
@@ -44,6 +43,7 @@ public class GameController {
 	}
 	
 	/**
+	 * Singleton instance getter method
 	 * @return single instance of GameController
 	 */
 	public static GameController getInstance(GameModel gameModel, GameView gameView) {
@@ -55,7 +55,7 @@ public class GameController {
 	}
 	
 	/**
-	 * Initialise game components and add players to game
+	 * Initialises game components for start of game
 	 */
 	public void setup() {
 		
@@ -73,17 +73,18 @@ public class GameController {
 	}
 	
 	/**
-	 * Control the overall flow of gameplay 
+	 * Controls the overall flow of game play 
 	 */
 	public void playGame() {
 		
-		// repeat player turns until winning/losing conditions observed
+		// Repeat player turns until winning/losing conditions observed
 		while(true) {
+			
+			// Iterate over players in game
 			for (Player p : gameModel.getGamePlayers()) {
 				
-				// take a number of actions
+				// Take a number of actions
 				actionController.takeActions(p);
-//				System.out.println("Finished Actions!"); //TODO: move to view
 				
 				// Draw two cards from Treasure Deck
 				drawCardsController.drawTreasureCards(p);
@@ -95,7 +96,7 @@ public class GameController {
 	}
 	
 	/**
-	 * Call instances of observer classes to create observers
+	 * Calls instances of observer classes to create observers
 	 */
 	private void createObservers() {
 		
@@ -112,19 +113,21 @@ public class GameController {
 		}
 		
 		// Instantiate observer for IslandTiles that sink with Players on them
-		PlayerSunkObserver.getInstance(this, gameModel.getIslandBoard(), gameModel.getGamePlayers());
+		PlayerSunkObserver.getInstance(this, gameModel.getGamePlayers());
 	}
 	
 	/**
-	 * 
-	 * @param player
-	 * @param currentIslandTile
+	 * Attempts to move game players to another IslandTile when their current
+	 * IslandTile has sunk.
+	 * @param Pawn instance of Player on sunk IslandTile
 	 * @return whether Player was successfully moved to safety
 	 */
 	public boolean movePlayerToSafety(Pawn pawn) {
 		
+		// Obtain player-role specific IslandTiles that player can swim to
 		List<IslandTile> swimmableTiles = pawn.getPlayer().getSwimmableTiles(gameModel.getIslandBoard());
 		
+		// Move player pawn to new IslandTile if possible
 		if (swimmableTiles.isEmpty()) {
 			return false;
 		} else {
@@ -137,19 +140,32 @@ public class GameController {
 	 * Method called by observers that have encountered game ending conditions
 	 */
 	public void endGame() {
-		gameView.showEnding();	// gameView
+		
+		// Display ending message to user and exit application
+		gameView.showEnding();
 		System.exit(0);
 	}
 	
-	
+	/**
+	 * PlaySpecialCardController getter method
+	 * @return single instance of PlaySpecialCardController
+	 */
 	public PlaySpecialCardController getPlaySpecialCardController() {
 		return playSpecialCardController;
 	}
 
+	/**
+	 * DrawCardsController getter method
+	 * @return single instance of DrawCardsController
+	 */
 	public DrawCardsController getDrawCardsController() {
 		return drawCardsController;
 	}
 	
+	/**
+	 * ActionController getter method
+	 * @return single instance of ActionController
+	 */
 	public ActionController getActionController() {
 		return actionController;
 	}

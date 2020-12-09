@@ -1,12 +1,5 @@
 package island.cards;
 
-import java.util.Arrays;
-import java.util.List;
-
-import island.components.IslandTile;
-import island.players.GamePlayers;
-import island.players.Player;
-
 /**
  * Class to represent Helicopter Lift cards in game.
  * @author Eoghan O'Shea and Robert McCarthy

@@ -2,13 +2,9 @@ package island.players;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
-import java.util.Stack;
 
-import island.components.IslandTile;
 import island.components.Treasure;
 
 /**
@@ -19,12 +15,11 @@ import island.components.Treasure;
  */
 public class GamePlayers implements Iterable<Player> {
 	
-	// Instantiate singleton
+	// Singleton instance
 	private static GamePlayers gamePlayers;
 	
 	private List<Player> playersList;
-	private List<Treasure> capturedTreasures; //TODO: Better for each player to have individually? Think they're just pooled in rules
-	private int playerCount;
+	private List<Treasure> capturedTreasures;
 	
 	/**
 	 * Constructor to instantiate GamePlayers class
@@ -32,7 +27,6 @@ public class GamePlayers implements Iterable<Player> {
 	private GamePlayers() {
 		playersList = new ArrayList<Player>();
 		capturedTreasures = new ArrayList<Treasure>();
-		playerCount = 0; // set player count to zero at beginning
 	}
 	
 	/**

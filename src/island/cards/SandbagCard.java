@@ -1,10 +1,5 @@
 package island.cards;
 
-import java.util.List;
-
-import island.components.IslandBoard;
-import island.components.IslandTile;
-
 /**
  * Class to represent Sandbag cards.
  * @author Eoghan O'Shea and Robert McCarthy

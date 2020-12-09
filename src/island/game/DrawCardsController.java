@@ -1,17 +1,9 @@
 package island.game;
 
-import java.util.Scanner;
-
 import island.cards.Card;
 import island.cards.FloodCard;
 import island.cards.WaterRiseCard;
-import island.components.IslandBoard;
 import island.components.IslandTile;
-import island.components.WaterMeter;
-import island.decks.FloodDeck;
-import island.decks.FloodDiscardPile;
-import island.decks.TreasureDeck;
-import island.decks.TreasureDiscardPile;
 import island.players.Player;
 
 public class DrawCardsController {

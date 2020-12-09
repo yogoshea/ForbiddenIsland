@@ -1,36 +1,54 @@
 package island.observers;
 
-import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Pawn;
 import island.game.GameController;
 import island.players.GamePlayers;
 import island.players.Player;
 
+/**
+ * Observer class to react to IslandTiles that sink with players on them
+ * @author Eoghan O'Shea and Robert McCarthy
+ *
+ */
 public class PlayerSunkObserver implements Observer {
 	
+	// Singleton instance
 	private static PlayerSunkObserver playerSunkObserver;
+
 	private GameController gameController;
-	private IslandBoard islandBoard;
 	private GamePlayers players;
 	
-	private PlayerSunkObserver(GameController gc, IslandBoard islandBoard, GamePlayers players) {
+	/**
+	 * Constructor for PlayerSunkObserver 
+	 * @param Reference to GameController
+	 * @param Reference to GamePlayers
+	 */
+	private PlayerSunkObserver(GameController gc, GamePlayers players) {
 		this.gameController = gc;
-//		this.islandBoard = islandBoard;
 		this.players = players;
 	}
 	
-	public static PlayerSunkObserver getInstance(GameController gc, IslandBoard islandBoard, GamePlayers players) {
+	/**
+	 * Singleton instance getter method
+	 * @param Reference to GameController
+	 * @param Reference to GamePlayers
+	 * @return Single instance of PlayerSunkObserver class
+	 */
+	public static PlayerSunkObserver getInstance(GameController gc, GamePlayers players) {
 		if (playerSunkObserver == null) {
-			playerSunkObserver = new PlayerSunkObserver(gc, islandBoard, players);
+			playerSunkObserver = new PlayerSunkObserver(gc, players);
 		}
 		return playerSunkObserver;
 	}
 
+	/**
+	 * Update method called when state of IslandTile changes to sunk
+	 */
 	@Override
 	public void update(Subject subject) {
 
-		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile
+		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile TODO: is this needed?
 		Pawn pawn;
 		
 		// Check if Player on IslandTile
