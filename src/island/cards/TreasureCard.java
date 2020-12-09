@@ -7,7 +7,7 @@ import island.components.Treasure;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class TreasureCard extends Card implements TreasureDeckCard {
+public class TreasureCard extends Card {
 	
 	private Treasure associatedTreasure;
 

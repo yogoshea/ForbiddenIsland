@@ -1,5 +1,7 @@
 package island.players;
 
+import java.util.List;
+
 import island.components.IslandTile;
 
 public class Messenger extends Player {
@@ -8,11 +10,15 @@ public class Messenger extends Player {
 
 	public Messenger(String name) {
 		super(name, startingTile);
-		System.out.println(name + " is the Messenger");
 	}
 
 	@Override
 	public String toString() {
 		return super.toString() + " (Messenger)";
+	}
+	
+	@Override
+	public List<Player> getGiveCardsPlayers(GamePlayers gamePlayers) {
+		return gamePlayers.getPlayersList();
 	}
 }

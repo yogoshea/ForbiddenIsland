@@ -1,6 +1,9 @@
 package island.components;
 
-import island.observers.GameOverObserver;
+import java.util.ArrayList;
+import java.util.List;
+
+import island.observers.Observer;
 import island.observers.Subject;
 
 /**
@@ -9,11 +12,12 @@ import island.observers.Subject;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class WaterMeter extends Subject {
+public class WaterMeter implements Subject {
 	
 	// Eager initialisation of singleton
 	private static WaterMeter instance = new WaterMeter();
 	private int waterLevel;
+	private List<Observer> observers = new ArrayList<Observer>();	
 	
 	// private constructor, initialise meter to 1
 	private WaterMeter() {
@@ -24,14 +28,25 @@ public class WaterMeter extends Subject {
 		return instance;
 	}
 	
-	public void incrementLevel() { //Is there a situation where specific level needed/level can go down?
+	public void incrementLevel() {
 		this.waterLevel++;
-		//Alert gameOverObserver that something happened which may cause game to be over
-		notifyAllObservers();
+		notifyAllObservers(); // Notify observers of WaterMeter state
 	}
 	
 	public int getWaterLevel() { 
 		return waterLevel;
+	}
+
+	@Override
+	public void attach(Observer observer) {
+		observers.add(observer);
+	}
+	
+	@Override
+	public void notifyAllObservers() {
+		for (Observer observer : observers) {
+			observer.update(this);
+		}
 	}
 	
 	// TODO: toString() method for displaying in terminal UI

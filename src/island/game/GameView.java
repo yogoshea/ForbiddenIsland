@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import island.cards.TreasureDeckCard;
-import island.components.IslandBoard;
+import island.cards.Card;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.game.ActionController.Action;
-import island.players.GamePlayers;
 import island.players.Player;
 
 /**
@@ -22,8 +20,11 @@ import island.players.Player;
  */
 public class GameView {
 	
+	// Singleton instance
 	private static GameView gameView;
+
 	private Scanner userInput;
+	private GameController gameController;
 	
 	//TODO: make appropriate strings constant variables
 	
@@ -117,7 +118,7 @@ public class GameView {
 	/**
 	 * Tells user that treasure cards are being drawn
 	 */
-	public void showTreasureCardDrawn(TreasureDeckCard card) {
+	public void showTreasureCardDrawn(Card card) {
 		System.out.println("You have drawn: " + card.toString());
 	}
 	
@@ -128,7 +129,34 @@ public class GameView {
 		System.out.println("The island is flooding!! \n" + "NEW WATER LEVEL: " + Integer.toString(level));
 	}
 	
+	/**
+	 * Tells user that the player doesn't have a helicopter lift card
+	 */
+	public void showNoHeliCard(Player player) {
+		System.out.println(player.toString() + "does not have a Helicopter Lift card");
+	}
 	
+	/**
+	 * Tells user that the player doesn't have a helicopter lift card
+	 */
+	public void showNoSandbagCard(Player player) {
+		System.out.println(player.toString() + "does not have a Sandbag card");
+	}
+	
+	public void showGameWin() {
+		System.out.println("You win");
+	}
+	
+	/**
+	 * Tells user that the player doesn't have a helicopter lift card
+	 */
+	public void showTileFlooded(IslandTile tile) {
+		System.out.println(tile.toString() + "has been flooded!!");
+	}
+	
+	public void showTileSunk(IslandTile tile) {
+		System.out.println(tile.toString() + "has SUNK!!!");
+	}
 	
 	
 	
@@ -141,6 +169,7 @@ public class GameView {
 		// iterate over number of players
 		for (int i = 1; i <= playerCount; i++) {
 			playerNames.add(promptUser("Please enter the name of Player " + i)); // TODO: check for valid name input
+			// TODO: check for length less than tileCharWidth
 		}
 		return playerNames;
 	}
@@ -163,7 +192,7 @@ public class GameView {
 		// similar to observer to model changes, no
 		//TODO: add time delays between prints? Maybe, yeah. Or just user press return/input any key to continue
 		// TODO: better way to update screen?
-		System.out.println("\n".repeat(20));
+//		System.out.println("\n".repeat(20));
 		
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
@@ -182,20 +211,20 @@ public class GameView {
 		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
 				"GAME DIALOG", "NOTE: To use Heli Lift or Sandbag at any time, enter [H] or [S]")); // TODO: This make sense ??
 		System.out.println("=".repeat(displayCharWidth));
-//		displayGameDialog();
+//		displayGameDialog(); // TODO: gameView.addToUpcomingDialog
 		
 	}
 	
 	// TODO: maybe move to something like GameGraphics, to store all lengthy terminal image type outputs ??
-	private void displayIslandBoard(GameModel gameModel) { //TOD: print associated treasure
+	private void displayIslandBoard(GameModel gameModel) { //TODO: print associated treasure
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
-		Map<IslandTile, Player> playerLocations = new HashMap<IslandTile, Player>();
+		Map<IslandTile, Player> pawnLocations = new HashMap<IslandTile, Player>(); // TODO: change to printing Pawn info
 		
 		// retrieve players' current positions from model TODO: CHANGE this to getPlayerLocations method
 		for (Player p : gameModel.getGamePlayers()) {
-			playerLocations.put(p.getCurrentTile(), p);
+			pawnLocations.put(p.getPawn().getTile(), p);
 		}
 		
 		// retrieve Island board state from model
@@ -261,9 +290,9 @@ public class GameView {
 				
 				// add specific tile details
 				outputString += "| ";
-				if (playerLocations.containsKey(boardStructure[i][j])) {
+				if (pawnLocations.containsKey(boardStructure[i][j])) {
 					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-							String.format("%" + ((tileCharWidth - 4 + (playerLocations.get(boardStructure[i][j]).toString().length())) / 2) + "s", playerLocations.get(boardStructure[i][j]).toString()));
+							String.format("%" + ((tileCharWidth - 4 + (pawnLocations.get(boardStructure[i][j]).toString().length())) / 2) + "s", pawnLocations.get(boardStructure[i][j]).toString()));
 					outputString += " |";
 				} else {
 					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
@@ -298,8 +327,8 @@ public class GameView {
 		// list currently held treasure cards
 		for (int i = 0; i < maxTreasureCards; i++) {
 			for (int j = 0; j < playerCount; j++) {
-				if (i < playerList.get(j).getTreasureDeckCards().size())
-					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". " + playerList.get(j).getTreasureDeckCards().get(i)); // left alignment 
+				if (i < playerList.get(j).getCards().size())
+					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". " + playerList.get(j).getCards().get(i)); // left alignment 
 				else
 					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". "+ "----------"); // left alignment 
 			}
@@ -322,7 +351,11 @@ public class GameView {
 	//This way just means you aren't passing a string
 	public IslandTile pickTileDestination(List<IslandTile> tiles) {//TODO:Give chance to change mind?
 		String prompt = "Which tile do you wish to move to?";
-		//System.out.println("Which tile do you wish to move to?");
+		return pickFromList(tiles, prompt);
+	}
+	
+	public IslandTile pickSwimmableTile(List<IslandTile> tiles) {
+		String prompt = "YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
 		return pickFromList(tiles, prompt);
 	}
 	
@@ -336,16 +369,51 @@ public class GameView {
 		return pickFromList(players, prompt);
 	}
 	
-	public TreasureDeckCard pickCardToGive(List<TreasureDeckCard> cards) {
+	public Card pickCardToGive(List<Card> cards) {
 		String prompt = "Which card do you wish to give?";
 		return pickFromList(cards, prompt);
 	}
 	
-	public TreasureDeckCard pickCardToDiscard(List<TreasureDeckCard> cards) {
-		String prompt = "You have too many cards in your hand, which do you wish to discard?";
-		TreasureDeckCard card = pickFromList(cards, prompt);
+	public Card pickCardToDiscard(Player player) {
+		List<Card> cards = player.getCards();
+		String prompt = player.toString() + ", you have too many cards in your hand, which do you wish to discard?";
+		Card card = pickFromList(cards, prompt);
 		System.out.println("You have discarded a" + card.toString() + "card");
 		return card;
+	}
+	
+	public Player pickHeliPlayer(List<Player> players) {
+		String prompt = "Which player requested a Helicopter Lift?";
+		return pickFromList(players, prompt);
+	}
+	
+	public IslandTile pickHeliDestination(List<IslandTile> availableTiles) {
+		String prompt = "Which tile do you wish to helicopter to?";
+		return pickFromList(availableTiles, prompt);
+	}
+	
+	public Player pickSandbagPlayer(List<Player> players) {
+		String prompt = "Which player wants to play a Sandbag card?";
+		return pickFromList(players, prompt);
+	} 
+	
+	public List<Player> pickHeliPlayers(List<Player> players, IslandTile destination) {
+		
+		String prompt;
+		List<Player> heliPlayers = new ArrayList<Player>();
+		
+		for(Player player : players) {
+			
+			prompt = "Does " + player.toString() + " wish to move to " + destination.toString() + "? \n";
+			prompt += "[Y]/[N]";
+			System.out.println(prompt);
+			
+			if(userInput.nextLine().equals("Y")) {
+				heliPlayers.add(player);
+			}
+		}
+		
+		return heliPlayers;
 	}
 	
 	
@@ -384,10 +452,10 @@ public class GameView {
 		
 		while(input.equals("Heli") || input.equals("Sandbag")) {
 			if(input.equals("Heli")) {
-				heliRequest();
+				gameController.getPlaySpecialCardController().heliRequest();
 			}
 			if(input.equals("Sandbag")) {
-				sandbagRequest();
+				gameController.getPlaySpecialCardController().sandbagRequest();
 			}
 			
 			System.out.println(initialPrompt);
@@ -397,23 +465,29 @@ public class GameView {
 		return input;
 	}
 	
-	public void heliRequest() {
-		String prompt = "Which player wishes to play a heli card?";
-		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt);
-		p.playHeliCard();
-	}
-	
-	public void sandbagRequest() {
-		String prompt = "Which player wishes to play a sandbag card?";
-		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt); //bad practice to instantiate here?
-		p.playSandBagCard();
-	}
+//	public void heliRequest() {
+//		String prompt = "Which player wishes to play a heli card?";
+//		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt);
+//		p.playHeliCard();
+//	}
+//	
+//	public void sandbagRequest() {
+//		String prompt = "Which player wishes to play a sandbag card?";
+//		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt); //bad practice to instantiate here?
+//		p.playSandBagCard();
+//	}
 	
 	//End of GameScanner
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	
+	/**
+	 * Sets the views controller
+	 * @param GameController
+	 */
+	public void setController(GameController gameController) {
+		this.gameController = gameController;
+	}
 	
 	
 	
@@ -434,11 +508,11 @@ public class GameView {
 	}
 
 	/**
-	 * Displays ending view, explains why win or lose?
+	 * Displays ending view, with message giving reason for game end
 	 */
 	public void showEnding() {
-		// TODO Auto-generated method stub
-		//System.out.exit(0);
+		
+		System.out.println("GAME OVER!");
 	}		
 
 }

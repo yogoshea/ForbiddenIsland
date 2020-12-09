@@ -1,56 +1,61 @@
 package island.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import island.components.WaterMeter;
-import island.observers.GameOverObserver;
-import island.observers.SunkTileObserver;
+import island.components.IslandTile;
+import island.components.Pawn;
+import island.observers.PlayerSunkObserver;
+import island.observers.Subject;
+import island.observers.FoolsLandingObserver;
+import island.observers.TreasureTilesObserver;
+import island.observers.WaterMeterObserver;
 import island.players.Player;
 
 /**
- * Controls the flow of the gameplay and obtains player choices
+ * Controls the flow of the game play and obtains player choices
  * through GameView
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
 public class GameController {
 	
-	// Instantiate singleton
+	// Singleton instance
 	private static GameController gameController;
-	
+	 
+	// References for model, view and sub-controllers
 	private GameView gameView;
 	private GameModel gameModel;
 	private SetupController setupController;
 	private ActionController actionController;
 	private DrawCardsController drawCardsController;
-	//private SunkTileObserver sunkTileObserver; //Do we need to attach observer to controller? Not currently using it
+	private PlaySpecialCardController playSpecialCardController;
 	
 	/**
-	 * Constructor to retrieve view and model instances
+	 * Constructor to retrieve model, view and sub-controller instances
 	 */
 	private GameController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
 		setupController = SetupController.getInstance(gameModel, gameView);
-		actionController = ActionController.getInstance(gameModel, gameView);
+		actionController = ActionController.getInstance(gameModel, gameView, this);
 		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
-		//sunkTileObserver = SunkTileObserver.getInstance(gameModel);
-		//Will getInstance() be needed elsewhere?? if so is it good to pass gameModel in every time?
+		playSpecialCardController = PlaySpecialCardController.getInstance(gameModel, gameView, this);
 	}
 	
 	/**
+	 * Singleton instance getter method
 	 * @return single instance of GameController
 	 */
 	public static GameController getInstance(GameModel gameModel, GameView gameView) {
 		if (gameController == null) {
 			gameController = new GameController(gameModel, gameView);
+			gameView.setController(gameController);
 		}
 		return gameController;
 	}
 	
 	/**
-	 * Initialise game components and add players to game
+	 * Initialises game components for start of game
 	 */
 	public void setup() {
 		
@@ -60,24 +65,26 @@ public class GameController {
 		// Setup game components with new players obtain form user through GameView
 		setupController.setupGame();
 		
+		// Create game observers
+		createObservers();
+		
 		// Update user view
 //		gameView.updateView(gameModel);
-		
-//		System.exit(0);
 	}
 	
 	/**
-	 * Control the overall flow of gameplay 
+	 * Controls the overall flow of game play 
 	 */
 	public void playGame() {
 		
-		// repeat player turns until winning/losing conditions observed
+		// Repeat player turns until winning/losing conditions observed
 		while(true) {
+			
+			// Iterate over players in game
 			for (Player p : gameModel.getGamePlayers()) {
 				
-				// take a number of actions
+				// Take a number of actions
 				actionController.takeActions(p);
-				System.out.println("Finished Actions!"); //TODO: move to view
 				
 				// Draw two cards from Treasure Deck
 				drawCardsController.drawTreasureCards(p);
@@ -89,36 +96,77 @@ public class GameController {
 	}
 	
 	/**
-	 * method call by observers that have encountered game ending conditions
+	 * Calls instances of observer classes to create observers
 	 */
-	public void endGame() { // TODO:  move to EndGameController implements Observer
-		gameView.showEnding();	
+	private void createObservers() {
+		
+		// Instantiate observer for WaterMeter
+		WaterMeterObserver.getInstance(gameModel.getWaterMeter(), this);
+		
+		// Instantiate observer for Fools Landing IslandTile
+		FoolsLandingObserver.getInstance(gameModel.getIslandBoard().getTile(IslandTile.FOOLS_LANDING), this);
+		
+		// Instantiate observer for IslandTiles with Treasure
+		TreasureTilesObserver newTreasureTilesObserver = TreasureTilesObserver.getInstance(this, gameModel.getIslandBoard(), gameModel.getGamePlayers());
+		for (Subject subject : gameModel.getIslandBoard().getTreasureTiles()) {
+			subject.attach(newTreasureTilesObserver); // Attach observer to each IslandTile that holds Treasure
+		}
+		
+		// Instantiate observer for IslandTiles that sink with Players on them
+		PlayerSunkObserver.getInstance(this, gameModel.getGamePlayers());
+	}
+	
+	/**
+	 * Attempts to move game players to another IslandTile when their current
+	 * IslandTile has sunk.
+	 * @param Pawn instance of Player on sunk IslandTile
+	 * @return whether Player was successfully moved to safety
+	 */
+	public boolean movePlayerToSafety(Pawn pawn) {
+		
+		// Obtain player-role specific IslandTiles that player can swim to
+		List<IslandTile> swimmableTiles = pawn.getPlayer().getSwimmableTiles(gameModel.getIslandBoard());
+		
+		// Move player pawn to new IslandTile if possible
+		if (swimmableTiles.isEmpty()) {
+			return false;
+		} else {
+			pawn.setTile(gameView.pickSwimmableTile(swimmableTiles));
+			return true;
+		}
+	}
+	
+	/**
+	 * Method called by observers that have encountered game ending conditions
+	 */
+	public void endGame() {
+		
+		// Display ending message to user and exit application
+		gameView.showEnding();
+		System.exit(0);
+	}
+	
+	/**
+	 * PlaySpecialCardController getter method
+	 * @return single instance of PlaySpecialCardController
+	 */
+	public PlaySpecialCardController getPlaySpecialCardController() {
+		return playSpecialCardController;
 	}
 
+	/**
+	 * DrawCardsController getter method
+	 * @return single instance of DrawCardsController
+	 */
+	public DrawCardsController getDrawCardsController() {
+		return drawCardsController;
+	}
+	
+	/**
+	 * ActionController getter method
+	 * @return single instance of ActionController
+	 */
+	public ActionController getActionController() {
+		return actionController;
+	}
 }
-
-
-// TODO: control the flow of game in here...
-
-//while(!gameOver && !gameWon) {
-//	// Iterate over each  Player to take turns (Randomise order?)
-//	for (Player p : players.getPlayersList()) {
-//		
-//		if(!gameOver && !gameWon) {
-//			
-//			System.out.println(islandBoard.toString());
-//			System.out.println("It is "+p.toString()+"s turn");
-//			p.takeTurn(userInput);
-//			//TODO: How to end game if Game Over happens mid turn???? 
-//		}
-//	}
-//}
-//
-//if(gameWon) {
-//	//TODO: Implement game win
-////	return true;
-//} else {
-//	//TODO: Implement game loss
-//}
-//
-//}

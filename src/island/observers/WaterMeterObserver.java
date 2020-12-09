@@ -1,42 +1,45 @@
 package island.observers;
 
 import island.components.WaterMeter;
+import island.game.GameController;
 
-//TODO: integrate observers more with controllers?
-
-public class WaterMeterObserver extends GameOverObserver {
+/**
+ * Observer class to act on updates to state of WaterMeter class
+ * @author Eoghan O'Shea and Robert McCarthy
+ */
+public class WaterMeterObserver implements Observer {
 	
 	private static WaterMeterObserver waterMeterObserver;
+	private GameController gameController;
 	
-	private WaterMeterObserver() {
-		subject = WaterMeter.getInstance(); //ok to use WaterMeter.getInstance()?
+	/**
+	 * Constructor of observer for WaterMeter
+	 * @param WaterMeter subject to attach observer to
+	 * @param Reference to GameController
+	 */
+	private WaterMeterObserver(Subject subject, GameController gc) {
 		subject.attach(this);
+		this.gameController = gc;
 	}
 	
 	/**
-	 * @return single instance of water meter observer
+	 * Singleton instance getter method
+	 * @return single instance of WaterMeterObserver
 	 */
-	public static WaterMeterObserver getInstance() {
+	public static WaterMeterObserver getInstance(Subject subject, GameController gc) {
 		if (waterMeterObserver == null) {
-			waterMeterObserver = new WaterMeterObserver();
+			waterMeterObserver = new WaterMeterObserver(subject, gc);
 		}
 		return waterMeterObserver;
 	}
 	
-	@Override
-	public void checkIfGameOver() {
-		boolean gameOver = checkWaterLevel();
-		if(gameOver) {
-			setGameOver();
-		}
-	}
-	
-	/*
-	 * Method to check if Game Over due to water level above threshold
+	/**
+	 * Update methods called when Water Meter changes water level
 	 */
-	public static boolean checkWaterLevel() {
-		return WaterMeter.getInstance().getWaterLevel() > 5;
-		//TODO: make make level a final game variable
+	@Override
+	public void update(Subject subject) {
+		if (((WaterMeter) subject).getWaterLevel() == 5)
+			gameController.endGame(); // TODO: change to GameEndings enum
 	}
 
 }

@@ -1,19 +1,10 @@
 package island.game;
 
-import java.util.Scanner;
-
+import island.cards.Card;
 import island.cards.FloodCard;
-import island.cards.TreasureDeckCard;
 import island.cards.WaterRiseCard;
-import island.components.IslandBoard;
-import island.components.WaterMeter;
-import island.decks.FloodDeck;
-import island.decks.FloodDiscardPile;
-import island.decks.TreasureDeck;
-import island.decks.TreasureDiscardPile;
+import island.components.IslandTile;
 import island.players.Player;
-
-//TODO: Split into DrawTreasure and DrawFlood???
 
 public class DrawCardsController {
 	
@@ -46,13 +37,13 @@ public class DrawCardsController {
 	/**
 	 * Method to draw 2 treasure cards during a players turn
 	 */
-	public void drawTreasureCards(Player player) { //TODO: use this function at the start of game as well?
+	public void drawTreasureCards(Player player) {
 
 		//Could leave these draw methods in Player class and notify an observer when they are executed
 		//Then if player has too many cards, the observer can prompt to choose which one to discard
 		
 		final int cardCount = 2; //TODO: should this be final static or something at start of class? 
-		TreasureDeckCard card;
+		Card card;
 		
 		for(int i = 0; i < cardCount; i++) {
 			
@@ -79,18 +70,26 @@ public class DrawCardsController {
 	public void drawFloodCards() {
 		//TODO: use this function for initial flooding as well?
 		FloodCard card;
+		IslandTile boardTile;
 		int cardCount = gameModel.getWaterMeter().getWaterLevel();
 		
 		for(int i = 0; i < cardCount; i++) {
 			
 			//draw a card
 			card = gameModel.getFloodDeck().drawCard();
+			boardTile = gameModel.getIslandBoard().getTile(card.getCorrespondingIslandTile());
 			
 			//Perform action on appropriate tile
-			gameModel.getIslandBoard().floodOrSinkTile( card.getCorrespondingIslandTile() ); //TODO: rename to floodOrSinkTile()
+			if (boardTile.isSafe()) {
+				gameView.showTileFlooded(boardTile);
+				boardTile.setToFlooded();
+			} else if (boardTile.isFlooded()) {
+				gameView.showTileSunk(boardTile);
+				boardTile.setToSunk();
+			}
 			
 			//Add card to discard pile
-			FloodDiscardPile.getInstance().addCard(card);
+			gameModel.getFloodDiscardPile().addCard(card);
 			
 		}
 		
@@ -100,12 +99,12 @@ public class DrawCardsController {
 	/**
 	 * Method to add a Treasure deck card to the players hand
 	 */
-	public void addCardToHand(Player player, TreasureDeckCard card) {
+	public void addCardToHand(Player player, Card card) {
 		
-		player.getTreasureDeckCards().add(card);
+		player.addCard(card);
 		
 		//If more than 5 in hand, choose cards to discard
-		while( player.getTreasureDeckCards().size() > 5 ) {
+		while( player.getCards().size() > 5 ) {
 			chooseCardToDiscard(player);
 		}
 	}
@@ -115,13 +114,13 @@ public class DrawCardsController {
 	 */
 	public void chooseCardToDiscard(Player player) {
 		
-		TreasureDeckCard card;
+		Card card;
 		
 		//choose card
-		card = gameView.pickCardToDiscard(player.getTreasureDeckCards());
+		card = gameView.pickCardToDiscard(player);
 		
 		//remove chosen card from hand and discard it
-		player.getTreasureDeckCards().remove(card);
+		player.getCards().remove(card);
 		gameModel.getTreasureDiscardPile().addCard(card);
 		
 	}

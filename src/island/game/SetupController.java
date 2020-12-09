@@ -2,7 +2,7 @@ package island.game;
 
 import island.cards.*;
 import island.components.IslandBoard;
-import island.components.WaterMeter;
+import island.components.IslandTile;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
@@ -10,13 +10,11 @@ import island.decks.TreasureDeck;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Stack;
 
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.Explorer;
-import island.players.GamePlayers;
 import island.players.Messenger;
 import island.players.Navigator;
 import island.players.Pilot;
@@ -47,14 +45,14 @@ public class SetupController {
 	 * Setup the initial conditions of the game components
 	 */
 	public void setupGame() {
+		
 		List<String> playerNames = gameView.getPlayers();
 		startIslandSinking();
 		assignPlayerRoles(playerNames);
 		handOutInitialTreasureCards();
 //		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
-//		players.setInitialPositions(); // TODO: delete?
 	}
-	
+
 	/**
 	 * Begin the sinking of the island
 	 */
@@ -64,20 +62,26 @@ public class SetupController {
 		FloodDeck floodDeck = gameModel.getFloodDeck();
 		IslandBoard islandBoard = gameModel.getIslandBoard();
 		FloodDiscardPile floodDiscardPile = gameModel.getFloodDiscardPile();
+		IslandTile tile;
+		FloodCard newFloodCard;
 
 		// Iterate over six new Flood Cards
 		for (int i = 0; i < 6; i++) {
 			
 			// Draw FloodCard from deck
-			FloodCard newFloodCard = floodDeck.drawCard();
+			newFloodCard = floodDeck.drawCard();
+			
+			tile = newFloodCard.getCorrespondingIslandTile();
 
 			// Flood corresponding IslandTile on board
-			islandBoard.floodOrSinkTile(newFloodCard.getCorrespondingIslandTile());
+			islandBoard.getTile(tile).setToFlooded();
+			
+//			gameView.showTileFlooded(tile);
 
 			// Add card to flood discard pile
 			floodDiscardPile.addCard(newFloodCard);
 		}
-		//TODO: Print out tiles that were flooded (via observer?)
+		
 	}
 	
 	private void assignPlayerRoles(List<String> playerNames) {
@@ -134,35 +138,26 @@ public class SetupController {
 		
 		int cardsDrawnCount;
 		final int numberOfCardsPerPlayer = 2;
-		TreasureDeckCard drawnCard;
+		Card drawnCard;
 		
 		// Get component instances from model
 		TreasureDeck treasureDeck = gameModel.getTreasureDeck();
 		
 		// iterate of players in game
-		for (Player p : GamePlayers.getInstance().getPlayersList()) {
+		for (Player p : gameModel.getGamePlayers()) {
 			
 			cardsDrawnCount = 0;
 			do {
 				drawnCard = treasureDeck.drawCard();
-//				System.out.println("Drawn card: " + drawnCard);
+
 				if (drawnCard instanceof WaterRiseCard) {
 					treasureDeck.addCardToDeck(drawnCard); // Put water Rise cards back in deck
 				} else {
 					cardsDrawnCount++;
-					p.receiveTreasureDeckCard(drawnCard);
-					// TODO: change to p.drawFromTreasureDeck(2); ??
+					p.addCard(drawnCard);
 				}
 			} while (cardsDrawnCount < numberOfCardsPerPlayer);
 		}
 	}
-/*	Don't need as level set to 1 in constructor
-	private void setWaterLevel() {
-		
-		final int initialWaterLevel = 5;
-		
-		gameModel.getWaterMeter();
-		
-	}
-*/
+
 }

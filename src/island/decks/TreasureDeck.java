@@ -7,11 +7,8 @@ import island.cards.Card;
 import island.cards.HelicopterLiftCard;
 import island.cards.SandbagCard;
 import island.cards.TreasureCard;
-import island.cards.TreasureDeckCard;
 import island.cards.WaterRiseCard;
 import island.components.Treasure;
-import island.players.GamePlayers;
-import island.players.Player;
 
 /**
  * TreasureDeck class is a deck filled with TreasureCards,
@@ -19,7 +16,7 @@ import island.players.Player;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class TreasureDeck extends Deck<TreasureDeckCard> {
+public class TreasureDeck extends Deck<Card> {
 	//TODO: just change this to Deck<Card>
 	
 	// Instantiate singleton
@@ -50,9 +47,9 @@ public class TreasureDeck extends Deck<TreasureDeckCard> {
 	
 	@Override
 	public void refill() {
-		List<TreasureDeckCard> temp = new ArrayList<TreasureDeckCard>();
+		List<Card> temp = new ArrayList<Card>();
 		temp = TreasureDiscardPile.getInstance().removeAllCards();
-		for(TreasureDeckCard c : temp) {
+		for(Card c : temp) {
 			treasureDeck.addCardToDeck(c);
 		}
 	}

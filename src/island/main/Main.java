@@ -12,21 +12,18 @@ import island.game.GameView;
 public class Main {
 	
 	/**
-	 * main method to control the game-play (client code)
-	 * @param args, command line arguments
+	 * Main method to control the game-play (client code)
+	 * @param command line arguments
 	 */
 	public static void main(String[] args) {
 		
-		System.out.println("Creating Game...");
-		
+		// Retrieve MVC instances
 		GameModel gameModel = GameModel.getInstance();
 		GameView gameView =  GameView.getInstance();
 		GameController gameController = GameController.getInstance(gameModel, gameView);
 
+		// Setup and begin playing game
 		gameController.setup();
 		gameController.playGame();
-		
-		System.out.println("Game Over");
-
 	}
 }

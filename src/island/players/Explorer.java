@@ -1,5 +1,8 @@
 package island.players;
 
+import java.util.List;
+
+import island.components.IslandBoard;
 import island.components.IslandTile;
 
 public class Explorer extends Player {
@@ -8,11 +11,15 @@ public class Explorer extends Player {
 
 	public Explorer (String name) {
 		super(name, startingTile);
-		System.out.println(name + " is the Explorer");
 	}
 
 	@Override
 	public String toString() {
 		return super.toString() + " (Explorer)";
+	}
+	
+	@Override
+	public List<IslandTile> getSwimmableTiles(IslandBoard islandBoard) {
+		return islandBoard.getNonSunkTiles(); // TODO: change to diagonal tiles!
 	}
 }

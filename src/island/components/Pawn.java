@@ -9,18 +9,24 @@ import island.players.Player;
  */
 public class Pawn {
 	
-	private int[] location; // co-ordinates of pawn on game board
 	private Player player;
+	private IslandTile currentTile;
 	
-	public Pawn(Player newPlayer) {
+	public Pawn(Player newPlayer, IslandTile startingTile) {
 		this.player = newPlayer;
+		this.currentTile = startingTile;
 	}
 	
-	public void move(IslandTile tile) {
-		// TODO: call islandBoard.move() ???
+	public Player getPlayer() {
+		return this.player;
 	}
 	
+	public IslandTile getTile() {
+		return this.currentTile;
+	}
 	
-	// TODO: handle all of the movement checking in here !
+	public void setTile(IslandTile newIslandTile) {
+		this.currentTile = newIslandTile;
+	}
 
 }
