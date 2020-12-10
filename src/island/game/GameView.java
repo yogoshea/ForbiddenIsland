@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import island.cards.Card;
+import island.components.GameEndings;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.game.ActionController.Action;
@@ -197,6 +198,7 @@ public class GameView {
 	 * Called from within model to provide latest game status to display
 	 */
 	public void updateView(GameModel gameModel) {
+		//TODO: display num cards in flood deck and treasure deck?
 		// similar to observer to model changes, no
 		//TODO: add time delays between prints? Maybe, yeah. Or just user press return/input any key to continue
 		// TODO: better way to update screen?
@@ -518,9 +520,29 @@ public class GameView {
 	/**
 	 * Displays ending view, with message giving reason for game end
 	 */
-	public void showEnding() {
+	public void showEnding(GameEndings ending) {
+		//TODO: Make individual show endings for each scenario and call them from observer so can see details of how game ended
 		
-		System.out.println("GAME OVER!");
+		switch(ending) {
+		
+		case FOOLS_LANDING_SUNK:
+			System.out.println("GAME OVER - Fools Landing has Sunk");
+			break;
+			
+		case TREASURE_SUNK:
+			System.out.println("GAME OVER - A treasure has Sunk");
+			break;
+			
+		case PLAYER_SUNK:
+			System.out.println("GAME OVER - A player has Sunk");
+			break;
+
+		case WIN:
+			System.out.println("!!!!The game has been won!!!!");
+			break;
+				
+		}
+		
 	}		
 
 }

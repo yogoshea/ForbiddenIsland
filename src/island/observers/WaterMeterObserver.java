@@ -1,5 +1,6 @@
 package island.observers;
 
+import island.components.GameEndings;
 import island.components.WaterMeter;
 import island.game.GameController;
 
@@ -39,7 +40,7 @@ public class WaterMeterObserver implements Observer {
 	@Override
 	public void update(Subject subject) {
 		if (((WaterMeter) subject).getWaterLevel() == 5)
-			gameController.endGame(); // TODO: change to GameEndings enum
+			gameController.endGame(GameEndings.WATER_LEVEL_EXCEEDED); // TODO: change to GameEndings enum
 	}
 
 }

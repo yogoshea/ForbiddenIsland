@@ -24,7 +24,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 	private GameModel gameModel;
 	private GameController gameController;
 	
-	public enum Action { // TODO:  move strings to GameView
+	public enum Action { // TODO:  move strings to GameView?
 		MOVE("Move"),
 		SHORE_UP("Shore Up"),
 		GIVE_TREASURE_CARD("Give Treasure Card"),

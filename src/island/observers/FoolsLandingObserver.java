@@ -1,5 +1,6 @@
 package island.observers;
 
+import island.components.GameEndings;
 import island.game.GameController;
 
 /**
@@ -32,7 +33,7 @@ public class FoolsLandingObserver implements Observer {
 	/**
 	 * Singleton instance getter method
 	 * @param Subject to observe
-	 * @param Refernce to GameController
+	 * @param Reference to GameController
 	 * @return single instance of FoolsLandingObserver class 
 	 */
 	public static FoolsLandingObserver getInstance(Subject subject, GameController gc) {
@@ -47,6 +48,6 @@ public class FoolsLandingObserver implements Observer {
 	 */
 	@Override
 	public void update(Subject subject) {
-		gameController.endGame(); // TODO: change to GameEndings enum! e.g. GameEndings.FOOLS_LANDING_SUNK
+		gameController.endGame(GameEndings.FOOLS_LANDING_SUNK); // TODO: change to GameEndings enum! e.g. GameEndings.FOOLS_LANDING_SUNK
 	}
 }

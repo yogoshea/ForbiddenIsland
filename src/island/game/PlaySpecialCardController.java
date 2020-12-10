@@ -6,6 +6,7 @@ import java.util.List;
 import island.cards.Card;
 import island.cards.HelicopterLiftCard;
 import island.cards.SandbagCard;
+import island.components.GameEndings;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
@@ -132,7 +133,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 			}
 		}
 		
-		gameController.endGame(); //TODO: ENUM
+		gameController.endGame(GameEndings.WIN); //TODO: ENUM
 		
 	}
 	

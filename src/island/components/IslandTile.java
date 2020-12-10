@@ -128,6 +128,7 @@ public enum IslandTile implements Subject {
 	 */
 	public void setToSunk() {
 		this.status = FloodStatus.SUNK;
+		notifyAllObservers();
 	}
 	
 	

@@ -1,5 +1,6 @@
 package island.observers;
 
+import island.components.GameEndings;
 import island.components.IslandTile;
 import island.components.Pawn;
 import island.game.GameController;
@@ -50,17 +51,17 @@ public class PlayerSunkObserver implements Observer {
 
 		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile TODO: is this needed?
 		Pawn pawn;
-		
+		System.out.println("Checking if player is on sunk tile");//TODO: remove
 		// Check if Player on IslandTile
 		for (Player player : players) {
 			
 			pawn = player.getPawn();
 			if (pawn.getTile().equals(updatedTile)) {
-				
+				System.out.println("Giving chance to move");
 				// Check if Player can move to another IslandTile
 				if (! gameController.movePlayerToSafety(pawn)) {
-					
-					gameController.endGame(); //TODO: end game enum
+					System.out.println(player.toString()+" is dead");//TODO:Move to gameView
+					gameController.endGame(GameEndings.PLAYER_SUNK); //TODO: end game enum
 				}
 			}
 		}

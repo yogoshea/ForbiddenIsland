@@ -2,6 +2,7 @@ package island.game;
 
 import java.util.List;
 
+import island.components.GameEndings;
 import island.components.IslandTile;
 import island.components.Pawn;
 import island.observers.PlayerSunkObserver;
@@ -139,10 +140,10 @@ public class GameController {
 	/**
 	 * Method called by observers that have encountered game ending conditions
 	 */
-	public void endGame() {
+	public void endGame(GameEndings ending) {
 		
 		// Display ending message to user and exit application
-		gameView.showEnding();
+		gameView.showEnding(ending);
 		System.exit(0);
 	}
 	

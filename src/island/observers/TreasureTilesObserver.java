@@ -1,5 +1,6 @@
 package island.observers;
 
+import island.components.GameEndings;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Treasure;
@@ -8,7 +9,7 @@ import island.players.GamePlayers;
 
 public class TreasureTilesObserver implements Observer {
 
-	private static TreasureTilesObserver foolsLandingObserver;
+	private static TreasureTilesObserver treasureTilesObserver;
 	private GameController gameController;
 	private IslandBoard islandBoard;
 	private GamePlayers players;
@@ -33,10 +34,10 @@ public class TreasureTilesObserver implements Observer {
 	 * @return single instance of IslandBoardObserver class 
 	 */
 	public static TreasureTilesObserver getInstance(GameController gc, IslandBoard islandBoard, GamePlayers players) {
-		if (foolsLandingObserver == null) {
-			foolsLandingObserver = new TreasureTilesObserver(gc, islandBoard, players);
+		if (treasureTilesObserver == null) {
+			treasureTilesObserver = new TreasureTilesObserver(gc, islandBoard, players);
 		}
-		return foolsLandingObserver;
+		return treasureTilesObserver;
 	}
 	
 	//TODO: simplify/make more readable
@@ -64,9 +65,10 @@ public class TreasureTilesObserver implements Observer {
 						
 						// Check if this IslandTile has already sunk
 						if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
-							
+							System.out.println(otherTreasureTile.toString()+" and "+updatedTile.toString()+" are both sunk and "+associatedTreasure+" hasn't been captured");
+							//TODO:Add to gameView
 							// Invoke GameController method to end the game
-							gameController.endGame(); // TODO: end game Enum
+							gameController.endGame(GameEndings.TREASURE_SUNK); // TODO: end game Enum
 						}
 					}
 				}
