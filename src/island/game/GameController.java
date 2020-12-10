@@ -114,7 +114,10 @@ public class GameController {
 		}
 		
 		// Instantiate observer for IslandTiles that sink with Players on them
-		PlayerSunkObserver.getInstance(this, gameModel.getGamePlayers());
+		PlayerSunkObserver newPlayerSunkObserver = PlayerSunkObserver.getInstance(this, gameModel.getGamePlayers());
+		for (Subject subject : gameModel.getIslandBoard().getAllTiles()) {
+			subject.attach(newPlayerSunkObserver); // Attach observer to every IslandTile
+		}
 	}
 	
 	/**

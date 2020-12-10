@@ -455,7 +455,7 @@ public class GameView {
 //TODO: Figure out whether to keep separate game scanner class -> probably neater to
 //TODO: Uses scanNextLine() in all appropriate scanning cases (when heli and sand cards van be played)
 	
-	public String scanNextLine(String initialPrompt) {
+	public String scanNextLine(String initialPrompt) { // TODO: maybe this checking should be in the controller? Not sure
 		//Print prompt in here (rather than before function)??
 		
 		String input = userInput.nextLine();

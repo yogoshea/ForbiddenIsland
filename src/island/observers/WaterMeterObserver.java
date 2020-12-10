@@ -19,7 +19,11 @@ public class WaterMeterObserver implements Observer {
 	 * @param Reference to GameController
 	 */
 	private WaterMeterObserver(Subject subject, GameController gc) {
+		
+		// Attach this observer subject
 		subject.attach(this);
+		
+		// Store GameController reference
 		this.gameController = gc;
 	}
 	
