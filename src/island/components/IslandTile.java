@@ -72,11 +72,10 @@ public enum IslandTile implements Subject {
 		return name;
 	}
 	
-	public Treasure captureAssociatedTreasure() {
-		Treasure temp = associatedTreasure;
-		// TODO: create NullTreasure class?
-		return temp;
-	}
+//	public Treasure captureAssociatedTreasure() {
+//		// TODO: create NullTreasure class?
+//		return associatedTreasure;
+//	}
 	
 	/**
 	 * getter method for treasure associated with island tile

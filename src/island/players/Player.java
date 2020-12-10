@@ -77,7 +77,7 @@ public abstract class Player {
 	public List<Player> getGiveCardsPlayers(GamePlayers gamePlayers) {
 		List<Player> giveCardPlayers = new ArrayList<Player>();
 		for(Player p : gamePlayers) {
-			if (this.pawn.getTile().equals(p.getPawn().getTile())) {
+			if ( this.pawn.getTile().equals(p.getPawn().getTile()) && !this.equals(p) ) {
 				giveCardPlayers.add(p);
 			}
 		}

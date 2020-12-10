@@ -70,7 +70,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			
 			gameView.updateView(gameModel); // display updated full game view after every action
 			gameView.showPlayerTurn(p);
-			actionChoice = gameView.getPlayerActionChoice(remainingTurns);
+			actionChoice = gameView.getPlayerActionChoice(p, remainingTurns);
 			
 			switch(actionChoice) {
 			
@@ -226,21 +226,22 @@ public class ActionController { //Name PlayerActionController for clarity?
 			//Take out all relevant treasure cards
 			for(Card c : p.getTreasureCards()) {
 				//TODO: Are subclasses making these treasure deck cards hard to deal with??
-				if(((TreasureCard) c).getAssociatedTreasure().equals( p.getPawn().getTile().getAssociatedTreasure())) {
+				if(((TreasureCard) c).getAssociatedTreasure().equals(treasure)) {
 					tradeCards.add(c);
 					p.getCards().remove(c);
 					cardsFound++;
 				}
 				
-				if(cardsFound >= numCardsRequired) {
-					//Capture the treasure!!!
-					//Discard 4 treasure cards
+				if(cardsFound == numCardsRequired) {
+					
+					//Discard the 4 treasure cards
 					for(int i = 0; i < 4; i++) {
-						gameModel.getTreasureDiscardPile().addCard(tradeCards.get(i));
-						tradeCards.remove(i);
+						gameModel.getTreasureDiscardPile().addCard(tradeCards.get(0)); //WHy can't I use addAll()??
+						tradeCards.remove(0);
 					}
-					//capture
-					gameModel.getGamePlayers().addTreasure(p.getPawn().getTile().captureAssociatedTreasure());
+					//capture the treasure
+					gameModel.getGamePlayers().addTreasure(treasure);
+					gameView.showTreasureCaptured(treasure);
 					//TODO: alert observer that treasure has been captured/print via gameView "You captured..."
 					return true;
 				}
@@ -249,9 +250,10 @@ public class ActionController { //Name PlayerActionController for clarity?
 			//if couldn't capture treasure
 			gameView.showNotEnoughCards(p.getPawn().getTile().getAssociatedTreasure());
 			//Return cards to player deck
-			for(int i = 0; i < tradeCards.size(); i++) {
-				gameModel.getTreasureDeck().addCardToDeck(tradeCards.get(i));
-			}
+			p.getCards().addAll(tradeCards);
+//			for(int i = 0; i < tradeCards.size(); i++) {
+//				p.addCard(tradeCards.get(i));
+//			}
 			return false;
 			
 		}

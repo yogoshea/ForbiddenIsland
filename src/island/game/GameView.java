@@ -96,7 +96,7 @@ public class GameView {
 	 * Displays message telling user there is no treasure on their current tile
 	 */
 	public void showNotEnoughCards(Treasure treasure) {
-		System.out.println("You need 4 " + treasure.toString() + "cards to capture this treasure");
+		System.out.println("You need 4 " + treasure.toString() + " cards to capture this treasure");
 	}
 	
 	/**
@@ -133,14 +133,14 @@ public class GameView {
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
 	public void showNoHeliCard(Player player) {
-		System.out.println(player.toString() + "does not have a Helicopter Lift card");
+		System.out.println(player.toString() + " does not have a Helicopter Lift card");
 	}
 	
 	/**
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
 	public void showNoSandbagCard(Player player) {
-		System.out.println(player.toString() + "does not have a Sandbag card");
+		System.out.println(player.toString() + " does not have a Sandbag card");
 	}
 	
 	public void showGameWin() {
@@ -151,11 +151,19 @@ public class GameView {
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
 	public void showTileFlooded(IslandTile tile) {
-		System.out.println(tile.toString() + "has been flooded!!");
+		System.out.println(tile.toString() + " has been flooded!!");
 	}
 	
 	public void showTileSunk(IslandTile tile) {
-		System.out.println(tile.toString() + "has SUNK!!!");
+		System.out.println(tile.toString() + " has SUNK!!!");
+	}
+	
+	public void showAlreadyCaptured(Treasure treasure) {
+		System.out.println(treasure.toString() + " has already been captured");
+	}
+	
+	public void showTreasureCaptured(Treasure treasure) {
+		System.out.println("You have captured "+treasure.toString());
 	}
 	
 	
@@ -209,7 +217,7 @@ public class GameView {
 		// display Dialog box
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
-				"GAME DIALOG", "NOTE: To use Heli Lift or Sandbag at any time, enter [H] or [S]")); // TODO: This make sense ??
+				"GAME DIALOG", "NOTE: To use Heli Lift or Sandbag at any time, enter [HELI] or [SAND]")); // TODO: This make sense ??
 		System.out.println("=".repeat(displayCharWidth));
 //		displayGameDialog(); // TODO: gameView.addToUpcomingDialog
 		
@@ -340,9 +348,9 @@ public class GameView {
 	/**
 	 * Called from within model to get player action choice
 	 */
-	public Action getPlayerActionChoice(int availableActions) {
+	public Action getPlayerActionChoice(Player player, int availableActions) {
 		
-		String prompt = "\nSelect one of the following actions: ("+availableActions+" remaining)";
+		String prompt = "\n"+player.toString()+": Select one of the following actions: ("+availableActions+" remaining)";
 		return pickFromList( Arrays.asList(Action.values()) , prompt);
 		
 	}
@@ -377,8 +385,8 @@ public class GameView {
 	public Card pickCardToDiscard(Player player) {
 		List<Card> cards = player.getCards();
 		String prompt = player.toString() + ", you have too many cards in your hand, which do you wish to discard?";
-		Card card = pickFromList(cards, prompt);
-		System.out.println("You have discarded a" + card.toString() + "card");
+		Card card = pickFromList(cards, prompt); //TODO: allow to play heli or sandcard??
+		System.out.println("You have discarded: " + card.toString());
 		return card;
 	}
 	
@@ -424,14 +432,14 @@ public class GameView {
 		System.out.println("\n" + prompt);
 		
 		int i = 1;
-		String options = "";
+		String options = "\n";
 		for(E item : items) {
 			options += item.toString()+" ["+Integer.toString(i)+"], ";
 			i++;
 		}
 		System.out.println(options); //TODO: print vertically to look better?
 		
-		index = Integer.parseInt(scanNextLine(prompt)) - 1; //TODO:proper check for invalid input
+		index = Integer.parseInt(scanNextLine(prompt+options)) - 1; //TODO:proper check for invalid input
 		
 		if(index > items.size() - 1) {
 			System.out.println("Invalid Choice, choose again");
@@ -450,11 +458,11 @@ public class GameView {
 		
 		String input = userInput.nextLine();
 		
-		while(input.equals("Heli") || input.equals("Sandbag")) {
-			if(input.equals("Heli")) {
+		while(input.equals("HELI") || input.equals("SAND")) {
+			if(input.equals("HELI")) {
 				gameController.getPlaySpecialCardController().heliRequest();
 			}
-			if(input.equals("Sandbag")) {
+			if(input.equals("SAND")) {
 				gameController.getPlaySpecialCardController().sandbagRequest();
 			}
 			

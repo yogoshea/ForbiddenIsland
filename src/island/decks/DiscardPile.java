@@ -11,9 +11,9 @@ import java.util.Collections;
  *
  * @param <E>
  */
-public abstract class DiscardPile<E> {
+public abstract class DiscardPile<E> {//TODO: singleton?
 
-	private List<E> pile; //make stack??
+	private List<E> pile; //TODO: make stack??
 	
 	protected DiscardPile() {
 		pile = new ArrayList<E>();
@@ -35,9 +35,9 @@ public abstract class DiscardPile<E> {
 	 * method to remove and return all cards from the pile 
 	 */
 	public List<E> removeAllCards() {
-		//check if pile is empty??
+		//TODO: check if pile is empty??
 		shuffle();
-		List<E> temp = pile;
+		List<E> temp = new ArrayList<E>(pile);
 	    pile.clear();
 	    return temp;
 	}

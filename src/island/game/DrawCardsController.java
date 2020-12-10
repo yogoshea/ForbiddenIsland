@@ -100,11 +100,11 @@ public class DrawCardsController {
 	 * Method to add a Treasure deck card to the players hand
 	 */
 	public void addCardToHand(Player player, Card card) {
-		
+		final int maxAllowedCards = 5;//TODO: move this to constructor?
 		player.addCard(card);
 		
 		//If more than 5 in hand, choose cards to discard
-		while( player.getCards().size() > 5 ) {
+		while( player.getCards().size() > maxAllowedCards ) {
 			chooseCardToDiscard(player);
 		}
 	}
