@@ -41,6 +41,9 @@ public class DrawCardsController {
 
 		//Could leave these draw methods in Player class and notify an observer when they are executed
 		//Then if player has too many cards, the observer can prompt to choose which one to discard
+		gameView.showEnterToContinue();
+		gameView.updateView(gameModel, player);
+		gameView.showDrawTreasureCards();
 		
 		final int cardCount = 2; //TODO: should this be final static or something at start of class? 
 		Card card;
@@ -67,7 +70,12 @@ public class DrawCardsController {
 	/**
 	 * Method to draw 2 flood cards during a players turn
 	 */
-	public void drawFloodCards() {
+	public void drawFloodCards(Player player) {
+		
+		gameView.showEnterToContinue();
+		gameView.updateView(gameModel, player);
+		gameView.showDrawFloodCards();
+		
 		//TODO: use this function for initial flooding as well?
 		FloodCard card;
 		IslandTile boardTile;
