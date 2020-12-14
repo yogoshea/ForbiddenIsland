@@ -11,7 +11,7 @@ import island.players.Player;
 
 /**
  * Controller class for retrieving player choices for GameView and change 
- * game model accordingly
+ * game model accordingly.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
@@ -24,24 +24,11 @@ public class ActionController { //Name PlayerActionController for clarity?
 	private GameModel gameModel;
 	private GameController gameController;
 	
-	public enum Action { // TODO:  move strings to GameView?
-		MOVE("Move"),
-		SHORE_UP("Shore Up"),
-		GIVE_TREASURE_CARD("Give Treasure Card"),
-		CAPTURE_TREASURE("Capture Treasure"),
-		NONE("None");
-		
-		private String actionString;
-		Action(String s) {
-			this.actionString = s;
-		}
-		public String toString() {
-			return actionString;
-		}
-	}
-	
 	/**
-	 * Constructor to retrieve view and model instances
+	 * Constructor for ActionController singleton, receives view and model instances.
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
+	 * @param Reference to GameController.
 	 */
 	private ActionController(GameModel gameModel, GameView gameView, GameController gameController) {
 		this.gameModel = gameModel;
@@ -50,7 +37,11 @@ public class ActionController { //Name PlayerActionController for clarity?
 	}
 	
 	/**
-	 * @return single instance of action controller
+	 * Getter method for singleton instance.
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
+	 * @param Reference to GameController.
+	 * @return single instance of ActionController.
 	 */
 	public static ActionController getInstance(GameModel gameModel, GameView gameView, GameController gameController) {
 		if (actionController == null) {
@@ -172,7 +163,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		Card card;
 		
 		//find players on same tile
-		playersOnSameTile = p.getGiveCardsPlayers(gameModel.getGamePlayers());
+		playersOnSameTile = p.getCardReceivablePlayers(gameModel.getGamePlayers());
 		
 		if(playersOnSameTile.isEmpty()) {
 			gameView.showNoPlayersOnSameTile();
@@ -226,7 +217,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			//Take out all relevant treasure cards
 			for(Card c : p.getTreasureCards()) {
 				//TODO: Are subclasses making these treasure deck cards hard to deal with??
-				if(((TreasureCard) c).getAssociatedTreasure().equals(treasure)) {
+				if(c.getUtility().equals(treasure)) { //TODO: check getUtility is working!
 					tradeCards.add(c);
 					p.getCards().remove(c);
 					cardsFound++;

@@ -19,20 +19,44 @@ public class WaterMeter implements Subject {
 	private int waterLevel;
 	private List<Observer> observers = new ArrayList<Observer>();	
 	
-	// private constructor, initialise meter to 1
+	/**
+	 * Private constructor for WaterMeter singleton.
+	 */
 	private WaterMeter() {
-		this.waterLevel = 1; // TODO: better way to set attributes?
+		
+		// Initial water meter set to 1 by default
+		this.waterLevel = 1;
 	}
 	
+	/**
+	 * Getter method for singleton instance.
+	 * @return single WaterMeter instance.
+	 */
 	public static WaterMeter getInstance() {
 		return instance;
 	}
 	
+	/**
+	 * Sets new water meter level.
+	 * @param integer value of new water meter level.
+	 */
+	public void setLevel(int newLevel) {
+		waterLevel = newLevel;
+		notifyAllObservers(); // Notify observers of WaterMeter state
+	}
+	
+	/**
+	 * Increments water level by one.
+	 */
 	public void incrementLevel() {
 		this.waterLevel++;
 		notifyAllObservers(); // Notify observers of WaterMeter state
 	}
 	
+	/**
+	 * Getter method for the current water level.
+	 * @return integer value representing water level.
+	 */
 	public int getWaterLevel() { 
 		return waterLevel;
 	}
@@ -49,6 +73,4 @@ public class WaterMeter implements Subject {
 		}
 	}
 	
-	// TODO: toString() method for displaying in terminal UI
-
 }

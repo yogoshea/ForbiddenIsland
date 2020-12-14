@@ -8,8 +8,7 @@ import java.util.List;
 import island.components.Treasure;
 
 /**
- * Class to represent the group of Players currently
- * playing the game.
+ * Class to represent the group of Players currently playing the game.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
@@ -18,11 +17,12 @@ public class GamePlayers implements Iterable<Player> {
 	// Singleton instance
 	private static GamePlayers gamePlayers;
 	
+	// GamePlayers attributes
 	private List<Player> playersList;
 	private List<Treasure> capturedTreasures;
 	
 	/**
-	 * Constructor to instantiate GamePlayers class
+	 * Constructor to instantiate GamePlayers class.
 	 */
 	private GamePlayers() {
 		playersList = new ArrayList<Player>();
@@ -30,7 +30,8 @@ public class GamePlayers implements Iterable<Player> {
 	}
 	
 	/**
-	 * @return single instance of game players
+	 * Getter method for singleton instance.
+	 * @return single instance of game players.
 	 */
 	public static GamePlayers getInstance() {
 		if (gamePlayers == null) {
@@ -40,7 +41,7 @@ public class GamePlayers implements Iterable<Player> {
 	}
 	
 	/**
-	 * Allows iteration over game players
+	 * Allows iteration over game players List
 	 */
 	@Override
 	public Iterator<Player> iterator() {
@@ -49,7 +50,7 @@ public class GamePlayers implements Iterable<Player> {
 	
 	/**
 	 * Getter method for Treasure captured by Players
-	 * @return List of Treasures already captured by gamem players
+	 * @return List of Treasures already captured by game players
 	 */
 	public List<Treasure> getCapturedTreasures() {
 		return capturedTreasures;
@@ -57,7 +58,7 @@ public class GamePlayers implements Iterable<Player> {
 	
 	/**
 	 * Method to check if all treasures have been captured
-	 * @return true if they all have, false otherwise
+	 * @return boolean value of true if they have captured all treasures, false otherwise.
 	 */
 	public boolean allTreasuresCaptured() {
 		

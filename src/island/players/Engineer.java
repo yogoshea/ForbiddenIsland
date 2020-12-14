@@ -3,23 +3,23 @@ package island.players;
 import island.components.IslandTile;
 
 /**
- * Class to represent Engineer role of a player in the game
+ * Class to represent Engineer role of a player in the game.
  * @author Eoghan O'Shea and Robert McCarthy
+ * 
  */
 public class Engineer extends Player {
 
-	private final static IslandTile startingTile = IslandTile.BRONZE_GATE;
-
 	/**
-	 * Constructor for Engineer class
+	 * Constructor for Engineer instance.
+	 * @param String representing name of player.
 	 */
 	public Engineer(String name) {
-		super(name, startingTile);
-		this.setShoreUpQuantity(2);
+		
+		/* 
+		 * Engineer's starting island tile set to Silver Gate, and the Engineer
+		 * can shore up 2 tiles per action.
+		 */
+		super(name, "Engineer", IslandTile.BRONZE_GATE, 2);
 	}
 	
-	@Override
-	public String toString() {
-		return super.toString() + " (Engineer)";
-	}
 }

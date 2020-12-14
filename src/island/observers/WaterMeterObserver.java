@@ -1,8 +1,8 @@
 package island.observers;
 
-import island.components.GameEndings;
 import island.components.WaterMeter;
 import island.game.GameController;
+import island.game.GameEndings;
 
 /**
  * Observer class to act on updates to state of WaterMeter class
@@ -20,7 +20,7 @@ public class WaterMeterObserver implements Observer {
 	 */
 	private WaterMeterObserver(Subject subject, GameController gc) {
 		
-		// Attach this observer subject
+		// Attach this observer to subject
 		subject.attach(this);
 		
 		// Store GameController reference
@@ -44,7 +44,7 @@ public class WaterMeterObserver implements Observer {
 	@Override
 	public void update(Subject subject) {
 		if (((WaterMeter) subject).getWaterLevel() == 5)
-			gameController.endGame(GameEndings.WATER_LEVEL_EXCEEDED); // TODO: change to GameEndings enum
+			gameController.endGame(GameEndings.MAX_WATER_LEVEL); // TODO: change to GameEndings enum
 	}
 
 }

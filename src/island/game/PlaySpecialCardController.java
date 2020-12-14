@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import island.cards.Card;
-import island.cards.HelicopterLiftCard;
-import island.cards.SandbagCard;
-import island.components.GameEndings;
+import island.cards.SpecialCard;
+import island.cards.SpecialCardAbility;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
@@ -60,7 +59,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 		for(Card card : player.getCards()) {
 			
 			//If helicopter card found then attempt to play it
-			if(card instanceof HelicopterLiftCard) {
+			if(card instanceof SpecialCard && card.getUtility().equals(SpecialCardAbility.HELICOPTER_LIFT)) {
 				
 				checkForGameWin();
 				
@@ -96,7 +95,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 		
 		for(Card card : player.getCards()) {
 			
-			if(card instanceof SandbagCard) {
+			if(card instanceof SpecialCard && card.getUtility().equals(SpecialCardAbility.SANDBAG)) {
 				
 				List<IslandTile> floodedTiles = gameModel.getIslandBoard().getFloodedTiles();
 				

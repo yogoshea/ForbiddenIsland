@@ -1,7 +1,7 @@
 package island.observers;
 
-import island.components.GameEndings;
 import island.game.GameController;
+import island.game.GameEndings;
 
 /**
  * Observer class to react to the Fools Landing IslandTile sinking
@@ -48,6 +48,6 @@ public class FoolsLandingObserver implements Observer {
 	 */
 	@Override
 	public void update(Subject subject) {
-		gameController.endGame(GameEndings.FOOLS_LANDING_SUNK); // TODO: change to GameEndings enum! e.g. GameEndings.FOOLS_LANDING_SUNK
+		gameController.endGame(GameEndings.FOOLS_LANDING_SUNK);
 	}
 }

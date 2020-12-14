@@ -12,7 +12,7 @@ import island.observers.Observer;
 import island.observers.Subject;
 
 /**
- * IslandBoard class represents island board and holds tiles
+ * IslandBoard class represents island board and the island tiles it consists of.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
@@ -21,28 +21,13 @@ public class IslandBoard implements Subject {
 	// Instantiate singleton
 	private static IslandBoard islandBoard = new IslandBoard();
 	
-	// Create 2D array of IslandTiles to represent game board
-	private IslandTile[][] boardStructure;
-	
-//	private FloodDeck floodDeck;
-//	private FloodDiscardPile floodDiscardPile;
-//	private Map<Pawn,IslandTile> pawnLocations;
-//	private List<Pawn> pawns = new ArrayList<Pawn>();
-
+	private IslandTile[][] boardStructure; // 2D array of IslandTiles to represent game board
+	private Map<IslandTile, Coordinate> tileCoordinates;
 	private List<Observer> observers = new ArrayList<Observer>();
 	
-//	// Small inner class to store IslandTile coordinates for quicker access TODO: make sure this is okay to do!
-//	private class Coordinate {
-//		int row;
-//		int column;
-//		Coordinate(int row, int column) {
-//			this.row = row;
-//			this.column = column;
-//		}
-//	}
-	private Map<IslandTile, Coordinate> tileCoordinates;
-	
-	// Fills structure with IslandTile Enum types
+	/**
+	 * Private constructor for IslandBoard singleton.
+	 */
 	private IslandBoard() {
 		
 		// Source all IslandTiles form Enum values
@@ -54,7 +39,7 @@ public class IslandBoard implements Subject {
 		// Shuffle the tiles in the stack
 		Collections.shuffle(islandTiles);
 		
-		// Assign appropriate lengths to 2D structure TODO: can change this to for loop if needed
+		// Assign appropriate lengths to 2D structure
 		boardStructure = new IslandTile[6][];
 		boardStructure[0] = new IslandTile[2];	//		  [][]
 		boardStructure[1] = new IslandTile[4];	//		[][][][]
@@ -63,7 +48,7 @@ public class IslandBoard implements Subject {
 		boardStructure[4] = new IslandTile[4];	//		[][][][]
 		boardStructure[5] = new IslandTile[2];	//		  [][]
 		
-		// create HashMap to store locations
+		// Store locations in HashMap
 		tileCoordinates = new HashMap<IslandTile, Coordinate>();
 		for (int i = 0; i < boardStructure.length; i++) {
 			for (int j = 0; j < boardStructure[i].length; j++) {
@@ -75,6 +60,7 @@ public class IslandBoard implements Subject {
 	}
 	
 	/**
+	 * Getter method for singleton instance
 	 * @return single instance of IslandBoard
 	 */
 	public static IslandBoard getInstance() {
@@ -93,21 +79,17 @@ public class IslandBoard implements Subject {
 	}
 	
 	/**
-	 * Takes a tile and returns a list of adjacent island tiles (which methods should be static in singleton?)
+	 * Finds the island tiles adjacent to a given island tile.
+	 * @param Specific IslandTile to retrieve adjacent tiles for.
+	 * @return List containing relevant IslandTile instances.
 	 */
-	public List<IslandTile> getAdjacentTiles(IslandTile tile) {
+	public List<IslandTile> getAdjacentTiles(IslandTile tile) { // TODO: simplify this function!
 
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
 		Coordinate currentCoord = tileCoordinates.get(tile);
-		int currentRow = currentCoord.getRow();
-		int currentColumn = currentCoord.getColumn();
+		int currentRow = currentCoord.getRowIndex();
+		int currentColumn = currentCoord.getColumnIndex();
 		
-//		int[] currentPos = new int[2];
-//		currentPos[0] = currentCoord.getRow();
-//		currentPos[1] = currentCoord.getColumn();
-//		if(currentPos[0] < 0 || currentPos[1] < 0) {
-//			return adjTiles;
-//		}
 		int curRowLength = boardStructure[currentRow].length;
 		int curRowOffset = ((curRowLength * 2) % 6) / 2;
 		
@@ -140,35 +122,6 @@ public class IslandBoard implements Subject {
 		return adjTiles;
 	}
 	
-//	public List<Pawn> getPawns() {
-//		return this.pawns;
-//	}
-	
-	private int getRowOffset(int rowIndex) {
-		return (((boardStructure[rowIndex].length) * 2) % 6) / 2;
-	}
-	
-//	public void setPawnLocation(Pawn playerPawn, IslandTile islandTile) {
-//		pawnLocations.put(playerPawn, islandTile);
-//	}
-//	
-//	public boolean isPawnOnTile(IslandTile islandtile) {
-//		for (IslandTile tileToCheck : pawnLocations.values()) {
-//			if (tileToCheck.equals(islandtile)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//	
-//	public Pawn getPawnOnTile(IslandTile islandTile) { // TODO: might throw null pointer exception
-//		return 
-//	}
-//	
-//	public  Map<Pawn,IslandTile> getPawnLocations() {
-//		return this.pawnLocations;
-//	}
-
 	/**
 	 * Gets instance of specific island tile placed on board
 	 * @param IslandTile to retrieve from board
@@ -176,14 +129,14 @@ public class IslandBoard implements Subject {
 	 */
 	public IslandTile getTile(IslandTile islandTile) {
 		Coordinate tileCoord = tileCoordinates.get(islandTile);
-		return this.boardStructure[tileCoord.getRow()][tileCoord.getColumn()];
+		return this.boardStructure[tileCoord.getRowIndex()][tileCoord.getColumnIndex()];
 	}
 	
 	/**
 	 * Forms List of IslandTile instances
 	 * @return instances of each IslandTile on IslandBoard
 	 */
-	public List<IslandTile> getAllTiles() { // TODO: maybe implement iterator for IslandBoard if time
+	public List<IslandTile> getAllTiles() {
 		List<IslandTile> allTiles = new ArrayList<IslandTile>();
 		for (int i = 0; i < boardStructure.length; i++) {
 			for (int j = 0; j < boardStructure[i].length; j++) {
@@ -218,7 +171,7 @@ public class IslandBoard implements Subject {
 		List<IslandTile> nonSunkTiles = new ArrayList<IslandTile>();
 		
 		for(IslandTile tile: getAllTiles()) {
-			if(!tile.isSunk()) {
+			if(! tile.isSunk()) {
 				nonSunkTiles.add(tile);
 			}
 		}
@@ -229,7 +182,7 @@ public class IslandBoard implements Subject {
 	 * Identifies IslandTiles where Treasures are located
 	 * @return instances of IslandTile with associated Treasures
 	 */
-	public List<IslandTile> getTreasureTiles() { // TODO: maybe implement iterator for IslandBoard if time
+	public List<IslandTile> getTreasureTiles() {
 		List<IslandTile> treasureTiles = new ArrayList<IslandTile>();
 		for (int i = 0; i < boardStructure.length; i++) {
 			for (int j = 0; j < boardStructure[i].length; j++) {
@@ -242,22 +195,25 @@ public class IslandBoard implements Subject {
 	}
 
 	/**
-	 * Disatnce between two tiles
-	 * @param currentTile
-	 * @param islandTile
+	 * Computes distance between two specified island tiles.
+	 * @param First IslandTile instance.
+	 * @param Second IslandTile instance.
+	 * @return double value representing the distance between island tiles.
 	 */
-	public double getDistanceBetweenTiles(IslandTile currentTile, IslandTile otherTile) {
+	public double calcDistanceBetweenTiles(IslandTile aTile, IslandTile otherTile) {
 		
-		int currentRow = tileCoordinates.get(currentTile).getRow();
-		double x1 = currentRow + this.getRowOffset(currentRow);
-		
-		int otherRow = tileCoordinates.get(otherTile).getRow();
-		double x2 = currentRow + this.getRowOffset(otherRow);
-		
-		double y1 = tileCoordinates.get(currentTile).getColumn();
-		double y2 = tileCoordinates.get(otherTile).getColumn();
-		
-		return Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2);
+		return Coordinate.calcDistanceBetweenCoordinates(tileCoordinates.get(aTile), tileCoordinates.get(otherTile));
+
+//		int currentRow = tileCoordinates.get(currentTile).getRowIndex();
+//		double x1 = currentRow + this.getRowOffset(currentRow);
+//		
+//		int otherRow = tileCoordinates.get(otherTile).getRowIndex();
+//		double x2 = currentRow + this.getRowOffset(otherRow);
+//		
+//		double y1 = tileCoordinates.get(currentTile).getColumnIndex();
+//		double y2 = tileCoordinates.get(otherTile).getColumnIndex();
+//		
+//		return Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2);
 	}
 	
 	
@@ -273,90 +229,4 @@ public class IslandBoard implements Subject {
 		}
 	}
 
-
 }
-	
-	
-//	/**
-//	 * Takes a flood deck card and either floods or removes corresponding tile
-//	 * @return true if successful, false if tile already removed
-//	 */
-//	public boolean floodOrSinkTile(IslandTile tile) {
-//		int[] pos = getTileLocation(tile);
-//		int i = pos[0];
-//		int j = pos[1];
-//		if(i >= 0 && j >= 0) {
-//			//If not flooded
-//			if(!boardStructure[i][j].isFlooded()) {
-//				//Flood tile
-//				boardStructure[i][j].setToFlooded();
-//			} else {
-//				
-//				//If player on tile, give chance to move
-//				//TODO: should this happen via observer?
-//				for(Player p : GamePlayers.getInstance().getPlayersList()) {
-//					if(p.getCurrentTile().equals(boardStructure[i][j])) {
-//						//p.move(userScanner);
-//					}
-//				}
-//				System.out.println(boardStructure[i][j].name()+ "has sunk!!!!"); // TODO: change this to notify SunkObserver
-//				boardStructure[i][j] = null; //TODO: set to enum Sunk
-//				//Alert gameOverObserver that something happened which may cause game to be over
-//				//notifyAllObservers();
-//			}
-//			return true;
-//		}
-//		//Action doesn't count as turn if you couldn't use card? Check before this?
-//		return false;
-//	}
-	
-//	/**
-//	 * Takes an IslandTile and shores-up corresponding tile on board
-//	 * @return true if successful, false if not
-//	 */
-//	public boolean shoreUp(IslandTile t) {
-//		int[] pos = getTileLocation(t);
-//		int i = pos[0];
-//		int j = pos[1];
-//		if(i >= 0 && j >= 0) {
-//			return boardStructure[i][j].shoreUp();
-//		}
-//		return false;
-//	}
-	
-//	/**
-//	 * Takes an island tile and finds its position on board
-//	 * @return position in array: [x,y]. returns [-1,-1] if not found
-//	 */
-//	public int[] getTileLocation(IslandTile tile) {
-//		// TODO: save tile locations at start instead of searching each time?
-//		int[] pos = {-1,-1}; // [row, column]
-//		for (int i = 0; i < boardStructure.length; i++) {
-//			for (int j = 0; j < boardStructure[i].length; j++) {
-//				
-//				if (boardStructure[i][j].equals(tile)) {
-//					// TODO: implement equals() method in IslandTile to compare enum value
-//					pos[0] = i;
-//					pos[1] = j;
-//				}	
-//			}
-//		}
-//		return pos;
-//	}
-//	
-	
-//	public List<IslandTile> getFloodedTiles() {
-//		List<IslandTile> floodedTiles = new ArrayList<IslandTile>();//Arraylist good?
-//		
-//		for (int i = 0; i < boardStructure.length; i++) {
-//			for (int j = 0; j < boardStructure[i].length; j++) {
-//				
-//				if(boardStructure[i][j].isFlooded()) {
-//					floodedTiles.add(boardStructure[i][j]);
-//				}
-//			}
-//		}
-//		
-//		return floodedTiles;
-//	}
-

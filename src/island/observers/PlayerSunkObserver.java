@@ -1,9 +1,9 @@
 package island.observers;
 
-import island.components.GameEndings;
 import island.components.IslandTile;
 import island.components.Pawn;
 import island.game.GameController;
+import island.game.GameEndings;
 import island.players.GamePlayers;
 import island.players.Player;
 

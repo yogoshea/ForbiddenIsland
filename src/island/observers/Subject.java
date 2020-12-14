@@ -1,7 +1,7 @@
 package island.observers;
 
 /**
- * Abstract class to be implemented by necessary game play subjects
+ * Interface to be implemented by necessary game play classes and enums
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */

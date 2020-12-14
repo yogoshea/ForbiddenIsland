@@ -2,7 +2,6 @@ package island.game;
 
 import java.util.List;
 
-import island.components.GameEndings;
 import island.components.IslandTile;
 import island.components.Pawn;
 import island.observers.PlayerSunkObserver;

@@ -7,8 +7,7 @@ import island.cards.FloodCard;
 import island.components.IslandTile;
 
 /**
- * TreasureDeck class is a deck filled with TreasureCards,
- * HelicopterLiftCards, SandbagCards and WaterRiseCards.
+ * FloodDeck class is a Deck subclass filled with FloodCard instances.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
@@ -17,15 +16,21 @@ public class FloodDeck extends Deck<FloodCard> {
 	// Instantiate singleton
 	private static FloodDeck floodDeck;
 	
+	/**
+	 * Private constructor for FloodDeck singleton.
+	 */
 	private FloodDeck() {
-		super(); // TODO: check if needed
-		
-		// add FloodCard to deck for each IslandTile
+
+		// Add FloodCard to deck for each IslandTile value
 		for (IslandTile it : IslandTile.values()) {
 			this.addCardToDeck(new FloodCard(it));
 		}
 	}
 	
+	/**
+	 * Getter method for singleton instance.
+	 * @return Instance of FloodDeck singleton.
+	 */
 	public static FloodDeck getInstance() {
 		if (floodDeck == null) {
 			floodDeck = new FloodDeck();
@@ -35,10 +40,10 @@ public class FloodDeck extends Deck<FloodCard> {
 	
 	@Override
 	public void refill() {
-		List<FloodCard> temp = new ArrayList<FloodCard>();
-		temp = FloodDiscardPile.getInstance().removeAllCards();
-		for(FloodCard c : temp) {
-			floodDeck.addCardToDeck(c);
+//		List<FloodCard> temp = new ArrayList<FloodCard>();
+//		temp = FloodDiscardPile.getInstance().removeAllCards();
+		for (FloodCard fc : FloodDiscardPile.getInstance().removeAllCards()) {
+			floodDeck.addCardToDeck(fc);
 		}
 	}
 

@@ -50,7 +50,7 @@ public class SetupController {
 		startIslandSinking();
 		assignPlayerRoles(playerNames);
 		handOutInitialTreasureCards();
-//		e.g. waterMeter.setLevel(3); // TODO: give user option to make higher for added difficulty
+		gameModel.getWaterMeter().setLevel(gameView.pickStartingWaterLevel());
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class SetupController {
 			// Draw FloodCard from deck
 			newFloodCard = floodDeck.drawCard();
 			
-			tile = newFloodCard.getCorrespondingIslandTile();
+			tile = newFloodCard.getUtility(); //TODO: check getUtility working correctly?
 
 			// Flood corresponding IslandTile on board
 			islandBoard.getTile(tile).setToFlooded();
@@ -150,7 +150,7 @@ public class SetupController {
 			do {
 				drawnCard = treasureDeck.drawCard();
 
-				if (drawnCard instanceof WaterRiseCard) {
+				if (drawnCard instanceof SpecialCard && drawnCard.getUtility().equals(SpecialCardAbility.WATER_RISE)) { // TODO: check can get rid of instanceof?
 					treasureDeck.addCardToDeck(drawnCard); // Put water Rise cards back in deck
 				} else {
 					cardsDrawnCount++;

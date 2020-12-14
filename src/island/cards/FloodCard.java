@@ -4,26 +4,18 @@ import island.components.IslandTile;
 
 /**
  * Class to represent cards that can be placed in the flood deck.
+ * Each FloodCard has an IslandTile associated with it.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class FloodCard extends Card {
+public class FloodCard extends Card<IslandTile> {
 	
-	private IslandTile correspondingIslandTile;
-
-	// IslandTile must be passed into constructor
-	public FloodCard(IslandTile tile) {
-//		super();
-		this.correspondingIslandTile = tile;
+	/**
+	 * Constructor for FloodCard instances.
+	 * @param IslandTile associated with newly created FloodCard.
+	 */
+	public FloodCard(IslandTile islandTile) {
+		super(islandTile.getName() + " Flood", islandTile);
 	}
 	
-	public IslandTile getCorrespondingIslandTile() {
-		return correspondingIslandTile;
-	}
-	
-	@Override
-	public String toString() {
-		return "Flood Card ~~> " + correspondingIslandTile;
-	}
-
 }

@@ -8,10 +8,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 import island.cards.Card;
-import island.components.GameEndings;
 import island.components.IslandTile;
 import island.components.Treasure;
-import island.game.ActionController.Action;
 import island.players.Player;
 
 /**
@@ -24,21 +22,20 @@ public class GameView {
 	// Singleton instance
 	private static GameView gameView;
 
+	// GameView references
 	private Scanner userInput;
 	private GameController gameController;
 	
-	//TODO: make appropriate strings constant variables
-	
-	// display component dimensions
-	final int tileCharWidth = 25; // change to make tiles wider
-	final int displayCharWidth = 6 * tileCharWidth; // display width in characters
-	
-	
+	/**
+	 * Private constructor for GameView singleton.
+	 * @param Refernce to GameController.
+	 */
 	private GameView() {
-		userInput = new Scanner(System.in);
+		this.userInput = new Scanner(System.in);
 	}
 	
 	/**
+	 * Getter method for singleton instance.
 	 * @return single instance of GameView
 	 */
 	public static GameView getInstance() {
@@ -48,8 +45,7 @@ public class GameView {
 		return gameView;
 	}
 
-	
-	//TODO: New class for these show methods? How to clean up/shorten?
+	//TODO: New class for these show methods? How to clean up/shorten? Enum: ErrorMessages
 	/**
 	 * Displays welcome view
 	 */
@@ -203,156 +199,26 @@ public class GameView {
 		//TODO: add time delays between prints? Maybe, yeah. Or just user press return/input any key to continue
 		// TODO: better way to update screen?
 //		System.out.println("\n".repeat(20));
-		
-		System.out.println("=".repeat(displayCharWidth));
-		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
-				"FORBIDDEN ISLAND", "WATER LEVEL: " + gameModel.getWaterMeter().getWaterLevel())); // TODO: This make sense ??
-		System.out.println("=".repeat(displayCharWidth));
-		displayIslandBoard(gameModel);
-		
-		// display current player information
-		System.out.println("=".repeat(displayCharWidth));
-		System.out.println("PLAYER INFORMATION");
-		System.out.println("=".repeat(displayCharWidth));
-		displayPlayerInformation(gameModel);
-		
-		// display Dialog box
-		System.out.println("=".repeat(displayCharWidth));
-		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
-				"GAME DIALOG", "NOTE: To use Heli Lift or Sandbag at any time, enter [HELI] or [SAND]")); // TODO: This make sense ??
-		System.out.println("=".repeat(displayCharWidth));
-//		displayGameDialog(); // TODO: gameView.addToUpcomingDialog
+		GameGraphics.refreshDisplay(gameModel);
 		
 	}
 	
-	// TODO: maybe move to something like GameGraphics, to store all lengthy terminal image type outputs ??
-	private void displayIslandBoard(GameModel gameModel) { //TODO: print associated treasure
-
-		String outputString = "";
-		String vertBars = "-".repeat(tileCharWidth);
-		Map<IslandTile, Player> pawnLocations = new HashMap<IslandTile, Player>(); // TODO: change to printing Pawn info
-		
-		// retrieve players' current positions from model TODO: CHANGE this to getPlayerLocations method
-		for (Player p : gameModel.getGamePlayers()) {
-			pawnLocations.put(p.getPawn().getTile(), p);
-		}
-		
-		// retrieve Island board state from model
-		IslandTile[][] boardStructure = gameModel.getIslandBoard().getBoardStructure();
-		
-		// iterate of island grid rows
-		for (int i = 0; i < boardStructure.length; i++) {
-			
-			int rowLength = boardStructure[i].length;
-			int rowOffset = ((rowLength * 2) % 6) / 2; // offset needed to from island structure
-
-			// add top bar of island tiles
-			outputString += " ".repeat(tileCharWidth * rowOffset) + vertBars.repeat(rowLength)
-							+ " ".repeat(tileCharWidth * rowOffset) + "\n";
-			
-			// add row structure offset before
-			outputString += " ".repeat(tileCharWidth * rowOffset);
-		
-			// iterate over island grid columns
-			for (int j = 0; j < boardStructure[i].length; j++) {
-				
-				// add specific tile name
-				outputString += "| ";
-				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].toString()).length()) / 2) + "s", boardStructure[i][j]));
-				outputString += " |";
-			}
-			
-			// add row structure offset before
-			outputString += "\n";
-			outputString += " ".repeat(tileCharWidth * rowOffset);
-			
-			// iterate over island grid columns
-			for (int j = 0; j < boardStructure[i].length; j++) {
-				
-				// add flooded status String
-				outputString += "| ";
-				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].getFloodStatus().toString()).length()) / 2) + "s", boardStructure[i][j].getFloodStatus().toString()));
-				outputString += " |";
-			}
-			
-			// add row structure offset before
-			outputString += "\n";
-			outputString += " ".repeat(tileCharWidth * rowOffset);
-			
-			// iterate over island grid columns
-			for (int j = 0; j < boardStructure[i].length; j++) {
-				
-				// add space
-				outputString += "| ";
-				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-						String.format("%" + ((tileCharWidth - 4 + " ".length()) / 2) + "s", " "));
-				outputString += " |";
-			}
-
-			// add row structure offset before
-			outputString += "\n";
-			outputString += " ".repeat(tileCharWidth * rowOffset);
-			
-			// iterate over island grid columns
-			for (int j = 0; j < boardStructure[i].length; j++) {
-				
-				// add specific tile details
-				outputString += "| ";
-				if (pawnLocations.containsKey(boardStructure[i][j])) {
-					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-							String.format("%" + ((tileCharWidth - 4 + (pawnLocations.get(boardStructure[i][j]).toString().length())) / 2) + "s", pawnLocations.get(boardStructure[i][j]).toString()));
-					outputString += " |";
-				} else {
-					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-						String.format("%" + ((tileCharWidth - 4 + " ".length()) / 2) + "s", " "));
-					outputString += " |";
-				}
-			} // TODO: check for Player names that are too long, shorten?
-
-			// add bottom bar of island tiles
-			outputString += "\n" + " ".repeat(tileCharWidth * rowOffset) + vertBars.repeat(rowLength)
-							+ " ".repeat(tileCharWidth * rowOffset) + "\n";
-		}
-		
-		System.out.print(outputString);
-	}
-	
-	private void displayPlayerInformation(GameModel gameModel) {
-		// retrieve players' current information from model
-		final int maxTreasureCards = 5;
-		final int playerCount = gameModel.getGamePlayers().getPlayersList().size();
-		final List<Player> playerList = gameModel.getGamePlayers().getPlayersList();
-//		TreasureDeckCard currentTreasureCard;
-		for (Player p : gameModel.getGamePlayers()) {
-			System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", p); // left alignment 
-		}
-		System.out.println(); // newline 
-		for (Player p : gameModel.getGamePlayers()) {
-			System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "Cards in hand:"); // left alignment 
-		}
-		System.out.println(); // newline 
-		
-		// list currently held treasure cards
-		for (int i = 0; i < maxTreasureCards; i++) {
-			for (int j = 0; j < playerCount; j++) {
-				if (i < playerList.get(j).getCards().size())
-					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". " + playerList.get(j).getCards().get(i)); // left alignment 
-				else
-					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". "+ "----------"); // left alignment 
-			}
-			System.out.println();
-		}
-	}
-	
+	/**
+	 * Retrieve user choice of game's initial water level.
+	 * @return integer value representing selected water level.
+	 */
+	public int pickStartingWaterLevel() {
+		String prompt = "What water level would you like to start on?";
+		List<String> startingDifficulties = Arrays.asList("Novice", "Normal", "Elite", "Legendary");
+		return startingDifficulties.indexOf(pickFromList(startingDifficulties, prompt)) + 1;
+	}		
 	
 	/**
 	 * Called from within model to get player action choice
 	 */
 	public Action getPlayerActionChoice(Player player, int availableActions) {
 		
-		String prompt = "\n"+player.toString()+": Select one of the following actions: ("+availableActions+" remaining)";
+		String prompt = player.toString()+": Select one of the following actions: ("+availableActions+" remaining)";
 		return pickFromList( Arrays.asList(Action.values()) , prompt);
 		
 	}
@@ -543,6 +409,7 @@ public class GameView {
 				
 		}
 		
-	}		
+	}
+
 
 }

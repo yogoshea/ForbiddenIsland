@@ -2,42 +2,61 @@ package island.decks;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import island.cards.Card;
+
 import java.util.Collections;
 
 /**
  * Abstract class to be extending by game's discard piles;
  * FloodDiscardPile and TreasureDiscardPile.
  * @author Eoghan O'Shea and Robert McCarthy
- *
- * @param <E>
+ * @param <E> Element to be placed in DiscardPile subclass instances.
+ * 
  */
-public abstract class DiscardPile<E> {//TODO: singleton?
+public abstract class DiscardPile<E extends Card> {
 
-	private List<E> pile; //TODO: make stack??
+	// List to store discard pile cards
+	private List<E> pile;
 	
-	protected DiscardPile() {
+	/**
+	 * Constructor to be called when DiscardPile subclasses instantiated.
+	 */
+	DiscardPile() {
 		pile = new ArrayList<E>();
 	}
 	
+	/**
+	 * Getter method for all cards in discard pile.
+	 * @return List of Cards instances in discard pile.
+	 */
 	public List<E> getAllCards() {
 		return pile;
 	}
 	
+	/**
+	 * Adds card to discard pile.
+	 * @param Card instance to be added to discard pile.
+	 */
 	public void addCard(E card) {
 		pile.add(card);
 	}
 	
+	/**
+	 * Shuffles order of cards in the discard pile.
+	 */
 	public void shuffle() {
 	    Collections.shuffle(this.pile);
 	}
 	
 	/**
-	 * method to remove and return all cards from the pile 
+	 * Removes all cards from the discard pile.
+	 * @return List of all cards removed from discard pile. 
 	 */
 	public List<E> removeAllCards() {
-		//TODO: check if pile is empty??
+		//TODO: check if pile is empty? Unit test
 		shuffle();
-		List<E> temp = new ArrayList<E>(pile);
+		List<E> temp = getAllCards();
 	    pile.clear();
 	    return temp;
 	}

@@ -5,21 +5,27 @@ import java.util.List;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 
+/**
+ * Class to represent Navigator role of a player in the game.
+ * @author Eoghan O'Shea and Robert McCarthy
+ * 
+ */
 public class Pilot extends Player {
 	
-	private static IslandTile startingTile = IslandTile.FOOLS_LANDING;
-	
+	/**
+	 * Constructor for Pilot instance.
+	 * @param String representing name of player.
+	 */
 	public Pilot(String name) {
-		super(name, startingTile);
+		
+		// Pilot's starting island tile set to Fools Landing.
+		super(name, "Pilot", IslandTile.FOOLS_LANDING);
 	}
 
 	@Override
-	public String toString() {
-		return super.toString() + " (Pilot)";
-	}
-	
-	@Override
 	public List<IslandTile> getSwimmableTiles(IslandBoard islandBoard) {
+		
+		// Pilot can move to any available island tile if current tile sinks
 		return islandBoard.getNonSunkTiles();
 	}
 }

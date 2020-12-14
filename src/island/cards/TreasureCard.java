@@ -7,28 +7,14 @@ import island.components.Treasure;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class TreasureCard extends Card {
+public class TreasureCard extends Card<Treasure> {
 	
-	private Treasure associatedTreasure;
-
-	// Associated Treasure must be set in constructor
+	/**
+	 * Constructor for TreasureCard instance.
+	 * @param Treasure associated with a given TreasureCard.
+	 */
 	public TreasureCard(Treasure treasure) {
-//		super();
-		this.associatedTreasure = treasure;
+		super(treasure.getName(), treasure);
 	}
-
-	public Treasure getAssociatedTreasure() {
-		return associatedTreasure;
-	}
-	
-	public String toString() {
-		return associatedTreasure.toString() + " Card";
-	}
-
-	
-//	THE_CRYSTAL_OF_FIRE,
-//	THE_EARTH_STONE,
-//	THE_OCEANS_CHALICE,
-//	THE_STATUE_OF_THE_WIND;
 
 }

@@ -18,47 +18,100 @@ import island.components.Pawn;
  */
 public abstract class Player { 
 
-	private String name;
-	private Pawn pawn; //TODO: start making use of pawn
-	private List<Card> cards; // check for null when using
-	private int shoreUpQuantity; //TODO: maybe change to final 
+	// Player attributes
+	private final String name;
+	private final String role;
+	private final Pawn pawn;
+	private List<Card> cards; // TODO: check for empty when using?
+	private final IslandTile startingTile;
+	private final int shoreUpQuantity;
 	
-	protected Player(String name, IslandTile startingTile) {
+	/**
+	 * Constructor to be called when Player subclasses instantiated. 
+	 * @param String representation of player name.
+	 * @param String representation of player role.
+	 * @param IslandTile a player will start the game on.
+	 * @param The number of tiles a player can shore up per action.
+	 */
+	Player(String name, String role, IslandTile startingTile, int shoreUpQuantity) {
 		this.name = name;
-		this.cards = new ArrayList<Card>();
+		this.role = role;
 		this.pawn = new Pawn(this, startingTile);
-		this.shoreUpQuantity = 1;
+		this.cards = new ArrayList<Card>();
+		this.startingTile = startingTile;
+		this.shoreUpQuantity = shoreUpQuantity;
 	}
 	
-	@Override
-	public String toString() { //TODO: add cards and current tile?
-		return this.name;
+	/**
+	 * Constructor to be called when Player subclasses instantiated. 
+	 * @param String representation of player name.
+	 * @param String representation of player role.
+	 * @param IslandTile a player will start the game on.
+	 */
+	Player(String name, String role, IslandTile startingTile) {
+		this(name, role, startingTile, 1); // Sets shoreUpQuantity to 1 if not given
 	}
 	
+	/**
+	 * Getter method for player name.
+	 * @return String representation of player name.
+	 */
 	public String getName() {
-		return this.name;
+		return name;
 	}
 	
+	/**
+	 * Getter method for player role.
+	 * @return String representation of player role.
+	 */
+	public String getRole() {
+		return role;
+	}
+	
+	/**
+	 * Getter method for player's pawn instance.
+	 * @return Player's corresponding Pawn instance.
+	 */
 	public Pawn getPawn() {
-		return this.pawn;
+		return pawn;
 	}
 	
+	/**
+	 * Adds a card to the list of cards held by player.
+	 * @param Card to be added to player hand.
+	 */
 	public void addCard(Card card) {
 		cards.add(card); // TODO: check for TreasureCard instance
 	}
 	
+	/**
+	 * Getter method for list of player's cards.
+	 * @return List of player's Card instances.
+	 */
 	public List<Card> getCards() {
-		return this.cards;
+		return cards;
 	}
 	
+	/**
+	 * Getter method for player's starting island tile
+	 * @return IslandTile instance that player starts game on.
+	 */
+	public IslandTile getStartingTile() {
+		return startingTile;
+	}
+	
+	/**
+	 * Getter method for shore up quantity of player.
+	 * @return number of island tiles player can shore up per action.
+	 */
 	public int getShoreUpQuantity() {
-		return this.shoreUpQuantity;
+		return shoreUpQuantity;
 	}
 	
-	protected void setShoreUpQuantity(int quantity) {
-		this.shoreUpQuantity = quantity;
-	}
-	
+	/**
+	 * Getter method for treasure cards currently held by player.
+	 * @return List of TreasureCard instances held by player.
+	 */
 	public List<Card> getTreasureCards() {
 		
 		List<Card> treasureCards = new ArrayList<Card>();
@@ -70,11 +123,22 @@ public abstract class Player {
 		return treasureCards;
 	}
 
+	/**
+	 * Gets the collection of island tiles a particular player can swim to when current
+	 * tile has sunk.
+	 * @param Refernce to the IslandBoard for the game.
+	 * @return List of IslandTile instances that player can swim to.
+	 */
 	public List<IslandTile> getSwimmableTiles(IslandBoard islandBoard) {
 		return islandBoard.getAdjacentTiles(this.pawn.getTile());
 	}
 
-	public List<Player> getGiveCardsPlayers(GamePlayers gamePlayers) {
+	/**
+	 * Gets the collection of players that this player can give cards to.
+	 * @param GamePlayers instance describing the current game's players.
+	 * @return List of Player instances this player can give cards to.
+	 */
+	public List<Player> getCardReceivablePlayers(GamePlayers gamePlayers) {
 		List<Player> giveCardPlayers = new ArrayList<Player>();
 		for(Player p : gamePlayers) {
 			if ( this.pawn.getTile().equals(p.getPawn().getTile()) && !this.equals(p) ) {
@@ -84,107 +148,9 @@ public abstract class Player {
 		return giveCardPlayers;
 	}
 
-	
-//	public void drawFromTreasureDeck(int cardCount) {
-//		//draw cardCount cards
-//		Card c;
-//		for(int i = 0; i < cardCount; i++) {
-//			c = TreasureDeck.getInstance().drawCard();
-//			if(c instanceof WaterRiseCard) {
-//				WaterMeter.getInstance().incrementLevel(); //pass card into function? like a transaction?
-//				TreasureDiscardPile.getInstance().addCard(c);
-//			} else {
-//				receiveTreasureDeckCard(c);
-//			}
-//		}
-//	}
-//	
-//	/**
-//	 * method to add a card to treasureDeckCards and prompt to remove if over 5 cards in hand
-//	 */
-//	public void receiveTreasureDeckCard(Card c) {
-//		// TODO: add if instanceof card types
-//		this.cards.add(c);
-//		//notifyAllObservers();
-//		//If more than 5 in hand, choose cards to discard
-//		while(this.cards.size() > 5) {
-//			chooseCardToDiscard();
-//		}
-//	}
-//	
-//	/**
-//	 * method to choose a card to discard from treasureDeckCards
-//	 */
-//	public void chooseCardToDiscard() {
-//		Scanner userInput = new Scanner(System.in);
-//		System.out.println("Which card do you wish to discard?");
-//		
-//		int i = 1;
-//		for(Card c : this.cards) { // TODO: move printing to controller
-//			System.out.print(c.toString()+" ["+Integer.toString(i)+"], ");
-//			i++;
-//		}
-//		System.out.println();
-//		
-//		int iChoice = Integer.parseInt(userInput.nextLine()) - 1;
-//		//Have used the block of code above alot -> make into some sort of function??
-//		
-//		//add and remove
-//		TreasureDiscardPile.getInstance().addCard(this.cards.get(iChoice));
-//		this.cards.remove(iChoice);
-//	}
-	
-	//TODO: getCard() function which finds card in player hand and returns it - to make things cleaner??
+	@Override
+	public String toString() {
+		return this.name + "(" + this.role + ")";
+	}
 
-	
-	
-//	public void drawFromFloodDeck(int cardCount) {
-//		for(int i = 0; i < cardCount; i++) {
-//			FloodCard fc = FloodDeck.getInstance().drawCard();
-//			IslandBoard.getInstance().floodOrSinkTile(fc.getCorrespondingIslandTile());
-//			FloodDiscardPile.getInstance().addCard(fc);
-//			//This is duplicated code from startSinking()!! -> implement in drawCard()?
-//		}
-//	}
-	
-//	public void playSandBagCard() {
-//		
-//		boolean used;
-//		for(Card c : this.cards) {
-//			//if card found then use it
-//			if(c instanceof SandbagCard) {
-//				used = ((SandbagCard) c).use();
-//				if(used) {
-//					TreasureDiscardPile.getInstance().addCard(c);
-//					this.cards.remove(c);
-//				}
-//				return;
-//			}
-//		}
-//		
-//		System.out.println("No Sandbag Card in hand");
-//		
-//	}
-//	/*
-//	 * Is there a way to use Generics to combine method above and below into one? instanceof doesn't work with generic types
-//	 */
-//	public void playHeliCard() {
-//		
-//		for(Card c : this.cards) {
-//			//If heli card in hand then use it
-//			if(c instanceof HelicopterLiftCard) {
-//				((HelicopterLiftCard) c).use(); // TODO: cahnge how this is done
-//				return;
-//			}
-//		}
-//		
-//		System.out.println("No Heli Card in hand");
-//		
-//	}
-//	
-
-	
-	
-
-	
 }

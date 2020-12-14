@@ -2,7 +2,8 @@ package island.game;
 
 import island.cards.Card;
 import island.cards.FloodCard;
-import island.cards.WaterRiseCard;
+import island.cards.SpecialCard;
+import island.cards.SpecialCardAbility;
 import island.components.IslandTile;
 import island.players.Player;
 
@@ -50,7 +51,7 @@ public class DrawCardsController {
 			card = gameModel.getTreasureDeck().drawCard();
 			gameView.showTreasureCardDrawn(card);
 			
-			if(card instanceof WaterRiseCard) {
+			if(card instanceof SpecialCard && card.getUtility().equals(SpecialCardAbility.WATER_RISE)) { // TODO: check casting is correct with getUtility()
 				gameModel.getWaterMeter().incrementLevel(); //OR pass card into function? like a transaction?
 				gameModel.getTreasureDiscardPile().addCard(card);
 				gameView.showWaterRise( gameModel.getWaterMeter().getWaterLevel() );
@@ -77,7 +78,7 @@ public class DrawCardsController {
 			
 			//draw a card
 			card = gameModel.getFloodDeck().drawCard();
-			boardTile = gameModel.getIslandBoard().getTile(card.getCorrespondingIslandTile());
+			boardTile = gameModel.getIslandBoard().getTile(card.getUtility());
 			
 			//Perform action on appropriate tile
 			if (boardTile.isSafe()) {

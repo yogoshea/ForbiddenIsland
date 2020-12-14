@@ -4,21 +4,27 @@ import java.util.List;
 
 import island.components.IslandTile;
 
+/**
+ * Class to represent Messenger role of a player in the game.
+ * @author Eoghan O'Shea and Robert McCarthy
+ * 
+ */
 public class Messenger extends Player {
 
-	private static IslandTile startingTile = IslandTile.SILVER_GATE;
-
+	/**
+	 * Constructor for Messenger instance.
+	 * @param String representing name of player.
+	 */
 	public Messenger(String name) {
-		super(name, startingTile);
+		
+		// Messenger's starting island tile set to Silver Gate.
+		super(name, "Messenger", IslandTile.SILVER_GATE);
 	}
 
 	@Override
-	public String toString() {
-		return super.toString() + " (Messenger)";
-	}
-	
-	@Override
-	public List<Player> getGiveCardsPlayers(GamePlayers gamePlayers) {
+	public List<Player> getCardReceivablePlayers(GamePlayers gamePlayers) {
+		
+		// Messenger can give cards to players without having to be on the same tile
 		return gamePlayers.getPlayersList();
 	}
 }

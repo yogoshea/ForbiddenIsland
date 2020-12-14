@@ -7,7 +7,7 @@ import island.observers.Observer;
 import island.observers.Subject;
 
 /**
- * IslandTile enum for island tiles
+ * IslandTile enum describing the island tiles used in game.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
@@ -38,27 +38,26 @@ public enum IslandTile implements Subject {
 	WATCHTOWER("Watchtower"),
 	WHISPERING_GARDEN("Whispering Garden", Treasure.THE_STATUE_OF_THE_WIND);
 	
+	// IslandTile attributes
 	private String name;
 	private Treasure associatedTreasure;
 	private List<Observer> observers = new ArrayList<Observer>();
 	
-	// Enum to store flood status of each tile TODO:  move this to individual class?
-	public enum FloodStatus { SAFE("--- Safe ---"), FLOODED("~~~ Flooded ~~~"), SUNK("XXX Sunk XXX"); // TODO: move to GameView
-		private final String sign;
-		private FloodStatus(String sign) { this.sign = sign; }
-		public String toString() { return sign; }
-	}
+	// Private Enum to store flood status of each tile.
+	private enum FloodStatus { SAFE, FLOODED, SUNK }
 	private FloodStatus status;
 	
 	/**
-	 * no argument constructor sets associatedTreasure to null
+	 * Constructor sets associatedTreasure to null if not provided.
+	 * @param String representing name of island tile.
 	 */
 	private IslandTile(String name) {
-		this(name, null); // check for null when using enums at later stage
+		this(name, null);
 	}
 	
 	/**
-	 * constructor to set associatedTreasure and floodedStatus
+	 * Constructor to set associatedTreasure and floodedStatus
+	 * @param String representing name of island tile.
 	 * @param treasure specifies treasure associated with island tile
 	 */
 	private IslandTile(String name, Treasure treasure) {
@@ -67,100 +66,70 @@ public enum IslandTile implements Subject {
 		this.status = FloodStatus.SAFE; // all island tile are initially not flooded
 	}
 	
-	@Override
-	public String toString() {
+	/**
+	 * Getter method for name of island tile.
+	 * @return String representation of island tile name.
+	 */
+	public String getName() {
 		return name;
 	}
 	
-//	public Treasure captureAssociatedTreasure() {
-//		// TODO: create NullTreasure class?
-//		return associatedTreasure;
-//	}
-	
 	/**
-	 * getter method for treasure associated with island tile
-	 * @return associated Treasure enum type
+	 * getter method for treasure associated with island tile.
+	 * @return associated Treasure enum type.
 	 */
 	public Treasure getAssociatedTreasure() {
 		return associatedTreasure;
 	}
 	
-	public FloodStatus getFloodStatus() {
-		return status;
-	}
-
 	/**
-	 * @return boolean corresponding IslandTile being safe
+	 * @return boolean corresponding IslandTile being safe.
 	 */
 	public Boolean isSafe() {
 		return this.status.equals(FloodStatus.SAFE);
 	}
 	
 	/**
-	 * @return boolean corresponding IslandTile being flooded
+	 * @return boolean corresponding IslandTile being flooded.
 	 */
 	public Boolean isFlooded() {
 		return this.status.equals(FloodStatus.FLOODED);
 	}
 	
 	/**
-	 * @return boolean corresponding IslandTile having sunk
+	 * @return boolean corresponding IslandTile having sunk.
 	 */
 	public Boolean isSunk() {
 		return this.status.equals(FloodStatus.SUNK);
 	}
 	
 	/**
+	 * Sets flood status to safe.
 	 */
 	public void setToSafe() {
 		this.status = FloodStatus.SAFE;
 	}
 	
 	/**
-	 * Sets flood status to flooded
+	 * Sets flood status to flooded.
 	 */
 	public void setToFlooded() {
 		this.status = FloodStatus.FLOODED;
 	}
 	
 	/**
-	 * Sets flood status to sunk
+	 * Sets flood status to sunk.
 	 */
 	public void setToSunk() {
 		this.status = FloodStatus.SUNK;
 		notifyAllObservers();
 	}
 	
+	@Override
+	public String toString() {
+		return name + "(" + associatedTreasure.getName() + ")";
+	}
 	
-	
-//	/**
-//	 * Setter method for flooded status of island tile
-//	 */
-//	public void floodTile() {
-//		if (this.isSafe()) {
-//			status = FloodStatus.FLOODED;
-////			System.out.println(name() + " has been flooded !!");
-//		} else if (this.isFlooded()) {
-//			status = FloodStatus.SUNK;
-////			System.out.println(name() + " has been sunk !!!");
-//		}
-//		notifyAllObservers(); // When a tile has sunk, notify observers
-//	}
-	
-//	/**
-//	 * Reinstate an IslandTile as safe
-//	 */
-//	public boolean shoreUp() {
-//		if(!this.isFlooded()) { // TODO: change to check for Sunk also 
-//			System.out.println(name()+" already shored-up");
-//			return false;
-//		} else {
-//			status = FloodStatus.SAFE;
-//			System.out.println(name()+" has been shored-up");
-//			return true;
-//		}
-//	}
-
 	@Override
 	public void attach(Observer observer) {
 		observers.add(observer);
