@@ -50,8 +50,12 @@ public class GameView {
 	 * Displays welcome view
 	 */
 	public void showWelcome() {
-		System.out.println("Welcome to Forbidden Island!");
+		System.out.println("Welcome to Forbidden Island!\n");
 		// TODO: add ASCII art
+	}
+	
+	public void showSkippingActions() {
+		System.out.println("Skipping actions...");
 	}
 	
 	/**
@@ -61,11 +65,19 @@ public class GameView {
 		System.out.println("No tiles available to move to");
 	}
 	
+	public void showSuccessfulMove(Player player, IslandTile tile) {
+		System.out.println(player.toString()+" has moved to "+tile.toString());
+	}
+	
 	/**
 	 * Displays message telling user there are no tiles to move to
 	 */
 	public void showNoShoreUpTiles() {
 		System.out.println("No available tiles to shore-up");
+	}
+	
+	public void showSuccessfulShoreUp(IslandTile tile) {
+		System.out.println(tile.toString() + " has been shored up");
 	}
 	
 	/**
@@ -102,7 +114,8 @@ public class GameView {
 	public void showPlayerTurn(Player p) {
 //		System.out.println();
 		System.out.println("It is the turn of: " + p.toString()); //SJould I be using prompt user function??
-		//displayPlayerInformation(p)????? Yeah, maybe include this in the updatable display
+		//TODO: show what stage of turn they are at i.e if they have already completed actions or drawn treasure cards
+		//TODO: integrate with updateView better
 	}
 	
 	/**
@@ -144,6 +157,24 @@ public class GameView {
 		System.out.println("You win");
 	}
 	
+	public void showEnterToContinue() {//TODO: stop having to press enter twice here when HELI played
+		String prompt = "\nTo continue, press Enter[]...";
+		System.out.println(prompt);
+		scanNextLine(prompt);
+	}
+	
+	public void showDrawTreasureCards() {
+		String prompt = "\nTo draw your two treasure cards, press Enter[]...";
+		System.out.println(prompt);
+		scanNextLine(prompt);
+	}
+	
+	public void showDrawFloodCards() {
+		String prompt = "\nTo draw your flood cards, press Enter[]...";
+		System.out.println(prompt);
+		scanNextLine(prompt);
+	}
+	
 	/**
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
@@ -163,6 +194,10 @@ public class GameView {
 		System.out.println("You have captured "+treasure.toString());
 	}
 	
+	public void showSpecialCardDone() {
+		System.out.println("\nTo return to before request was made, press Enter[]...");
+		userInput.nextLine();
+	}
 	
 	
 	// Request players from user TODO: check for valid user input
@@ -193,13 +228,17 @@ public class GameView {
 	/**
 	 * Called from within model to provide latest game status to display
 	 */
-	public void updateView(GameModel gameModel) {
+	public void updateView(GameModel gameModel, Player p) {
 		//TODO: display num cards in flood deck and treasure deck?
 		// similar to observer to model changes, no
 		//TODO: add time delays between prints? Maybe, yeah. Or just user press return/input any key to continue
 		// TODO: better way to update screen?
 //		System.out.println("\n".repeat(20));
 		GameGraphics.refreshDisplay(gameModel);
+		
+		//Show who's turn it is
+		showPlayerTurn(p);
+//		displayGameDialog(); // TODO: gameView.addToUpcomingDialog
 		
 	}
 	
@@ -216,9 +255,9 @@ public class GameView {
 	/**
 	 * Called from within model to get player action choice
 	 */
-	public Action getPlayerActionChoice(Player player, int availableActions) {
+	public Action getPlayerActionChoice(int availableActions) {
 		
-		String prompt = player.toString()+": Select one of the following actions: ("+availableActions+" remaining)";
+		String prompt = "Select one of the following actions: ("+availableActions+" remaining)";
 		return pickFromList( Arrays.asList(Action.values()) , prompt);
 		
 	}
@@ -227,6 +266,7 @@ public class GameView {
 	//This way just means you aren't passing a string
 	public IslandTile pickTileDestination(List<IslandTile> tiles) {//TODO:Give chance to change mind?
 		String prompt = "Which tile do you wish to move to?";
+		//TODO:
 		return pickFromList(tiles, prompt);
 	}
 	
@@ -307,7 +347,7 @@ public class GameView {
 		}
 		System.out.println(options); //TODO: print vertically to look better?
 		
-		index = Integer.parseInt(scanNextLine(prompt+options)) - 1; //TODO:proper check for invalid input
+		index = Integer.parseInt(scanNextLine(prompt+"\n"+options)) - 1; //TODO:proper check for invalid input
 		
 		if(index > items.size() - 1) {
 			System.out.println("Invalid Choice, choose again");
@@ -316,12 +356,9 @@ public class GameView {
 		return items.get(index);
 	}
 	
-/////////////////////////////////////////////////////////////////////////////
-//Game scanner pasted in between these lines
-//TODO: Figure out whether to keep separate game scanner class -> probably neater to
-//TODO: Uses scanNextLine() in all appropriate scanning cases (when heli and sand cards van be played)
-	
-	public String scanNextLine(String initialPrompt) { // TODO: maybe this checking should be in the controller? Not sure
+
+
+	public String scanNextLine(String initialPrompt) {
 		//Print prompt in here (rather than before function)??
 		
 		String input = userInput.nextLine();
@@ -333,29 +370,15 @@ public class GameView {
 			if(input.equals("SAND")) {
 				gameController.getPlaySpecialCardController().sandbagRequest();
 			}
-			
-			System.out.println(initialPrompt);
+//			System.out.println("Press enter to return to before request...");
+//			userInput.nextLine();
+//			updateView(gameController.getGameModel()); //TODO: Is getModel() ok for the View to do??????????????????
+			System.out.println("\n"+initialPrompt);
 			input = userInput.nextLine();
 		}
 		 
 		return input;
 	}
-	
-//	public void heliRequest() {
-//		String prompt = "Which player wishes to play a heli card?";
-//		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt);
-//		p.playHeliCard();
-//	}
-//	
-//	public void sandbagRequest() {
-//		String prompt = "Which player wishes to play a sandbag card?";
-//		Player p = pickFromList(GamePlayers.getInstance().getPlayersList(), prompt); //bad practice to instantiate here?
-//		p.playSandBagCard();
-//	}
-	
-	//End of GameScanner
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
 	
 	/**
 	 * Sets the views controller
@@ -364,8 +387,6 @@ public class GameView {
 	public void setController(GameController gameController) {
 		this.gameController = gameController;
 	}
-	
-	
 	
 	/**
 	 * Prints question for players

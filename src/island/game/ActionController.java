@@ -59,9 +59,10 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		do {
 			
-			gameView.updateView(gameModel); // display updated full game view after every action
-			gameView.showPlayerTurn(p);
-			actionChoice = gameView.getPlayerActionChoice(p, remainingTurns);
+			gameView.showEnterToContinue();
+			gameView.updateView(gameModel, p); // display updated full game view after every action
+			//gameView.showPlayerTurn(p);
+			actionChoice = gameView.getPlayerActionChoice(remainingTurns);
 			
 			switch(actionChoice) {
 			
@@ -82,6 +83,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 				break;
 
 			case NONE:
+				gameView.showSkippingActions();
 				return;
 					
 			}
@@ -99,10 +101,13 @@ public class ActionController { //Name PlayerActionController for clarity?
 	private boolean move(Player p) {
 
 		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getPawn().getTile());
+		IslandTile destination;
 		
 		if(! adjTiles.isEmpty()) {
 			
-			p.getPawn().setTile(gameView.pickTileDestination(adjTiles)); // TODO: check for errors with simple function in GameView
+			destination = gameView.pickTileDestination(adjTiles);
+			p.getPawn().setTile(destination); // TODO: check for errors with simple function in GameView
+			gameView.showSuccessfulMove(p, destination);
 			return true;
 			
 		} else {
@@ -139,6 +144,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 
 				tileChoice = gameView.pickShoreUpTile(adjTiles);
 				tileChoice.setToSafe();
+				gameView.showSuccessfulShoreUp(tileChoice);
 				
 			}
 			return true;

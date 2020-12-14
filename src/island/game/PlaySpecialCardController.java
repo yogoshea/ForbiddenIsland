@@ -43,7 +43,17 @@ public class PlaySpecialCardController { //TODO: better name!!
 		return playSpecialCardController;
 	}
 	
-	//TODO: Some similarities between 
+	//TODO: Some similarities between heliRequest and Sandbag request -> can definitely streamline/reduce duplicated code
+//	public void specialCardRequest(Card) {
+//		player = gameView.getPlayerWHoRequested;
+//		if player.has(Card) {
+//			card.play()
+//			OR
+//			then pick between heliRequest() and sandRequest()
+//		}
+//		returnToBefore();
+//	}
+	
 	/**
 	 * Method to play a helicopter lift card
 	 */
@@ -71,16 +81,18 @@ public class PlaySpecialCardController { //TODO: better name!!
 				if(heliPlayers.size() > 0) {
 					for(Player p: heliPlayers) {
 						p.getPawn().setTile(destination);
+						gameView.showSuccessfulMove(p, destination);
 					}
 					player.getCards().remove(card);
 				}
-				
+				returnToBefore();
 				return;
 
 			}
 		}
 		//If you reach here then there was no card in hand
 		gameView.showNoHeliCard(player);
+		returnToBefore();
 	}
 	
 	/**
@@ -106,11 +118,13 @@ public class PlaySpecialCardController { //TODO: better name!!
 					player.getCards().remove(card);
 					
 				}
+				returnToBefore();
 				return;
 			}
 		}
 		//If you reach here then there was no card in hand
 		gameView.showNoSandbagCard(player);
+		returnToBefore();
 	}
 	
 	
@@ -134,6 +148,11 @@ public class PlaySpecialCardController { //TODO: better name!!
 		
 		gameController.endGame(GameEndings.WIN); //TODO: ENUM
 		
+	}
+	
+	public void returnToBefore() {
+		gameView.showSpecialCardDone();
+		gameView.updateView(gameModel, gameController.getCurrentPlayer()); //TODO: instead of passing gameModel and gameView to all controllers just pass gameController and use getters from gameController??
 	}
 	
 }

@@ -29,6 +29,7 @@ public class GameController {
 	private ActionController actionController;
 	private DrawCardsController drawCardsController;
 	private PlaySpecialCardController playSpecialCardController;
+	private Player currentPlayer;
 	
 	/**
 	 * Constructor to retrieve model, view and sub-controller instances
@@ -83,6 +84,8 @@ public class GameController {
 			// Iterate over players in game
 			for (Player p : gameModel.getGamePlayers()) {
 				
+				currentPlayer = p;
+				
 				// Take a number of actions
 				actionController.takeActions(p);
 				
@@ -90,7 +93,8 @@ public class GameController {
 				drawCardsController.drawTreasureCards(p);
 				
 				// Draw two cards from Treasure Deck
-				drawCardsController.drawFloodCards();
+				drawCardsController.drawFloodCards(p);
+				//gameView.showTurnDone(p)
 			}
 		}
 	}
@@ -172,4 +176,14 @@ public class GameController {
 	public ActionController getActionController() {
 		return actionController;
 	}
+	
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+	
+//	public GameModel getGameModel() {
+//		return gameModel;
+//	}
+	
+	
 }
