@@ -150,7 +150,7 @@ public abstract class Player {
 
 	@Override
 	public String toString() {
-		return this.name + "(" + this.role + ")";
+		return this.name + " - " + this.role;
 	}
 
 }

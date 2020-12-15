@@ -8,10 +8,11 @@ import island.cards.Card;
 /**
  * Abstract class to be implemented by decks used in game; TreasureDeck, FloodDeck.
  * @author Eoghan O'Shea and Robert McCarthy
+ * @param <E>
  * @param <E> Elements to be placed in Deck subclass instances.
  * 
  */
-public abstract class Deck<E extends Card> {
+public abstract class Deck<E extends Card<?>> {
 	
 	// Stack to store deck cards
 	private Stack<E> deck;

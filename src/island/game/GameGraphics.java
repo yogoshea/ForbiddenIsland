@@ -76,7 +76,7 @@ public class GameGraphics {
 				// add specific tile name
 				outputString += "| ";
 				outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].getName()).length()) / 2) + "s", boardStructure[i][j]));
+						String.format("%" + ((tileCharWidth - 4 + (boardStructure[i][j].getName()).length()) / 2) + "s", boardStructure[i][j].getName()));
 				outputString += " |";
 			}
 			
@@ -125,7 +125,7 @@ public class GameGraphics {
 				outputString += "| ";
 				if (pawnLocations.containsKey(boardStructure[i][j])) {
 					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
-							String.format("%" + ((tileCharWidth - 4 + (pawnLocations.get(boardStructure[i][j]).toString().length())) / 2) + "s", pawnLocations.get(boardStructure[i][j]).toString()));
+							String.format("%" + ((tileCharWidth - 4 + (pawnLocations.get(boardStructure[i][j]).getName().length())) / 2) + "s", pawnLocations.get(boardStructure[i][j]).getName()));
 					outputString += " |";
 				} else {
 					outputString += String.format("%-" + (tileCharWidth - 4) + "s",
@@ -149,7 +149,7 @@ public class GameGraphics {
 		final List<Player> playerList = gameModel.getGamePlayers().getPlayersList();
 //		TreasureDeckCard currentTreasureCard;
 		for (Player p : gameModel.getGamePlayers()) {
-			System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", p); // left alignment 
+			System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", p.getName() + " - " + p.getRole()); // left alignment 
 		}
 		System.out.println(); // newline 
 		for (Player p : gameModel.getGamePlayers()) {
@@ -161,7 +161,7 @@ public class GameGraphics {
 		for (int i = 0; i < maxTreasureCards; i++) {
 			for (int j = 0; j < playerCount; j++) {
 				if (i < playerList.get(j).getCards().size())
-					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". " + playerList.get(j).getCards().get(i)); // left alignment 
+					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". " + playerList.get(j).getCards().get(i).getName()); // left alignment 
 				else
 					System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "  " + (i+1) + ". "+ "----------"); // left alignment 
 			}

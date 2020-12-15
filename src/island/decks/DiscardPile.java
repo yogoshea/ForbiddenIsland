@@ -14,7 +14,7 @@ import java.util.Collections;
  * @param <E> Element to be placed in DiscardPile subclass instances.
  * 
  */
-public abstract class DiscardPile<E extends Card> {
+public abstract class DiscardPile<E extends Card<?>> {
 
 	// List to store discard pile cards
 	private List<E> pile;

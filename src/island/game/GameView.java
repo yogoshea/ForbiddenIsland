@@ -66,7 +66,7 @@ public class GameView {
 	}
 	
 	public void showSuccessfulMove(Player player, IslandTile tile) {
-		System.out.println(player.toString()+" has moved to "+tile.toString());
+		System.out.println(player.getName() + " has moved to " + tile.getName());
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class GameView {
 	}
 	
 	public void showSuccessfulShoreUp(IslandTile tile) {
-		System.out.println(tile.toString() + " has been shored up");
+		System.out.println(tile.getName() + " has been shored up");
 	}
 	
 	/**
@@ -98,14 +98,14 @@ public class GameView {
 	 * Displays message telling user there is no treasure on their current tile
 	 */
 	public void showNoTreasure(IslandTile tile) {
-		System.out.println("No treasure found at " + tile.toString());
+		System.out.println("No treasure found at " + tile.getName());
 	}
 	
 	/**
 	 * Displays message telling user there is no treasure on their current tile
 	 */
 	public void showNotEnoughCards(Treasure treasure) {
-		System.out.println("You need 4 " + treasure.toString() + " cards to capture this treasure");
+		System.out.println("You need 4 " + treasure.getName() + " cards to capture this treasure");
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class GameView {
 	 */
 	public void showPlayerTurn(Player p) {
 //		System.out.println();
-		System.out.println("It is the turn of: " + p.toString()); //SJould I be using prompt user function??
+		System.out.println("It is the turn of: " + p.getName()); //SJould I be using prompt user function??
 		//TODO: show what stage of turn they are at i.e if they have already completed actions or drawn treasure cards
 		//TODO: integrate with updateView better
 	}
@@ -129,7 +129,7 @@ public class GameView {
 	 * Tells user that treasure cards are being drawn
 	 */
 	public void showTreasureCardDrawn(Card card) {
-		System.out.println("You have drawn: " + card.toString());
+		System.out.println("You have drawn: " + card.getName());
 	}
 	
 	/**
@@ -143,14 +143,14 @@ public class GameView {
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
 	public void showNoHeliCard(Player player) {
-		System.out.println(player.toString() + " does not have a Helicopter Lift card");
+		System.out.println(player.getName() + " does not have a Helicopter Lift card");
 	}
 	
 	/**
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
 	public void showNoSandbagCard(Player player) {
-		System.out.println(player.toString() + " does not have a Sandbag card");
+		System.out.println(player.getName() + " does not have a Sandbag card");
 	}
 	
 	public void showGameWin() {
@@ -179,19 +179,19 @@ public class GameView {
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
 	public void showTileFlooded(IslandTile tile) {
-		System.out.println(tile.toString() + " has been flooded!!");
+		System.out.println(tile.getName() + " has been flooded!!");
 	}
 	
 	public void showTileSunk(IslandTile tile) {
-		System.out.println(tile.toString() + " has SUNK!!!");
+		System.out.println(tile.getName() + " has SUNK!!!");
 	}
 	
 	public void showAlreadyCaptured(Treasure treasure) {
-		System.out.println(treasure.toString() + " has already been captured");
+		System.out.println(treasure.getName() + " has already been captured");
 	}
 	
 	public void showTreasureCaptured(Treasure treasure) {
-		System.out.println("You have captured "+treasure.toString());
+		System.out.println("You have captured "+treasure.getName());
 	}
 	
 	public void showSpecialCardDone() {
@@ -292,9 +292,9 @@ public class GameView {
 	
 	public Card pickCardToDiscard(Player player) {
 		List<Card> cards = player.getCards();
-		String prompt = player.toString() + ", you have too many cards in your hand, which do you wish to discard?";
+		String prompt = player.getName() + ", you have too many cards in your hand, which do you wish to discard?";
 		Card card = pickFromList(cards, prompt); //TODO: allow to play heli or sandcard??
-		System.out.println("You have discarded: " + card.toString());
+		System.out.println("You have discarded: " + card.getName());
 		return card;
 	}
 	
@@ -320,7 +320,7 @@ public class GameView {
 		
 		for(Player player : players) {
 			
-			prompt = "Does " + player.toString() + " wish to move to " + destination.toString() + "? \n";
+			prompt = "Does " + player.getName() + " wish to move to " + destination.getName() + "? \n";
 			prompt += "[Y]/[N]";
 			System.out.println(prompt);
 			
@@ -342,7 +342,7 @@ public class GameView {
 		int i = 1;
 		String options = "\n";
 		for(E item : items) {
-			options += item.toString()+" ["+Integer.toString(i)+"], ";
+			options += item.toString()+" ["+Integer.toString(i)+"], "; // TODO: use getName() instead here, or have toString implemented in all classes??
 			i++;
 		}
 		System.out.println(options); //TODO: print vertically to look better?

@@ -1,8 +1,5 @@
 package island.decks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import island.cards.Card;
 import island.cards.SpecialCard;
 import island.cards.SpecialCardAbility;
@@ -49,7 +46,7 @@ public class TreasureDeck extends Deck<Card> {
 	public void refill() {
 //		List<Card> temp = new ArrayList<Card>();
 //		temp = TreasureDiscardPile.getInstance().removeAllCards();
-		for(Card c : TreasureDiscardPile.getInstance().removeAllCards()) {
+		for(Card<?> c : TreasureDiscardPile.getInstance().removeAllCards()) {
 			treasureDeck.addCardToDeck(c);
 		}
 	}
