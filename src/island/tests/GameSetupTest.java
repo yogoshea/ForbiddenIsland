@@ -47,35 +47,48 @@ public class GameSetupTest {
 
 	}
 	
+	@AfterClass
+	public static void tearDownAfterClass() {
+		gameModel = null;
+		gameView = null;
+		gameController = null;
+	}
+	
 	@Before
 	public void setUp() throws Exception {
 		
 	}
-
+	
+	@After
+	public void tearDown() {
+		
+		// Do stuff after each test? Find way to destroy singletons
+	}
+	
 	@Test
-	public void test_IslandCreation_1() {
+	public void test_IslandCreation() {
 		
 //		assertEquals()
 		
 	}
 	
 	@Test
-	public void test_IslandStartedSinking_1() {
+	public void test_IslandStartedSinking() {
 		
 	}
 	
 	@Test
-	public void test_PlayerCreation_1() {
+	public void test_PlayerCreation() {
 		
 	}
 	
 	@Test
-	public void test_InitialTreasureCardHandout_1() {
+	public void test_InitialTreasureCardHandout() {
 		
 	}
 	
 	@Test
-	public void test_SetWaterLevel_1() {
+	public void test_SetWaterLevel() {
 		
 		// Check if instance gets deleted
 		WaterMeter wm = gameModel.getWaterMeter();
@@ -90,22 +103,4 @@ public class GameSetupTest {
 //		fail("Not yet implemented");
 	}
 	
-	@After
-	public void tearDown() {
-		
-		// Do stuff after each test? Find way to destroy singletons
-	}
-	
-	@AfterClass
-	public static void tearDownAfterClass() {
-		gameModel = null;
-		gameView = null;
-		gameController = null;
-	}
-	
-//	@Test
-//	public void test() {
-//		fail("Not yet implemented");
-//	}
-
 }

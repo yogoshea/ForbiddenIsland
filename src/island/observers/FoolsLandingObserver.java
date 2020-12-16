@@ -50,4 +50,9 @@ public class FoolsLandingObserver implements Observer {
 	public void update(Subject subject) {
 		gameController.endGame(GameEndings.FOOLS_LANDING_SUNK);
 	}
+	
+	// Singleton reset for JUnit testing
+	public void reset() {
+		foolsLandingObserver = null;
+	}
 }

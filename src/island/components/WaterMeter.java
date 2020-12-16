@@ -15,7 +15,7 @@ import island.observers.Subject;
 public class WaterMeter implements Subject {
 	
 	// Eager initialisation of singleton
-	private static WaterMeter instance = new WaterMeter();
+	private static WaterMeter waterMeter;
 	private int waterLevel;
 	private List<Observer> observers = new ArrayList<Observer>();	
 	
@@ -33,7 +33,11 @@ public class WaterMeter implements Subject {
 	 * @return single WaterMeter instance.
 	 */
 	public static WaterMeter getInstance() {
-		return instance;
+		if (waterMeter == null) {
+			waterMeter = new WaterMeter();
+			
+		}
+		return waterMeter;
 	}
 	
 	/**
@@ -71,6 +75,11 @@ public class WaterMeter implements Subject {
 		for (Observer observer : observers) {
 			observer.update(this);
 		}
+	}
+	
+	// Singleton reset for JUnit testing
+	public void reset() {
+		waterMeter = null;
 	}
 	
 }

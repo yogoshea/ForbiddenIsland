@@ -12,10 +12,10 @@ import island.components.Treasure;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class TreasureDeck extends Deck<Card> {
+public class TreasureDeck extends Deck<Card<?>> {
 	
 	// Instantiate singleton
-	private static TreasureDeck treasureDeck = new TreasureDeck();
+	private static TreasureDeck treasureDeck;
 	
 	/**
 	 * Private constructor for TreasureDeck singleton.
@@ -30,25 +30,26 @@ public class TreasureDeck extends Deck<Card> {
 		
 		for (int i = 0; i < cardsPerTreasure; i++)
 			for (Treasure t : Treasure.values())
-				this.addCardToDeck(new TreasureCard(t));
+				this.addCard(new TreasureCard(t));
 		
 		for (int i = 0; i < helicopterLiftCardCount; i++)
-			this.addCardToDeck(new SpecialCard(SpecialCardAbility.HELICOPTER_LIFT));
+			this.addCard(new SpecialCard(SpecialCardAbility.HELICOPTER_LIFT));
 		
 		for (int i = 0; i < sandbagCardCount; i++)
-			this.addCardToDeck(new SpecialCard(SpecialCardAbility.SANDBAG));
+			this.addCard(new SpecialCard(SpecialCardAbility.SANDBAG));
 
 		for (int i = 0; i < waterRiseCardCount; i++)
-			this.addCardToDeck(new SpecialCard(SpecialCardAbility.WATER_RISE));
+			this.addCard(new SpecialCard(SpecialCardAbility.WATER_RISE));
 	}
 	
 	@Override
 	public void refill() {
 //		List<Card> temp = new ArrayList<Card>();
 //		temp = TreasureDiscardPile.getInstance().removeAllCards();
-		for(Card<?> c : TreasureDiscardPile.getInstance().removeAllCards()) {
-			treasureDeck.addCardToDeck(c);
+		for(Card<?> c : TreasureDiscardPile.getInstance().getAllCards()) {
+			treasureDeck.addCard(c);
 		}
+		TreasureDiscardPile.getInstance().removeAllCards();
 	}
 	
 	/**
@@ -56,7 +57,15 @@ public class TreasureDeck extends Deck<Card> {
 	 * @return single instance of TreasureDeck.
 	 */
 	public static TreasureDeck getInstance() {
+		if (treasureDeck == null) {
+			treasureDeck = new TreasureDeck();
+		}
 		return treasureDeck;
+	}
+
+	// Singleton reset for JUnit testing
+	public void reset() {
+		treasureDeck = null;
 	}
 	
 }

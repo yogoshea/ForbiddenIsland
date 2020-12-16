@@ -42,7 +42,7 @@ public class SetupController {
 	}
 	
 	/**
-	 * Setup the initial conditions of the game components
+	 * Sets up the initial conditions of the game components.
 	 */
 	public void setupGame() {
 		
@@ -54,7 +54,7 @@ public class SetupController {
 	}
 
 	/**
-	 * Begin the sinking of the island
+	 * Begins the sinking of the island.
 	 */
 	private void startIslandSinking() {
 		
@@ -84,6 +84,11 @@ public class SetupController {
 		
 	}
 	
+	/**
+	 * Assigns player roles at start of game by instantiating randomly assigned 
+	 * player classes to new players.
+	 * @param List of names of new players of game.
+	 */
 	private void assignPlayerRoles(List<String> playerNames) {
 		
 		List<Player> playersList = gameModel.getGamePlayers().getPlayersList();
@@ -132,7 +137,7 @@ public class SetupController {
 	}
 	
 	/**
-	 * Initially give players two Treasure Cards
+	 * Initially gives players two Treasure Cards
 	 */
 	private void handOutInitialTreasureCards() {
 		
@@ -151,13 +156,18 @@ public class SetupController {
 				drawnCard = treasureDeck.drawCard();
 
 				if (drawnCard instanceof SpecialCard && drawnCard.getUtility().equals(SpecialCardAbility.WATER_RISE)) { // TODO: check can get rid of instanceof?
-					treasureDeck.addCardToDeck(drawnCard); // Put water Rise cards back in deck
+					treasureDeck.addCard(drawnCard); // Put water Rise cards back in deck
 				} else {
 					cardsDrawnCount++;
 					p.addCard(drawnCard);
 				}
 			} while (cardsDrawnCount < numberOfCardsPerPlayer);
 		}
+	}
+	
+	// Singleton reset for JUnit testing
+	public void reset() {
+		setupController = null;
 	}
 
 }

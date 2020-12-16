@@ -424,13 +424,25 @@ public class GameView {
 			System.out.println("GAME OVER - A player has Sunk");
 			break;
 
+		case MAX_WATER_LEVEL:
+			System.out.println("GAME OVER - Maximum water level has been reached");
+			break;
+
 		case WIN:
 			System.out.println("!!!!The game has been won!!!!");
+			break;
+			
+		default:
+			System.out.println("Game has ended");
 			break;
 				
 		}
 		
 	}
 
+	// Singleton reset for JUnit testing
+	public void reset() {
+		gameView = null;
+	}
 
 }

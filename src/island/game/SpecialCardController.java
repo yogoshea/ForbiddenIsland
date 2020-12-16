@@ -16,9 +16,9 @@ import island.players.Player;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class PlaySpecialCardController { //TODO: better name!!
+public class SpecialCardController {
 	
-	private static PlaySpecialCardController playSpecialCardController;
+	private static SpecialCardController specialCardController;
 	
 	private GameView gameView;
 	private GameModel gameModel;
@@ -27,7 +27,7 @@ public class PlaySpecialCardController { //TODO: better name!!
 	/**
 	 * Constructor to retrieve view and model instances
 	 */
-	private PlaySpecialCardController(GameModel gameModel, GameView gameView, GameController gameController) {
+	private SpecialCardController(GameModel gameModel, GameView gameView, GameController gameController) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
 		this.gameController = gameController;
@@ -36,11 +36,11 @@ public class PlaySpecialCardController { //TODO: better name!!
 	/**
 	 * @return single instance of action controller
 	 */
-	public static PlaySpecialCardController getInstance(GameModel gameModel, GameView gameView, GameController gameController) {
-		if (playSpecialCardController == null) {
-			playSpecialCardController = new PlaySpecialCardController(gameModel, gameView, gameController);
+	public static SpecialCardController getInstance(GameModel gameModel, GameView gameView, GameController gameController) {
+		if (specialCardController == null) {
+			specialCardController = new SpecialCardController(gameModel, gameView, gameController);
 		}
-		return playSpecialCardController;
+		return specialCardController;
 	}
 	
 	//TODO: Some similarities between heliRequest and Sandbag request -> can definitely streamline/reduce duplicated code
@@ -153,6 +153,11 @@ public class PlaySpecialCardController { //TODO: better name!!
 	public void returnToBefore() {
 		gameView.showSpecialCardDone();
 		gameView.updateView(gameModel, gameController.getCurrentPlayer()); //TODO: instead of passing gameModel and gameView to all controllers just pass gameController and use getters from gameController??
+	}
+	
+	// Singleton reset for JUnit testing
+	public void reset() {
+		specialCardController = null;
 	}
 	
 }

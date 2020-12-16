@@ -110,4 +110,15 @@ public class GameModel {
 		return waterMeter;
 	}
 
+	// Singleton reset for JUnit testing
+	public void reset() {
+		islandBoard.reset();
+		floodDeck.reset();
+		floodDiscardPile.reset();
+		gamePlayers.reset();
+		treasureDeck.reset();
+		treasureDiscardPile.reset();
+		waterMeter.reset();
+		gameModel = null;
+	}
 }

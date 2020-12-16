@@ -47,4 +47,9 @@ public class WaterMeterObserver implements Observer {
 			gameController.endGame(GameEndings.MAX_WATER_LEVEL); // TODO: change to GameEndings enum
 	}
 
+	// Singleton reset for JUnit testing
+	public void reset() {
+		waterMeterObserver = null;
+	}
+
 }

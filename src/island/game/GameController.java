@@ -28,7 +28,7 @@ public class GameController {
 	private SetupController setupController;
 	private ActionController actionController;
 	private DrawCardsController drawCardsController;
-	private PlaySpecialCardController playSpecialCardController;
+	private SpecialCardController playSpecialCardController;
 	private Player currentPlayer;
 	
 	/**
@@ -40,7 +40,7 @@ public class GameController {
 		setupController = SetupController.getInstance(gameModel, gameView);
 		actionController = ActionController.getInstance(gameModel, gameView, this);
 		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
-		playSpecialCardController = PlaySpecialCardController.getInstance(gameModel, gameView, this);
+		playSpecialCardController = SpecialCardController.getInstance(gameModel, gameView, this);
 	}
 	
 	/**
@@ -157,7 +157,7 @@ public class GameController {
 	 * PlaySpecialCardController getter method
 	 * @return single instance of PlaySpecialCardController
 	 */
-	public PlaySpecialCardController getPlaySpecialCardController() {
+	public SpecialCardController getPlaySpecialCardController() {
 		return playSpecialCardController;
 	}
 
@@ -181,9 +181,13 @@ public class GameController {
 		return currentPlayer;
 	}
 	
-//	public GameModel getGameModel() {
-//		return gameModel;
-//	}
-	
+	// Singleton reset for JUnit testing
+	public void reset() {
+		setupController.reset();
+		actionController.reset();;
+		drawCardsController.reset();
+		playSpecialCardController.reset();
+		gameController = null;
+	}
 	
 }

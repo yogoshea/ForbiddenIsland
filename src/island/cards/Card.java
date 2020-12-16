@@ -38,4 +38,9 @@ public abstract class Card<T> {
 		return utility;
 	}
 	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }

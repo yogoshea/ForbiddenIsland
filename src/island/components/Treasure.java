@@ -30,6 +30,9 @@ public enum Treasure {
 		return name;
 	}
 	
-	// TODO: toString() as well?
+	@Override
+	public String toString() {
+		return name;
+	}
 	
 }

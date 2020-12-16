@@ -10,7 +10,7 @@ import island.cards.FloodCard;
 public class FloodDiscardPile extends DiscardPile<FloodCard> {
 	
 	// Instantiate singleton
-	private static FloodDiscardPile floodDiscardPile = new FloodDiscardPile();
+	private static FloodDiscardPile floodDiscardPile;
 	
 	/**
 	 * Private constructor of FloodDiscardPile singleton.
@@ -22,7 +22,15 @@ public class FloodDiscardPile extends DiscardPile<FloodCard> {
 	 * @return Single instance of FloodDiscardPile.
 	 */
 	public static FloodDiscardPile getInstance() {
+		if (floodDiscardPile == null) {
+			floodDiscardPile = new FloodDiscardPile();
+		}
 		return floodDiscardPile;
+	}
+
+	// Singleton reset for JUnit testing
+	public void reset() {
+		floodDiscardPile = null;
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import island.cards.Card;
-import island.cards.TreasureCard;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
@@ -50,6 +49,11 @@ public class ActionController { //Name PlayerActionController for clarity?
 		return actionController;
 	}
 	
+	/**
+	 * Retrieves player action choices from GameView and calls relevant methods to
+	 * perform requested action.
+	 * @param Player instances choosing the action.
+	 */
 	public void takeActions(Player p) {
 		
 //		gameView.showPlayerTurn(p); // TODO: make sure to print this
@@ -67,7 +71,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			switch(actionChoice) {
 			
 			case MOVE:
-				actionSuccessfullyTaken = move(p); // TODO: check for validity in Player class, throw Exception
+				actionSuccessfullyTaken = move(p); // TODO: check for validity in GameView, throw Exception
 				break;
 			
 			case SHORE_UP:
@@ -117,7 +121,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 	}
 	
 	/**
-	 * method to shore up tile of users choice
+	 * Performs shore up action on island tile of user's choice
 	 * @return true if shore-up action successful, false otherwise
 	 */
 	private boolean shoreUpAction(Player p) {
@@ -157,7 +161,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 	
 	
 	/**
-	 * method to give a treasure card from hand to another player on the same tile
+	 * Gives a treasure card from hand to another player on the same island tile
 	 * @return whether or not treasure successfully given
 	 */
 	private boolean giveTreasureCard(Player p) {
@@ -201,8 +205,8 @@ public class ActionController { //Name PlayerActionController for clarity?
 	
 	
 	/**
-	 * method to capture a treasure from current tile
-	 * @return whether or not treasure successfully captured
+	 * Performs action of capturing a treasure from current tile.
+	 * @return Boolean indicating whether or not treasure successfully captured.
 	 */
 	private boolean captureTreasure(Player p) { //TODO: Overcomplicated - improve?
 		
@@ -257,6 +261,11 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		gameView.showNoTreasure(p.getPawn().getTile());
 		return false;
+	}
+
+	// Singleton reset for JUnit testing
+	public void reset() {
+		actionController = null;
 	}
 
 }

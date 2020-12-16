@@ -53,12 +53,11 @@ public abstract class DiscardPile<E extends Card<?>> {
 	 * Removes all cards from the discard pile.
 	 * @return List of all cards removed from discard pile. 
 	 */
-	public List<E> removeAllCards() {
-		//TODO: check if pile is empty? Unit test
-		shuffle();
-		List<E> temp = getAllCards();
+	public void removeAllCards() {
+//		shuffle();
+//		List<E> temp = getAllCards();
 	    pile.clear();
-	    return temp;
+//	    return temp;
 	}
 
 	

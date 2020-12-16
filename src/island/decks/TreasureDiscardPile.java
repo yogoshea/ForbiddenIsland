@@ -8,10 +8,10 @@ import island.cards.Card;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class TreasureDiscardPile extends DiscardPile<Card> {
+public class TreasureDiscardPile extends DiscardPile<Card<?>> {
 
 	// Instantiate singleton
-	private static TreasureDiscardPile treasureDiscardPile = new TreasureDiscardPile();
+	private static TreasureDiscardPile treasureDiscardPile;
 	
 	/**
 	 * Private constructor for TreasureDiscardPile singleton.
@@ -23,6 +23,15 @@ public class TreasureDiscardPile extends DiscardPile<Card> {
 	 * @return single instance of TreasureDiscardPile.
 	 */
 	public static TreasureDiscardPile getInstance() {
+		if (treasureDiscardPile == null) {
+			treasureDiscardPile = new TreasureDiscardPile();
+		}
 		return treasureDiscardPile;
 	}
+	
+	// Singleton reset for JUnit testing
+	public void reset() {
+		treasureDiscardPile = null;
+	}
+	
 }

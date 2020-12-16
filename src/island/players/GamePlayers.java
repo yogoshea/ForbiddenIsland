@@ -87,4 +87,9 @@ public class GamePlayers implements Iterable<Player> {
 		return playersList;
 	}
 
+	// Singleton reset for JUnit testing
+	public void reset() {
+		gamePlayers = null;
+	}
+
 }

@@ -3,7 +3,6 @@ package island.game;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import island.components.IslandTile;
 import island.players.Player;
@@ -142,6 +141,10 @@ public class GameGraphics {
 		System.out.print(outputString);
 	}
 	
+	/**
+	 * Static method to display player information based on the current state of game play.
+	 * @param Reference to GameModel.
+	 */
 	private static void displayPlayerInformation(GameModel gameModel) {
 		// retrieve players' current information from model
 		final int maxTreasureCards = 5;

@@ -60,11 +60,16 @@ public class PlayerSunkObserver implements Observer {
 				
 				// Check if Player can move to another IslandTile
 				if (! gameController.movePlayerToSafety(pawn)) {
-					System.out.println(player.toString()+" has sunk!!");//TODO: Move to gameView
-					gameController.endGame(GameEndings.PLAYER_SUNK); //TODO: end game enum
+
+					gameController.endGame(GameEndings.PLAYER_SUNK);
 				}
 			}
 		}
 	}
 
+	// Singleton reset for JUnit testing
+	public void reset() {
+		playerSunkObserver = null;
+	}
+	
 }

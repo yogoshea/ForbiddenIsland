@@ -56,7 +56,7 @@ public abstract class Deck<E extends Card<?>> {
 	 * Adds specified card to deck.
 	 * @param Element to add to deck.
 	 */
-	public void addCardToDeck(E card) {
+	public void addCard(E card) {
 		deck.add(card);
 		this.shuffle(); // shuffle deck whenever new element added
 	}

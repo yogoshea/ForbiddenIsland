@@ -16,7 +16,9 @@ public class DrawCardsController {
 	
 	
 	/**
-	 * Constructor to retrieve view and model instances
+	 * Constructor for DrawCardsController singleton.
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
 	 */
 	private DrawCardsController(GameModel gameModel, GameView gameView) {
 		//TODO: Do we need to be passing in gameModel when constructing? Can just use getInstance() for everything (as they are all singletons)
@@ -25,7 +27,8 @@ public class DrawCardsController {
 	}
 	
 	/**
-	 * @return single instance of draw cards controller
+	 * Getter method for singleton instance.
+	 * @return single instance of draw cards controller.
 	 */
 	public static DrawCardsController getInstance(GameModel gameModel, GameView gameView) {
 		if (drawCardsController == null) {
@@ -37,6 +40,7 @@ public class DrawCardsController {
 	
 	/**
 	 * Method to draw 2 treasure cards during a players turn
+	 * @param Reference to player to draw cards.
 	 */
 	public void drawTreasureCards(Player player) {
 
@@ -70,6 +74,7 @@ public class DrawCardsController {
 	
 	/**
 	 * Method to draw 2 flood cards during a players turn
+	 * @param Reference to player to draw cards.
 	 */
 	public void drawFloodCards(Player player) {
 		
@@ -106,7 +111,9 @@ public class DrawCardsController {
 	
 	
 	/**
-	 * Method to add a Treasure deck card to the players hand
+	 * Method to add a Treasure deck card to the players hand.
+	 * @param Reference to player to give cards to.
+	 * @param Card instance to give to player.
 	 */
 	public void addCardToHand(Player player, Card card) {
 		final int maxAllowedCards = 5;//TODO: move this to constructor?
@@ -119,7 +126,8 @@ public class DrawCardsController {
 	}
 	
 	/**
-	 * Method for players to choose a card to discard if they have too many in their hand
+	 * Method for players to choose a card to discard if they have too many in their hand.
+	 * @param Player to choose card.
 	 */
 	public void chooseCardToDiscard(Player player) {
 		
@@ -132,6 +140,11 @@ public class DrawCardsController {
 		player.getCards().remove(card);
 		gameModel.getTreasureDiscardPile().addCard(card);
 		
+	}
+	
+	// Singleton reset for JUnit testing
+	public void reset() {
+		drawCardsController = null;
 	}
 
 }

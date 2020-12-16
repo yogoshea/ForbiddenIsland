@@ -75,6 +75,10 @@ public class TreasureTilesObserver implements Observer {
 			}
 			
 		}
-		
+	}
+	
+	// Singleton reset for JUnit testing
+	public void reset() {
+		treasureTilesObserver = null;
 	}
 }

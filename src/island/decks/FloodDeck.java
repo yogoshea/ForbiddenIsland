@@ -20,7 +20,7 @@ public class FloodDeck extends Deck<FloodCard> {
 
 		// Add FloodCard to deck for each IslandTile value
 		for (IslandTile it : IslandTile.values()) {
-			this.addCardToDeck(new FloodCard(it));
+			this.addCard(new FloodCard(it));
 		}
 	}
 	
@@ -39,9 +39,16 @@ public class FloodDeck extends Deck<FloodCard> {
 	public void refill() {
 //		List<FloodCard> temp = new ArrayList<FloodCard>();
 //		temp = FloodDiscardPile.getInstance().removeAllCards();
-		for (FloodCard fc : FloodDiscardPile.getInstance().removeAllCards()) {
-			floodDeck.addCardToDeck(fc);
+		FloodDiscardPile floodDiscardPile = FloodDiscardPile.getInstance();
+		for (FloodCard fc : floodDiscardPile.getAllCards()) {
+			floodDeck.addCard(fc);
 		}
+		floodDiscardPile.removeAllCards();
+	}
+
+	// Singleton reset for JUnit testing
+	public void reset() {
+		floodDeck = null;
 	}
 
 }
