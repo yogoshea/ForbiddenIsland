@@ -2,7 +2,6 @@ package island.game;
 
 import island.cards.Card;
 import island.cards.FloodCard;
-import island.cards.SpecialCard;
 import island.cards.SpecialCardAbility;
 import island.components.IslandTile;
 import island.players.Player;
@@ -14,6 +13,9 @@ public class DrawCardsController {
 	private GameView gameView;
 	private GameModel gameModel;
 	
+	// Static card to draw counts
+	final static int treasureCardsPerTurn = 2;
+	final static int maxCardsAllowedPerPlayer = 5;
 	
 	/**
 	 * Constructor for DrawCardsController singleton.
@@ -39,32 +41,30 @@ public class DrawCardsController {
 	
 	
 	/**
-	 * Method to draw 2 treasure cards during a players turn
+	 * Method to draw 2 treasure cards during a players turn.
 	 * @param Reference to player to draw cards.
 	 */
 	public void drawTreasureCards(Player player) {
 
-		//Could leave these draw methods in Player class and notify an observer when they are executed
-		//Then if player has too many cards, the observer can prompt to choose which one to discard
+		// Show information to user through game view
 		gameView.showEnterToContinue();
 		gameView.updateView(gameModel, player);
 		gameView.showDrawTreasureCards();
-		
-		final int cardCount = 2; //TODO: should this be final static or something at start of class? 
-		Card card;
-		
-		for(int i = 0; i < cardCount; i++) {
+
+		// Draw set number of cards per turn
+		Card<?> drawnCard;
+		for(int i = 0; i < treasureCardsPerTurn; i++) {
 			
-			card = gameModel.getTreasureDeck().drawCard();
-			gameView.showTreasureCardDrawn(card);
+			drawnCard = gameModel.getTreasureDeck().drawCard();
+			gameView.showTreasureCardDrawn(drawnCard);
 			
-			if(card instanceof SpecialCard && card.getUtility().equals(SpecialCardAbility.WATER_RISE)) { // TODO: check casting is correct with getUtility()
-				gameModel.getWaterMeter().incrementLevel(); //OR pass card into function? like a transaction?
-				gameModel.getTreasureDiscardPile().addCard(card);
+			// Increment water level if water rise card drawn
+			if(drawnCard.getUtility().equals(SpecialCardAbility.WATER_RISE)) {
+				gameModel.getWaterMeter().incrementLevel();
+				gameModel.getTreasureDiscardPile().addCard(drawnCard);
 				gameView.showWaterRise( gameModel.getWaterMeter().getWaterLevel() );
-				//TODO: OR have an observer of the WaterMeter call gameView.showWaterRise() when a rise occurs?? Probably the proper way to do it
 			} else {
-				addCardToHand(player, card);
+				addCardToHand(player, drawnCard);
 			}
 			
 		}
@@ -73,7 +73,7 @@ public class DrawCardsController {
 	
 	
 	/**
-	 * Method to draw 2 flood cards during a players turn
+	 * Method to draw flood cards during a players turn.
 	 * @param Reference to player to draw cards.
 	 */
 	public void drawFloodCards(Player player) {
@@ -82,18 +82,18 @@ public class DrawCardsController {
 		gameView.updateView(gameModel, player);
 		gameView.showDrawFloodCards();
 		
-		//TODO: use this function for initial flooding as well?
 		FloodCard card;
 		IslandTile boardTile;
 		int cardCount = gameModel.getWaterMeter().getWaterLevel();
 		
+		// Iterate over appropriate card count
 		for(int i = 0; i < cardCount; i++) {
 			
-			//draw a card
+			// Draw a card form flood deck
 			card = gameModel.getFloodDeck().drawCard();
 			boardTile = gameModel.getIslandBoard().getTile(card.getUtility());
 			
-			//Perform action on appropriate tile
+			// Perform action on appropriate tile
 			if (boardTile.isSafe()) {
 				gameView.showTileFlooded(boardTile);
 				boardTile.setToFlooded();
@@ -102,11 +102,9 @@ public class DrawCardsController {
 				boardTile.setToSunk();
 			}
 			
-			//Add card to discard pile
+			// Add card to discard pile
 			gameModel.getFloodDiscardPile().addCard(card);
-			
 		}
-		
 	}
 	
 	
@@ -115,12 +113,11 @@ public class DrawCardsController {
 	 * @param Reference to player to give cards to.
 	 * @param Card instance to give to player.
 	 */
-	public void addCardToHand(Player player, Card card) {
-		final int maxAllowedCards = 5;//TODO: move this to constructor?
+	public void addCardToHand(Player player, Card<?> card) {
 		player.addCard(card);
 		
-		//If more than 5 in hand, choose cards to discard
-		while( player.getCards().size() > maxAllowedCards ) {
+		// If more than 5 in hand, choose cards to discard
+		while( player.getCards().size() > maxCardsAllowedPerPlayer ) {
 			chooseCardToDiscard(player);
 		}
 	}
@@ -131,12 +128,8 @@ public class DrawCardsController {
 	 */
 	public void chooseCardToDiscard(Player player) {
 		
-		Card card;
-		
-		//choose card
-		card = gameView.pickCardToDiscard(player);
-		
-		//remove chosen card from hand and discard it
+		// Remove chosen card from hand and discard it
+		Card<?> card = gameView.pickCardToDiscard(player);
 		player.getCards().remove(card);
 		gameModel.getTreasureDiscardPile().addCard(card);
 		

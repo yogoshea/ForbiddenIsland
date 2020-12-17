@@ -10,7 +10,7 @@ import island.components.IslandTile;
  */
 public class FloodDeck extends Deck<FloodCard> {
 	
-	// Instantiate singleton
+	// Singleton instance
 	private static FloodDeck floodDeck;
 	
 	/**
@@ -37,8 +37,6 @@ public class FloodDeck extends Deck<FloodCard> {
 	
 	@Override
 	public void refill() {
-//		List<FloodCard> temp = new ArrayList<FloodCard>();
-//		temp = FloodDiscardPile.getInstance().removeAllCards();
 		FloodDiscardPile floodDiscardPile = FloodDiscardPile.getInstance();
 		for (FloodCard fc : floodDiscardPile.getAllCards()) {
 			floodDeck.addCard(fc);

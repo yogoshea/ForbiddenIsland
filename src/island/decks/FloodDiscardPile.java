@@ -9,7 +9,7 @@ import island.cards.FloodCard;
  */
 public class FloodDiscardPile extends DiscardPile<FloodCard> {
 	
-	// Instantiate singleton
+	// Singleton instance
 	private static FloodDiscardPile floodDiscardPile;
 	
 	/**

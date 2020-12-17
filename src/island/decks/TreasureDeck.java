@@ -14,7 +14,7 @@ import island.components.Treasure;
  */
 public class TreasureDeck extends Deck<Card<?>> {
 	
-	// Instantiate singleton
+	// Singleton instance
 	private static TreasureDeck treasureDeck;
 	
 	/**
@@ -44,8 +44,6 @@ public class TreasureDeck extends Deck<Card<?>> {
 	
 	@Override
 	public void refill() {
-//		List<Card> temp = new ArrayList<Card>();
-//		temp = TreasureDiscardPile.getInstance().removeAllCards();
 		for(Card<?> c : TreasureDiscardPile.getInstance().getAllCards()) {
 			treasureDeck.addCard(c);
 		}

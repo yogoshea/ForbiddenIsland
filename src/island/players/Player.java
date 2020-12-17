@@ -22,7 +22,7 @@ public abstract class Player {
 	private final String name;
 	private final String role;
 	private final Pawn pawn;
-	private List<Card> cards; // TODO: check for empty when using?
+	private List<Card<?>> cards; // TODO: check for empty when using
 	private final IslandTile startingTile;
 	private final int shoreUpQuantity;
 	
@@ -37,7 +37,7 @@ public abstract class Player {
 		this.name = name;
 		this.role = role;
 		this.pawn = new Pawn(this, startingTile);
-		this.cards = new ArrayList<Card>();
+		this.cards = new ArrayList<Card<?>>();
 		this.startingTile = startingTile;
 		this.shoreUpQuantity = shoreUpQuantity;
 	}
@@ -80,7 +80,7 @@ public abstract class Player {
 	 * Adds a card to the list of cards held by player.
 	 * @param Card to be added to player hand.
 	 */
-	public void addCard(Card card) {
+	public void addCard(Card<?> card) {
 		cards.add(card); // TODO: check for TreasureCard instance
 	}
 	
@@ -88,7 +88,7 @@ public abstract class Player {
 	 * Getter method for list of player's cards.
 	 * @return List of player's Card instances.
 	 */
-	public List<Card> getCards() {
+	public List<Card<?>> getCards() {
 		return cards;
 	}
 	
@@ -112,11 +112,11 @@ public abstract class Player {
 	 * Getter method for treasure cards currently held by player.
 	 * @return List of TreasureCard instances held by player.
 	 */
-	public List<Card> getTreasureCards() {
+	public List<Card<?>> getTreasureCards() {
 		
-		List<Card> treasureCards = new ArrayList<Card>();
+		List<Card<?>> treasureCards = new ArrayList<Card<?>>();
 	
-		for(Card c : this.cards) {
+		for(Card<?> c : this.cards) {
 			if (c instanceof TreasureCard)
 				treasureCards.add(c);
 		}

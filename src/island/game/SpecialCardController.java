@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import island.cards.Card;
-import island.cards.SpecialCard;
 import island.cards.SpecialCardAbility;
 import island.components.IslandTile;
 import island.components.Treasure;
@@ -25,7 +24,9 @@ public class SpecialCardController {
 	private GameController gameController;
 	
 	/**
-	 * Constructor to retrieve view and model instances
+	 * Constructor for SpecialCardController singleton.
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
 	 */
 	private SpecialCardController(GameModel gameModel, GameView gameView, GameController gameController) {
 		this.gameModel = gameModel;
@@ -34,7 +35,10 @@ public class SpecialCardController {
 	}
 	
 	/**
-	 * @return single instance of action controller
+	 * Getter method for singleton instance.
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
+	 * @return single instance of SpecialCardController.
 	 */
 	public static SpecialCardController getInstance(GameModel gameModel, GameView gameView, GameController gameController) {
 		if (specialCardController == null) {
@@ -55,7 +59,7 @@ public class SpecialCardController {
 //	}
 	
 	/**
-	 * Method to play a helicopter lift card
+	 * Performs actions enabled by Helicopter Lift Card usage
 	 */
 	public void heliRequest() {
 		
@@ -66,18 +70,18 @@ public class SpecialCardController {
 		
 		Player player = gameView.pickHeliPlayer(gamePlayers);
 		
-		for(Card card : player.getCards()) {
+		for(Card<?> card : player.getCards()) {
 			
-			//If helicopter card found then attempt to play it
-			if(card instanceof SpecialCard && card.getUtility().equals(SpecialCardAbility.HELICOPTER_LIFT)) {
+			// If helicopter card found then attempt to play it
+			if(card.getUtility().equals(SpecialCardAbility.HELICOPTER_LIFT)) {
 				
 				checkForGameWin();
 				
-				//Prompt for user to choose destination and players who wish to move
+				// Prompt for user to choose destination and players who wish to move
 				destination = gameView.pickHeliDestination(nonSunkTiles);
 				heliPlayers = gameView.pickHeliPlayers(gamePlayers, destination);
 				
-				//If there are players who wish to move then move them
+				// If there are players who wish to move then move them
 				if(heliPlayers.size() > 0) {
 					for(Player p: heliPlayers) {
 						p.getPawn().setTile(destination);
@@ -90,13 +94,13 @@ public class SpecialCardController {
 
 			}
 		}
-		//If you reach here then there was no card in hand
+		// If you reach here then there was no card in hand
 		gameView.showNoHeliCard(player);
 		returnToBefore();
 	}
 	
 	/**
-	 * Method to play a sandbag card
+	 * Performs actions enabled by Sandbag Card usage
 	 */
 	public void sandbagRequest() {
 		
@@ -105,9 +109,9 @@ public class SpecialCardController {
 		
 		Player player = gameView.pickSandbagPlayer(gamePlayers);
 		
-		for(Card card : player.getCards()) {
+		for(Card<?> card : player.getCards()) {
 			
-			if(card instanceof SpecialCard && card.getUtility().equals(SpecialCardAbility.SANDBAG)) {
+			if(card.getUtility().equals(SpecialCardAbility.SANDBAG)) {
 				
 				List<IslandTile> floodedTiles = gameModel.getIslandBoard().getFloodedTiles();
 				
@@ -122,17 +126,16 @@ public class SpecialCardController {
 				return;
 			}
 		}
-		//If you reach here then there was no card in hand
+		// If you reach here then there was no card in hand
 		gameView.showNoSandbagCard(player);
 		returnToBefore();
 	}
 	
 	
 	/**
-	 * Method to check if game has been won when heli card played
+	 * Determines whether players have won the game buy using current Helicopter Lift Card
 	 */
-	public void checkForGameWin() {
-		//TODO: give option to not win game??
+	private void checkForGameWin() {
 		
 		for(Player p : gameModel.getGamePlayers().getPlayersList()) {
 			if(!p.getPawn().getTile().equals(IslandTile.FOOLS_LANDING)) {
@@ -145,14 +148,15 @@ public class SpecialCardController {
 				return;
 			}
 		}
-		
-		gameController.endGame(GameEndings.WIN); //TODO: ENUM
-		
+		gameController.endGame(GameEndings.WIN);
 	}
 	
-	public void returnToBefore() {
+	/**
+	 * Returns game to previous flow after special cards have been used.
+	 */
+	private void returnToBefore() {
 		gameView.showSpecialCardDone();
-		gameView.updateView(gameModel, gameController.getCurrentPlayer()); //TODO: instead of passing gameModel and gameView to all controllers just pass gameController and use getters from gameController??
+		gameView.updateView(gameModel, gameController.getCurrentPlayer());
 	}
 	
 	// Singleton reset for JUnit testing

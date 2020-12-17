@@ -17,7 +17,7 @@ public enum Action {
 	private String name;
 	
 	/**
-	 * Private constructor of Action enum.
+	 * Private constructor of Action Enum.
 	 * @param String representation of particular action.
 	 */
 	private Action(String name) {
@@ -29,6 +29,11 @@ public enum Action {
 	 * @return String representation of action.
 	 */
 	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public String toString() {
 		return name;
 	}
 }

@@ -2,9 +2,7 @@ package island.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import island.cards.Card;
@@ -128,7 +126,7 @@ public class GameView {
 	/**
 	 * Tells user that treasure cards are being drawn
 	 */
-	public void showTreasureCardDrawn(Card card) {
+	public void showTreasureCardDrawn(Card<?> card) {
 		System.out.println("You have drawn: " + card.getName());
 	}
 	
@@ -285,15 +283,15 @@ public class GameView {
 		return pickFromList(players, prompt);
 	}
 	
-	public Card pickCardToGive(List<Card> cards) {
+	public Card<?> pickCardToGive(List<Card<?>> treasureCards) {
 		String prompt = "Which card do you wish to give?";
-		return pickFromList(cards, prompt);
+		return pickFromList(treasureCards, prompt);
 	}
 	
-	public Card pickCardToDiscard(Player player) {
-		List<Card> cards = player.getCards();
+	public Card<?> pickCardToDiscard(Player player) {
+		List<Card<?>> cards = player.getCards();
 		String prompt = player.getName() + ", you have too many cards in your hand, which do you wish to discard?";
-		Card card = pickFromList(cards, prompt); //TODO: allow to play heli or sandcard??
+		Card<?> card = pickFromList(cards, prompt); //TODO: allow to play heli or sandcard??
 		System.out.println("You have discarded: " + card.getName());
 		return card;
 	}

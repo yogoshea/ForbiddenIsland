@@ -12,6 +12,7 @@ public class WaterMeterObserver implements Observer {
 	
 	private static WaterMeterObserver waterMeterObserver;
 	private GameController gameController;
+	private static int maxWaterLevel;
 	
 	/**
 	 * Constructor of observer for WaterMeter
@@ -43,8 +44,9 @@ public class WaterMeterObserver implements Observer {
 	 */
 	@Override
 	public void update(Subject subject) {
-		if (((WaterMeter) subject).getWaterLevel() == 5)
-			gameController.endGame(GameEndings.MAX_WATER_LEVEL); // TODO: change to GameEndings enum
+		// TODO: add call to GameView whenever water level increases!
+		if (((WaterMeter) subject).getWaterLevel() == maxWaterLevel)
+			gameController.endGame(GameEndings.MAX_WATER_LEVEL);
 	}
 
 	// Singleton reset for JUnit testing

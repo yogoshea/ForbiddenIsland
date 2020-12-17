@@ -27,6 +27,9 @@ public class UserInputTest {
 	@Test
 //	public void test_
 	
+	// Test varied inputs; partition testing
+	// e.g. water meter difficulty entered as 8, handle this error!
+	
 	@After
 	public void tearDown() throws Exception {
 	}

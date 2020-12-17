@@ -10,7 +10,7 @@ import island.cards.Card;
  */
 public class TreasureDiscardPile extends DiscardPile<Card<?>> {
 
-	// Instantiate singleton
+	// Singleton instance
 	private static TreasureDiscardPile treasureDiscardPile;
 	
 	/**

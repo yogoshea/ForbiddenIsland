@@ -32,7 +32,9 @@ public class GameController {
 	private Player currentPlayer;
 	
 	/**
-	 * Constructor to retrieve model, view and sub-controller instances
+	 * Constructor for GameController singleton, receives view and model instances.
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
 	 */
 	private GameController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
@@ -45,6 +47,8 @@ public class GameController {
 	
 	/**
 	 * Singleton instance getter method
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
 	 * @return single instance of GameController
 	 */
 	public static GameController getInstance(GameModel gameModel, GameView gameView) {

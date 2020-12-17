@@ -18,7 +18,7 @@ import island.observers.Subject;
  */
 public class IslandBoard implements Subject {
 	
-	// Instantiate singleton
+	// Singleton instance
 	private static IslandBoard islandBoard;
 	
 	private IslandTile[][] boardStructure; // 2D array of IslandTiles to represent game board

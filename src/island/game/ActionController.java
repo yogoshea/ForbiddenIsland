@@ -131,20 +131,22 @@ public class ActionController { //Name PlayerActionController for clarity?
 		List<IslandTile> holder = new ArrayList<>(adjTiles);
 		IslandTile tileChoice;
 		
-		//remove tiles that aren't flooded
-		for(IslandTile t : holder) {
-			if(!t.isFlooded()) {
-				adjTiles.remove(t);
+		// Remove tiles that aren't flooded
+		for(IslandTile tile : holder) {
+			if(! tile.isFlooded()) {
+				adjTiles.remove(tile);
 			}
 		}
 		
+		// If there are adjacent flooded tiles, prompt user for shore up choice
 		if(! adjTiles.isEmpty()) {
 			
 			tileChoice = gameView.pickShoreUpTile(adjTiles);
 			tileChoice.setToSafe();
 			adjTiles.remove(tileChoice);
 		
-			if (! adjTiles.isEmpty() && p.getShoreUpQuantity() > 1) {
+			// Check if current players role allows second shore up
+			if (! adjTiles.isEmpty() && p.getShoreUpQuantity() == 2) {
 
 				tileChoice = gameView.pickShoreUpTile(adjTiles);
 				tileChoice.setToSafe();
@@ -155,8 +157,6 @@ public class ActionController { //Name PlayerActionController for clarity?
 		}
 		gameView.showNoShoreUpTiles();
 		return false;
-		//Is it better to show user what tiles they can perform action on
-		//OR let them choose a tile based on map and then we tell them if its a valid choice?
 	}
 	
 	
@@ -168,11 +168,11 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		DrawCardsController drawCardsController = gameController.getDrawCardsController();
 		List<Player> playersOnSameTile = new ArrayList<Player>();
-		List<Card> treasureCards = new ArrayList<Card>();
+		List<Card<?>> treasureCards = new ArrayList<Card<?>>();
 		Player playerToRecieve;
-		Card card;
+		Card<?> card;
 		
-		//find players on same tile
+		// Find players on same tile
 		playersOnSameTile = p.getCardReceivablePlayers(gameModel.getGamePlayers());
 		
 		if(playersOnSameTile.isEmpty()) {
@@ -180,7 +180,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			return false;
 		}
 		
-		//Find treasure cards in hand
+		// Find treasure cards in hand
 		treasureCards = p.getTreasureCards();
 		System.out.println(treasureCards);
 		
@@ -190,13 +190,13 @@ public class ActionController { //Name PlayerActionController for clarity?
 			return false;
 		}
 		
-		//User chooses player to give card to
+		// User chooses player to give card to
 		playerToRecieve = gameView.pickPlayerToRecieveCard(playersOnSameTile);
 		
-		//User chooses card to give
+		// User chooses card to give
 		card = gameView.pickCardToGive(treasureCards);
 		
-		//give card
+		// Give card to other player
 		drawCardsController.addCardToHand(playerToRecieve, card);
 		p.getCards().remove(card);
 		return true;
@@ -208,12 +208,12 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * Performs action of capturing a treasure from current tile.
 	 * @return Boolean indicating whether or not treasure successfully captured.
 	 */
-	private boolean captureTreasure(Player p) { //TODO: Overcomplicated - improve?
+	private boolean captureTreasure(Player p) {
 		
 		final int numCardsRequired = 4;
 		Treasure treasure = p.getPawn().getTile().getAssociatedTreasure();
 		
-		//If true - Collect all cards which can be used to capture treasure
+		// If true - Collect all cards which can be used to capture treasure
 		if(treasure != null) {
 			
 			if( gameModel.getGamePlayers().getCapturedTreasures().contains(treasure) ) {
@@ -221,13 +221,12 @@ public class ActionController { //Name PlayerActionController for clarity?
 				return false;
 			}
 			
-			List<Card> tradeCards = new ArrayList<Card>();
+			List<Card<?>> tradeCards = new ArrayList<Card<?>>();
 			int cardsFound = 0;
 			
-			//Take out all relevant treasure cards
-			for(Card c : p.getTreasureCards()) {
-				//TODO: Are subclasses making these treasure deck cards hard to deal with??
-				if(c.getUtility().equals(treasure)) { //TODO: check getUtility is working!
+			// Take out all relevant treasure cards from player's hand
+			for(Card<?> c : p.getTreasureCards()) {
+				if(c.getUtility().equals(treasure)) {
 					tradeCards.add(c);
 					p.getCards().remove(c);
 					cardsFound++;
@@ -235,30 +234,20 @@ public class ActionController { //Name PlayerActionController for clarity?
 				
 				if(cardsFound == numCardsRequired) {
 					
-					//Discard the 4 treasure cards
-					for(int i = 0; i < 4; i++) {
-						gameModel.getTreasureDiscardPile().addCard(tradeCards.get(0)); //WHy can't I use addAll()??
-						tradeCards.remove(0);
-					}
-					//capture the treasure
+					// Discard the 4 treasure cards and capture treasure
+					gameModel.getTreasureDiscardPile().getAllCards().addAll(tradeCards);
 					gameModel.getGamePlayers().addTreasure(treasure);
 					gameView.showTreasureCaptured(treasure);
-					//TODO: alert observer that treasure has been captured/print via gameView "You captured..."
 					return true;
 				}
 			}
-			
-			//if couldn't capture treasure
+			// If couldn't capture treasure, show message and return cards to deck
 			gameView.showNotEnoughCards(p.getPawn().getTile().getAssociatedTreasure());
-			//Return cards to player deck
 			p.getCards().addAll(tradeCards);
-//			for(int i = 0; i < tradeCards.size(); i++) {
-//				p.addCard(tradeCards.get(i));
-//			}
 			return false;
 			
 		}
-		
+		// No treasure found on island tile
 		gameView.showNoTreasure(p.getPawn().getTile());
 		return false;
 	}

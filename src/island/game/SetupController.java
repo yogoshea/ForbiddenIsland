@@ -23,17 +23,28 @@ import island.players.Player;
 
 public class SetupController { 
 	
-	// Instantiate Singleton
+	// Singleton instance
 	private static SetupController setupController;
 	
 	private GameModel gameModel;
 	private GameView gameView;
 	
+	/**
+	 * Constructor for SetupController singleton.
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
+	 */
 	private SetupController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
 	}
 
+	/**
+	 * Getter method for singleton instance.
+	 * @param Reference to GameModel.
+	 * @param Reference to GameView.
+	 * @return single instance of SetupController.
+	 */
 	public static SetupController getInstance(GameModel gameModel, GameView gameView) {
 		if (setupController == null) {
 			setupController = new SetupController(gameModel, gameView);
@@ -71,7 +82,7 @@ public class SetupController {
 			// Draw FloodCard from deck
 			newFloodCard = floodDeck.drawCard();
 			
-			tile = newFloodCard.getUtility(); //TODO: check getUtility working correctly?
+			tile = newFloodCard.getUtility();
 
 			// Flood corresponding IslandTile on board
 			islandBoard.getTile(tile).setToFlooded();
@@ -93,20 +104,20 @@ public class SetupController {
 		
 		List<Player> playersList = gameModel.getGamePlayers().getPlayersList();
 		
-		// create stack of possible roles players can have
+		// Create stack of possible roles players can have
 		Stack<String> possibleRoles = new Stack<String>();
 		possibleRoles.addAll(Arrays.asList("Diver", "Engineer", "Explorer", 
 				"Messenger", "Navigator", "Pilot"));
 		
-		// randomise stack order
+		// Randomise stack order
 		Collections.shuffle(possibleRoles); 
 		
-		// iterate over number of players
+		// Iterate over number of players
 		for (String playerName : playerNames) {
 			
-			// TODO: check if player name already given
+			// TODO: check if player name already given in game view
 			
-			// instantiate specific player subclasses 
+			// Instantiate specific player subclasses 
 			switch (possibleRoles.pop()) {
 
 				case "Diver":
@@ -143,19 +154,20 @@ public class SetupController {
 		
 		int cardsDrawnCount;
 		final int numberOfCardsPerPlayer = 2;
-		Card drawnCard;
+		Card<?> drawnCard;
 		
 		// Get component instances from model
 		TreasureDeck treasureDeck = gameModel.getTreasureDeck();
 		
-		// iterate of players in game
+		// Iterate of players in game
 		for (Player p : gameModel.getGamePlayers()) {
 			
 			cardsDrawnCount = 0;
 			do {
 				drawnCard = treasureDeck.drawCard();
 
-				if (drawnCard instanceof SpecialCard && drawnCard.getUtility().equals(SpecialCardAbility.WATER_RISE)) { // TODO: check can get rid of instanceof?
+				// Check if water rise card has been drawn
+				if (drawnCard.getUtility().equals(SpecialCardAbility.WATER_RISE)) {
 					treasureDeck.addCard(drawnCard); // Put water Rise cards back in deck
 				} else {
 					cardsDrawnCount++;

@@ -19,6 +19,10 @@ public class GameGraphics {
 	private final static int tileCharWidth = 25; // change to make tiles wider
 	private final static int displayCharWidth = 6 * tileCharWidth; // display width in characters
 	
+	/**
+	 * Refreshes the terminal user interface describing the current state of the game.
+	 * @param Reference to the GameModel.
+	 */
 	public static void refreshDisplay(GameModel gameModel) {
 		
 		System.out.println("=".repeat(displayCharWidth));
@@ -41,7 +45,10 @@ public class GameGraphics {
 	//	displayGameDialog(); // TODO: gameView.addToUpcomingDialog
 	}
 	
-	// TODO: maybe move to something like GameGraphics, to store all lengthy terminal image type outputs ??
+	/**
+	 * Method to print the island board structure on console screen.
+	 * @param Reference to GameModel.
+	 */
 	private static void displayIslandBoard(GameModel gameModel) { //TODO: print associated treasure
 
 		String outputString = "";
@@ -155,7 +162,7 @@ public class GameGraphics {
 			System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", p.getName() + " - " + p.getRole()); // left alignment 
 		}
 		System.out.println(); // newline 
-		for (Player p : gameModel.getGamePlayers()) {
+		for (@SuppressWarnings("unused") Player p : gameModel.getGamePlayers()) {
 			System.out.printf("%" + (-6*tileCharWidth)/playerCount + "s", "Cards in hand:"); // left alignment 
 		}
 		System.out.println(); // newline 

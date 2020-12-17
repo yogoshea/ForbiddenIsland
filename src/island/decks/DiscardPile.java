@@ -54,10 +54,7 @@ public abstract class DiscardPile<E extends Card<?>> {
 	 * @return List of all cards removed from discard pile. 
 	 */
 	public void removeAllCards() {
-//		shuffle();
-//		List<E> temp = getAllCards();
 	    pile.clear();
-//	    return temp;
 	}
 
 	

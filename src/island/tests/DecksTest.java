@@ -3,6 +3,7 @@ package island.tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,7 +75,7 @@ public class DecksTest {
 	}
 	
 	@Test
-	public void test_FloodDeck_DiscardAndRefill() {
+	public void test_FloodDeck_discardAndRefill() {
 		
 		assertTrue("Getting discard pile contents", floodDiscardPile.getAllCards().isEmpty());
 		
@@ -112,6 +113,9 @@ public class DecksTest {
 		for (FloodCard fc : floodDeck.getAllCards()) {
 			assertTrue("Getting cards associated utility", fc.getUtility() instanceof IslandTile);
 		}
+		
+		List<Object> cardUtilities = floodDeck.getAllCards().stream().map( FloodCard::getUtility ).collect( Collectors.toList() );
+		assertTrue("Getting deck contents", cardUtilities.containsAll(Arrays.asList(IslandTile.values())));
 	}
 
 	@Test
@@ -135,7 +139,7 @@ public class DecksTest {
 	}
 	
 	@Test
-	public void test_TresureDeck_DiscardAndRefill() {
+	public void test_TresureDeck_discardAndRefill() {
 
 		assertTrue("Getting discard pile contents", treasureDiscardPile.getAllCards().isEmpty());
 		
@@ -178,14 +182,9 @@ public class DecksTest {
 		
 		for (Card<?> c : treasureDeck.getAllCards()) {
 			assertTrue(c instanceof TreasureCard || c instanceof SpecialCard);
-			assertTrue("Getting cards associated utility", 
-					c.getUtility() instanceof SpecialCardAbility || c.getUtility() instanceof Treasure);
+			assertTrue("Getting cards associated utility", c.getUtility() instanceof SpecialCardAbility || c.getUtility() instanceof Treasure);
 		}
 		
-//		List<String> cardUtilities = treasureDeck.getAllCards().stream().map( Card::getName ).collect(Collectors.toList());
-//		List<Card<?>> cards = treasureDeck.getAllCards();
-//		List<String> names = new ArrayList<String>();
-//		cardUtilities.forEach( (card) -> names.add(card.getName()));
 		List<Object> cardUtilities = treasureDeck.getAllCards().stream().map( Card<?>::getUtility ).collect( Collectors.toList() );
 		
 		assertEquals("Getting Treasure Card count", expectedTreasureCardCount, Collections.frequency(cardUtilities, Treasure.THE_CRYSTAL_OF_FIRE));
