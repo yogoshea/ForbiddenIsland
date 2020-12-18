@@ -340,7 +340,7 @@ public class GameView {
 		int i = 1;
 		String options = "\n";
 		for(E item : items) {
-			options += item.toString()+" ["+Integer.toString(i)+"], "; // TODO: use getName() instead here, or have toString implemented in all classes??
+			options += item.toString()+" ["+Integer.toString(i)+"], "; // TODO: have toString implemented in all classes??
 			i++;
 		}
 		System.out.println(options); //TODO: print vertically to look better?

@@ -30,6 +30,9 @@ public class UserInputTest {
 	// Test varied inputs; partition testing
 	// e.g. water meter difficulty entered as 8, handle this error!
 	
+	// OR keep entering combination of numbers and newline chars,
+	// test if game always ends?
+	
 	@After
 	public void tearDown() throws Exception {
 	}

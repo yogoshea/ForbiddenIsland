@@ -12,14 +12,14 @@ public class WaterMeterObserver implements Observer {
 	
 	private static WaterMeterObserver waterMeterObserver;
 	private GameController gameController;
-	private static int maxWaterLevel;
+	private static int maxWaterLevel = 5;
 	
 	/**
 	 * Constructor of observer for WaterMeter
 	 * @param WaterMeter subject to attach observer to
 	 * @param Reference to GameController
 	 */
-	private WaterMeterObserver(Subject subject, GameController gc) {
+	protected WaterMeterObserver(Subject subject, GameController gc) {
 		
 		// Attach this observer to subject
 		subject.attach(this);
@@ -45,7 +45,7 @@ public class WaterMeterObserver implements Observer {
 	@Override
 	public void update(Subject subject) {
 		// TODO: add call to GameView whenever water level increases!
-		if (((WaterMeter) subject).getWaterLevel() == maxWaterLevel)
+		if (((WaterMeter) subject).getWaterLevel() >= maxWaterLevel)
 			gameController.endGame(GameEndings.MAX_WATER_LEVEL);
 	}
 

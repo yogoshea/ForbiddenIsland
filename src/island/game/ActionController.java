@@ -146,6 +146,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			adjTiles.remove(tileChoice);
 		
 			// Check if current players role allows second shore up
+			// TODO: prompt gameView; does engineer player want to shore up another!
 			if (! adjTiles.isEmpty() && p.getShoreUpQuantity() == 2) {
 
 				tileChoice = gameView.pickShoreUpTile(adjTiles);

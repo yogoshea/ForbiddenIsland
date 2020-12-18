@@ -61,7 +61,8 @@ public class DrawCardsController {
 			// Increment water level if water rise card drawn
 			if(drawnCard.getUtility().equals(SpecialCardAbility.WATER_RISE)) {
 				gameModel.getWaterMeter().incrementLevel();
-				gameModel.getTreasureDiscardPile().addCard(drawnCard);
+				gameModel.getTreasureDiscardPile().addCard(drawnCard); // TODO: where does it say to add this to the Treasure Discard Pile?
+				// TODO: we should be refilling FloodDeck here !!!
 				gameView.showWaterRise( gameModel.getWaterMeter().getWaterLevel() );
 			} else {
 				addCardToHand(player, drawnCard);
