@@ -16,8 +16,11 @@ public class WaterMeter implements Subject {
 	
 	// Eager initialisation of singleton
 	private static WaterMeter waterMeter;
+	
+	// Water meter attributes
 	private int waterLevel;
 	private List<Observer> observers = new ArrayList<Observer>();	
+	public static final int MAX_WATER_LEVEL = 5;
 	
 	/**
 	 * Private constructor for WaterMeter singleton.
@@ -79,7 +82,7 @@ public class WaterMeter implements Subject {
 	}
 	
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		waterMeter = null;
 	}
 	

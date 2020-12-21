@@ -51,10 +51,10 @@ public class DecksTest {
 
 	@After
 	public void tearDown() throws Exception {
-		floodDeck.reset();
-		floodDiscardPile.reset();
-		treasureDeck.reset();
-		treasureDiscardPile.reset();
+		FloodDeck.reset();
+		FloodDiscardPile.reset();
+		TreasureDeck.reset();
+		TreasureDiscardPile.reset();
 	}
 
 	@Test

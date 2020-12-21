@@ -1,6 +1,7 @@
 package island.decks;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 import island.cards.Card;
@@ -12,7 +13,7 @@ import island.cards.Card;
  * @param <E> Elements to be placed in Deck subclass instances.
  * 
  */
-public abstract class Deck<E extends Card<?>> {
+public abstract class Deck<E extends Card<?>> implements CardCollection<E> {
 	
 	// Stack to store deck cards
 	private Stack<E> deck;
@@ -24,9 +25,18 @@ public abstract class Deck<E extends Card<?>> {
 		deck = new Stack<E>();
 	}
 	
-	/**
-	 * Shuffles order of cards in the deck.
-	 */
+	@Override
+	public void addCard(E card) {
+		deck.add(card);
+		this.shuffle(); // shuffle deck whenever new element added
+	}	
+	
+	@Override
+	public List<E> getAllCards() {
+		return deck;
+	}
+	
+	@Override
 	public void shuffle() {
 		Collections.shuffle(deck);
 	}
@@ -42,23 +52,6 @@ public abstract class Deck<E extends Card<?>> {
 			refill();
 		}
 		return deck.pop();
-	}
-	
-	/**
-	 * Retrieves all cards present in deck.
-	 * @return Stack of all deck elements.
-	 */
-	public Stack<E> getAllCards() {
-		return deck;
-	}
-	
-	/**
-	 * Adds specified card to deck.
-	 * @param Element to add to deck.
-	 */
-	public void addCard(E card) {
-		deck.add(card);
-		this.shuffle(); // shuffle deck whenever new element added
 	}
 	
 	/**

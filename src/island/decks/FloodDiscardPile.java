@@ -15,7 +15,7 @@ public class FloodDiscardPile extends DiscardPile<FloodCard> {
 	/**
 	 * Private constructor of FloodDiscardPile singleton.
 	 */
-	private FloodDiscardPile() {}
+	private FloodDiscardPile() {} // Start with empty discard pile.
 	
 	/**
 	 * Getter method for singleton instance.
@@ -29,7 +29,7 @@ public class FloodDiscardPile extends DiscardPile<FloodCard> {
 	}
 
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		floodDiscardPile = null;
 	}
 

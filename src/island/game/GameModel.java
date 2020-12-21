@@ -111,14 +111,14 @@ public class GameModel {
 	}
 
 	// Singleton reset for JUnit testing
-	public void reset() {
-		islandBoard.reset();
-		floodDeck.reset();
-		floodDiscardPile.reset();
-		gamePlayers.reset();
-		treasureDeck.reset();
-		treasureDiscardPile.reset();
-		waterMeter.reset();
+	public static void reset() {
+		IslandBoard.reset();
+		FloodDeck.reset();
+		FloodDiscardPile.reset();
+		GamePlayers.reset();
+		TreasureDeck.reset();
+		TreasureDiscardPile.reset();
+		WaterMeter.reset();
 		gameModel = null;
 	}
 }

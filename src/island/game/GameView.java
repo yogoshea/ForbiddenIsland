@@ -23,6 +23,7 @@ public class GameView {
 	// GameView references
 	private Scanner userInput;
 	private GameController gameController;
+	private SpecialCardController specialCardController;
 	
 	/**
 	 * Private constructor for GameView singleton.
@@ -363,10 +364,10 @@ public class GameView {
 		
 		while(input.equals("HELI") || input.equals("SAND")) {
 			if(input.equals("HELI")) {
-				gameController.getPlaySpecialCardController().heliRequest();
+				specialCardController.heliRequest();
 			}
 			if(input.equals("SAND")) {
-				gameController.getPlaySpecialCardController().sandbagRequest();
+				specialCardController.sandbagRequest();
 			}
 //			System.out.println("Press enter to return to before request...");
 //			userInput.nextLine();
@@ -382,8 +383,9 @@ public class GameView {
 	 * Sets the views controller
 	 * @param GameController
 	 */
-	public void setController(GameController gameController) {
+	public void setControllers(GameController gameController, SpecialCardController specialCardController) {
 		this.gameController = gameController;
+		this.specialCardController = specialCardController;
 	}
 	
 	/**
@@ -439,7 +441,7 @@ public class GameView {
 	}
 
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		gameView = null;
 	}
 

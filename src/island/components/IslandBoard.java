@@ -8,22 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import island.observers.Observer;
-import island.observers.Subject;
-
 /**
  * IslandBoard class represents island board and the island tiles it consists of.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class IslandBoard implements Subject {
+public class IslandBoard {
 	
 	// Singleton instance
 	private static IslandBoard islandBoard;
 	
 	private IslandTile[][] boardStructure; // 2D array of IslandTiles to represent game board
 	private Map<IslandTile, Coordinate> tileCoordinates;
-	private List<Observer> observers = new ArrayList<Observer>();
 	
 	/**
 	 * Private constructor for IslandBoard singleton.
@@ -201,36 +197,11 @@ public class IslandBoard implements Subject {
 	 * @return double value representing the distance between island tiles.
 	 */
 	public double calcDistanceBetweenTiles(IslandTile aTile, IslandTile otherTile) {
-		
 		return Coordinate.calcDistanceBetweenCoordinates(tileCoordinates.get(aTile), tileCoordinates.get(otherTile));
-
-//		int currentRow = tileCoordinates.get(currentTile).getRowIndex();
-//		double x1 = currentRow + this.getRowOffset(currentRow);
-//		
-//		int otherRow = tileCoordinates.get(otherTile).getRowIndex();
-//		double x2 = currentRow + this.getRowOffset(otherRow);
-//		
-//		double y1 = tileCoordinates.get(currentTile).getColumnIndex();
-//		double y2 = tileCoordinates.get(otherTile).getColumnIndex();
-//		
-//		return Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2);
-	}
-	
-	
-	@Override
-	public void attach(Observer observer) {
-		observers.add(observer);
-	}
-	
-	@Override
-	public void notifyAllObservers() {
-		for (Observer observer : observers) {
-			observer.update(this);
-		}
 	}
 	
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		islandBoard = null;
 	}
 

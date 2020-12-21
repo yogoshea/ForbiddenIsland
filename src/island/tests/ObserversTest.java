@@ -63,9 +63,9 @@ public class ObserversTest {
 	@After
 	public void tearDown() throws Exception {
         System.setSecurityManager(null);
-		gameModel.reset();
-		gameView.reset();
-		gameController.reset();
+		GameModel.reset();
+		GameView.reset();
+		GameController.reset();
 	}
 	
 	@Test

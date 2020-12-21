@@ -178,7 +178,7 @@ public class SetupController {
 	}
 	
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		setupController = null;
 	}
 

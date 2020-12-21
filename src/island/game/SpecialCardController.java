@@ -160,7 +160,7 @@ public class SpecialCardController {
 	}
 	
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		specialCardController = null;
 	}
 	

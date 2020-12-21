@@ -3,7 +3,6 @@ package island.game;
 import java.util.List;
 
 import island.components.IslandTile;
-import island.components.Pawn;
 import island.observers.PlayerSunkObserver;
 import island.observers.Subject;
 import island.observers.FoolsLandingObserver;
@@ -25,10 +24,10 @@ public class GameController {
 	// References for model, view and sub-controllers
 	private GameView gameView;
 	private GameModel gameModel;
-	private SetupController setupController;
-	private ActionController actionController;
-	private DrawCardsController drawCardsController;
-	private SpecialCardController playSpecialCardController;
+//	private SetupController setupController;
+//	private ActionController actionController;
+//	private DrawCardsController drawCardsController;
+//	private SpecialCardController playSpecialCardController;
 	private Player currentPlayer;
 	
 	/**
@@ -39,10 +38,10 @@ public class GameController {
 	private GameController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
-		setupController = SetupController.getInstance(gameModel, gameView);
-		actionController = ActionController.getInstance(gameModel, gameView, this);
-		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
-		playSpecialCardController = SpecialCardController.getInstance(gameModel, gameView, this);
+//		setupController = SetupController.getInstance(gameModel, gameView);
+//		actionController = ActionController.getInstance(gameModel, gameView, this);
+//		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
+//		playSpecialCardController = SpecialCardController.getInstance(gameModel, gameView, this);
 	}
 	
 	/**
@@ -54,7 +53,7 @@ public class GameController {
 	public static GameController getInstance(GameModel gameModel, GameView gameView) {
 		if (gameController == null) {
 			gameController = new GameController(gameModel, gameView);
-			gameView.setController(gameController);
+			gameView.setControllers(gameController, SpecialCardController.getInstance(gameModel, gameView, gameController));
 		}
 		return gameController;
 	}
@@ -68,6 +67,7 @@ public class GameController {
 		gameView.showWelcome();
 		
 		// Setup game components with new players obtain form user through GameView
+		SetupController setupController = SetupController.getInstance(gameModel, gameView);
 		setupController.setupGame();
 		
 		// Create game observers
@@ -82,6 +82,9 @@ public class GameController {
 	 */
 	public void playGame() {
 		
+		DrawCardsController drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
+		ActionController actionController = ActionController.getInstance(gameModel, gameView, drawCardsController);
+		
 		// Repeat player turns until winning/losing conditions observed
 		while(true) {
 			
@@ -91,7 +94,7 @@ public class GameController {
 				currentPlayer = p;
 				
 				// Take a number of actions
-				actionController.takeActions(p);
+				actionController.takeActions(p, drawCardsController);
 				
 				// Draw two cards from Treasure Deck
 				drawCardsController.drawTreasureCards(p);
@@ -133,22 +136,23 @@ public class GameController {
 	 * @param Pawn instance of Player on sunk IslandTile
 	 * @return whether Player was successfully moved to safety
 	 */
-	public boolean movePlayerToSafety(Pawn pawn) {
+	public boolean movePlayerToSafety(Player player) {
 		
 		// Obtain player-role specific IslandTiles that player can swim to
-		List<IslandTile> swimmableTiles = pawn.getPlayer().getSwimmableTiles(gameModel.getIslandBoard());
+		List<IslandTile> swimmableTiles = player.getSwimmableTiles(gameModel.getIslandBoard());
 		
 		// Move player pawn to new IslandTile if possible
 		if (swimmableTiles.isEmpty()) {
 			return false;
 		} else {
-			pawn.setTile(gameView.pickSwimmableTile(swimmableTiles));
+			player.getPawn().setTile(gameView.pickSwimmableTile(swimmableTiles));
 			return true;
 		}
 	}
 	
 	/**
-	 * Method called by observers that have encountered game ending conditions
+	 * Method called by observers that have encountered game ending conditions.
+	 * @param Enum type specifying how game has ended.
 	 */
 	public void endGame(GameEndings ending) {
 		
@@ -158,39 +162,19 @@ public class GameController {
 	}
 	
 	/**
-	 * PlaySpecialCardController getter method
-	 * @return single instance of PlaySpecialCardController
+	 * Getter method for current player who is taking turn.
+	 * @return Player instance currently taking turn.
 	 */
-	public SpecialCardController getPlaySpecialCardController() {
-		return playSpecialCardController;
-	}
-
-	/**
-	 * DrawCardsController getter method
-	 * @return single instance of DrawCardsController
-	 */
-	public DrawCardsController getDrawCardsController() {
-		return drawCardsController;
-	}
-	
-	/**
-	 * ActionController getter method
-	 * @return single instance of ActionController
-	 */
-	public ActionController getActionController() {
-		return actionController;
-	}
-	
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
 	
 	// Singleton reset for JUnit testing
-	public void reset() {
-		setupController.reset();
-		actionController.reset();;
-		drawCardsController.reset();
-		playSpecialCardController.reset();
+	public static void reset() {
+		SetupController.reset();
+		ActionController.reset();;
+		DrawCardsController.reset();
+		SpecialCardController.reset();
 		gameController = null;
 	}
 	

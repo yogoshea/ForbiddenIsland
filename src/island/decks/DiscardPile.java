@@ -14,7 +14,7 @@ import java.util.Collections;
  * @param <E> Element to be placed in DiscardPile subclass instances.
  * 
  */
-public abstract class DiscardPile<E extends Card<?>> {
+public abstract class DiscardPile<E extends Card<?>> implements CardCollection<E> {
 
 	// List to store discard pile cards
 	private List<E> pile;
@@ -26,27 +26,19 @@ public abstract class DiscardPile<E extends Card<?>> {
 		pile = new ArrayList<E>();
 	}
 	
-	/**
-	 * Getter method for all cards in discard pile.
-	 * @return List of Cards instances in discard pile.
-	 */
+	@Override
+	public void addCard(E card) {
+		pile.add(card);
+	}	
+	
+	@Override
 	public List<E> getAllCards() {
 		return pile;
 	}
 	
-	/**
-	 * Adds card to discard pile.
-	 * @param Card instance to be added to discard pile.
-	 */
-	public void addCard(E card) {
-		pile.add(card);
-	}
-	
-	/**
-	 * Shuffles order of cards in the discard pile.
-	 */
+	@Override
 	public void shuffle() {
-	    Collections.shuffle(this.pile);
+		Collections.shuffle(pile);
 	}
 	
 	/**
@@ -56,6 +48,5 @@ public abstract class DiscardPile<E extends Card<?>> {
 	public void removeAllCards() {
 	    pile.clear();
 	}
-
 	
 }

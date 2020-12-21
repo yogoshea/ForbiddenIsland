@@ -21,7 +21,6 @@ public class ActionController { //Name PlayerActionController for clarity?
 	
 	private GameView gameView;
 	private GameModel gameModel;
-	private GameController gameController;
 	
 	/**
 	 * Constructor for ActionController singleton, receives view and model instances.
@@ -29,10 +28,10 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * @param Reference to GameView.
 	 * @param Reference to GameController.
 	 */
-	private ActionController(GameModel gameModel, GameView gameView, GameController gameController) {
+	private ActionController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
-		this.gameController = gameController;
+//		this.drawCardsController = drawCardsController;
 	}
 	
 	/**
@@ -42,9 +41,9 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * @param Reference to GameController.
 	 * @return single instance of ActionController.
 	 */
-	public static ActionController getInstance(GameModel gameModel, GameView gameView, GameController gameController) {
+	public static ActionController getInstance(GameModel gameModel, GameView gameView, DrawCardsController drawCardsController) {
 		if (actionController == null) {
-			actionController = new ActionController(gameModel, gameView, gameController);
+			actionController = new ActionController(gameModel, gameView);
 		}
 		return actionController;
 	}
@@ -54,7 +53,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * perform requested action.
 	 * @param Player instances choosing the action.
 	 */
-	public void takeActions(Player p) {
+	public void takeActions(Player p, DrawCardsController drawCardsController) {
 		
 //		gameView.showPlayerTurn(p); // TODO: make sure to print this
 		Action actionChoice;
@@ -79,7 +78,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 				break;
 				
 			case GIVE_TREASURE_CARD:
-				actionSuccessfullyTaken = giveTreasureCard(p);
+				actionSuccessfullyTaken = giveTreasureCard(p, drawCardsController);
 				break;
 				
 			case CAPTURE_TREASURE:
@@ -165,9 +164,8 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * Gives a treasure card from hand to another player on the same island tile
 	 * @return whether or not treasure successfully given
 	 */
-	private boolean giveTreasureCard(Player p) {
+	private boolean giveTreasureCard(Player p, DrawCardsController drawCardsController) {
 		
-		DrawCardsController drawCardsController = gameController.getDrawCardsController();
 		List<Player> playersOnSameTile = new ArrayList<Player>();
 		List<Card<?>> treasureCards = new ArrayList<Card<?>>();
 		Player playerToRecieve;
@@ -254,7 +252,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 	}
 
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		actionController = null;
 	}
 

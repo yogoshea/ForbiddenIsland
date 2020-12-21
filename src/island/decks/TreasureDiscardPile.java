@@ -16,7 +16,7 @@ public class TreasureDiscardPile extends DiscardPile<Card<?>> {
 	/**
 	 * Private constructor for TreasureDiscardPile singleton.
 	 */
-	private TreasureDiscardPile() {}
+	private TreasureDiscardPile() {} // Start with empty discard pile.
 	
 	/**
 	 * Getter method for singleton instance.
@@ -30,7 +30,7 @@ public class TreasureDiscardPile extends DiscardPile<Card<?>> {
 	}
 	
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		treasureDiscardPile = null;
 	}
 	

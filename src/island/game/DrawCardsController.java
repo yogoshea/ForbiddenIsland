@@ -137,7 +137,7 @@ public class DrawCardsController {
 	}
 	
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		drawCardsController = null;
 	}
 

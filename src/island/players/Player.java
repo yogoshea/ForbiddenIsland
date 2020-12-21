@@ -36,7 +36,7 @@ public abstract class Player {
 	Player(String name, String role, IslandTile startingTile, int shoreUpQuantity) {
 		this.name = name;
 		this.role = role;
-		this.pawn = new Pawn(this, startingTile);
+		this.pawn = new Pawn(startingTile);
 		this.cards = new ArrayList<Card<?>>();
 		this.startingTile = startingTile;
 		this.shoreUpQuantity = shoreUpQuantity;

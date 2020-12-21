@@ -45,7 +45,7 @@ public class FloodDeck extends Deck<FloodCard> {
 	}
 
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		floodDeck = null;
 	}
 

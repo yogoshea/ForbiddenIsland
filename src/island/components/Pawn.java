@@ -1,7 +1,5 @@
 package island.components;
 
-import island.players.Player;
-
 /**
  * Pawns are to be place on an IslandTile on the game board
  * @author Eoghan O'Shea and Robert McCarthy
@@ -10,7 +8,6 @@ import island.players.Player;
 public class Pawn {
 	
 	// Pawn attributes
-	private Player player;
 	private IslandTile currentTile;
 	
 	/**
@@ -18,17 +15,8 @@ public class Pawn {
 	 * @param Player who is using this Pawn instance.
 	 * @param Starting island tile of player
 	 */
-	public Pawn(Player newPlayer, IslandTile startingTile) {
-		this.player = newPlayer;
+	public Pawn(IslandTile startingTile) {
 		this.currentTile = startingTile;
-	}
-	
-	/**
-	 * Getter method for player associated with given pawn.
-	 * @return Player instance associated with thie Pawn.
-	 */
-	public Player getPlayer() {
-		return this.player;
 	}
 	
 	/**

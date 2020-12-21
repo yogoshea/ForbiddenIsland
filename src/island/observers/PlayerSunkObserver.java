@@ -1,7 +1,6 @@
 package island.observers;
 
 import island.components.IslandTile;
-import island.components.Pawn;
 import island.game.GameController;
 import island.game.GameEndings;
 import island.players.GamePlayers;
@@ -50,16 +49,14 @@ public class PlayerSunkObserver implements Observer {
 	public void update(Subject subject) {
 
 		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile TODO: is this needed?
-		Pawn pawn;
 		
 		// Check if Player on IslandTile
 		for (Player player : players) {
 			
-			pawn = player.getPawn();
-			if (pawn.getTile().equals(updatedTile)) {
+			if (player.getPawn().getTile().equals(updatedTile)) {
 				
 				// Check if Player can move to another IslandTile
-				if (! gameController.movePlayerToSafety(pawn)) {
+				if (! gameController.movePlayerToSafety(player)) {
 
 					gameController.endGame(GameEndings.PLAYER_SUNK);
 				}

@@ -41,15 +41,7 @@ public class TreasureDeck extends Deck<Card<?>> {
 		for (int i = 0; i < waterRiseCardCount; i++)
 			this.addCard(new SpecialCard(SpecialCardAbility.WATER_RISE));
 	}
-	
-	@Override
-	public void refill() {
-		for(Card<?> c : TreasureDiscardPile.getInstance().getAllCards()) {
-			treasureDeck.addCard(c);
-		}
-		TreasureDiscardPile.getInstance().removeAllCards();
-	}
-	
+		
 	/**
 	 * Getter method for singleton instance.
 	 * @return single instance of TreasureDeck.
@@ -61,8 +53,16 @@ public class TreasureDeck extends Deck<Card<?>> {
 		return treasureDeck;
 	}
 
+	@Override
+	public void refill() {
+		for(Card<?> c : TreasureDiscardPile.getInstance().getAllCards()) {
+			treasureDeck.addCard(c);
+		}
+		TreasureDiscardPile.getInstance().removeAllCards();
+	}
+
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		treasureDeck = null;
 	}
 	

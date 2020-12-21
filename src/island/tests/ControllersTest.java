@@ -32,6 +32,8 @@ public class ControllersTest {
 		// Test the methods used throughout the controllers
 		// Test the game endings here? or maybe a new test case
 		
+		// Test sequence diagram contents!
+		
 		fail("Not yet implemented");
 	}
 
