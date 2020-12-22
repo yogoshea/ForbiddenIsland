@@ -26,22 +26,19 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * Constructor for ActionController singleton, receives view and model instances.
 	 * @param Reference to GameModel.
 	 * @param Reference to GameView.
-	 * @param Reference to GameController.
 	 */
 	private ActionController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
-//		this.drawCardsController = drawCardsController;
 	}
 	
 	/**
 	 * Getter method for singleton instance.
 	 * @param Reference to GameModel.
 	 * @param Reference to GameView.
-	 * @param Reference to GameController.
 	 * @return single instance of ActionController.
 	 */
-	public static ActionController getInstance(GameModel gameModel, GameView gameView, DrawCardsController drawCardsController) {
+	public static ActionController getInstance(GameModel gameModel, GameView gameView) {
 		if (actionController == null) {
 			actionController = new ActionController(gameModel, gameView);
 		}

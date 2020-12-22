@@ -80,6 +80,14 @@ public class GamePlayers implements Iterable<Player> {
 	}
 	
 	/**
+	 * Adds new player to list of game players.
+	 * @param Player instance to add to game.
+	 */
+	public void addPlayer(Player newPlayer) {
+		playersList.add(newPlayer);
+	}
+	
+	/**
 	 * Getter method for the List of Players playing the game
 	 * @return List of Players of game
 	 */

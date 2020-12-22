@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_HAUmkEPFEeuV7Ja5wG7biQ" name="gameplay_use_case" visibility="public">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_HITd4EPFEeuV7Ja5wG7biQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_Ml02gEPFEeuV7Ja5wG7biQ" name="Player"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_aPRSQEPGEeugld6SlfbzIg" name="Move"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_5hvPoEPGEeugld6SlfbzIg" name="Shore Up"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_JW6_oEPHEeugld6SlfbzIg" name="Give Treasure Card"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_L5hfQEPHEeugld6SlfbzIg" name="Helicopter Lift"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_QFAoQEPHEeugld6SlfbzIg" name="Sandbag"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_mhPkwEPHEeugld6SlfbzIg" memberEnd="_mhT2MEPHEeugld6SlfbzIg _mhVEUEPHEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_mhTPIEPHEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_mhTPIUPHEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_mhT2MEPHEeugld6SlfbzIg" name="move" type="_aPRSQEPGEeugld6SlfbzIg" association="_mhPkwEPHEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_mhVEUEPHEeugld6SlfbzIg" name="player" type="_bz7IoEPWEeubK55M-uopQA" association="_mhPkwEPHEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_pQjDoEPHEeugld6SlfbzIg" memberEnd="_pQjqskPHEeugld6SlfbzIg _pQkRwEPHEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pQjqsEPHEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_pQjqsUPHEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_pQjqskPHEeugld6SlfbzIg" name="shore up" type="_5hvPoEPGEeugld6SlfbzIg" association="_pQjDoEPHEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_pQkRwEPHEeugld6SlfbzIg" name="player" type="_bz7IoEPWEeubK55M-uopQA" association="_pQjDoEPHEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_tPYQsEPHEeugld6SlfbzIg" memberEnd="_tPY3wkPHEeugld6SlfbzIg _tPY3w0PHEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_tPY3wEPHEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_tPY3wUPHEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_tPY3wkPHEeugld6SlfbzIg" name="give treasure card" type="_JW6_oEPHEeugld6SlfbzIg" association="_tPYQsEPHEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_tPY3w0PHEeugld6SlfbzIg" name="player" type="_bz7IoEPWEeubK55M-uopQA" association="_tPYQsEPHEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_wnol8EPHEeugld6SlfbzIg" memberEnd="_wnpNAkPHEeugld6SlfbzIg _wnpNA0PHEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_wnpNAEPHEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_wnpNAUPHEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_wnpNAkPHEeugld6SlfbzIg" name="helicopter lift" type="_L5hfQEPHEeugld6SlfbzIg" association="_wnol8EPHEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_wnpNA0PHEeugld6SlfbzIg" name="player" type="_Ml02gEPFEeuV7Ja5wG7biQ" association="_wnol8EPHEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_zkO58EPHEeugld6SlfbzIg" memberEnd="_zkPhAkPHEeugld6SlfbzIg _zkPhA0PHEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_zkPhAEPHEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_zkPhAUPHEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_zkPhAkPHEeugld6SlfbzIg" name="sandbag" type="_QFAoQEPHEeugld6SlfbzIg" association="_zkO58EPHEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_zkPhA0PHEeugld6SlfbzIg" name="player" type="_Ml02gEPFEeuV7Ja5wG7biQ" association="_zkO58EPHEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_YNBbwEPIEeugld6SlfbzIg" name="Action Controller"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_epzR8EPIEeugld6SlfbzIg" name="Capture Treasure"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_jFjrkEPIEeugld6SlfbzIg" memberEnd="_jFkSokPIEeugld6SlfbzIg _jFkSo0PIEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_jFkSoEPIEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_jFkSoUPIEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_jFkSokPIEeugld6SlfbzIg" name="capture treasure" type="_epzR8EPIEeugld6SlfbzIg" association="_jFjrkEPIEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_jFkSo0PIEeugld6SlfbzIg" name="player" type="_bz7IoEPWEeubK55M-uopQA" association="_jFjrkEPIEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_4KAVwEPIEeugld6SlfbzIg" memberEnd="_4KAVw0PIEeugld6SlfbzIg _4KAVxEPIEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4KAVwUPIEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4KAVwkPIEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_4KAVw0PIEeugld6SlfbzIg" name="action controller" type="_YNBbwEPIEeugld6SlfbzIg" association="_4KAVwEPIEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_4KAVxEPIEeugld6SlfbzIg" name="move" type="_aPRSQEPGEeugld6SlfbzIg" association="_4KAVwEPIEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_5DSuMEPIEeugld6SlfbzIg" memberEnd="_5DTVQUPIEeugld6SlfbzIg _5DTVQkPIEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_5DSuMUPIEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5DTVQEPIEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_5DTVQUPIEeugld6SlfbzIg" name="action controller" type="_YNBbwEPIEeugld6SlfbzIg" association="_5DSuMEPIEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_5DTVQkPIEeugld6SlfbzIg" name="shore up" type="_5hvPoEPGEeugld6SlfbzIg" association="_5DSuMEPIEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_6eGfUEPIEeugld6SlfbzIg" memberEnd="_6eGfU0PIEeugld6SlfbzIg _6eGfVEPIEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6eGfUUPIEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6eGfUkPIEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_6eGfU0PIEeugld6SlfbzIg" name="action controller" type="_YNBbwEPIEeugld6SlfbzIg" association="_6eGfUEPIEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_6eGfVEPIEeugld6SlfbzIg" name="give treasure card" type="_JW6_oEPHEeugld6SlfbzIg" association="_6eGfUEPIEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_7SP5EEPIEeugld6SlfbzIg" memberEnd="_7SQgIkPIEeugld6SlfbzIg _7SQgI0PIEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_7SQgIEPIEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_7SQgIUPIEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_7SQgIkPIEeugld6SlfbzIg" name="action controller" type="_YNBbwEPIEeugld6SlfbzIg" association="_7SP5EEPIEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_7SQgI0PIEeugld6SlfbzIg" name="capture treasure" type="_epzR8EPIEeugld6SlfbzIg" association="_7SP5EEPIEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_8ELFQEPIEeugld6SlfbzIg" name="Special Card Controller"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="__TObMEPIEeugld6SlfbzIg" memberEnd="__TPCQkPIEeugld6SlfbzIg __TPCQ0PIEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="__TPCQEPIEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="__TPCQUPIEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="__TPCQkPIEeugld6SlfbzIg" name="special card controller" type="_8ELFQEPIEeugld6SlfbzIg" association="__TObMEPIEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="__TPCQ0PIEeugld6SlfbzIg" name="helicopter lift" type="_L5hfQEPHEeugld6SlfbzIg" association="__TObMEPIEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_AHS8cEPJEeugld6SlfbzIg" memberEnd="_AHS8c0PJEeugld6SlfbzIg _AHS8dEPJEeugld6SlfbzIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_AHS8cUPJEeugld6SlfbzIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AHS8ckPJEeugld6SlfbzIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_AHS8c0PJEeugld6SlfbzIg" name="special card controller" type="_8ELFQEPIEeugld6SlfbzIg" association="_AHS8cEPJEeugld6SlfbzIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_AHS8dEPJEeugld6SlfbzIg" name="sandbag" type="_QFAoQEPHEeugld6SlfbzIg" association="_AHS8cEPJEeugld6SlfbzIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_bz7IoEPWEeubK55M-uopQA" name="Take action"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_ns13YEPWEeubK55M-uopQA" memberEnd="_ns6v4EPWEeubK55M-uopQA _ns7W8EPWEeubK55M-uopQA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ns46sEPWEeubK55M-uopQA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ns5hwEPWEeubK55M-uopQA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ns6v4EPWEeubK55M-uopQA" name="take action" type="_bz7IoEPWEeubK55M-uopQA" association="_ns13YEPWEeubK55M-uopQA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ns7W8EPWEeubK55M-uopQA" name="player" type="_Ml02gEPFEeuV7Ja5wG7biQ" association="_ns13YEPWEeubK55M-uopQA"/>
+  </packagedElement>
+</uml:Model>

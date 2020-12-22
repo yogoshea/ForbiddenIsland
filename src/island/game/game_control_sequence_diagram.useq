@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.4" icons="true" automaticImage="PNG" generate-combined-fragments="true">  
+  <object id="1" language="java" name="island.main.Main" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/src/island/main/Main.java" binary="false" label="main" type="class" autoSize="false">    
+    <position height="83" width="127" x="0" y="0"/>    
+    <execution id="2">      
+      <position height="48" width="0" x="0" y="97"/>    
+    </execution>  
+  </object>  
+  <object id="5" language="java" name="island.game.GameController" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/src/island/game/GameController.java" binary="false" label="gameController1" type="class" 
+    autoSize="false">    
+    <position height="155" width="164" x="127" y="0"/>    
+    <execution id="4">      
+      <position height="16" width="0" x="0" y="113"/>    
+    </execution>  
+  </object>  
+  <object id="6" language="java" name="island.game.ActionController" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/src/island/game/ActionController.java" binary="false" label="actionController" type="class" 
+    autoSize="false">    
+    <position height="83" width="186" x="296" y="0"/>  
+  </object>  
+  <message id="3" operation="playGame():void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>
+</sequence-diagram>
