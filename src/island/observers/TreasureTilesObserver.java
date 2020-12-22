@@ -55,7 +55,7 @@ public class TreasureTilesObserver implements Observer {
 		Treasure associatedTreasure = updatedTile.getAssociatedTreasure(); // TODO: check for null Treasure or change to NO_TREASURE or try catch exception maybe?
 		
 		// Check if IslandTile has an associated Treasure
-		if(associatedTreasure != null) {
+		if(associatedTreasure != null) { //TODO: can remove this if check. Also remove from sequence diagram (and fix getAssociatedTreasure in diagram)
 			
 			// Check if associated Treasure has already been captured
 			if (! players.getCapturedTreasures().contains(associatedTreasure)) {
