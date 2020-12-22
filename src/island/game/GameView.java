@@ -213,7 +213,7 @@ public class GameView {
 		
 		// iterate over number of players
 		for (int i = 1; i <= playerCount; i++) {
-			playerNames.add(promptUser("Please enter the name of Player " + i + ":")); // TODO: check for valid name input
+			playerNames.add(scanValidName("Please enter the name of Player " + i + ":", playerNames)); // TODO: check for valid name input
 			// TODO: check for length less than tileCharWidth
 		}
 		return playerNames;
@@ -363,7 +363,7 @@ public class GameView {
 	}
 	
 	
-	public int scanValidInt(String prompt, int min, int max) {
+	public int scanValidInt(String prompt, int min, int max) {//TODO:print prompt in here?
 		int choice;
 		while(true) {
 			if(userInput.hasNextInt()) {
@@ -378,6 +378,25 @@ public class GameView {
 			} 
 			System.out.println(prompt);
 			return scanValidInt(prompt, min, max);
+		}
+	}
+	
+	public String scanValidName(String prompt, List<String> playerNames) {
+		final int maxLength = 8;
+		String name;
+		System.out.println(prompt);
+		//While a valid name has not been found
+		while(true) {
+			name = userInput.nextLine();
+			if(name.length() > maxLength) {
+				System.out.println("The max character length is 8");
+			} else if(playerNames.contains(name)) {
+				System.out.println("This name has already been taken");
+			} else {
+				//Return valid name
+				return name;
+			}
+			System.out.println("\n"+prompt);
 		}
 	}
 	
