@@ -3,6 +3,7 @@ package island.observers;
 import island.components.IslandTile;
 import island.game.GameController;
 import island.game.GameEndings;
+import island.game.GameView;
 import island.players.GamePlayers;
 import island.players.Player;
 
@@ -18,15 +19,17 @@ public class PlayerSunkObserver implements Observer {
 
 	private GameController gameController;
 	private GamePlayers players;
+	private GameView gameView;
 	
 	/**
 	 * Constructor for PlayerSunkObserver 
 	 * @param Reference to GameController
 	 * @param Reference to GamePlayers
 	 */
-	private PlayerSunkObserver(GameController gc, GamePlayers players) {
+	private PlayerSunkObserver(GameController gc, GamePlayers players, GameView gameView) {
 		this.gameController = gc;
 		this.players = players;
+		this.gameView = gameView;
 	}
 	
 	/**
@@ -35,9 +38,9 @@ public class PlayerSunkObserver implements Observer {
 	 * @param Reference to GamePlayers
 	 * @return Single instance of PlayerSunkObserver class
 	 */
-	public static PlayerSunkObserver getInstance(GameController gc, GamePlayers players) {
+	public static PlayerSunkObserver getInstance(GameController gc, GamePlayers players, GameView gameView) {
 		if (playerSunkObserver == null) {
-			playerSunkObserver = new PlayerSunkObserver(gc, players);
+			playerSunkObserver = new PlayerSunkObserver(gc, players, gameView);
 		}
 		return playerSunkObserver;
 	}
@@ -57,7 +60,7 @@ public class PlayerSunkObserver implements Observer {
 				
 				// Check if Player can move to another IslandTile
 				if (! gameController.movePlayerToSafety(player)) {
-					//TODO: gameView.showPlayerSunk(player);
+					gameView.showPlayerSunk(player);
 					gameController.endGame(GameEndings.PLAYER_SUNK);
 				}
 			}

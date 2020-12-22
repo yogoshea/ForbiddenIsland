@@ -217,15 +217,15 @@ public class GameView {
 		return playerNames;
 	}
 	
-	/**
-	 * Asks user question specified by string
-	 * @param String to print to view
-	 * @return String entered by user
-	 */
-	private String promptUser(String string) {//TODO: shouldn't need this when everything implemented properly
-		System.out.println(string);
-		return userInput.nextLine();		
-	}
+//	/**
+//	 * Asks user question specified by string
+//	 * @param String to print to view
+//	 * @return String entered by user
+//	 */
+//	private String promptUser(String string) {//TODO: shouldn't need this when everything implemented properly
+//		System.out.println(string);
+//		return userInput.nextLine();		
+//	}
 	
 	
 	/**
@@ -472,6 +472,14 @@ public class GameView {
 	 */
 	public String getUserInput() { //TODO: maybe don't need
 		return userInput.nextLine();
+	}
+	
+	public void showTreasureSunk(IslandTile firstTile, IslandTile secondTile) {
+		System.out.println(firstTile.toString()+" and "+secondTile.toString()+" are both sunk and "+firstTile.getAssociatedTreasure()+" hasn't been captured");
+	}
+	
+	public void showPlayerSunk(Player player) {
+		System.out.println(player.toString()+" could not reach any safes tiles and has sunk!!!");
 	}
 
 	/**
