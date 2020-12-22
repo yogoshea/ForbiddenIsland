@@ -15,6 +15,7 @@ import java.util.Stack;
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.Explorer;
+import island.players.GamePlayers;
 import island.players.Messenger;
 import island.players.Navigator;
 import island.players.Pilot;
@@ -57,9 +58,9 @@ public class SetupController {
 	 */
 	public void setupGame() {
 		
-		List<String> playerNames = gameView.getPlayers();
+//		List<String> playerNames = gameView.getPlayers();
 		startIslandSinking();
-		assignPlayerRoles(playerNames);
+		assignPlayerRoles(gameView.getPlayers());
 		handOutInitialTreasureCards();
 		gameModel.getWaterMeter().setLevel(gameView.pickStartingWaterLevel());
 	}
@@ -102,7 +103,7 @@ public class SetupController {
 	 */
 	private void assignPlayerRoles(List<String> playerNames) {
 		
-		List<Player> playersList = gameModel.getGamePlayers().getPlayersList();
+		GamePlayers players = gameModel.getGamePlayers();
 		
 		// Create stack of possible roles players can have
 		Stack<String> possibleRoles = new Stack<String>();
@@ -115,33 +116,34 @@ public class SetupController {
 		// Iterate over number of players
 		for (String playerName : playerNames) {
 			
-			// TODO: check if player name already given in game view
+			// TODO: check if player name already given in game view, this could be allowable
+			// e.g. Dave the Explorer and Dave the Messenger is okay I suppose
 			
 			// Instantiate specific player subclasses 
 			switch (possibleRoles.pop()) {
 
 				case "Diver":
-					playersList.add(new Diver(playerName));
+					players.addPlayer(new Diver(playerName));
 					break;
 					
 				case "Engineer":
-					playersList.add(new Engineer(playerName));
+					players.addPlayer(new Engineer(playerName));
 					break;
 				
 				case "Explorer":
-					playersList.add(new Explorer(playerName));
+					players.addPlayer(new Explorer(playerName));
 					break;
 				
 				case "Messenger":
-					playersList.add(new Messenger(playerName));
+					players.addPlayer(new Messenger(playerName));
 					break;
 					
 				case "Navigator":
-					playersList.add(new Navigator(playerName));
+					players.addPlayer(new Navigator(playerName));
 					break;
 					
 				case "Pilot":
-					playersList.add(new Pilot(playerName));
+					players.addPlayer(new Pilot(playerName));
 					break;
 			}
 		}

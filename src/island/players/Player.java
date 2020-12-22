@@ -85,6 +85,14 @@ public abstract class Player {
 	}
 	
 	/**
+	 * Removes card from player hand.
+	 * @param Card instances to be removed from hand.
+	 */
+	public void removeCard(Card<?> card) {
+		cards.remove(card);
+	}
+	
+	/**
 	 * Getter method for list of player's cards.
 	 * @return List of player's Card instances.
 	 */

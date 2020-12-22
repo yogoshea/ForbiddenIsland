@@ -24,10 +24,6 @@ public class GameController {
 	// References for model, view and sub-controllers
 	private GameView gameView;
 	private GameModel gameModel;
-//	private SetupController setupController;
-//	private ActionController actionController;
-//	private DrawCardsController drawCardsController;
-//	private SpecialCardController playSpecialCardController;
 	private Player currentPlayer;
 	
 	/**
@@ -38,10 +34,6 @@ public class GameController {
 	private GameController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
-//		setupController = SetupController.getInstance(gameModel, gameView);
-//		actionController = ActionController.getInstance(gameModel, gameView, this);
-//		drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
-//		playSpecialCardController = SpecialCardController.getInstance(gameModel, gameView, this);
 	}
 	
 	/**
@@ -85,7 +77,7 @@ public class GameController {
 	public void playGame() {
 		
 		DrawCardsController drawCardsController = DrawCardsController.getInstance(gameModel, gameView);
-		ActionController actionController = ActionController.getInstance(gameModel, gameView, drawCardsController);
+		ActionController actionController = ActionController.getInstance(gameModel, gameView);
 		
 		// Repeat player turns until winning/losing conditions observed
 		while(true) {
@@ -93,7 +85,7 @@ public class GameController {
 			// Iterate over players in game
 			for (Player p : gameModel.getGamePlayers()) {
 				
-				currentPlayer = p;
+				currentPlayer = p; // TODO: remove this?
 				
 				// Take a number of actions
 				actionController.takeActions(p, drawCardsController);

@@ -26,22 +26,19 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 * Constructor for ActionController singleton, receives view and model instances.
 	 * @param Reference to GameModel.
 	 * @param Reference to GameView.
-	 * @param Reference to GameController.
 	 */
 	private ActionController(GameModel gameModel, GameView gameView) {
 		this.gameModel = gameModel;
 		this.gameView = gameView;
-//		this.drawCardsController = drawCardsController;
 	}
 	
 	/**
 	 * Getter method for singleton instance.
 	 * @param Reference to GameModel.
 	 * @param Reference to GameView.
-	 * @param Reference to GameController.
 	 * @return single instance of ActionController.
 	 */
-	public static ActionController getInstance(GameModel gameModel, GameView gameView, DrawCardsController drawCardsController) {
+	public static ActionController getInstance(GameModel gameModel, GameView gameView) {
 		if (actionController == null) {
 			actionController = new ActionController(gameModel, gameView);
 		}
@@ -150,7 +147,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 
 				tileChoice = gameView.pickShoreUpTile(adjTiles);
 				tileChoice.setToSafe();
-				gameView.showSuccessfulShoreUp(tileChoice);
+				gameView.showSuccessfulShoreUp(tileChoice); // TODO: print this outside loop??
 				
 			}
 			return true;
@@ -197,8 +194,10 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		// Give card to other player
 		drawCardsController.addCardToHand(playerToRecieve, card);
-		p.getCards().remove(card);
+
+		p.removeCard(card);
 		//TODO: gameView.showSuccessfullyGiven(card, player, playerToRecieve)
+
 		return true;
 		
 	}
