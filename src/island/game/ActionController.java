@@ -147,7 +147,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 
 				tileChoice = gameView.pickShoreUpTile(adjTiles);
 				tileChoice.setToSafe();
-				gameView.showSuccessfulShoreUp(tileChoice);
+				gameView.showSuccessfulShoreUp(tileChoice); // TODO: print this outside loop??
 				
 			}
 			return true;
@@ -194,7 +194,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		// Give card to other player
 		drawCardsController.addCardToHand(playerToRecieve, card);
-		p.getCards().remove(card);
+		p.removeCard(card);
 		return true;
 		
 	}

@@ -83,7 +83,7 @@ public class GameController {
 			// Iterate over players in game
 			for (Player p : gameModel.getGamePlayers()) {
 				
-				currentPlayer = p;
+				currentPlayer = p; // TODO: remove this?
 				
 				// Take a number of actions
 				actionController.takeActions(p, drawCardsController);
