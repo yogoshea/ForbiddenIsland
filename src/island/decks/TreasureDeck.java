@@ -54,11 +54,12 @@ public class TreasureDeck extends Deck<Card<?>> {
 	}
 
 	@Override
-	public void refill() {
+	public void refill() { //TODO: if we made discard piles a parameter of deck then we could use the same refill method for Treasure and Flood decks (polymorphism)
 		for(Card<?> c : TreasureDiscardPile.getInstance().getAllCards()) {
 			treasureDeck.addCard(c);
 		}
 		TreasureDiscardPile.getInstance().removeAllCards();
+		this.shuffle(); //TODO: technically should be shuffling discard pile then 'flipping over'??
 	}
 
 	// Singleton reset for JUnit testing

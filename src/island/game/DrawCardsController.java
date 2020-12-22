@@ -1,5 +1,7 @@
 package island.game;
 
+import java.util.List;
+
 import island.cards.Card;
 import island.cards.FloodCard;
 import island.cards.SpecialCardAbility;
@@ -45,6 +47,8 @@ public class DrawCardsController {
 	 * @param Reference to player to draw cards.
 	 */
 	public void drawTreasureCards(Player player) {
+		
+		boolean keepCard;
 
 		// Show information to user through game view
 		gameView.showEnterToContinue();
@@ -58,14 +62,33 @@ public class DrawCardsController {
 			drawnCard = gameModel.getTreasureDeck().drawCard();
 			gameView.showTreasureCardDrawn(drawnCard);
 			
-			// Increment water level if water rise card drawn
+			// Increment water level if Waters Rise card drawn
 			if(drawnCard.getUtility().equals(SpecialCardAbility.WATER_RISE)) {
+				//Increment level
 				gameModel.getWaterMeter().incrementLevel();
-				gameModel.getTreasureDiscardPile().addCard(drawnCard); // TODO: where does it say to add this to the Treasure Discard Pile?
-				// TODO: we should be refilling FloodDeck here !!!
+				//gameModel.getTreasureDiscardPile().addCard(drawnCard); // TODO: where does it say to add this to the Treasure Discard Pile? - Yeah I mixed this up with the flood discard thing
+				//Refill flood deck
+				gameModel.getFloodDeck().refill();//TODO: most deck stuff is going on in background for users - make more visible?
 				gameView.showWaterRise( gameModel.getWaterMeter().getWaterLevel() );
+				
 			} else {
-				addCardToHand(player, drawnCard);
+				
+				keepCard = gameView.pickKeepOrGive();
+				
+				//If player doesn't wish to keep card
+				if(!keepCard) { //TODO: Make use of giveTreasurecard() in actionController?
+					List<Player> playersOnSameTile = player.getCardReceivablePlayers(gameModel.getGamePlayers());
+					if(playersOnSameTile.isEmpty()) {
+						gameView.showNoPlayersOnSameTile();
+					} else {
+						//If available players then give card and return
+						Player reciever = gameView.pickPlayerToRecieveCard(playersOnSameTile);
+						addCardToHand(reciever, drawnCard);
+						return;
+					}	
+				}
+				//Add to hand if chosen or if no available players
+				addCardToHand(player, drawnCard);				
 			}
 			
 		}

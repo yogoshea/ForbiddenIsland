@@ -128,14 +128,15 @@ public class GameView {
 	 * Tells user that treasure cards are being drawn
 	 */
 	public void showTreasureCardDrawn(Card<?> card) {
-		System.out.println("You have drawn: " + card.getName());
+		System.out.println("\nYou have drawn: " + card.getName());
 	}
 	
 	/**
 	 * Tells user that treasure cards are being drawn
 	 */
 	public void showWaterRise(int level) {
-		System.out.println("The island is flooding!! \n" + "NEW WATER LEVEL: " + Integer.toString(level));
+		System.out.println("NEW WATER LEVEL: " + Integer.toString(level));
+		System.out.println("The flood deck has been refilled");
 	}
 	
 	/**
@@ -158,19 +159,21 @@ public class GameView {
 	
 	public void showEnterToContinue() {//TODO: stop having to press enter twice here when HELI played
 		String prompt = "\nTo continue, press [Enter]...";
-		System.out.println(prompt);
 		scanEnter(prompt);
 	}
 	
 	public void showDrawTreasureCards() {
 		String prompt = "\nTo draw your two treasure cards, press [Enter]...";
-		System.out.println(prompt);
 		scanEnter(prompt);
 	}
 	
 	public void showDrawFloodCards() {
 		String prompt = "\nTo draw your flood cards, press [Enter]...";
-		System.out.println(prompt);
+		scanEnter(prompt);
+	}
+	
+	public void showSpecialCardDone() {
+		String prompt = "\nTo return to before request was made, press Enter[]...";
 		scanEnter(prompt);
 	}
 	
@@ -191,11 +194,6 @@ public class GameView {
 	
 	public void showTreasureCaptured(Treasure treasure) {
 		System.out.println("You have captured "+treasure.getName());
-	}
-	
-	public void showSpecialCardDone() {
-		System.out.println("\nTo return to before request was made, press Enter[]...");
-		userInput.nextLine();
 	}
 	
 	
@@ -337,6 +335,17 @@ public class GameView {
 		return heliPlayers;
 	}
 	
+	/**
+	 * 
+	 * @return true if players wishes to keep their treasure card
+	 */
+	public Boolean pickKeepOrGive() {//TODO: just make a Y/N chooser method? (can use with pickHeliPlayers aswell)
+		String prompt = "Do you wish to keep your card or give it to another Player?";
+		List<String> choices = Arrays.asList("Keep", "Give");
+		String choice = pickFromList(choices, prompt); //This allows users to still use HELI or SAND 
+		return choice.equals("Keep");
+	}
+	
 	
 	
 	public <E> E pickFromList(List<E> items, String prompt){
@@ -401,6 +410,7 @@ public class GameView {
 	}
 	
 	public void scanEnter(String prompt) {
+		System.out.println(prompt);
 		if(checkSpecialCardRequest()) {
 			scanEnter(prompt);
 		}
