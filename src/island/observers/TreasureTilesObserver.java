@@ -5,6 +5,7 @@ import island.components.IslandTile;
 import island.components.Treasure;
 import island.game.GameController;
 import island.game.GameEndings;
+import island.game.GameView;
 import island.players.GamePlayers;
 
 public class TreasureTilesObserver implements Observer {
@@ -13,6 +14,7 @@ public class TreasureTilesObserver implements Observer {
 	private GameController gameController;
 	private IslandBoard islandBoard;
 	private GamePlayers players;
+	private GameView gameView;
 	
 	/**
 	 * Constructor for TreasureTilesObserver
@@ -20,10 +22,11 @@ public class TreasureTilesObserver implements Observer {
 	 * @param Reference to IslandBoard
 	 * @param Reference to GamePlayers
 	 */
-	private TreasureTilesObserver(GameController gc, IslandBoard islandBoard, GamePlayers players) {
+	private TreasureTilesObserver(GameController gc, IslandBoard islandBoard, GamePlayers players, GameView gameView) {
 		this.gameController = gc;
 		this.islandBoard = islandBoard;
 		this.players = players;
+		this.gameView = gameView;
 	}
 	
 	/**
@@ -33,9 +36,9 @@ public class TreasureTilesObserver implements Observer {
 	 * @param Reference to GamePlayers
 	 * @return single instance of IslandBoardObserver class 
 	 */
-	public static TreasureTilesObserver getInstance(GameController gc, IslandBoard islandBoard, GamePlayers players) {
+	public static TreasureTilesObserver getInstance(GameController gc, IslandBoard islandBoard, GamePlayers players, GameView gameView) {
 		if (treasureTilesObserver == null) {
-			treasureTilesObserver = new TreasureTilesObserver(gc, islandBoard, players);
+			treasureTilesObserver = new TreasureTilesObserver(gc, islandBoard, players, gameView);
 		}
 		return treasureTilesObserver;
 	}
@@ -65,10 +68,10 @@ public class TreasureTilesObserver implements Observer {
 						
 						// Check if this IslandTile has already sunk
 						if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
-							System.out.println(otherTreasureTile.toString()+" and "+updatedTile.toString()+" are both sunk and "+associatedTreasure+" hasn't been captured");
-							//TODO:Add to gameView
+							
+							gameView.showTreasureSunk(otherTreasureTile, updatedTile);
 							// Invoke GameController method to end the game
-							gameController.endGame(GameEndings.TREASURE_SUNK); // TODO: end game Enum
+							gameController.endGame(GameEndings.TREASURE_SUNK); //TODO: improve use of gameView and/or GameEndings
 						}
 					}
 				}

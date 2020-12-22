@@ -128,14 +128,15 @@ public class GameView {
 	 * Tells user that treasure cards are being drawn
 	 */
 	public void showTreasureCardDrawn(Card<?> card) {
-		System.out.println("You have drawn: " + card.getName());
+		System.out.println("\nYou have drawn: " + card.getName());
 	}
 	
 	/**
 	 * Tells user that treasure cards are being drawn
 	 */
 	public void showWaterRise(int level) {
-		System.out.println("The island is flooding!! \n" + "NEW WATER LEVEL: " + Integer.toString(level));
+		System.out.println("NEW WATER LEVEL: " + Integer.toString(level));
+		System.out.println("The flood deck has been refilled");
 	}
 	
 	/**
@@ -157,21 +158,23 @@ public class GameView {
 	}
 	
 	public void showEnterToContinue() {//TODO: stop having to press enter twice here when HELI played
-		String prompt = "\nTo continue, press Enter[]...";
-		System.out.println(prompt);
-		scanNextLine(prompt);
+		String prompt = "\nTo continue, press [Enter]...";
+		scanEnter(prompt);
 	}
 	
 	public void showDrawTreasureCards() {
-		String prompt = "\nTo draw your two treasure cards, press Enter[]...";
-		System.out.println(prompt);
-		scanNextLine(prompt);
+		String prompt = "\nTo draw your two treasure cards, press [Enter]...";
+		scanEnter(prompt);
 	}
 	
 	public void showDrawFloodCards() {
-		String prompt = "\nTo draw your flood cards, press Enter[]...";
-		System.out.println(prompt);
-		scanNextLine(prompt);
+		String prompt = "\nTo draw your flood cards, press [Enter]...";
+		scanEnter(prompt);
+	}
+	
+	public void showSpecialCardDone() {
+		String prompt = "\nTo return to before request was made, press Enter[]...";
+		scanEnter(prompt);
 	}
 	
 	/**
@@ -193,35 +196,36 @@ public class GameView {
 		System.out.println("You have captured "+treasure.getName());
 	}
 	
-	public void showSpecialCardDone() {
-		System.out.println("\nTo return to before request was made, press Enter[]...");
-		userInput.nextLine();
-	}
 	
 	
 	// Request players from user TODO: check for valid user input
 	public List<String> getPlayers() {
-		String temp = promptUser("How many players are there?");
-		int playerCount = Integer.parseInt(temp);
+		final int minPlayers = 2;
+		final int maxPlayers = 4;
+		String prompt = "How many players are there? (2-4 players allowed)";
+		
+		System.out.println(prompt);
+		int playerCount = scanValidInt(prompt, minPlayers, maxPlayers);
+		
 		List<String> playerNames = new ArrayList<String>();
 		
 		// iterate over number of players
 		for (int i = 1; i <= playerCount; i++) {
-			playerNames.add(promptUser("Please enter the name of Player " + i)); // TODO: check for valid name input
+			playerNames.add(scanValidName("Please enter the name of Player " + i + ":", playerNames)); // TODO: check for valid name input
 			// TODO: check for length less than tileCharWidth
 		}
 		return playerNames;
 	}
 	
-	/**
-	 * Asks user question specified by string
-	 * @param String to print to view
-	 * @return String entered by user
-	 */
-	private String promptUser(String string) {
-		System.out.println(string);
-		return userInput.nextLine();		
-	}
+//	/**
+//	 * Asks user question specified by string
+//	 * @param String to print to view
+//	 * @return String entered by user
+//	 */
+//	private String promptUser(String string) {//TODO: shouldn't need this when everything implemented properly
+//		System.out.println(string);
+//		return userInput.nextLine();		
+//	}
 	
 	
 	/**
@@ -331,53 +335,119 @@ public class GameView {
 		return heliPlayers;
 	}
 	
+	/**
+	 * 
+	 * @return true if players wishes to keep their treasure card
+	 */
+	public Boolean pickKeepOrGive() {//TODO: just make a Y/N chooser method? (can use with pickHeliPlayers aswell)
+		String prompt = "Do you wish to keep your card or give it to another Player?";
+		List<String> choices = Arrays.asList("Keep", "Give");
+		String choice = pickFromList(choices, prompt); //This allows users to still use HELI or SAND 
+		return choice.equals("Keep");
+	}
+	
 	
 	
 	public <E> E pickFromList(List<E> items, String prompt){
 		//TODO: check for correct user input, check list isn't empty
 		int index;
+		
 		System.out.println("\n" + prompt);
 		
 		int i = 1;
 		String options = "\n";
 		for(E item : items) {
-			options += item.toString()+" ["+Integer.toString(i)+"], "; // TODO: have toString implemented in all classes??
+			if(i==1) {
+				options += item.toString()+" ["+Integer.toString(i)+"]";
+			} else {
+				options += ", " + item.toString()+" ["+Integer.toString(i)+"]"; // TODO: have toString implemented in all classes??
+			}
 			i++;
 		}
 		System.out.println(options); //TODO: print vertically to look better?
 		
-		index = Integer.parseInt(scanNextLine(prompt+"\n"+options)) - 1; //TODO:proper check for invalid input
+		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1; //TODO:proper check for invalid input
 		
-		if(index > items.size() - 1) {
-			System.out.println("Invalid Choice, choose again");
-			return pickFromList(items, "");
-		}
 		return items.get(index);
 	}
 	
+	
+	public int scanValidInt(String prompt, int min, int max) {//TODO:print prompt in here?
+		int choice;
+		while(true) {
+			if(userInput.hasNextInt()) {
+				choice = userInput.nextInt();
+				userInput.nextLine();//TODO: make tidier?
+				if(choice >= min && choice <= max) {
+					return choice;
+				}
+				System.out.println("Please input a valid number\n"); //TODO: remove code duplication of prints
+			} else if (!checkSpecialCardRequest()) {
+				System.out.println("Please input a valid number\n");
+			} 
+			System.out.println(prompt);
+			return scanValidInt(prompt, min, max);
+		}
+	}
+	
+	public String scanValidName(String prompt, List<String> playerNames) {
+		final int maxLength = 8;
+		String name;
+		System.out.println(prompt);
+		//While a valid name has not been found
+		while(true) {
+			name = userInput.nextLine();
+			if(name.length() > maxLength) {
+				System.out.println("The max character length is 8");
+			} else if(playerNames.contains(name)) {
+				System.out.println("This name has already been taken");
+			} else {
+				//Return valid name
+				return name;
+			}
+			System.out.println("\n"+prompt);
+		}
+	}
+	
+	public void scanEnter(String prompt) {
+		System.out.println(prompt);
+		if(checkSpecialCardRequest()) {
+			scanEnter(prompt);
+		}
+	}
 
 
-	public String scanNextLine(String initialPrompt) {
-		//Print prompt in here (rather than before function)??
+	public boolean checkSpecialCardRequest() {
 		
 		String input = userInput.nextLine();
 		
-		while(input.equals("HELI") || input.equals("SAND")) {
-			if(input.equals("HELI")) {
-				specialCardController.heliRequest();
-			}
-			if(input.equals("SAND")) {
-				specialCardController.sandbagRequest();
-			}
-//			System.out.println("Press enter to return to before request...");
-//			userInput.nextLine();
-//			updateView(gameController.getGameModel()); //TODO: Is getModel() ok for the View to do??????????????????
-			System.out.println("\n"+initialPrompt);
-			input = userInput.nextLine();
+		if(input.equals("HELI")) {
+			specialCardController.heliRequest();
+			return true;
 		}
-		 
-		return input;
+		else if(input.equals("SAND")) {
+			specialCardController.sandbagRequest();
+			return true;
+		}
+		return false;
+
+//		String input = userInput.nextLine();
+//		
+//		while(input.equals("HELI") || input.equals("SAND")) {
+//			if(input.equals("HELI")) {
+//				specialCardController.heliRequest();
+//			}
+//			if(input.equals("SAND")) {
+//				specialCardController.sandbagRequest();
+//			}
+//
+//			System.out.println("\n"+initialPrompt);
+//			input = userInput.nextLine();
+//		}
+//		 
+//		return input;
 	}
+	
 	
 	/**
 	 * Sets the views controller
@@ -402,6 +472,14 @@ public class GameView {
 	 */
 	public String getUserInput() { //TODO: maybe don't need
 		return userInput.nextLine();
+	}
+	
+	public void showTreasureSunk(IslandTile firstTile, IslandTile secondTile) {
+		System.out.println(firstTile.toString()+" and "+secondTile.toString()+" are both sunk and "+firstTile.getAssociatedTreasure()+" hasn't been captured");
+	}
+	
+	public void showPlayerSunk(Player player) {
+		System.out.println(player.toString()+" could not reach any safes tiles and has sunk!!!");
 	}
 
 	/**
@@ -444,5 +522,6 @@ public class GameView {
 	public static void reset() {
 		gameView = null;
 	}
+	
 
 }

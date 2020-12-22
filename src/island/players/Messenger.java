@@ -25,6 +25,8 @@ public class Messenger extends Player {
 	public List<Player> getCardReceivablePlayers(GamePlayers gamePlayers) {
 		
 		// Messenger can give cards to players without having to be on the same tile
-		return gamePlayers.getPlayersList();
+		List<Player> recievablePlayers = gamePlayers.getPlayersList();
+		recievablePlayers.remove(this);
+		return recievablePlayers;
 	}
 }

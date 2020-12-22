@@ -36,12 +36,13 @@ public class FloodDeck extends Deck<FloodCard> {
 	}
 	
 	@Override
-	public void refill() {
+	public void refill() {//TODO: polymorphism
 		FloodDiscardPile floodDiscardPile = FloodDiscardPile.getInstance();
 		for (FloodCard fc : floodDiscardPile.getAllCards()) {
 			floodDeck.addCard(fc);
 		}
 		floodDiscardPile.removeAllCards();
+		this.shuffle();
 	}
 
 	// Singleton reset for JUnit testing

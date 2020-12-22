@@ -65,6 +65,8 @@ public class GameController {
 		// Create game observers
 		createObservers();
 		
+		//TODO: print("Capture all 4 treasures to win!!);
+		
 		// Update user view
 //		gameView.updateView(gameModel);
 	}
@@ -110,13 +112,13 @@ public class GameController {
 		FoolsLandingObserver.getInstance(gameModel.getIslandBoard().getTile(IslandTile.FOOLS_LANDING), this);
 		
 		// Instantiate observer for IslandTiles with Treasure
-		TreasureTilesObserver newTreasureTilesObserver = TreasureTilesObserver.getInstance(this, gameModel.getIslandBoard(), gameModel.getGamePlayers());
+		TreasureTilesObserver newTreasureTilesObserver = TreasureTilesObserver.getInstance(this, gameModel.getIslandBoard(), gameModel.getGamePlayers(), gameView);
 		for (Subject subject : gameModel.getIslandBoard().getTreasureTiles()) {
 			subject.attach(newTreasureTilesObserver); // Attach observer to each IslandTile that holds Treasure
 		}
 		
 		// Instantiate observer for IslandTiles that sink with Players on them
-		PlayerSunkObserver newPlayerSunkObserver = PlayerSunkObserver.getInstance(this, gameModel.getGamePlayers());
+		PlayerSunkObserver newPlayerSunkObserver = PlayerSunkObserver.getInstance(this, gameModel.getGamePlayers(), gameView);
 		for (Subject subject : gameModel.getIslandBoard().getAllTiles()) {
 			subject.attach(newPlayerSunkObserver); // Attach observer to every IslandTile
 		}

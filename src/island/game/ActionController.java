@@ -194,7 +194,10 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		// Give card to other player
 		drawCardsController.addCardToHand(playerToRecieve, card);
+
 		p.removeCard(card);
+		//TODO: gameView.showSuccessfullyGiven(card, player, playerToRecieve)
+
 		return true;
 		
 	}
