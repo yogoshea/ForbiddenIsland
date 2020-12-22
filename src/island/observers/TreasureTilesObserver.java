@@ -66,9 +66,9 @@ public class TreasureTilesObserver implements Observer {
 						// Check if this IslandTile has already sunk
 						if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
 							System.out.println(otherTreasureTile.toString()+" and "+updatedTile.toString()+" are both sunk and "+associatedTreasure+" hasn't been captured");
-							//TODO:Add to gameView
+							//TODO:Add print to gameView
 							// Invoke GameController method to end the game
-							gameController.endGame(GameEndings.TREASURE_SUNK); // TODO: end game Enum
+							gameController.endGame(GameEndings.TREASURE_SUNK);
 						}
 					}
 				}

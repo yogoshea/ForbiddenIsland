@@ -73,6 +73,8 @@ public class GameController {
 		// Create game observers
 		createObservers();
 		
+		//TODO: print("Capture all 4 treasures to win!!);
+		
 		// Update user view
 //		gameView.updateView(gameModel);
 	}

@@ -57,7 +57,7 @@ public class PlayerSunkObserver implements Observer {
 				
 				// Check if Player can move to another IslandTile
 				if (! gameController.movePlayerToSafety(player)) {
-
+					//TODO: gameView.showPlayerSunk(player);
 					gameController.endGame(GameEndings.PLAYER_SUNK);
 				}
 			}
