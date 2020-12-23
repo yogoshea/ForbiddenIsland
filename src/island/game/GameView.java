@@ -53,8 +53,7 @@ public class GameView {
 	 * Displays welcome view
 	 */
 	public void showWelcome() {
-		System.out.println("Welcome to Forbidden Island!\n");
-		// TODO: add ASCII art
+		GameGraphics.displayWelcomeMessage();
 	}
 	
 	public void showSkippingActions() {
@@ -215,7 +214,7 @@ public class GameView {
 		
 		// iterate over number of players
 		for (int i = 1; i <= playerCount; i++) {
-			playerNames.add(scanValidName("Please enter the name of Player " + i + ":", playerNames)); // TODO: check for valid name input
+			playerNames.add(scanValidName("Please enter the name of Player " + i + ": (Max 8 characters)", playerNames)); // TODO: check for valid name input
 			// TODO: check for length less than tileCharWidth
 		}
 		return playerNames;
@@ -359,12 +358,16 @@ public class GameView {
 		System.out.println("\n" + prompt);
 		
 		int i = 1;
-		String options = "\n";
+		String options = "\n"; //TODO: remove?
+//		String options = "";
 		for(E item : items) {
 			if(i==1) {
 				options += item.toString()+" ["+Integer.toString(i)+"]";
 			} else {
-				options += ", " + item.toString()+" ["+Integer.toString(i)+"]"; // TODO: have toString implemented in all classes??
+				if(i % 5 == 1)
+					options += ",\n" + item.toString()+" ["+Integer.toString(i)+"]"; // TODO: have toString implemented in all classes??
+				else
+					options += ", " + item.toString()+" ["+Integer.toString(i)+"]"; // TODO: have toString implemented in all classes??
 			}
 			i++;
 		}
@@ -464,11 +467,11 @@ public class GameView {
 	}
 	
 	public void showTreasureSunk(IslandTile firstTile, IslandTile secondTile) {
-		System.out.println(firstTile.toString()+" and "+secondTile.toString()+" are both sunk and "+firstTile.getAssociatedTreasure()+" hasn't been captured");
+		System.out.println("\n" + firstTile.toString()+" and "+secondTile.toString()+" are both sunk and "+firstTile.getAssociatedTreasure()+" hasn't been captured");
 	}
 	
 	public void showPlayerSunk(Player player) {
-		System.out.println(player.toString()+" could not reach any safes tiles!!!");
+		System.out.println("\n"+player.toString()+" could not reach any safes tiles!!!");
 	}
 
 	/**
@@ -477,6 +480,7 @@ public class GameView {
 	public void showEnding(GameEndings ending) {
 		//TODO: Make individual show endings for each scenario and call them from observer so can see details of how game ended
 		
+		System.out.println(); // newline
 		switch(ending) {
 		
 		case FOOLS_LANDING_SUNK:
@@ -496,7 +500,7 @@ public class GameView {
 			break;
 
 		case WIN:
-			System.out.println("!!!!The game has been won!!!!");
+			System.out.println("!!!! The game has been won !!!!"); // TODO: add congratulations
 			break;
 			
 		default:

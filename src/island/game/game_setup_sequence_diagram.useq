@@ -205,10 +205,17 @@
   </object>  
   <combined-fragment id="84" interaction-operator="LOOP">    
     <interaction-operand id="85" constraint="for six iterations">      
+<<<<<<< HEAD
       <fragment refId="42"/>      
       <fragment refId="38"/>      
       <fragment refId="44"/>      
       <fragment refId="40"/>    
+=======
+      <fragment refId="44"/>      
+      <fragment refId="38"/>      
+      <fragment refId="40"/>      
+      <fragment refId="42"/>    
+>>>>>>> eccbaf6d8b0ce9000f7dee621a717b6396fb1bd1
     </interaction-operand>  
   </combined-fragment>  
   <combined-fragment id="86" interaction-operator="LOOP">    
@@ -294,7 +301,13 @@
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="15"/>  
   </message>  
+<<<<<<< HEAD
   <message id="16" asynchronous="false">    
+=======
+  <message id="16" 
+    operation="getInstance(island.game.GameController,island.components.IslandBoard,island.players.GamePlayers,island.game.GameView):island.observers.TreasureTilesObserver" 
+    asynchronous="false">    
+>>>>>>> eccbaf6d8b0ce9000f7dee621a717b6396fb1bd1
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="17"/>  
   </message>  
@@ -302,7 +315,13 @@
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="19"/>  
   </message>  
+<<<<<<< HEAD
   <message id="20" asynchronous="false">    
+=======
+  <message id="20" 
+    operation="getInstance(island.game.GameController,island.players.GamePlayers,island.game.GameView):island.observers.PlayerSunkObserver" 
+    asynchronous="false">    
+>>>>>>> eccbaf6d8b0ce9000f7dee621a717b6396fb1bd1
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="21"/>  
   </message>  
