@@ -52,7 +52,7 @@ public class FoolsLandingObserver implements Observer {
 	}
 	
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		foolsLandingObserver = null;
 	}
 }

@@ -74,7 +74,6 @@ public class SetupController {
 		
 		// Get component instances from model
 		FloodDeck floodDeck = gameModel.getFloodDeck();
-		IslandBoard islandBoard = gameModel.getIslandBoard();
 		FloodDiscardPile floodDiscardPile = gameModel.getFloodDiscardPile();
 		IslandTile tile;
 		FloodCard newFloodCard;
@@ -88,7 +87,7 @@ public class SetupController {
 			tile = newFloodCard.getUtility();
 
 			// Flood corresponding IslandTile on board
-			islandBoard.getTile(tile).setToFlooded();
+			tile.setToFlooded();
 			
 //			gameView.showTileFlooded(tile);
 

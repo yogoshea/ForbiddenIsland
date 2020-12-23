@@ -10,6 +10,16 @@ public class Coordinate {
 	private int rowIndex;
 	private int columnIndex;
 	
+	//  IslandBoard Layout        IslandBoard Array
+	//   (X,Y) Coordinate        [Column][Row] index
+	//
+	//	       [][]                 [][]
+	// 		 [][][][]               [][][][]
+	//	   [][][][][][]	  <---->    [][][][][][]
+	//	   [][][][][][]             [][][][][][]
+	//		 [][][][]               [][][][]
+	//		   [][]                 [][]
+	
 	/**
 	 * Constructor for Coordinate instance.
 	 * @param row integer value of new Coordinate.
@@ -29,7 +39,7 @@ public class Coordinate {
 		if (aRowIndex < 3)
 			return 2 - aRowIndex;
 		else
-			return -1*(3 - aRowIndex);
+			return - 3 + aRowIndex;
 	}
 	
 	/**

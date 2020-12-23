@@ -109,7 +109,7 @@ public class GameController {
 		WaterMeterObserver.getInstance(gameModel.getWaterMeter(), this);
 		
 		// Instantiate observer for Fools Landing IslandTile
-		FoolsLandingObserver.getInstance(gameModel.getIslandBoard().getTile(IslandTile.FOOLS_LANDING), this);
+		FoolsLandingObserver.getInstance(IslandTile.FOOLS_LANDING, this);
 		
 		// Instantiate observer for IslandTiles with Treasure
 		TreasureTilesObserver newTreasureTilesObserver = TreasureTilesObserver.getInstance(this, gameModel.getIslandBoard(), gameModel.getGamePlayers(), gameView);

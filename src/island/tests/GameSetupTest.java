@@ -69,14 +69,6 @@ public class GameSetupTest {
 		gameController = null;
 	}
 	
-	@Before
-	public void setUp() throws Exception {
-	}
-	
-	@After
-	public void tearDown() {
-	}
-	
 	@Test
 	public void test_IslandCreation() {
 		
