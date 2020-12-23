@@ -69,13 +69,8 @@ public class GameWinTest {
         System.setSecurityManager(new CheckGameExitSecurityManager());
 	}
 	
-	@SuppressWarnings("unused")
 	@After
 	public void tearDown() throws Exception {
-		for (Player player : gameModel.getGamePlayers()) {
-			player = null;
-		}
-		gameModel.getGamePlayers().getPlayersList().clear();
 		GameModel.reset();
 		GameView.reset();
 		GameController.reset();
@@ -103,7 +98,7 @@ public class GameWinTest {
 		// Attempt Helicopter Lift off the island
 		try {
 			
-			SpecialCardController.getInstance(gameModel, gameView, gameController).heliRequest();
+			SpecialCardController.getInstance(gameModel, gameView, gameController).specialCardRequest("HELI");
 			
         } catch (GameExitException e) {
            assertEquals("Check game exit status", 0, e.status);

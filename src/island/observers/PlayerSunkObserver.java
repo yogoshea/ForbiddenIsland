@@ -1,8 +1,10 @@
 package island.observers;
 
+import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.game.GameController;
 import island.game.GameEndings;
+import island.game.GameModel;
 import island.game.GameView;
 import island.players.GamePlayers;
 import island.players.Player;
@@ -69,6 +71,8 @@ public class PlayerSunkObserver implements Observer {
 
 	// Singleton reset for JUnit testing
 	public static void reset() {
+		for (IslandTile tile : IslandBoard.getInstance().getAllTiles())
+			tile.detach(playerSunkObserver);
 		playerSunkObserver = null;
 	}
 	

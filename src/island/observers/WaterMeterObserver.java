@@ -51,6 +51,7 @@ public class WaterMeterObserver implements Observer {
 
 	// Singleton reset for JUnit testing
 	public static void reset() {
+		WaterMeter.getInstance().detach(waterMeterObserver);
 		waterMeterObserver = null;
 	}
 

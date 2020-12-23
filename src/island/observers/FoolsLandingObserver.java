@@ -1,5 +1,6 @@
 package island.observers;
 
+import island.components.IslandTile;
 import island.game.GameController;
 import island.game.GameEndings;
 
@@ -53,6 +54,7 @@ public class FoolsLandingObserver implements Observer {
 	
 	// Singleton reset for JUnit testing
 	public static void reset() {
+		IslandTile.FOOLS_LANDING.detach(foolsLandingObserver);
 		foolsLandingObserver = null;
 	}
 }

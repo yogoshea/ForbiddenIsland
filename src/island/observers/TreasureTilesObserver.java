@@ -82,6 +82,8 @@ public class TreasureTilesObserver implements Observer {
 	
 	// Singleton reset for JUnit testing
 	public static void reset() {
+		for (IslandTile tile : IslandBoard.getInstance().getTreasureTiles())
+			tile.detach(treasureTilesObserver);
 		treasureTilesObserver = null;
 	}
 }

@@ -3,20 +3,15 @@ package island.tests;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Stack;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import island.components.Coordinate;
 import island.components.IslandBoard;
 import island.components.IslandTile;
+import island.game.GameController;
 
 public class ComponentsTest {
 	
@@ -37,19 +32,11 @@ public class ComponentsTest {
 		tile00 = boardStructure[0][0];
 		tile22 = boardStructure[2][2];
 		tile43 = boardStructure[4][3];
-
 	}
-
+	
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
+	public static void tearDownAfterClass() {
+		GameController.reset();
 	}
 
 	@Test
@@ -76,8 +63,6 @@ public class ComponentsTest {
 		assertEquals("Distance between tiles 00 and 22", expectedDistance00to22, islandBoard.calcDistanceBetweenTiles(tile00, tile22), DELTA);
 		assertEquals("Distance between tiles 00 and 43", expectedDistance00to43, islandBoard.calcDistanceBetweenTiles(tile00, tile43), DELTA);
 		assertEquals("Distance between tiles 22 and 43", expectedDistance22to43, islandBoard.calcDistanceBetweenTiles(tile22, tile43), DELTA);
-		
-		
 	}
 
 }

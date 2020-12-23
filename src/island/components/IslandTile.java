@@ -144,6 +144,11 @@ public enum IslandTile implements Subject {
 	}
 	
 	@Override
+	public void detach(Observer observer) {
+		observers.remove(observer);
+	}
+	
+	@Override
 	public void notifyAllObservers() {
 		for (Observer observer : observers) {
 			observer.update(this);

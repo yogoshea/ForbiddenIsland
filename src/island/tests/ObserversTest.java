@@ -8,6 +8,7 @@ import java.security.Permission;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import island.components.IslandBoard;
@@ -53,6 +54,19 @@ public class ObserversTest {
             throw new GameExitException(status);
         }
     }
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		
+		// Ensure components reset from previous test cases
+		GameModel.reset();
+		GameView.reset();
+		GameController.reset();
+		FoolsLandingObserver.reset();
+		PlayerSunkObserver.reset();
+		TreasureTilesObserver.reset();
+		WaterMeterObserver.reset();
+	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -60,13 +74,8 @@ public class ObserversTest {
         System.setSecurityManager(new CheckGameExitSecurityManager());
 	}
 
-	@SuppressWarnings("unused")
 	@After
 	public void tearDown() throws Exception {
-		for (Player player : gameModel.getGamePlayers()) {
-			player = null;
-		}
-		gameModel.getGamePlayers().getPlayersList().clear();
 		GameModel.reset();
 		GameView.reset();
 		GameController.reset();
@@ -151,7 +160,7 @@ public class ObserversTest {
 
 	@Test
 	public void test_PlayerSunkObserver_gameExit() {
-
+		
 		// Create view without specified user input
 		gameView =  GameView.getInstance();
 		gameController = GameController.getInstance(gameModel, gameView);

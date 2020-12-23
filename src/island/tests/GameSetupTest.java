@@ -10,9 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,7 +26,6 @@ import island.decks.TreasureDeck;
 import island.game.GameController;
 import island.game.GameModel;
 import island.game.GameView;
-import island.players.GamePlayers;
 import island.players.Player;
 
 public class GameSetupTest {
@@ -47,7 +44,6 @@ public class GameSetupTest {
 	    sampleUserInput += "Eoghan\n";		// Name of first player
 	    sampleUserInput += "Robert\n";		// Name of second player
 	    sampleUserInput += startingDifficulty + "\n";			// starting difficulty level
-//	    String sampleUserInput = "2\nEoghan\nRobert\n1\n";
 	    
 	    InputStream sysInBackup = System.in; // backup
 	    InputStream in = new ByteArrayInputStream(sampleUserInput.getBytes());
@@ -64,9 +60,9 @@ public class GameSetupTest {
 	
 	@AfterClass
 	public static void tearDownAfterClass() {
-		gameModel = null;
-		gameView = null;
-		gameController = null;
+		GameModel.reset();
+		GameView.reset();
+		GameController.reset();
 	}
 	
 	@Test

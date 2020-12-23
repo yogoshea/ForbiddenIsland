@@ -202,6 +202,8 @@ public class IslandBoard {
 	
 	// Singleton reset for JUnit testing
 	public static void reset() {
+		for (IslandTile tile : IslandTile.values())
+			tile.setToSafe();
 		islandBoard = null;
 	}
 
