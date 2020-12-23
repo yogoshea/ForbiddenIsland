@@ -1,5 +1,7 @@
 package island.decks;
 
+import java.util.List;
+
 import island.cards.FloodCard;
 import island.components.IslandTile;
 
@@ -16,33 +18,25 @@ public class FloodDeck extends Deck<FloodCard> {
 	/**
 	 * Private constructor for FloodDeck singleton.
 	 */
-	private FloodDeck() {
+	private FloodDeck(DiscardPile<FloodCard> floodDiscardPile) {
 
 		// Add FloodCard to deck for each IslandTile value
 		for (IslandTile it : IslandTile.values()) {
 			this.addCard(new FloodCard(it));
 		}
+		
+		super.setCorrespondingDiscardPile(floodDiscardPile);
 	}
 	
 	/**
 	 * Getter method for singleton instance.
 	 * @return Instance of FloodDeck singleton.
 	 */
-	public static FloodDeck getInstance() {
+	public static FloodDeck getInstance(DiscardPile<FloodCard> floodDiscardPile) {
 		if (floodDeck == null) {
-			floodDeck = new FloodDeck();
+			floodDeck = new FloodDeck(floodDiscardPile);
 		}
 		return floodDeck;
-	}
-	
-	@Override
-	public void refill() {//TODO: polymorphism
-		FloodDiscardPile floodDiscardPile = FloodDiscardPile.getInstance();
-		for (FloodCard fc : floodDiscardPile.getAllCards()) {
-			floodDeck.addCard(fc);
-		}
-		floodDiscardPile.removeAllCards();
-		this.shuffle();
 	}
 
 	// Singleton reset for JUnit testing

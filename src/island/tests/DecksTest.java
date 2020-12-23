@@ -43,10 +43,10 @@ public class DecksTest {
 
 	@Before
 	public void setUp() throws Exception {
-		floodDeck = FloodDeck.getInstance();
 		floodDiscardPile = FloodDiscardPile.getInstance();
-		treasureDeck = TreasureDeck.getInstance();
+		floodDeck = FloodDeck.getInstance(floodDiscardPile);
 		treasureDiscardPile = TreasureDiscardPile.getInstance();
+		treasureDeck = TreasureDeck.getInstance(treasureDiscardPile);
 	}
 
 	@After

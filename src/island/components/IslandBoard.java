@@ -75,7 +75,7 @@ public class IslandBoard {
 	}
 	
 	/**
-	 * Finds the island tiles adjacent to a given island tile.
+	 * Finds the island tiles adjacent to a given island tile. Does not return sunk tiles
 	 * @param Specific IslandTile to retrieve adjacent tiles for.
 	 * @return List containing relevant IslandTile instances.
 	 */

@@ -68,7 +68,7 @@ public class CardsTest {
 		
 		treasureCard = new TreasureCard(Treasure.THE_CRYSTAL_OF_FIRE);
 		
-		String expectedName = "The Crystal of Fire Card";
+		String expectedName = "Crystal of Fire Card";
 		assertEquals("Accessing name of card", expectedName, treasureCard.getName());
 		
 		Treasure expectedTreasure = Treasure.THE_CRYSTAL_OF_FIRE;

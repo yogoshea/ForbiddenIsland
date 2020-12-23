@@ -35,11 +35,11 @@ public class GameModel {
 		
 		// Retrieve game component instances
 		islandBoard = IslandBoard.getInstance();
-		floodDeck = FloodDeck.getInstance();
 		floodDiscardPile = FloodDiscardPile.getInstance();
+		floodDeck = FloodDeck.getInstance(floodDiscardPile);
 		gamePlayers = GamePlayers.getInstance();
-		treasureDeck = TreasureDeck.getInstance();
 		treasureDiscardPile = TreasureDiscardPile.getInstance();
+		treasureDeck = TreasureDeck.getInstance(treasureDiscardPile);		
 		waterMeter = WaterMeter.getInstance(); 
 	}
 

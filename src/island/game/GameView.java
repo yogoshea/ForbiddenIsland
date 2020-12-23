@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import island.cards.Card;
+import island.cards.SpecialCardAbility;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
@@ -131,30 +132,43 @@ public class GameView {
 	 * Tells user that treasure cards are being drawn
 	 */
 	public void showTreasureCardDrawn(Card<?> card) {
-		System.out.println("\nYou have drawn: " + card.getName());
+		System.out.println("\n--> You have drawn: " + card.getName());
+	}
+	
+	public void showCardGiven(Card<?> card,Player giver, Player reciever) {
+		System.out.println(giver.toString()+ " has given a " +card.toString()+ " to " +reciever.toString());
 	}
 	
 	/**
 	 * Tells user that treasure cards are being drawn
 	 */
 	public void showWaterRise(int level) {
-		System.out.println("NEW WATER LEVEL: " + Integer.toString(level));
+		System.out.println("\nNEW WATER LEVEL: " + Integer.toString(level));
 		System.out.println("The flood deck has been refilled");
 	}
 	
-	/**
-	 * Tells user that the player doesn't have a helicopter lift card
-	 */
-	public void showNoHeliCard(Player player) {
-		System.out.println(player.getName() + " does not have a Helicopter Lift card");
-	}
+//	/**
+//	 * Tells user that the player doesn't have a helicopter lift card
+//	 */
+//	public void showNoHeliCard(Player player) {
+//		System.out.println(player.getName() + " does not have a Helicopter Lift card");
+//	}
+//	
+//	/**
+//	 * Tells user that the player doesn't have a helicopter lift card
+//	 */
+//	public void showNoSandbagCard(Player player) {
+//		System.out.println(player.getName() + " does not have a Sandbag card");
+//	}
 	
 	/**
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
-	public void showNoSandbagCard(Player player) {
-		System.out.println(player.getName() + " does not have a Sandbag card");
+	public void showNoSpecialCard(Player player, SpecialCardAbility ability) {
+		System.out.println(player.getName() + " does not have a "+ability.toString()+" Sandbag card");
 	}
+	
+	
 	
 	public void showGameWin() {
 		System.out.println("You win");
@@ -276,14 +290,21 @@ public class GameView {
 		return pickFromList(tiles, prompt);
 	}
 	
-	public IslandTile pickSwimmableTile(List<IslandTile> tiles) {
-		String prompt = "YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
+	public IslandTile pickSwimmableTile(Player player, List<IslandTile> tiles) {
+		String prompt = player.toString()+", YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
 		return pickFromList(tiles, prompt);
 	}
 	
 	public IslandTile pickShoreUpTile(List<IslandTile> tiles) {
 		String prompt = "Which tile do you wish to shore up?";
 		return pickFromList(tiles, prompt);
+	}
+	
+	public Boolean shoreUpAnother() {
+		String prompt = "As an Engineer you may shore-up 2 tiles. Shore-up another?";
+		List<String> choices = Arrays.asList("Yes", "No");
+		String choice = pickFromList(choices, prompt); //This allows users to still use HELI or SAND 
+		return choice.equals("Yes");
 	}
 	
 	public Player pickPlayerToRecieveCard(List<Player> players) {
@@ -317,7 +338,12 @@ public class GameView {
 	public Player pickSandbagPlayer(List<Player> players) {
 		String prompt = "Which player wants to play a Sandbag card?";
 		return pickFromList(players, prompt);
-	} 
+	}
+	
+	public Player pickRequestPlayer(List<Player> players, SpecialCardAbility ability) {
+		String prompt = "Which player wants to play a " +ability.toString()+ " card?";
+		return pickFromList(players, prompt);
+	}
 	
 	public List<Player> pickHeliPlayers(List<Player> players, IslandTile destination) {
 		
@@ -325,11 +351,9 @@ public class GameView {
 		List<Player> heliPlayers = new ArrayList<Player>();
 		
 		for(Player player : players) {
-			
 			prompt = "Does " + player.getName() + " wish to move to " + destination.getName() + "? \n";
 			prompt += "[Y]/[N]";
 			System.out.println(prompt);
-			
 			if(userInput.nextLine().equals("Y")) {
 				heliPlayers.add(player);
 			}
@@ -352,7 +376,7 @@ public class GameView {
 	
 	
 	public <E> E pickFromList(List<E> items, String prompt){
-		//TODO: check for correct user input, check list isn't empty
+		//TODO: check list isn't empty? Or ensure no empty list is ever past in?
 		int index;
 		
 		System.out.println("\n" + prompt);
@@ -373,7 +397,7 @@ public class GameView {
 		}
 		System.out.println(options); //TODO: print vertically to look better?
 		
-		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1; //TODO:proper check for invalid input
+		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
 		
 		return items.get(index);
 	}
@@ -428,15 +452,21 @@ public class GameView {
 		
 		String input = userInput.nextLine();
 		
-		if(input.equals(HELI)) {
-			specialCardController.heliRequest();
-			return true;
-		}
-		else if(input.equals(SAND)) {
-			specialCardController.sandbagRequest();
+		if(input.equals(HELI) || input.equals(SAND)) {
+			specialCardController.specialCardRequest(input);
 			return true;
 		}
 		return false;
+		
+//		if(input.equals(HELI)) {
+//			specialCardController.heliRequest();
+//			return true;
+//		}
+//		else if(input.equals(SAND)) {
+//			specialCardController.sandbagRequest();
+//			return true;
+//		}
+//		return false;
 
 	}
 	

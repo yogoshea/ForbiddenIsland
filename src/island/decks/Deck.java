@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Stack;
 
 import island.cards.Card;
+import island.cards.FloodCard;
 
 /**
  * Abstract class to be implemented by decks used in game; TreasureDeck, FloodDeck.
@@ -17,6 +18,8 @@ public abstract class Deck<E extends Card<?>> implements CardCollection<E> {
 	
 	// Stack to store deck cards
 	private Stack<E> deck;
+	//The decks corresponding discard pile
+	private DiscardPile<E> correspondingDiscardPile;
 	
 	/**
 	 * Constructor to be called when Deck subclasses instantiated.
@@ -57,6 +60,17 @@ public abstract class Deck<E extends Card<?>> implements CardCollection<E> {
 	/**
 	 * Refills an empty deck with cards from the corresponding discard pile.
 	 */
-	public abstract void refill();
+	public void refill() {
+		
+		for (E c : correspondingDiscardPile.getAllCards()) {
+			this.addCard(c);
+		}
+		correspondingDiscardPile.removeAllCards();
+		this.shuffle();
+	}
+	
+	public void setCorrespondingDiscardPile(DiscardPile<E> discardPile) {
+		this.correspondingDiscardPile = discardPile;
+	}
 
 }

@@ -139,7 +139,7 @@ public class GameController {
 		if (swimmableTiles.isEmpty()) {
 			return false;
 		} else {
-			player.getPawn().setTile(gameView.pickSwimmableTile(swimmableTiles));
+			player.getPawn().setTile(gameView.pickSwimmableTile(player, swimmableTiles));
 			return true;
 		}
 	}

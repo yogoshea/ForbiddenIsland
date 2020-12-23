@@ -94,159 +94,160 @@
     </display>  
   </enumeration>  
   <dependency id="11">    
-    <bendpoint x="1013" y="1620"/>    
-    <bendpoint x="2414" y="1622"/>    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <dependency id="12">    
-    <bendpoint x="1766" y="1291"/>    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="7"/>  
-  </dependency>  
-  <dependency id="13">    
     <bendpoint x="2074" y="706"/>    
     <bendpoint x="2074" y="1366"/>    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="1"/>  
   </dependency>  
-  <association id="14">    
-    <bendpoint x="2158" y="706"/>    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="15" name="gameModel">        
-        <position height="18" width="62" x="2252" y="770"/>      
+  <association id="12">    
+    <bendpoint x="2277" y="1234"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="13" name="gameModel">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="16" minimum="0" maximum="1">        
-        <position height="16" width="23" x="2306" y="792"/>      
+      <multiplicity id="14" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="17">    
-    <bendpoint x="1173" y="397"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="18" name="gameView">        
+  <association id="15">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="16" name="gameModel">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="19" minimum="0" maximum="1">        
+      <multiplicity id="17" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="20">    
+  <association id="18">    
     <bendpoint x="2228" y="438"/>    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="21" name="gameModel">        
+      <attribute id="19" name="gameModel">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="22" minimum="0" maximum="1">        
+      <multiplicity id="20" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="23">    
-    <end type="SOURCE" refId="6"/>    
+  <association id="21">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="22" name="setupController">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="23" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="24">    
+    <bendpoint x="1489" y="381"/>    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="10"/>  
   </dependency>  
-  <association id="24">    
-    <bendpoint x="1380" y="1117"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="25" name="gameView">        
-        <position height="18" width="60" x="1181" y="1034"/>      
-      </attribute>      
-      <multiplicity id="26" minimum="0" maximum="1">        
-        <position height="16" width="23" x="1179" y="1060"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="27">    
-    <bendpoint x="2148" y="897"/>    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="28" name="gameModel">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="29" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="30">    
+  <dependency id="25">    
     <bendpoint x="1240" y="1384"/>    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="9"/>  
   </dependency>  
-  <association id="31">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="32" name="actionController">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="33" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="34">    
-    <bendpoint x="1321" y="1296"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="35" name="gameView">        
-        <position height="18" width="60" x="1183" y="1143"/>      
-      </attribute>      
-      <multiplicity id="36" minimum="0" maximum="1">        
-        <position height="16" width="23" x="1175" y="1169"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="37">    
-    <bendpoint x="1394" y="895"/>    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="38" name="gameView">        
-        <position height="18" width="60" x="1180" y="919"/>      
-      </attribute>      
-      <multiplicity id="39" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="40">    
-    <bendpoint x="1903" y="506"/>    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
-  </dependency>  
-  <association id="41">    
-    <bendpoint x="1063" y="344"/>    
+  <association id="26">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="42" name="gameController">        
+      <attribute id="27" name="gameView">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="43" minimum="0" maximum="1">        
+      <multiplicity id="28" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="29">    
+    <bendpoint x="2061" y="709"/>    
+    <bendpoint x="2061" y="783"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <association id="30">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="31" name="gameController">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="32" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="44">    
+  <association id="33">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="34" name="actionController">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="35" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="36">    
     <bendpoint x="1521" y="1476"/>    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="9"/>  
   </dependency>  
+  <dependency id="37">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <association id="38">    
+    <bendpoint x="1321" y="1296"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="39" name="gameView">        
+        <position height="18" width="60" x="1183" y="1143"/>      
+      </attribute>      
+      <multiplicity id="40" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1175" y="1169"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="41">    
+    <bendpoint x="1207" y="526"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="42">    
+    <bendpoint x="745" y="1473"/>    
+    <bendpoint x="1009" y="1648"/>    
+    <bendpoint x="2458" y="1646"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="43">    
+    <bendpoint x="2067" y="707"/>    
+    <bendpoint x="2067" y="1036"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="44">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
   <association id="45">    
-    <end type="SOURCE" refId="6" navigable="false">      
+    <bendpoint x="1063" y="344"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="46" name="gameController">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
@@ -258,160 +259,159 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="48">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="49" name="drawCardsController">        
+    <bendpoint x="2148" y="897"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="49" name="gameModel">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="50" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <dependency id="51">    
-    <bendpoint x="2061" y="709"/>    
-    <bendpoint x="2061" y="783"/>    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="8"/>  
+    <bendpoint x="1013" y="1620"/>    
+    <bendpoint x="2414" y="1622"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
   </dependency>  
-  <dependency id="52">    
-    <bendpoint x="2067" y="707"/>    
-    <bendpoint x="2067" y="1036"/>    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="7"/>  
-  </dependency>  
-  <association id="53">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="54" name="specialCardController">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="55" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="56">    
+  <association id="52">    
     <bendpoint x="1258" y="716"/>    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="57" name="specialCardController">        
+      <attribute id="53" name="specialCardController">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="58" minimum="0" maximum="1">        
+      <multiplicity id="54" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="59">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <association id="60">    
+  <association id="55">    
+    <bendpoint x="1173" y="397"/>    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="61" name="gameController">        
+      <attribute id="56" name="gameView">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="62" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="63">    
-    <bendpoint x="1212" y="637"/>    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="64" name="gameView">        
-        <position height="18" width="60" x="1186" y="684"/>      
-      </attribute>      
-      <multiplicity id="65" minimum="0" maximum="1">        
+      <multiplicity id="57" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="66">    
-    <bendpoint x="2277" y="1234"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="67" name="gameModel">        
+  <dependency id="58">    
+    <bendpoint x="1903" y="506"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="59">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="60" name="drawCardsController">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="68" minimum="0" maximum="1">        
+      <multiplicity id="61" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="62">    
+    <bendpoint x="2158" y="706"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="63" name="gameModel">        
+        <position height="18" width="62" x="2252" y="770"/>      
+      </attribute>      
+      <multiplicity id="64" minimum="0" maximum="1">        
+        <position height="16" width="23" x="2306" y="792"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="69">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="70" name="gameView">        
-        <position height="0" width="0" x="0" y="0"/>      
+  <dependency id="65">    
+    <bendpoint x="1766" y="1291"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <association id="66">    
+    <bendpoint x="1380" y="1117"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="67" name="gameView">        
+        <position height="18" width="60" x="1181" y="1034"/>      
       </attribute>      
-      <multiplicity id="71" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="68" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1179" y="1060"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="72">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="73" name="setupController">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="74" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="75">    
-    <bendpoint x="1207" y="526"/>    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="10"/>  
-  </dependency>  
-  <dependency id="76">    
-    <bendpoint x="745" y="1473"/>    
-    <bendpoint x="1009" y="1648"/>    
-    <bendpoint x="2458" y="1646"/>    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <association id="77">    
+  <association id="69">    
     <bendpoint x="2105" y="1073"/>    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="78" name="gameModel">        
+      <attribute id="70" name="gameModel">        
         <position height="18" width="62" x="2268" y="968"/>      
       </attribute>      
-      <multiplicity id="79" minimum="0" maximum="1">        
+      <multiplicity id="71" minimum="0" maximum="1">        
         <position height="16" width="23" x="2313" y="992"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="80">    
-    <bendpoint x="1489" y="381"/>    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="10"/>  
-  </dependency>  
-  <association id="81">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="82" name="gameModel">        
+  <association id="72">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="73" name="gameController">        
         <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="74" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="75">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="76" name="specialCardController">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="77" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="78">    
+    <bendpoint x="1394" y="895"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="79" name="gameView">        
+        <position height="18" width="60" x="1180" y="919"/>      
+      </attribute>      
+      <multiplicity id="80" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="81">    
+    <bendpoint x="1212" y="637"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="82" name="gameView">        
+        <position height="18" width="60" x="1186" y="684"/>      
       </attribute>      
       <multiplicity id="83" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

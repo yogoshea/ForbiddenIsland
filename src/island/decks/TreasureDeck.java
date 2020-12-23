@@ -20,7 +20,7 @@ public class TreasureDeck extends Deck<Card<?>> {
 	/**
 	 * Private constructor for TreasureDeck singleton.
 	 */
-	private TreasureDeck() {
+	private TreasureDeck(DiscardPile<Card<?>> treasureDiscardPile) {
 		
 		// populate deck with necessary cards
 		final int cardsPerTreasure = 5;
@@ -40,26 +40,19 @@ public class TreasureDeck extends Deck<Card<?>> {
 
 		for (int i = 0; i < waterRiseCardCount; i++)
 			this.addCard(new SpecialCard(SpecialCardAbility.WATER_RISE));
+		
+		super.setCorrespondingDiscardPile(treasureDiscardPile);
 	}
 		
 	/**
 	 * Getter method for singleton instance.
 	 * @return single instance of TreasureDeck.
 	 */
-	public static TreasureDeck getInstance() {
+	public static TreasureDeck getInstance(DiscardPile<Card<?>> treasureDiscardPile) {
 		if (treasureDeck == null) {
-			treasureDeck = new TreasureDeck();
+			treasureDeck = new TreasureDeck(treasureDiscardPile);
 		}
 		return treasureDeck;
-	}
-
-	@Override
-	public void refill() { //TODO: if we made discard piles a parameter of deck then we could use the same refill method for Treasure and Flood decks (polymorphism)
-		for(Card<?> c : TreasureDiscardPile.getInstance().getAllCards()) {
-			treasureDeck.addCard(c);
-		}
-		TreasureDiscardPile.getInstance().removeAllCards();
-		this.shuffle(); //TODO: technically should be shuffling discard pile then 'flipping over'??
 	}
 
 	// Singleton reset for JUnit testing

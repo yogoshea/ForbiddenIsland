@@ -6,7 +6,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -14,15 +16,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import island.cards.Card;
 import island.cards.FloodCard;
+import island.cards.SpecialCardAbility;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.WaterMeter;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
+import island.decks.TreasureDeck;
 import island.game.GameController;
 import island.game.GameModel;
 import island.game.GameView;
+import island.players.GamePlayers;
+import island.players.Player;
 
 public class GameSetupTest {
 	
@@ -122,17 +129,56 @@ public class GameSetupTest {
 	@Test
 	public void test_PlayerCreation() {
 		
-		// Test acceptable number of players
-		// no duplicates
-		// pawns created in correct locations
+		//TODO: Test acceptable number of players
+				
+		List<Player> playersList = gameModel.getGamePlayers().getPlayersList();
+		Set<Player> playersSet = new HashSet<Player>(playersList);
+		
+		// Test for no player duplicates
+		assertTrue("No player duplicates", playersList.size() == playersSet.size());
+		
+		// Test pawns are created in correct locations
+		for(Player p : playersList) {
+			assertTrue("Pawn is on correct starting tile", p.getPawn().getTile().equals(p.getStartingTile()));
+		}
+		
 	}
 	
 	@Test
 	public void test_InitialTreasureCardHandout() {
 		
-		// Test sizes of Treasure deck after handout
-		// Test remaining contents of deck
+		//TODO: Test remaining contents of deck
+		
+		List<Player> playersList = gameModel.getGamePlayers().getPlayersList();
+		TreasureDeck treasureDeck = gameModel.getTreasureDeck();
+		final int expectedDrawnCards = 2;
+		final int expectedCardsInTreasureDeck = 28 - 2*playersList.size();		
+		
+		// test amount of cards in each players hand
+		for(Player p : playersList) {
+			assertEquals("Cards in players hand", expectedDrawnCards, p.getCards().size());
+		}
+		
+		//test no player has received a Waters Rise card
+		for(Player p : playersList) {
+			for(Card<?> c : p.getCards()) {
+				assertFalse("Card is not a water rise card", c.getUtility().equals(SpecialCardAbility.WATER_RISE));
+			}
+		}
+		
+		// Test size of Treasure deck after handout
+		assertEquals("Treasure deck size", expectedCardsInTreasureDeck, treasureDeck.getAllCards().size());
+		
 		// Test cards held by players do not appear in deck
+		for(Player p : playersList) {
+			for(Card<?> playerCard : p.getCards()) {
+				for(Card<?> deckCard : treasureDeck.getAllCards()) {
+					assertFalse("Player does not have the smae card as one in deck", playerCard == deckCard); //TODO: does this make sense?
+				}
+			}
+		}
+		
+		
 	}
 	
 	@Test

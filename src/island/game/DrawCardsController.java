@@ -26,7 +26,6 @@ public class DrawCardsController {
 	 * @param Reference to GameView.
 	 */
 	private DrawCardsController(GameModel gameModel, GameView gameView) {
-		//TODO: Do we need to be passing in gameModel when constructing? Can just use getInstance() for everything (as they are all singletons)
 		this.gameModel = gameModel;
 		this.gameView = gameView;
 	}
@@ -66,17 +65,19 @@ public class DrawCardsController {
 				
 				//Increment level
 				gameModel.getWaterMeter().incrementLevel();
-				drawnCard = null;// TODO: Add to the Treasure Discard Pile?
-				//gameModel.getTreasureDiscardPile().addCard(drawnCard); 
+				gameModel.getTreasureDiscardPile().addCard(drawnCard);
+				drawnCard = null;
+				
 				//Refill flood deck
 				gameModel.getFloodDeck().refill();//TODO: most deck stuff is going on in background for users - make more visible in view?
 				gameView.showWaterRise( gameModel.getWaterMeter().getWaterLevel() );
-				
+			
+			//If the drawn card is a treasure card, offer chance to give it to another player
 			} else if(drawnCard instanceof TreasureCard) {
 				
 				boolean keepCard = gameView.pickKeepOrGive();
 				
-				//If player doesn't wish to keep card
+				//If player wishes to give away card
 				if(!keepCard) { //TODO: Make use of giveTreasurecard() in actionController?
 					
 					List<Player> availablePlayers = player.getCardReceivablePlayers(gameModel.getGamePlayers());
@@ -84,17 +85,17 @@ public class DrawCardsController {
 					if(availablePlayers.isEmpty()) {
 						gameView.showNoAvailablePlayers();
 					} else {
-						//If available players then give card and return
+						//If players available, prompt to pick one, then give card
 						Player reciever = gameView.pickPlayerToRecieveCard(availablePlayers);
 						addCardToHand(reciever, drawnCard);
-						//TODO:print successful transfer
+						gameView.showCardGiven(drawnCard, player, reciever);
 						drawnCard = null;
 					}	
 				}
 				
 			} 
 			
-			//If card has not been used yet then add to hand
+			//If card has not been used yet, add to hand
 			if(drawnCard != null) {
 				addCardToHand(player, drawnCard);
 			}
@@ -121,16 +122,16 @@ public class DrawCardsController {
 		// Iterate over appropriate card count
 		for(int i = 0; i < cardCount; i++) {
 			
-			// Draw a card form flood deck
+			// Draw a card from flood deck
 			card = gameModel.getFloodDeck().drawCard();
 			boardTile = gameModel.getIslandBoard().getTile(card.getUtility());
 			
-			// Perform action on appropriate tile
+			// Perform appropriate action on tile
 			if (boardTile.isSafe()) {
-				gameView.showTileFlooded(boardTile);
 				boardTile.setToFlooded();
+				gameView.showTileFlooded(boardTile);
 			} else if (boardTile.isFlooded()) {
-				gameView.showTileSunk(boardTile);
+				gameView.showTileSunk(boardTile); //Print first so player can see that their tile has sunk
 				boardTile.setToSunk();
 			}
 			
@@ -148,7 +149,7 @@ public class DrawCardsController {
 	public void addCardToHand(Player player, Card<?> card) {
 		player.addCard(card);
 		
-		// If more than 5 in hand, choose cards to discard
+		// If more than 5 cards in hand, choose cards to discard
 		while( player.getCards().size() > maxCardsAllowedPerPlayer ) {
 			chooseCardToDiscard(player);
 		}
