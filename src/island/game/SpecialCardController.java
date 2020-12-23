@@ -48,15 +48,6 @@ public class SpecialCardController {
 	}
 	
 	//TODO: Some similarities between heliRequest and Sandbag request -> can definitely streamline/reduce duplicated code
-//	public void specialCardRequest(Card) {
-//		player = gameView.getPlayerWHoRequested;
-//		if player.has(Card) {
-//			card.play()
-//			OR
-//			then pick between heliRequest() and sandRequest()
-//		}
-//		returnToBefore();
-//	}
 	
 	/**
 	 * Performs actions enabled by Helicopter Lift Card usage

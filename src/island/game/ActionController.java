@@ -21,6 +21,8 @@ public class ActionController { //Name PlayerActionController for clarity?
 	
 	private GameView gameView;
 	private GameModel gameModel;
+	public static final int actionsPerTurn = 3;
+	public static final int cardsRequiredForCapture = 4;
 	
 	/**
 	 * Constructor for ActionController singleton, receives view and model instances.
@@ -55,7 +57,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 //		gameView.showPlayerTurn(p); // TODO: make sure to print this
 		Action actionChoice;
 		boolean actionSuccessfullyTaken = false;
-		int remainingTurns = 3;
+		int remainingTurns = actionsPerTurn;
 		
 		do {
 			
@@ -172,7 +174,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		playersOnSameTile = p.getCardReceivablePlayers(gameModel.getGamePlayers());
 		
 		if(playersOnSameTile.isEmpty()) {
-			gameView.showNoPlayersOnSameTile();
+			gameView.showNoAvailablePlayers();
 			return false;
 		}
 		
@@ -209,7 +211,6 @@ public class ActionController { //Name PlayerActionController for clarity?
 	 */
 	private boolean captureTreasure(Player p) {
 		
-		final int numCardsRequired = 4;
 		Treasure treasure = p.getPawn().getTile().getAssociatedTreasure();
 		
 		// If true - Collect all cards which can be used to capture treasure
@@ -231,7 +232,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 					cardsFound++;
 				}
 				
-				if(cardsFound == numCardsRequired) {
+				if(cardsFound == cardsRequiredForCapture) {
 					
 					// Discard the 4 treasure cards and capture treasure
 					gameModel.getTreasureDiscardPile().getAllCards().addAll(tradeCards);

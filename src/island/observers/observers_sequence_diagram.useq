@@ -125,9 +125,9 @@
       </interaction-operand>      
       <combined-fragment id="55" interaction-operator="OPT">        
         <interaction-operand id="56" constraint="If player can&apos;t move to safety">          
+          <fragment refId="39"/>          
           <fragment refId="46"/>          
-          <fragment refId="37"/>          
-          <fragment refId="39"/>        
+          <fragment refId="37"/>        
         </interaction-operand>      
       </combined-fragment>    
     </combined-fragment>  
@@ -138,47 +138,42 @@
     </interaction-operand>    
     <combined-fragment id="59" interaction-operator="ALT">      
       <interaction-operand id="60" constraint="If tile is FoolsLanding">        
-        <fragment refId="11"/>        
         <fragment refId="42"/>        
-        <fragment refId="26"/>      
+        <fragment refId="26"/>        
+        <fragment refId="11"/>      
       </interaction-operand>      
       <interaction-operand id="61" constraint="If tile has an associated treasure">        
         <fragment refId="62"/>        
-        <fragment refId="29"/>        
-        <fragment refId="13"/>      
+        <fragment refId="13"/>        
+        <fragment refId="29"/>      
       </interaction-operand>      
       <combined-fragment id="62" interaction-operator="OPT">        
-        <interaction-operand id="63" constraint="associatedTreasure != null">          
+        <interaction-operand id="63" constraint="If associated treasure has not yet been captured">          
           <fragment refId="64"/>        
         </interaction-operand>        
-        <combined-fragment id="64" interaction-operator="OPT">          
-          <interaction-operand id="65" constraint="If treasure has not been captured">            
+        <combined-fragment id="64" interaction-operator="LOOP">          
+          <interaction-operand id="65" constraint="for each island tile">            
             <fragment refId="66"/>          
           </interaction-operand>          
-          <combined-fragment id="66" interaction-operator="LOOP">            
-            <interaction-operand id="67" constraint="for each island tile">              
+          <combined-fragment id="66" interaction-operator="OPT">            
+            <interaction-operand id="67" 
+              constraint="if other tile has the same associated treasure as tile that was sunk">              
               <fragment refId="68"/>            
             </interaction-operand>            
             <combined-fragment id="68" interaction-operator="OPT">              
-              <interaction-operand id="69" 
-                constraint="if other tile has the same associated treasure as tile that was sunk">                
-                <fragment refId="70"/>              
-              </interaction-operand>              
-              <combined-fragment id="70" interaction-operator="OPT">                
-                <interaction-operand id="71" constraint="If other tile is also sunk">                  
-                  <fragment refId="31"/>                  
-                  <fragment refId="44"/>                  
-                  <fragment refId="33"/>                
-                </interaction-operand>              
-              </combined-fragment>            
+              <interaction-operand id="69" constraint="If other tile is also sunk">                
+                <fragment refId="44"/>                
+                <fragment refId="31"/>                
+                <fragment refId="33"/>              
+              </interaction-operand>            
             </combined-fragment>          
           </combined-fragment>        
         </combined-fragment>      
       </combined-fragment>    
     </combined-fragment>  
   </combined-fragment>  
-  <combined-fragment id="72" interaction-operator="OPT">    
-    <interaction-operand id="73" constraint="If water level &gt; 5">      
+  <combined-fragment id="70" interaction-operator="OPT">    
+    <interaction-operand id="71" constraint="If water level &gt; 5">      
       <fragment refId="48"/>      
       <fragment refId="23"/>    
     </interaction-operand>  

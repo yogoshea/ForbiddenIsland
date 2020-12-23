@@ -55,29 +55,29 @@ public class TreasureTilesObserver implements Observer {
 		Treasure associatedTreasure = updatedTile.getAssociatedTreasure(); // TODO: check for null Treasure or change to NO_TREASURE or try catch exception maybe?
 		
 		// Check if IslandTile has an associated Treasure
-		if(associatedTreasure != null) { //TODO: can remove this if check. Also remove from sequence diagram (and fix getAssociatedTreasure in diagram)
+		//if(associatedTreasure != null) { //TODO: can remove this if check. Also remove from sequence diagram (and fix getAssociatedTreasure in diagram)
 			
-			// Check if associated Treasure has already been captured
-			if (! players.getCapturedTreasures().contains(associatedTreasure)) {
+		// Check if associated Treasure has already been captured
+		if (! players.getCapturedTreasures().contains(associatedTreasure)) {
+			
+			// Iterate of IslandTiles with Treasure on IslandBoard
+			for (IslandTile otherTreasureTile : islandBoard.getTreasureTiles()) {
 				
-				// Iterate of IslandTiles with Treasure on IslandBoard
-				for (IslandTile otherTreasureTile : islandBoard.getTreasureTiles()) {
+				// Check for IslandTile that holds the same Treasure as the newly sunk IslandTile
+				if (otherTreasureTile.getAssociatedTreasure().equals(associatedTreasure)) {
 					
-					// Check for IslandTile that holds the same Treasure as the newly sunk IslandTile
-					if (otherTreasureTile.getAssociatedTreasure().equals(associatedTreasure)) {
+					// Check if this IslandTile has already sunk
+					if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
 						
-						// Check if this IslandTile has already sunk
-						if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
-							
-							gameView.showTreasureSunk(otherTreasureTile, updatedTile);
-							// Invoke GameController method to end the game
-							gameController.endGame(GameEndings.TREASURE_SUNK); //TODO: improve use of gameView and/or GameEndings
-						}
+						gameView.showTreasureSunk(otherTreasureTile, updatedTile);
+						// Invoke GameController method to end the game
+						gameController.endGame(GameEndings.TREASURE_SUNK); //TODO: improve use of gameView and/or GameEndings
 					}
 				}
 			}
-			
 		}
+			
+
 	}
 	
 	// Singleton reset for JUnit testing

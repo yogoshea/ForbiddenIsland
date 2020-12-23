@@ -29,6 +29,8 @@ public class SetupController {
 	
 	private GameModel gameModel;
 	private GameView gameView;
+	public static final int intitialNumFloodCards = 6;
+	public static final int initialNumTreasureCards = 2;
 	
 	/**
 	 * Constructor for SetupController singleton.
@@ -78,7 +80,7 @@ public class SetupController {
 		FloodCard newFloodCard;
 
 		// Iterate over six new Flood Cards
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < intitialNumFloodCards; i++) {
 			
 			// Draw FloodCard from deck
 			newFloodCard = floodDeck.drawCard();
@@ -155,7 +157,6 @@ public class SetupController {
 	private void handOutInitialTreasureCards() {
 		
 		int cardsDrawnCount;
-		final int numberOfCardsPerPlayer = 2;
 		Card<?> drawnCard;
 		
 		// Get component instances from model
@@ -175,7 +176,7 @@ public class SetupController {
 					cardsDrawnCount++;
 					p.addCard(drawnCard);
 				}
-			} while (cardsDrawnCount < numberOfCardsPerPlayer);
+			} while (cardsDrawnCount < initialNumTreasureCards);
 		}
 	}
 	

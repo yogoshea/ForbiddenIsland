@@ -1,5 +1,6 @@
 package island.players;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import island.components.IslandTile;
@@ -25,7 +26,7 @@ public class Messenger extends Player {
 	public List<Player> getCardReceivablePlayers(GamePlayers gamePlayers) {
 		
 		// Messenger can give cards to players without having to be on the same tile
-		List<Player> recievablePlayers = gamePlayers.getPlayersList();
+		List<Player> recievablePlayers = new ArrayList<Player>(gamePlayers.getPlayersList());
 		recievablePlayers.remove(this);
 		return recievablePlayers;
 	}

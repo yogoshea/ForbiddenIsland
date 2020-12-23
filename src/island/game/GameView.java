@@ -24,6 +24,10 @@ public class GameView {
 	private Scanner userInput;
 	private GameController gameController;
 	private SpecialCardController specialCardController;
+	public static final int MIN_PLAYERS = 2;
+	public static final int MAX_PLAYERS = 4;//TODO: put these in controller?
+	public static final String HELI = "HELI";
+	public static final String SAND = "SAND";
 	
 	/**
 	 * Private constructor for GameView singleton.
@@ -82,7 +86,7 @@ public class GameView {
 	/**
 	 * Displays message telling user there are no other players on their tile
 	 */
-	public void showNoPlayersOnSameTile() {
+	public void showNoAvailablePlayers() {
 		System.out.println("No other players on your tile");
 	}
 	
@@ -205,7 +209,7 @@ public class GameView {
 		String prompt = "How many players are there? (2-4 players allowed)";
 		
 		System.out.println(prompt);
-		int playerCount = scanValidInt(prompt, minPlayers, maxPlayers);
+		int playerCount = scanValidInt(prompt, MIN_PLAYERS, MAX_PLAYERS);
 		
 		List<String> playerNames = new ArrayList<String>();
 		
@@ -421,31 +425,16 @@ public class GameView {
 		
 		String input = userInput.nextLine();
 		
-		if(input.equals("HELI")) {
+		if(input.equals(HELI)) {
 			specialCardController.heliRequest();
 			return true;
 		}
-		else if(input.equals("SAND")) {
+		else if(input.equals(SAND)) {
 			specialCardController.sandbagRequest();
 			return true;
 		}
 		return false;
 
-//		String input = userInput.nextLine();
-//		
-//		while(input.equals("HELI") || input.equals("SAND")) {
-//			if(input.equals("HELI")) {
-//				specialCardController.heliRequest();
-//			}
-//			if(input.equals("SAND")) {
-//				specialCardController.sandbagRequest();
-//			}
-//
-//			System.out.println("\n"+initialPrompt);
-//			input = userInput.nextLine();
-//		}
-//		 
-//		return input;
 	}
 	
 	
@@ -479,7 +468,7 @@ public class GameView {
 	}
 	
 	public void showPlayerSunk(Player player) {
-		System.out.println(player.toString()+" could not reach any safes tiles and has sunk!!!");
+		System.out.println(player.toString()+" could not reach any safes tiles!!!");
 	}
 
 	/**
