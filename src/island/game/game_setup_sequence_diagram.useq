@@ -205,10 +205,10 @@
   </object>  
   <combined-fragment id="84" interaction-operator="LOOP">    
     <interaction-operand id="85" constraint="for six iterations">      
-      <fragment refId="44"/>      
-      <fragment refId="38"/>      
       <fragment refId="40"/>      
-      <fragment refId="42"/>    
+      <fragment refId="38"/>      
+      <fragment refId="42"/>      
+      <fragment refId="44"/>    
     </interaction-operand>  
   </combined-fragment>  
   <combined-fragment id="86" interaction-operator="LOOP">    
@@ -243,8 +243,8 @@
     </interaction-operand>    
     <combined-fragment id="97" interaction-operator="LOOP">      
       <interaction-operand id="98" constraint="until two cards given to player">        
-        <fragment refId="99"/>        
-        <fragment refId="60"/>      
+        <fragment refId="60"/>        
+        <fragment refId="99"/>      
       </interaction-operand>      
       <combined-fragment id="99" interaction-operator="ALT">        
         <interaction-operand id="100" constraint="Water Rise card drawn">          
@@ -306,7 +306,7 @@
   </message>  
   <message id="20" 
     operation="getInstance(island.game.GameController,island.players.GamePlayers,island.game.GameView):island.observers.PlayerSunkObserver" 
-    asynchronous="false">
+    asynchronous="false">    
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="21"/>  
   </message>  

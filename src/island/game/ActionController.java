@@ -63,7 +63,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			gameView.showEnterToContinue();
 			gameView.updateView(gameModel, p); // display updated full game view after every action
 			
-			actionChoice = gameView.getPlayerActionChoice(remainingTurns); //Get the players choice of action
+			actionChoice = gameView.pickAction(remainingTurns); //Get the players choice of action
 			
 			switch(actionChoice) {
 			

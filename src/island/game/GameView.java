@@ -27,6 +27,7 @@ public class GameView {
 	private SpecialCardController specialCardController;
 	public static final int MIN_PLAYERS = 2;
 	public static final int MAX_PLAYERS = 4;//TODO: put these in controller?
+	public static final int MAX_NAME_LENGTH = 8;
 	public static final String HELI = "HELI";
 	public static final String SAND = "SAND";
 	
@@ -48,7 +49,276 @@ public class GameView {
 		}
 		return gameView;
 	}
-
+	
+	
+	/**
+	 * Called from within model to provide latest game status to display
+	 */
+	public void updateView(GameModel gameModel, Player p) {
+		//TODO: display num cards in flood deck and treasure deck?
+		GameGraphics.refreshDisplay(gameModel);
+		//Show who's turn it is
+		showPlayerTurn(p);		
+	}
+	
+	/**
+	 * Method to take in any list of items and get item choice from player. Via this method, all input is checked for special card requests 
+	 * @param <E> type of items player will be choosing from
+	 * @param items list for the player to choose from
+	 * @param prompt to prompt player with
+	 * @return chosen item
+	 */
+	public <E> E pickFromList(List<E> items, String prompt){
+		int index;
+		// Prompt user to ask which item they would like to pick
+		System.out.println("\n" + prompt);
+		
+		// Create string with each item in list as an option
+		int i = 1;
+		String options = "\n"; //TODO: remove?
+		for(E item : items) {
+			if(i==1) {
+				options += item.toString()+" ["+Integer.toString(i)+"]";
+			} else {
+				if(i % 5 == 1)
+					options += ",\n" + item.toString()+" ["+Integer.toString(i)+"]"; // TODO: have toString implemented in all classes??
+				else
+					options += ", " + item.toString()+" ["+Integer.toString(i)+"]";
+			}
+			i++;
+		}
+		// Print item options to user
+		System.out.println(options);
+		// Scan in users choice
+		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
+		//return chosen item
+		return items.get(index);
+	}
+	
+	/**
+	 * Method to ensure user input is valid when an int must be input
+	 * @param prompt is the intitial prompt given to the player
+	 * @param min is the minimum valid number that can be input
+	 * @param max is the maximum valid number that can be input
+	 * @return the valid user input
+	 */
+	public int scanValidInt(String prompt, int min, int max) {//TODO:print prompt in here?
+		int choice;
+		
+		// If input includes an int
+		if(userInput.hasNextInt()) {
+			choice = userInput.nextInt();
+			userInput.nextLine();//TODO: make tidier?
+			if(choice >= min && choice <= max) {
+				//If valid input then return input
+				return choice;
+			}
+			System.out.println("Please input a valid number\n"); //TODO: remove code duplication of prints
+		
+		// If input is not an int and if a special card request has not been made
+		} else if (!checkSpecialCardRequest()) {
+			System.out.println("Please input a valid number\n");
+		} 
+		// If invalid input, reprint prompt and try again by calling function recursively
+		System.out.println(prompt);
+		return scanValidInt(prompt, min, max);
+	}
+	
+	/**
+	 * Method to ensure input player names are valid
+	 * @param prompt is the prompt asking what the players names are
+	 * @param playerNames, the names of other players to ensure same name is not chosen twice
+	 * @return chosen name
+	 */
+	public String scanValidName(String prompt, List<String> playerNames) {
+		
+		String name;
+		System.out.println(prompt);
+		
+		//Loop until valid name found
+		while(true) {
+			name = userInput.nextLine();
+			//If name too long
+			if(name.length() > MAX_NAME_LENGTH) {
+				System.out.println("The max character length is 8");
+			//If name already taken
+			} else if(playerNames.contains(name)) {
+				System.out.println("This name has already been taken");
+			} else {
+				//Return valid name
+				return name;
+			}
+			//If name not valid then reprint prompt and try again
+			System.out.println("\n"+prompt);
+		}
+	}
+	
+	/**
+	 * Method to scan in [Enter] inputs when they are requested.
+	 * @param prompt, prompting user to press [Enter] to continue
+	 */
+	public void scanEnter(String prompt) {
+		System.out.println(prompt);
+		//If special card request is made then it is executed and scanEnter() is called again to return user to original position
+		if(checkSpecialCardRequest()) {
+			scanEnter(prompt);
+		}
+	}
+	
+	/**
+	 * When called, mehtod checks user input for a HELI or SAND special card request
+	 * @return Boolean of whether or not a special request had been made
+	 */
+	public boolean checkSpecialCardRequest() {
+		
+		String input = userInput.nextLine();
+		
+		//If special request made then attempt to play special card and return true
+		if(input.equals(HELI) || input.equals(SAND)) {
+			specialCardController.specialCardRequest(input);
+			return true;
+		} else{return false;}
+	}
+	
+	/**
+	 * Method to get the names of players who will be playing the game
+	 * @return a list of player names which will be added to the game
+	 */
+	public List<String> getPlayers() {
+		
+		//Prompt user
+		String prompt = "How many players are there? (2-4 players allowed)";
+		System.out.println(prompt);
+		
+		//Get amount of players to play
+		int playerCount = scanValidInt(prompt, MIN_PLAYERS, MAX_PLAYERS); //Ensures a valid number is chosen
+		
+		List<String> playerNames = new ArrayList<String>();
+		
+		// iterate over number of players to get each players name
+		for (int i = 1; i <= playerCount; i++) {
+			playerNames.add(scanValidName("Please enter the name of Player " + i + ": (Max 8 characters)", playerNames)); // checks for valid name input
+		}
+		return playerNames;
+	}
+	
+	
+//******************************************************************************************************
+//The following are methods called by Controllers which call in turn pickFromList() to get users choice of a particular type of objects.
+//This ensures the gameView can decide how exactly to prompt the user, without a controller specifying a string.
+//This is to match the MVC pattern and allow for different Views to be implemented with the same Controllers and Model.
+//******************************************************************************************************
+	
+	/**
+	 * Retrieve user choice of game's initial water level.
+	 * @return integer value representing selected water level.
+	 */
+	public int pickStartingWaterLevel() {
+		String prompt = "What water level would you like to start on?";
+		List<String> startingDifficulties = Arrays.asList("Novice", "Normal", "Elite", "Legendary");
+		return startingDifficulties.indexOf(pickFromList(startingDifficulties, prompt)) + 1;
+	}		
+	
+	/**
+	 * Called from within model to get player action choice
+	 */
+	public Action pickAction(int availableActions) {
+		String prompt = "Select one of the following actions: ("+availableActions+" remaining)";
+		return pickFromList( Arrays.asList(Action.values()) , prompt);
+	}
+	
+	//TODO: should we comment all these or just have generic comment at top?
+	public IslandTile pickTileDestination(List<IslandTile> tiles) {
+		String prompt = "Which tile do you wish to move to?";
+		return pickFromList(tiles, prompt);
+	}
+	
+	public IslandTile pickSwimmableTile(Player player, List<IslandTile> tiles) {
+		String prompt = player.toString()+", YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
+		return pickFromList(tiles, prompt);
+	}
+	
+	public IslandTile pickShoreUpTile(List<IslandTile> tiles) {
+		String prompt = "Which tile do you wish to shore up?";
+		return pickFromList(tiles, prompt);
+	}
+	
+	public Boolean shoreUpAnother() {
+		String prompt = "As an Engineer you may shore-up 2 tiles. Shore-up another?";
+		List<String> choices = Arrays.asList("Yes", "No"); //Create choices
+		String choice = pickFromList(choices, prompt);
+		return choice.equals("Yes");
+	}
+	
+	public Player pickPlayerToRecieveCard(List<Player> players) {
+		String prompt = "Which player do you wish to give a card to?";
+		return pickFromList(players, prompt);
+	}
+	
+	public Card<?> pickCardToGive(List<Card<?>> treasureCards) {
+		String prompt = "Which card do you wish to give?";
+		return pickFromList(treasureCards, prompt);
+	}
+	
+	public Card<?> pickCardToDiscard(Player player) {
+		List<Card<?>> cards = player.getCards();
+		String prompt = player.getName() + ", you have too many cards in your hand, which do you wish to discard?";
+		Card<?> card = pickFromList(cards, prompt);
+		System.out.println("You have discarded: " + card.getName()); //TODO: create show method for this
+		return card;
+	}
+	
+	public Player pickHeliPlayer(List<Player> players) {
+		String prompt = "Which player requested a Helicopter Lift?";
+		return pickFromList(players, prompt);
+	}
+	
+	public IslandTile pickHeliDestination(List<IslandTile> availableTiles) {
+		String prompt = "Which tile do you wish to helicopter to?";
+		return pickFromList(availableTiles, prompt);
+	}
+	
+	public Player pickSandbagPlayer(List<Player> players) {
+		String prompt = "Which player wants to play a Sandbag card?";
+		return pickFromList(players, prompt);
+	}
+	
+	public Player pickRequestPlayer(List<Player> players, SpecialCardAbility ability) {
+		String prompt = "Which player wants to play a " +ability.toString()+ " card?";
+		return pickFromList(players, prompt);
+	}
+	
+	public List<Player> pickHeliPlayers(List<Player> players, IslandTile destination) {
+		
+		String prompt;
+		List<Player> heliPlayers = new ArrayList<Player>();
+		
+		//Check each player to see if they wish to take the lift
+		for(Player player : players) {
+			prompt = "Does " + player.getName() + " wish to move to " + destination.getName() + "? \n";
+			prompt += "[Y]/[N]";
+			System.out.println(prompt);
+			if(userInput.nextLine().equals("Y")) { //Doesn't use pickFromList as players aren't allowed play a special card at this point
+				heliPlayers.add(player);
+			}
+		}
+		return heliPlayers;
+	}
+	
+	public Boolean pickKeepOrGive() {
+		String prompt = "Do you wish to keep your card or give it to another Player?";
+		List<String> choices = Arrays.asList("Keep", "Give");
+		String choice = pickFromList(choices, prompt);
+		return choice.equals("Keep");
+	}
+	
+	
+//******************************************************************************************************
+//The following are methods called by Controllers which display a message to the user, giving information of game events.
+//This ensures the gameView can decide how exactly to tell the user about the event.
+//This is to match the MVC pattern and allow for different Views to be implemented with the same Controllers and Model.
+//******************************************************************************************************
+		
 	//TODO: New class for these show methods? How to clean up/shorten? Enum: ErrorMessages
 	/**
 	 * Displays welcome view
@@ -115,10 +385,7 @@ public class GameView {
 	 * Tells user which players turn it is
 	 */
 	public void showPlayerTurn(Player p) {
-//		System.out.println();
-		System.out.println("It is the turn of: " + p.getName()); //SJould I be using prompt user function??
-		//TODO: show what stage of turn they are at i.e if they have already completed actions or drawn treasure cards
-		//TODO: integrate with updateView better
+		System.out.println("It is the turn of: " + p.getName());
 	}
 	
 	/**
@@ -147,34 +414,18 @@ public class GameView {
 		System.out.println("The flood deck has been refilled");
 	}
 	
-//	/**
-//	 * Tells user that the player doesn't have a helicopter lift card
-//	 */
-//	public void showNoHeliCard(Player player) {
-//		System.out.println(player.getName() + " does not have a Helicopter Lift card");
-//	}
-//	
-//	/**
-//	 * Tells user that the player doesn't have a helicopter lift card
-//	 */
-//	public void showNoSandbagCard(Player player) {
-//		System.out.println(player.getName() + " does not have a Sandbag card");
-//	}
-	
 	/**
 	 * Tells user that the player doesn't have a helicopter lift card
 	 */
 	public void showNoSpecialCard(Player player, SpecialCardAbility ability) {
 		System.out.println(player.getName() + " does not have a "+ability.toString()+" Sandbag card");
 	}
-	
-	
-	
+		
 	public void showGameWin() {
 		System.out.println("You win");
 	}
 	
-	public void showEnterToContinue() {//TODO: stop having to press enter twice here when HELI played
+	public void showEnterToContinue() {
 		String prompt = "\nTo continue, press [Enter]...";
 		scanEnter(prompt);
 	}
@@ -213,289 +464,6 @@ public class GameView {
 		System.out.println("You have captured "+treasure.getName());
 	}
 	
-	
-	
-	// Request players from user TODO: check for valid user input
-	public List<String> getPlayers() {
-		final int minPlayers = 2;
-		final int maxPlayers = 4;
-		String prompt = "How many players are there? (2-4 players allowed)";
-		
-		System.out.println(prompt);
-		int playerCount = scanValidInt(prompt, MIN_PLAYERS, MAX_PLAYERS);
-		
-		List<String> playerNames = new ArrayList<String>();
-		
-		// iterate over number of players
-		for (int i = 1; i <= playerCount; i++) {
-			playerNames.add(scanValidName("Please enter the name of Player " + i + ": (Max 8 characters)", playerNames)); // TODO: check for valid name input
-			// TODO: check for length less than tileCharWidth
-		}
-		return playerNames;
-	}
-	
-//	/**
-//	 * Asks user question specified by string
-//	 * @param String to print to view
-//	 * @return String entered by user
-//	 */
-//	private String promptUser(String string) {//TODO: shouldn't need this when everything implemented properly
-//		System.out.println(string);
-//		return userInput.nextLine();		
-//	}
-	
-	
-	/**
-	 * Called from within model to provide latest game status to display
-	 */
-	public void updateView(GameModel gameModel, Player p) {
-		//TODO: display num cards in flood deck and treasure deck?
-		// similar to observer to model changes, no
-		//TODO: add time delays between prints? Maybe, yeah. Or just user press return/input any key to continue
-		// TODO: better way to update screen?
-//		System.out.println("\n".repeat(20));
-		GameGraphics.refreshDisplay(gameModel);
-		
-		//Show who's turn it is
-		showPlayerTurn(p);
-//		displayGameDialog(); // TODO: gameView.addToUpcomingDialog
-		
-	}
-	
-	/**
-	 * Retrieve user choice of game's initial water level.
-	 * @return integer value representing selected water level.
-	 */
-	public int pickStartingWaterLevel() {
-		String prompt = "What water level would you like to start on?";
-		List<String> startingDifficulties = Arrays.asList("Novice", "Normal", "Elite", "Legendary");
-		return startingDifficulties.indexOf(pickFromList(startingDifficulties, prompt)) + 1;
-	}		
-	
-	/**
-	 * Called from within model to get player action choice
-	 */
-	public Action getPlayerActionChoice(int availableActions) {
-		
-		String prompt = "Select one of the following actions: ("+availableActions+" remaining)";
-		return pickFromList( Arrays.asList(Action.values()) , prompt);
-		
-	}
-	
-	//OR just go straight to pickFromList() from ActionController???
-	//This way just means you aren't passing a string
-	public IslandTile pickTileDestination(List<IslandTile> tiles) {//TODO:Give chance to change mind?
-		String prompt = "Which tile do you wish to move to?";
-		//TODO:
-		return pickFromList(tiles, prompt);
-	}
-	
-	public IslandTile pickSwimmableTile(Player player, List<IslandTile> tiles) {
-		String prompt = player.toString()+", YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
-		return pickFromList(tiles, prompt);
-	}
-	
-	public IslandTile pickShoreUpTile(List<IslandTile> tiles) {
-		String prompt = "Which tile do you wish to shore up?";
-		return pickFromList(tiles, prompt);
-	}
-	
-	public Boolean shoreUpAnother() {
-		String prompt = "As an Engineer you may shore-up 2 tiles. Shore-up another?";
-		List<String> choices = Arrays.asList("Yes", "No");
-		String choice = pickFromList(choices, prompt); //This allows users to still use HELI or SAND 
-		return choice.equals("Yes");
-	}
-	
-	public Player pickPlayerToRecieveCard(List<Player> players) {
-		String prompt = "Which player do you wish to give a card to?";
-		return pickFromList(players, prompt);
-	}
-	
-	public Card<?> pickCardToGive(List<Card<?>> treasureCards) {
-		String prompt = "Which card do you wish to give?";
-		return pickFromList(treasureCards, prompt);
-	}
-	
-	public Card<?> pickCardToDiscard(Player player) {
-		List<Card<?>> cards = player.getCards();
-		String prompt = player.getName() + ", you have too many cards in your hand, which do you wish to discard?";
-		Card<?> card = pickFromList(cards, prompt); //TODO: allow to play heli or sandcard??
-		System.out.println("You have discarded: " + card.getName());
-		return card;
-	}
-	
-	public Player pickHeliPlayer(List<Player> players) {
-		String prompt = "Which player requested a Helicopter Lift?";
-		return pickFromList(players, prompt);
-	}
-	
-	public IslandTile pickHeliDestination(List<IslandTile> availableTiles) {
-		String prompt = "Which tile do you wish to helicopter to?";
-		return pickFromList(availableTiles, prompt);
-	}
-	
-	public Player pickSandbagPlayer(List<Player> players) {
-		String prompt = "Which player wants to play a Sandbag card?";
-		return pickFromList(players, prompt);
-	}
-	
-	public Player pickRequestPlayer(List<Player> players, SpecialCardAbility ability) {
-		String prompt = "Which player wants to play a " +ability.toString()+ " card?";
-		return pickFromList(players, prompt);
-	}
-	
-	public List<Player> pickHeliPlayers(List<Player> players, IslandTile destination) {
-		
-		String prompt;
-		List<Player> heliPlayers = new ArrayList<Player>();
-		
-		for(Player player : players) {
-			prompt = "Does " + player.getName() + " wish to move to " + destination.getName() + "? \n";
-			prompt += "[Y]/[N]";
-			System.out.println(prompt);
-			if(userInput.nextLine().equals("Y")) {
-				heliPlayers.add(player);
-			}
-		}
-		
-		return heliPlayers;
-	}
-	
-	/**
-	 * 
-	 * @return true if players wishes to keep their treasure card
-	 */
-	public Boolean pickKeepOrGive() {//TODO: just make a Y/N chooser method? (can use with pickHeliPlayers aswell)
-		String prompt = "Do you wish to keep your card or give it to another Player?";
-		List<String> choices = Arrays.asList("Keep", "Give");
-		String choice = pickFromList(choices, prompt); //This allows users to still use HELI or SAND 
-		return choice.equals("Keep");
-	}
-	
-	
-	
-	public <E> E pickFromList(List<E> items, String prompt){
-		//TODO: check list isn't empty? Or ensure no empty list is ever past in?
-		int index;
-		
-		System.out.println("\n" + prompt);
-		
-		int i = 1;
-		String options = "\n"; //TODO: remove?
-//		String options = "";
-		for(E item : items) {
-			if(i==1) {
-				options += item.toString()+" ["+Integer.toString(i)+"]";
-			} else {
-				if(i % 5 == 1)
-					options += ",\n" + item.toString()+" ["+Integer.toString(i)+"]"; // TODO: have toString implemented in all classes??
-				else
-					options += ", " + item.toString()+" ["+Integer.toString(i)+"]"; // TODO: have toString implemented in all classes??
-			}
-			i++;
-		}
-		System.out.println(options); //TODO: print vertically to look better?
-		
-		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
-		
-		return items.get(index);
-	}
-	
-	
-	public int scanValidInt(String prompt, int min, int max) {//TODO:print prompt in here?
-		int choice;
-		while(true) {
-			if(userInput.hasNextInt()) {
-				choice = userInput.nextInt();
-				userInput.nextLine();//TODO: make tidier?
-				if(choice >= min && choice <= max) {
-					return choice;
-				}
-				System.out.println("Please input a valid number\n"); //TODO: remove code duplication of prints
-			} else if (!checkSpecialCardRequest()) {
-				System.out.println("Please input a valid number\n");
-			} 
-			System.out.println(prompt);
-			return scanValidInt(prompt, min, max);
-		}
-	}
-	
-	public String scanValidName(String prompt, List<String> playerNames) {
-		final int maxLength = 8;
-		String name;
-		System.out.println(prompt);
-		//While a valid name has not been found
-		while(true) {
-			name = userInput.nextLine();
-			if(name.length() > maxLength) {
-				System.out.println("The max character length is 8");
-			} else if(playerNames.contains(name)) {
-				System.out.println("This name has already been taken");
-			} else {
-				//Return valid name
-				return name;
-			}
-			System.out.println("\n"+prompt);
-		}
-	}
-	
-	public void scanEnter(String prompt) {
-		System.out.println(prompt);
-		if(checkSpecialCardRequest()) {
-			scanEnter(prompt);
-		}
-	}
-
-
-	public boolean checkSpecialCardRequest() {
-		
-		String input = userInput.nextLine();
-		
-		if(input.equals(HELI) || input.equals(SAND)) {
-			specialCardController.specialCardRequest(input);
-			return true;
-		}
-		return false;
-		
-//		if(input.equals(HELI)) {
-//			specialCardController.heliRequest();
-//			return true;
-//		}
-//		else if(input.equals(SAND)) {
-//			specialCardController.sandbagRequest();
-//			return true;
-//		}
-//		return false;
-
-	}
-	
-	
-	/**
-	 * Sets the views controller
-	 * @param GameController
-	 */
-	public void setControllers(GameController gameController, SpecialCardController specialCardController) {
-		this.gameController = gameController;
-		this.specialCardController = specialCardController;
-	}
-	
-	/**
-	 * Prints question for players
-	 * @param String to show on view
-	 */
-	public void askUser(String string) { //TODO: maybe don't need
-		System.out.println(string);
-	}
-	
-	/**
-	 * Retrieves string input from user
-	 * @return String received from input Scanner
-	 */
-	public String getUserInput() { //TODO: maybe don't need
-		return userInput.nextLine();
-	}
-	
 	public void showTreasureSunk(IslandTile firstTile, IslandTile secondTile) {
 		System.out.println("\n" + firstTile.toString()+" and "+secondTile.toString()+" are both sunk and "+firstTile.getAssociatedTreasure()+" hasn't been captured");
 	}
@@ -508,7 +476,6 @@ public class GameView {
 	 * Displays ending view, with message giving reason for game end
 	 */
 	public void showEnding(GameEndings ending) {
-		//TODO: Make individual show endings for each scenario and call them from observer so can see details of how game ended
 		
 		System.out.println(); // newline
 		switch(ending) {
@@ -537,8 +504,19 @@ public class GameView {
 			System.out.println("Game has ended");
 			break;
 				
-		}
-		
+		}	
+	}
+	
+//***********************************************************************************************************
+//***********************************************************************************************************
+	
+	/**
+	 * Sets the views controller
+	 * @param GameController
+	 */
+	public void setControllers(GameController gameController, SpecialCardController specialCardController) {
+		this.gameController = gameController;
+		this.specialCardController = specialCardController;
 	}
 
 	// Singleton reset for JUnit testing
