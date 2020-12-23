@@ -1,5 +1,6 @@
 package island.players;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import island.components.IslandBoard;
@@ -24,8 +25,17 @@ public class Pilot extends Player {
 
 	@Override
 	public List<IslandTile> getSwimmableTiles(IslandBoard islandBoard) {
+
+		// Retrieve player's IslandTile
+		IslandTile currentTile = this.getPawn().getTile();
+		List<IslandTile> allAvailableTiles = new ArrayList<IslandTile>();
 		
 		// Pilot can move to any available island tile if current tile sinks
-		return islandBoard.getNonSunkTiles();
+		for (IslandTile tile : islandBoard.getNonSunkTiles()) {
+			if (! tile.equals(currentTile)) {
+				allAvailableTiles.add(tile);
+			}
+		}
+		return allAvailableTiles;
 	}
 }

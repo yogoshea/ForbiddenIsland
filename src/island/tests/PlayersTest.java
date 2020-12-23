@@ -2,8 +2,7 @@ package island.tests;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,9 +15,7 @@ import org.junit.Test;
 
 import island.components.IslandBoard;
 import island.components.IslandTile;
-import island.game.GameGraphics;
 import island.game.GameModel;
-import island.game.GameView;
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.Explorer;
@@ -36,15 +33,10 @@ public class PlayersTest {
 	private Player messenger;
 	private Player navigator;
 	private Player pilot;
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
+	private IslandBoard islandBoard;
+	GamePlayers players;
+	List<IslandTile> islandTiles;
+	
 	@Before
 	public void setUp() throws Exception {
 
@@ -55,6 +47,18 @@ public class PlayersTest {
 		messenger = new Messenger("Dave");
 		navigator = new Navigator("Ellen");
 		pilot = new Pilot("Fred");
+		
+		islandBoard = IslandBoard.getInstance();
+		players = GamePlayers.getInstance();
+		islandTiles = islandBoard.getAllTiles();
+		
+		// Add all new players to game
+		players.addPlayer(diver);
+		players.addPlayer(engineer);
+		players.addPlayer(explorer);
+		players.addPlayer(messenger);
+		players.addPlayer(navigator);
+		players.addPlayer(pilot);
 	}
 
 	@After
@@ -65,6 +69,8 @@ public class PlayersTest {
 		messenger = null;
 		navigator = null;
 		pilot = null;
+		players.getPlayersList().clear();
+		GameModel.reset();
 	}
 	
 	@Test
@@ -80,24 +86,8 @@ public class PlayersTest {
 	@Test
 	public void test_swimmableTiles() {
 		
-		IslandBoard islandBoard = IslandBoard.getInstance();
-		GamePlayers players = GamePlayers.getInstance();
-		List<IslandTile> islandTiles = islandBoard.getAllTiles();
-		
-		GameGraphics.refreshDisplay(GameModel.getInstance());
-		
-		// Add all new players to game
-		players.addPlayer(diver);
-		players.addPlayer(engineer);
-		players.addPlayer(explorer);
-		players.addPlayer(messenger);
-		players.addPlayer(navigator);
-		players.addPlayer(pilot);
-		
-		
 		// Place all players on tile first tile; top row on the left
 		IslandTile playersTile = islandTiles.get(0);
-		System.out.println(playersTile);
 		for (Player p : players) {
 			p.getPawn().setTile(playersTile);
 		}
@@ -129,14 +119,13 @@ public class PlayersTest {
 		Collections.sort(explorerExpectedTiles);
 		
 		// Pilot can fly anywhere
-		List<IslandTile> pilotExpectedTiles = islandTiles; // all tiles
-		pilotExpectedTiles.remove(playersTile); // except one they are on
+		List<IslandTile> pilotExpectedTiles = new ArrayList<IslandTile>(); // all tiles
+		for (IslandTile tile : islandTiles) {
+			if (! tile.equals(playersTile)) { // except current tile
+				pilotExpectedTiles.add(tile); 
+			}
+		}
 		Collections.sort(pilotExpectedTiles);
-		
-		System.out.println(islandTiles.get(4).isSafe());
-		System.out.println(islandBoard.calcDistanceBetweenTiles(islandTiles.get(0), islandTiles.get(1)));
-		System.out.println(islandBoard.calcDistanceBetweenTiles(islandTiles.get(0), islandTiles.get(4)));
-		System.out.println(islandBoard.calcDistanceBetweenTiles(islandTiles.get(0), islandTiles.get(2)));
 		
 		assertEquals("Swimmable tiles", diverExpectedTiles, diverTiles);
 		assertEquals("Swimmable tiles", engineerExpectedTiles, engineerTiles);
@@ -144,24 +133,46 @@ public class PlayersTest {
 		assertEquals("Swimmable tiles", messengerExpectedTiles, messengerTiles);
 		assertEquals("Swimmable tiles", navigatorExpectedTiles, navigatorTiles);
 		assertEquals("Swimmable tiles", pilotExpectedTiles, pilotTiles);
-
-		// Set safe tile back to floode
-		// Identify safe tile to move to
-//		IslandTile safeTile = null;
-//		safeTile = islandTiles.get(1);
-//		safeTile.setToSafe();
-//		assertTrue("Island tile safe", safeTile.isSafe());
-		
-		
-		
-		
-		// sink adjacent tiles and check getSwimmableTiles is empty for someplayers
-		// Sink surrounding tiles except for one
-//		for (IslandTile adjTile : islandBoard.getAdjacentTiles(tile)) {
-//			adjTile.setToSunk();
-//		}
-
 	}
 
-		// test specific player traits, that are expected for each
+	@Test
+	public void test_cardReceivablePlayers() {
+		
+		// Place all players on tile first tile; top row on the left
+		IslandTile playersTile = islandTiles.get(0);
+		for (Player p : players) {
+			p.getPawn().setTile(playersTile);
+		}
+		
+		List<Player> diverPlayers = diver.getCardReceivablePlayers(players);
+		List<Player> engineerPlayers = engineer.getCardReceivablePlayers(players);
+		List<Player> explorerPlayers = explorer.getCardReceivablePlayers(players);
+		List<Player> messengerPlayers = messenger.getCardReceivablePlayers(players);
+		List<Player> navigatorPlayers = navigator.getCardReceivablePlayers(players);
+		List<Player> pilotPlayers = pilot.getCardReceivablePlayers(players);
+		
+		// All players should be able to give to each other if on same tile
+		assertTrue("Players that can be given to", players.getPlayersList().containsAll(diverPlayers));
+		assertTrue("Players that can be given to", players.getPlayersList().containsAll(engineerPlayers));
+		assertTrue("Players that can be given to", players.getPlayersList().containsAll(explorerPlayers));
+		assertTrue("Players that can be given to", players.getPlayersList().containsAll(messengerPlayers));
+		assertTrue("Players that can be given to", players.getPlayersList().containsAll(navigatorPlayers));
+		assertTrue("Players that can be given to", players.getPlayersList().containsAll(pilotPlayers));
+		
+		// Put on different tile, check expected
+		diver.getPawn().setTile(islandTiles.get(0));
+		engineer.getPawn().setTile(islandTiles.get(5));
+		explorer.getPawn().setTile(islandTiles.get(6));
+		messenger.getPawn().setTile(islandTiles.get(11));
+		navigator.getPawn().setTile(islandTiles.get(14));
+		pilot.getPawn().setTile(islandTiles.get(23));
+		
+		// Only Messenger can give to players not on tile
+		assertTrue("Players that can be given to", diver.getCardReceivablePlayers(players).isEmpty());
+		assertTrue("Players that can be given to", engineer.getCardReceivablePlayers(players).isEmpty());
+		assertTrue("Players that can be given to", explorer.getCardReceivablePlayers(players).isEmpty());
+		assertTrue("Players that can be given to", players.getPlayersList().containsAll(messenger.getCardReceivablePlayers(players)));
+		assertTrue("Players that can be given to", navigator.getCardReceivablePlayers(players).isEmpty());
+		assertTrue("Players that can be given to", pilot.getCardReceivablePlayers(players).isEmpty());
+	}
 }

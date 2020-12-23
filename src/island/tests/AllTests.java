@@ -6,6 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ CardsTest.class,
+				ComponentsTest.class,
 				ControllersTest.class,
 				DecksTest.class,
 				GameSetupTest.class,

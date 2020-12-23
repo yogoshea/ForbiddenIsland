@@ -7,9 +7,7 @@ import java.io.InputStream;
 import java.security.Permission;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import island.components.IslandBoard;
@@ -39,10 +37,11 @@ public class ObserversTest {
 	private static class GameExitException extends SecurityException {
 		public final int status;
         public GameExitException(int status) {
-            super("Testing ExitException");
+            super("Testing GameExitException");
             this.status = status;
         }
     }
+
 	private static class CheckGameExitSecurityManager extends SecurityManager {
 		@Override
 		public void checkPermission(Permission p) {} 
@@ -55,23 +54,9 @@ public class ObserversTest {
         }
     }
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-//	    String sampleUserInput = "";			// Number of players
-//		InputStream sysInBackup = System.in; // backup
-//	    InputStream in = new ByteArrayInputStream(null);
-//	    System.setIn(in);
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		gameModel = GameModel.getInstance();
-//		gameView =  GameView.getInstance();
-//		gameController = GameController.getInstance(gameModel, gameView);
         System.setSecurityManager(new CheckGameExitSecurityManager());
 	}
 
@@ -123,7 +108,7 @@ public class ObserversTest {
 		
 		// Provide necessary user input for test
 		String sampleUserInput = "1\n"; 
-	    InputStream sysInBackup = System.in; // backup
+	    InputStream backup = System.in; // backup
 	    InputStream in = new ByteArrayInputStream(sampleUserInput.getBytes());
 	    System.setIn(in);
 	    
@@ -161,7 +146,7 @@ public class ObserversTest {
 		player1Tile.setToSunk();
 		
 		assertEquals("Checking player new location", safeTile, player1.getPawn().getTile());
-	    System.setIn(sysInBackup); // Reset system input
+	    System.setIn(backup); // Reset system input
 	}
 
 	@Test

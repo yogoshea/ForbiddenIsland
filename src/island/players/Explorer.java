@@ -38,7 +38,7 @@ public class Explorer extends Player {
 			checkDistance = islandBoard.calcDistanceBetweenTiles(currentTile, islandTile);
 			
 			// Check if sure distance is less than or equal to sqrt(2), this includes diagonal tiles
-			if (checkDistance <= Math.sqrt(2)) {
+			if (checkDistance <= Math.sqrt(2) && (! islandTile.equals(currentTile))) {
 				nearestTiles.add(islandTile); // Add tiles to list of swimmable tiles
 			}
 		}
