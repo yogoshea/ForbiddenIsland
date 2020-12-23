@@ -200,10 +200,10 @@
   </object>  
   <combined-fragment id="84" interaction-operator="LOOP">    
     <interaction-operand id="85" constraint="for six iterations">      
-      <fragment refId="42"/>      
       <fragment refId="44"/>      
       <fragment refId="38"/>      
-      <fragment refId="40"/>    
+      <fragment refId="40"/>      
+      <fragment refId="42"/>    
     </interaction-operand>  
   </combined-fragment>  
   <combined-fragment id="86" interaction-operator="LOOP">    
@@ -290,7 +290,7 @@
     <end type="TARGET" refId="15"/>  
   </message>  
   <message id="16" 
-    operation="getInstance(island.game.GameController,island.components.IslandBoard,island.players.GamePlayers):island.observers.TreasureTilesObserver" 
+    operation="getInstance(island.game.GameController,island.components.IslandBoard,island.players.GamePlayers,island.game.GameView):island.observers.TreasureTilesObserver" 
     asynchronous="false">    
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="17"/>  
@@ -300,7 +300,7 @@
     <end type="TARGET" refId="19"/>  
   </message>  
   <message id="20" 
-    operation="getInstance(island.game.GameController,island.players.GamePlayers):island.observers.PlayerSunkObserver" 
+    operation="getInstance(island.game.GameController,island.players.GamePlayers,island.game.GameView):island.observers.PlayerSunkObserver" 
     asynchronous="false">    
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="21"/>  

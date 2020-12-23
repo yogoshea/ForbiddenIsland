@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ControllersTest {
+public class ComponentsTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -25,19 +25,14 @@ public class ControllersTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
-//	@Test
-//	public void test_
-	
-	// maybe not easy to test controllers that rely on user input!
 
 	@Test
-	public void test() {
-		
-		// Test the methods used throughout the controllers
-		// Test the game endings here? or maybe a new test case
-		// Test sequence diagram contents!
-		
+	public void testGetAdjacentTiles() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testCalcDistanceBetweenTiles() {
 		fail("Not yet implemented");
 	}
 

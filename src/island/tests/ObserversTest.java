@@ -163,19 +163,4 @@ public class ObserversTest {
 		System.out.println(wm.getWaterLevel());
 	}
 	
-//	@Test
-//    public void testNoExit() throws Exception 
-//    {
-//        System.out.println("Printing works");
-//    }
-//
-//    @Test
-//    public void testExit() throws Exception {
-//        try {
-//            System.exit(0);
-//        } catch (ExitException e) {
-//           assertEquals("Exit status", 1, e.status);
-//        }
-//    }
-
 }

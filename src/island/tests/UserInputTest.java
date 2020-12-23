@@ -35,6 +35,8 @@ public class UserInputTest {
 	// OR keep entering combination of numbers and newline chars,
 	// test if game always ends?
 	
+	// Test when HELI or SAND repeatedly entered
+	
 	@After
 	public void tearDown() throws Exception {
 	}
