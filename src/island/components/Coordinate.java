@@ -15,7 +15,7 @@ public class Coordinate {
 	 * @param row integer value of new Coordinate.
 	 * @param column integer value of new Coordinate.
 	 */
-	public Coordinate(int rowIndex, int columnIndex) {
+	public Coordinate(int rowIndex, int columnIndex) { //TODO: make names clearer so can tell which are indexes and which are coordinates easier?
 		this.rowIndex = rowIndex;
 		this.columnIndex = columnIndex;
 	}
@@ -26,10 +26,10 @@ public class Coordinate {
 	 * @return integer value of island grid row offset.
 	 */
 	public static int calcRowOffset(int aRowIndex) {
-		if (aRowIndex <= 3)
-			return (- 2 * aRowIndex) + 4;
+		if (aRowIndex < 3)
+			return 2 - aRowIndex;
 		else
-			return (2 * aRowIndex) - 6;
+			return -1*(3 - aRowIndex);
 	}
 	
 	/**
@@ -41,10 +41,10 @@ public class Coordinate {
 	public static double calcDistanceBetweenCoordinates(Coordinate c1, Coordinate c2) {
 		
 		// Retrieve rows and columns according to island layout.
-		double x1 = c1.getIslandRow();
-		double x2 = c2.getIslandRow();
-		double y1 = c1.getIslandColumn();
-		double y2 = c2.getIslandColumn();
+		double x1 = c1.getXCoordinate();
+		double x2 = c2.getXCoordinate();
+		double y1 = c1.getYCoordinate();
+		double y2 = c2.getYCoordinate();
 		
 		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 	}
@@ -69,16 +69,16 @@ public class Coordinate {
 	 * Getter method for row value on island board grid.
 	 * @return integer value representing row grid line.
 	 */
-	public int getIslandRow() {
-		return rowIndex + calcRowOffset(rowIndex);
+	public int getYCoordinate() {
+		return rowIndex;
 	}
 	
 	/**
 	 * Getter method for column value  on island board grid.
 	 * @return integer value representing column grid line.
 	 */
-	public int getIslandColumn() {
-		return columnIndex;
+	public int getXCoordinate() {
+		return columnIndex  + calcRowOffset(rowIndex);
 	}
 
 }
