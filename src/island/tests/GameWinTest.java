@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class UserInputTest {
+public class GameWinTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

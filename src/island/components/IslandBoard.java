@@ -118,15 +118,15 @@ public class IslandBoard {
 		return adjTiles;
 	}
 	
-	/**
-	 * Gets instance of specific island tile placed on board
-	 * @param IslandTile to retrieve from board
-	 * @return IslandTile instance present within IslandBoard
-	 */
-	public IslandTile getTile(IslandTile islandTile) {
-		Coordinate tileCoord = tileCoordinates.get(islandTile);
-		return this.boardStructure[tileCoord.getRowIndex()][tileCoord.getColumnIndex()];
-	}
+//	/**
+//	 * Gets instance of specific island tile placed on board
+//	 * @param IslandTile to retrieve from board
+//	 * @return IslandTile instance present within IslandBoard
+//	 */
+//	public IslandTile getTile(IslandTile islandTile) {
+//		Coordinate tileCoord = tileCoordinates.get(islandTile);
+//		return this.boardStructure[tileCoord.getRowIndex()][tileCoord.getColumnIndex()];
+//	}
 	
 	/**
 	 * Forms List of IslandTile instances

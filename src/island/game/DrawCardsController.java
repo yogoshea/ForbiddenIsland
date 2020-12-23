@@ -123,7 +123,7 @@ public class DrawCardsController {
 			
 			// Draw a card form flood deck
 			card = gameModel.getFloodDeck().drawCard();
-			boardTile = gameModel.getIslandBoard().getTile(card.getUtility());
+			boardTile = card.getUtility();
 			
 			// Perform action on appropriate tile
 			if (boardTile.isSafe()) {

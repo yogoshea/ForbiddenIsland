@@ -50,7 +50,7 @@ public class WaterMeterObserver implements Observer {
 	}
 
 	// Singleton reset for JUnit testing
-	public void reset() {
+	public static void reset() {
 		waterMeterObserver = null;
 	}
 

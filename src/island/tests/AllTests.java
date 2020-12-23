@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
 				GameSetupTest.class,
 				ObserversTest.class,
 				PlayersTest.class,
-				UserInputTest.class })
+				GameWinTest.class })
 public class AllTests {
 
 }
