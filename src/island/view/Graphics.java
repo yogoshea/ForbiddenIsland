@@ -19,7 +19,7 @@ public class Graphics {
 	private final static int tileCharWidth = 25; // change to make tiles wider
 	private final static int displayCharWidth = 6 * tileCharWidth; // display width in characters
 	
-	public static void displayWelcomeMessage() {
+	protected static void displayWelcomeMessage() {
 		System.out.println("Welcome to Forbidden Island!");
 		
 		System.out.println("\nYour objective is to collect all of the four treasures and escape the island. After");
@@ -33,7 +33,7 @@ public class Graphics {
 	 * Refreshes the terminal user interface describing the current state of the game.
 	 * @param Reference to the GameModel.
 	 */
-	public static void refreshDisplay(GameModel gameModel) {
+	protected static void refreshDisplay(GameModel gameModel) {
 		
 		System.out.println("=".repeat(displayCharWidth));
 		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 

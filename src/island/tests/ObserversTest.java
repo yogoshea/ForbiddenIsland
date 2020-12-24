@@ -116,7 +116,7 @@ public class ObserversTest {
 	public void test_PlayerSunkObserver_playerEscape() {
 		
 		// Provide necessary user input for test
-		String sampleUserInput = "1\n1\n"; 
+		String sampleUserInput = "1\n"; 
 	    InputStream backup = System.in; // backup
 	    InputStream in = new ByteArrayInputStream(sampleUserInput.getBytes());
 	    System.setIn(in);
@@ -152,13 +152,10 @@ public class ObserversTest {
 		assertTrue("Checking tile flooded", safeTile.isFlooded());
 		
 		
-//		try {
 		// Set current tile to sunk; calls observer method
 		player1Tile.setToSunk();
-//		} catch(GameExitException e) {
-//			System.out.println("Exiting");
-//		}
 		
+		// Player should have move to only possible safe location
 		assertEquals("Checking player new location", safeTile, player1.getPawn().getTile());
 	    System.setIn(backup); // Reset system input
 	}

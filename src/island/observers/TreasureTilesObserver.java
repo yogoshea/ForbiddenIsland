@@ -7,7 +7,6 @@ import island.controllers.GameController;
 import island.controllers.GameEndings;
 import island.players.GamePlayers;
 import island.view.GameView;
-import island.view.Messages;
 
 public class TreasureTilesObserver implements Observer {
 
@@ -15,6 +14,7 @@ public class TreasureTilesObserver implements Observer {
 	private GameController gameController;
 	private IslandBoard islandBoard;
 	private GamePlayers players;
+	private GameView gameView;
 	
 	/**
 	 * Constructor for TreasureTilesObserver
@@ -26,6 +26,7 @@ public class TreasureTilesObserver implements Observer {
 		this.gameController = gc;
 		this.islandBoard = islandBoard;
 		this.players = players;
+		this.gameView = gameView;
 	}
 	
 	/**
@@ -64,7 +65,7 @@ public class TreasureTilesObserver implements Observer {
 					// Check if this IslandTile has already sunk
 					if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
 						
-						Messages.showTreasureSunk(otherTreasureTile, updatedTile);
+						gameView.getNotifier().showTreasureSunk(otherTreasureTile, updatedTile);
 						// Invoke GameController method to end the game
 						gameController.endGame(GameEndings.TREASURE_SUNK);
 					}

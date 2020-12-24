@@ -10,8 +10,6 @@ import island.components.GameModel;
 import island.components.IslandTile;
 import island.players.Player;
 import island.view.GameView;
-import island.view.Messages;
-import island.view.Prompts;
 
 public class DrawCardsController {
 	
@@ -53,16 +51,16 @@ public class DrawCardsController {
 	public void drawTreasureCards(Player player) {
 
 		// Show information to user through game view
-		Prompts.promptEnterToContinue();
+		gameView.getPrompter().promptEnterToContinue();
 		gameView.updateView(gameModel, player);
-		Prompts.promptDrawTreasureCards();
+		gameView.getPrompter().promptDrawTreasureCards();
 
 		// Draw set number of cards per turn
 		Card<?> drawnCard;
 		for(int i = 0; i < treasureCardsPerTurn; i++) {
 			
 			drawnCard = gameModel.getTreasureDeck().drawCard();
-			Messages.showTreasureCardDrawn(drawnCard);
+			gameView.getNotifier().showTreasureCardDrawn(drawnCard);
 			
 			// Increment water level if Waters Rise card drawn
 			if(drawnCard.getUtility().equals(SpecialCardAbility.WATER_RISE)) {
@@ -74,12 +72,12 @@ public class DrawCardsController {
 				
 				//Refill flood deck
 				gameModel.getFloodDeck().refill();
-				Messages.showWaterRise( gameModel.getWaterMeter().getWaterLevel() );
+				gameView.getNotifier().showWaterRise( gameModel.getWaterMeter().getWaterLevel() );
 			
 			//If the drawn card is a treasure card, offer chance to give it to another player
 			} else if(drawnCard instanceof TreasureCard) {
 				
-				boolean keepCard = Prompts.pickKeepOrGive();
+				boolean keepCard = gameView.getPrompter().pickKeepOrGive();
 				
 				//If player wishes to give away card
 				if(!keepCard) {
@@ -87,12 +85,12 @@ public class DrawCardsController {
 					List<Player> availablePlayers = player.getCardReceivablePlayers(gameModel.getGamePlayers());
 					
 					if(availablePlayers.isEmpty()) {
-						Messages.showNoAvailablePlayers();
+						gameView.getNotifier().showNoAvailablePlayers();
 					} else {
 						//If players available, prompt to pick one, then give card
-						Player reciever = Prompts.pickPlayerToRecieveCard(availablePlayers);
+						Player reciever = gameView.getPrompter().pickPlayerToRecieveCard(availablePlayers);
 						addCardToHand(reciever, drawnCard);
-						Messages.showCardGiven(drawnCard, player, reciever);
+						gameView.getNotifier().showCardGiven(drawnCard, player, reciever);
 						drawnCard = null;
 					}	
 				}
@@ -115,9 +113,9 @@ public class DrawCardsController {
 	 */
 	public void drawFloodCards(Player player) {
 		
-		Prompts.promptEnterToContinue();
+		gameView.getPrompter().promptEnterToContinue();
 		gameView.updateView(gameModel, player);
-		Prompts.promptDrawFloodCards();
+		gameView.getPrompter().promptDrawFloodCards();
 		
 		FloodCard card;
 		IslandTile boardTile;
@@ -133,9 +131,9 @@ public class DrawCardsController {
 			// Perform appropriate action on tile
 			if (boardTile.isSafe()) {
 				boardTile.setToFlooded();
-				Messages.showTileFlooded(boardTile);
+				gameView.getNotifier().showTileFlooded(boardTile);
 			} else if (boardTile.isFlooded()) {
-				Messages.showTileSunk(boardTile); //Print first so player can see that their tile has sunk
+				gameView.getNotifier().showTileSunk(boardTile); //Print first so player can see that their tile has sunk
 				boardTile.setToSunk();
 			}
 			
@@ -166,10 +164,10 @@ public class DrawCardsController {
 	public void chooseCardToDiscard(Player player) {
 		
 		// Remove chosen card from hand and discard it
-		Card<?> card = Prompts.pickCardToDiscard(player);
+		Card<?> card = gameView.getPrompter().pickCardToDiscard(player);
 		player.removeCard(card);
 		gameModel.getTreasureDiscardPile().addCard(card);
-		Messages.showCardDiscarded(card);
+		gameView.getNotifier().showCardDiscarded(card);
 	}
 	
 	// Singleton reset for JUnit testing

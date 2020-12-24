@@ -7,7 +7,6 @@ import island.controllers.GameEndings;
 import island.players.GamePlayers;
 import island.players.Player;
 import island.view.GameView;
-import island.view.Messages;
 
 /**
  * Observer class to react to IslandTiles that sink with players on them
@@ -21,6 +20,7 @@ public class PlayerSunkObserver implements Observer {
 
 	private GameController gameController;
 	private GamePlayers players;
+	private GameView gameView;
 	
 	/**
 	 * Constructor for PlayerSunkObserver 
@@ -30,6 +30,7 @@ public class PlayerSunkObserver implements Observer {
 	private PlayerSunkObserver(GameController gc, GamePlayers players, GameView gameView) {
 		this.gameController = gc;
 		this.players = players;
+		this.gameView = gameView;
 	}
 	
 	/**
@@ -58,7 +59,7 @@ public class PlayerSunkObserver implements Observer {
 				
 				// Check if Player can move to another IslandTile
 				if (! gameController.movePlayerToSafety(player)) {
-					Messages.showPlayerSunk(player);
+					gameView.getNotifier().showPlayerSunk(player);
 					gameController.endGame(GameEndings.PLAYER_SUNK);
 				}
 			}

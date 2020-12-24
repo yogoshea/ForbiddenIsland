@@ -21,7 +21,6 @@ import island.players.Navigator;
 import island.players.Pilot;
 import island.players.Player;
 import island.view.GameView;
-import island.view.Prompts;
 
 
 public class SetupController { 
@@ -66,7 +65,7 @@ public class SetupController {
 		startIslandSinking();
 		assignPlayerRoles(gameView.getPlayers());
 		handOutInitialTreasureCards();
-		gameModel.getWaterMeter().setLevel(Prompts.pickStartingWaterLevel());
+		gameModel.getWaterMeter().setLevel(gameView.getPrompter().pickStartingWaterLevel());
 	}
 
 	/**

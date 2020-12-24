@@ -9,8 +9,6 @@ import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
 import island.view.GameView;
-import island.view.Messages;
-import island.view.Prompts;
 
 /**
  * Controller class for retrieving player choices for GameView and change 
@@ -64,10 +62,10 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		do {
 			
-			Prompts.promptEnterToContinue();
+			gameView.getPrompter().promptEnterToContinue();
 			gameView.updateView(gameModel, p); // display updated full game view after every action
 			
-			actionChoice = Prompts.pickAction(remainingTurns); //Get the players choice of action
+			actionChoice = gameView.getPrompter().pickAction(remainingTurns); //Get the players choice of action
 			
 			switch(actionChoice) {
 			
@@ -88,7 +86,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 				break;
 
 			case NONE:
-				Messages.showSkippingActions();
+				gameView.getNotifier().showSkippingActions();
 				return;
 					
 			}
@@ -110,13 +108,13 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		if(! adjTiles.isEmpty()) {
 			
-			destination = Prompts.pickTileDestination(adjTiles);
+			destination = gameView.getPrompter().pickTileDestination(adjTiles);
 			p.getPawn().setTile(destination);
-			Messages.showSuccessfulMove(p, destination);
+			gameView.getNotifier().showSuccessfulMove(p, destination);
 			return true;
 			
 		} else {
-			Messages.showNoMoveTiles();
+			gameView.getNotifier().showNoMoveTiles();
 			return false;
 		}
 	}
@@ -142,26 +140,26 @@ public class ActionController { //Name PlayerActionController for clarity?
 		// If there are flooded tiles available, prompt user for shore-up choice
 		if(! adjTiles.isEmpty()) {
 			
-			tileChoice = Prompts.pickShoreUpTile(adjTiles);
+			tileChoice = gameView.getPrompter().pickShoreUpTile(adjTiles);
 			tileChoice.setToSafe(); //shore-up tile
 			adjTiles.remove(tileChoice);
-			Messages.showSuccessfulShoreUp(tileChoice);
+			gameView.getNotifier().showSuccessfulShoreUp(tileChoice);
 		
 			// Check if current players role allows second shore up
 			if (! adjTiles.isEmpty() && p.getShoreUpQuantity() == 2 ) {
 				
 				//If engineer wishes to shore-up another tile
-				if(Prompts.shoreUpAnother()) {
+				if(gameView.getPrompter().shoreUpAnother()) {
 					
-					tileChoice = Prompts.pickShoreUpTile(adjTiles);
+					tileChoice = gameView.getPrompter().pickShoreUpTile(adjTiles);
 					tileChoice.setToSafe(); //shore-up tile
-					Messages.showSuccessfulShoreUp(tileChoice);
+					gameView.getNotifier().showSuccessfulShoreUp(tileChoice);
 				}
 				
 			}
 			return true;
 		}
-		Messages.showNoShoreUpTiles();
+		gameView.getNotifier().showNoShoreUpTiles();
 		return false;
 	}
 	
@@ -181,7 +179,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		playersOnSameTile = p.getCardReceivablePlayers(gameModel.getGamePlayers());
 		
 		if(playersOnSameTile.isEmpty()) {
-			Messages.showNoAvailablePlayers();
+			gameView.getNotifier().showNoAvailablePlayers();
 			return false;
 		}
 		
@@ -190,22 +188,22 @@ public class ActionController { //Name PlayerActionController for clarity?
 		System.out.println(treasureCards);
 		
 		if(treasureCards.isEmpty()) {
-			Messages.showNoTreasureCards();
+			gameView.getNotifier().showNoTreasureCards();
 			return false;
 		}
 		
 		// User chooses player to give card to
-		playerToRecieve = Prompts.pickPlayerToRecieveCard(playersOnSameTile);
+		playerToRecieve = gameView.getPrompter().pickPlayerToRecieveCard(playersOnSameTile);
 		
 		// User chooses card to give
-		card = Prompts.pickCardToGive(treasureCards);
+		card = gameView.getPrompter().pickCardToGive(treasureCards);
 		
 		// Give card to other player
 		drawCardsController.addCardToHand(playerToRecieve, card);
 		
 		//remove from players hand
 		p.removeCard(card);
-		Messages.showCardGiven(card, p, playerToRecieve);
+		gameView.getNotifier().showCardGiven(card, p, playerToRecieve);
 
 		return true;
 		
@@ -224,7 +222,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		if(treasure != null) {
 			
 			if( gameModel.getGamePlayers().getCapturedTreasures().contains(treasure) ) {
-				Messages.showAlreadyCaptured(treasure);
+				gameView.getNotifier().showAlreadyCaptured(treasure);
 				return false;
 			}
 			
@@ -245,19 +243,19 @@ public class ActionController { //Name PlayerActionController for clarity?
 					// Discard the 4 treasure cards and capture treasure
 					gameModel.getTreasureDiscardPile().getAllCards().addAll(tradeCards);
 					gameModel.getGamePlayers().addTreasure(treasure);
-					Messages.showTreasureCaptured(treasure);
+					gameView.getNotifier().showTreasureCaptured(treasure);
 					return true;
 				}
 			}
 			
 			// If could not capture treasure, show message and return cards to deck
-			Messages.showNotEnoughCards(p.getPawn().getTile().getAssociatedTreasure());
+			gameView.getNotifier().showNotEnoughCards(p.getPawn().getTile().getAssociatedTreasure());
 			p.getCards().addAll(tradeCards);
 			return false;
 			
 		}
 		// If no treasure found on island tile
-		Messages.showNoTreasure(p.getPawn().getTile());
+		gameView.getNotifier().showNoTreasure(p.getPawn().getTile());
 		return false;
 	}
 
