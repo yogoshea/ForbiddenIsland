@@ -71,6 +71,7 @@ public class GameView {
 	 */
 	public <E> E pickFromList(List<E> items, String prompt){
 		int index;
+		int size = items.size();
 		// Prompt user to ask which item they would like to pick
 		System.out.println("\n" + prompt);
 		
@@ -92,6 +93,10 @@ public class GameView {
 		System.out.println(options);
 		// Scan in users choice
 		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
+		if(items.size() != size) {
+			System.out.println("Size has changed");
+			return pickFromList(items,prompt);
+		}
 		// Return chosen item
 		return items.get(index);
 	}
