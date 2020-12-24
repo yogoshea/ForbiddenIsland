@@ -497,7 +497,7 @@ public class GameView {
 			break;
 
 		case WIN:
-			System.out.println("!!!! The game has been won !!!!"); // TODO: add congratulations
+			System.out.println("!!!! The game has been won !!!!"); // TODO: add congratulations (Copy cluedo?)
 			break;
 			
 		default:
