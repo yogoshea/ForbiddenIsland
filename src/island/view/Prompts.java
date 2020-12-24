@@ -119,19 +119,8 @@ public class Prompts {
 		List<Card<?>> cards = player.getCards();
 		String prompt = player.getName() + ", you have too many cards in your hand, which do you wish to discard?";
 		Card<?> card = gameView.pickFromList(cards, prompt);
-		System.out.println("You have discarded: " + card.getName()); //TODO: create show method for this
 		return card;
 	}
-	
-//	/** //TODO: get rid of commented methods
-//	 * Retrieves user input identifying who wants to use a Helicopter Lift card.
-//	 * @param List of players in game.
-//	 * @return User choice of player.
-//	 */
-//	public Player pickHeliPlayer(List<Player> players) {
-//		String prompt = "Which player requested a Helicopter Lift?";
-//		return GameView.pickFromList(players, prompt);
-//	}
 	
 	/**
 	 * Retrieves player choice of IslandTile to move to using Helicopter Lift.
@@ -142,16 +131,6 @@ public class Prompts {
 		String prompt = "Which tile do you wish to helicopter to?";
 		return gameView.pickFromList(availableTiles, prompt);
 	}
-	
-//	/**
-//	 * Retrieves user input identifying who wants to use a Sandbag card.
-//	 * @param List of players in game.
-//	 * @return User choice of player.
-//	 */
-//	public Player pickSandbagPlayer(List<Player> players) {
-//		String prompt = "Which player wants to play a Sandbag card?";
-//		return GameView.pickFromList(players, prompt);
-//	}
 	
 	/**
 	 * Retrieves user input identifying who wants to use a SpecialCard.

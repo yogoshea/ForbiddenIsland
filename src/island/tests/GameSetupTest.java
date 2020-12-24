@@ -25,6 +25,10 @@ import island.controllers.GameController;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
+import island.observers.FoolsLandingObserver;
+import island.observers.PlayerSunkObserver;
+import island.observers.TreasureTilesObserver;
+import island.observers.WaterMeterObserver;
 import island.players.Player;
 import island.view.GameView;
 
@@ -45,7 +49,7 @@ public class GameSetupTest {
 	    sampleUserInput += "Robert\n";		// Name of second player
 	    sampleUserInput += startingDifficulty + "\n";			// starting difficulty level
 	    
-	    InputStream sysInBackup = System.in; // backup
+	    InputStream backup = System.in; // backup
 	    InputStream in = new ByteArrayInputStream(sampleUserInput.getBytes());
 	    System.setIn(in);
 
@@ -55,7 +59,7 @@ public class GameSetupTest {
 		gameController = GameController.getInstance(gameModel, gameView);
 		
 		gameController.setup();
-	    System.setIn(sysInBackup); // Reset system input
+	    System.setIn(backup); // Reset system input
 	}
 	
 	@AfterClass
@@ -63,6 +67,12 @@ public class GameSetupTest {
 		GameModel.reset();
 		GameView.reset();
 		GameController.reset();
+		FoolsLandingObserver.reset();
+		PlayerSunkObserver.reset();
+		TreasureTilesObserver.reset();
+		WaterMeterObserver.reset();
+		for (IslandTile tile : IslandTile.values())
+			tile.setToSafe();
 	}
 	
 	@Test
@@ -117,8 +127,6 @@ public class GameSetupTest {
 	@Test
 	public void test_PlayerCreation() {
 		
-		//TODO: Test acceptable number of players
-				
 		List<Player> playersList = gameModel.getGamePlayers().getPlayersList();
 		Set<Player> playersSet = new HashSet<Player>(playersList);
 		
@@ -134,8 +142,6 @@ public class GameSetupTest {
 	
 	@Test
 	public void test_InitialTreasureCardHandout() {
-		
-		//TODO: Test remaining contents of deck
 		
 		List<Player> playersList = gameModel.getGamePlayers().getPlayersList();
 		TreasureDeck treasureDeck = gameModel.getTreasureDeck();
@@ -161,12 +167,10 @@ public class GameSetupTest {
 		for(Player p : playersList) {
 			for(Card<?> playerCard : p.getCards()) {
 				for(Card<?> deckCard : treasureDeck.getAllCards()) {
-					assertFalse("Player does not have the same card as one in deck", playerCard == deckCard); //TODO: does this make sense?
+					assertNotSame("Player does not have the same card as one in deck", playerCard, deckCard);
 				}
 			}
 		}
-		
-		
 	}
 	
 	@Test

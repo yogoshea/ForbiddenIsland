@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import island.cards.Card;
+import island.cards.SpecialCard;
 import island.cards.TreasureCard;
 import island.components.IslandBoard;
 import island.components.IslandTile;
@@ -22,7 +23,7 @@ public abstract class Player {
 	private final String name;
 	private final String role;
 	private final Pawn pawn;
-	private List<Card<?>> cards; // TODO: check for empty when using
+	private List<Card<?>> cards;
 	private final IslandTile startingTile;
 	private final int shoreUpQuantity;
 	
@@ -81,7 +82,9 @@ public abstract class Player {
 	 * @param Card to be added to player hand.
 	 */
 	public void addCard(Card<?> card) {
-		cards.add(card); // TODO: check for TreasureCard instance
+		if (card instanceof TreasureCard || card instanceof SpecialCard) {
+			cards.add(card);
+		}
 	}
 	
 	/**

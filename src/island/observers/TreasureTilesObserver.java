@@ -15,7 +15,6 @@ public class TreasureTilesObserver implements Observer {
 	private GameController gameController;
 	private IslandBoard islandBoard;
 	private GamePlayers players;
-	private GameView gameView;
 	
 	/**
 	 * Constructor for TreasureTilesObserver
@@ -27,7 +26,6 @@ public class TreasureTilesObserver implements Observer {
 		this.gameController = gc;
 		this.islandBoard = islandBoard;
 		this.players = players;
-		this.gameView = gameView;
 	}
 	
 	/**
@@ -44,7 +42,6 @@ public class TreasureTilesObserver implements Observer {
 		return treasureTilesObserver;
 	}
 	
-	//TODO: simplify/make more readable
 	/**
 	 * Update method called when state of IslandTile changes to sunk
 	 */
@@ -74,8 +71,6 @@ public class TreasureTilesObserver implements Observer {
 				}
 			}
 		}
-			
-
 	}
 	
 	// Singleton reset for JUnit testing

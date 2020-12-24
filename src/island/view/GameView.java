@@ -1,18 +1,11 @@
 package island.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import island.cards.Card;
-import island.cards.SpecialCardAbility;
 import island.components.GameModel;
-import island.components.IslandTile;
-import island.components.Treasure;
-import island.controllers.Action;
 import island.controllers.GameController;
-import island.controllers.GameEndings;
 import island.controllers.SpecialCardController;
 import island.players.Player;
 
@@ -59,7 +52,7 @@ public class GameView {
 		//TODO: display num cards in flood deck and treasure deck?
 		Graphics.refreshDisplay(gameModel);
 		// Show who's turn it is
-		Messages.showPlayerTurn(p); //TODO: move this?		
+		Messages.showPlayerTurn(p);
 	}
 	
 	/**

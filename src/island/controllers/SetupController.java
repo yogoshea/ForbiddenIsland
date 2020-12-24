@@ -2,7 +2,6 @@ package island.controllers;
 
 import island.cards.*;
 import island.components.GameModel;
-import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;

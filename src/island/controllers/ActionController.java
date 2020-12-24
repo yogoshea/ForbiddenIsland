@@ -111,7 +111,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		if(! adjTiles.isEmpty()) {
 			
 			destination = Prompts.pickTileDestination(adjTiles);
-			p.getPawn().setTile(destination); // TODO: check for errors with simple function in GameView
+			p.getPawn().setTile(destination);
 			Messages.showSuccessfulMove(p, destination);
 			return true;
 			
@@ -235,7 +235,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			for(Card<?> c : p.getTreasureCards()) {
 				if(c.getUtility().equals(treasure)) {
 					tradeCards.add(c);
-					p.getCards().remove(c);
+					p.removeCard(c);
 					cardsFound++;
 				}
 				

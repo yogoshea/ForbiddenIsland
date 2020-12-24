@@ -124,6 +124,9 @@ public class Messages {
 		System.out.println(giver.toString()+ " has given a " +card.toString()+ " to " +reciever.toString());
 	}
 	
+	public static void showCardDiscarded(Card<?> card) {
+		System.out.println("You have discarded: " + card.getName());
+	}
 	/**
 	 * Tells user that treasure cards are being drawn
 	 */
@@ -222,5 +225,7 @@ public class Messages {
 				
 		}	
 	}
+
+
 
 }
