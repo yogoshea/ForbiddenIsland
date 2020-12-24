@@ -11,6 +11,7 @@ import island.observers.TreasureTilesObserver;
 import island.observers.WaterMeterObserver;
 import island.players.Player;
 import island.view.GameView;
+import island.view.Messages;
 
 /**
  * Controls the flow of the game play and obtains player choices
@@ -62,7 +63,7 @@ public class GameController {
 	public void setup() {
 		
 		// Show gameView welcome screen
-		gameView.showWelcome();
+		Messages.showWelcome();
 		
 		// Setup game components with new players obtain form user through GameView
 		SetupController setupController = SetupController.getInstance(gameModel, gameView);
@@ -70,11 +71,6 @@ public class GameController {
 		
 		// Create game observers
 		createObservers();
-		
-		//TODO: print("Capture all 4 treasures to win!!);
-		
-		// Update user view
-//		gameView.updateView(gameModel);
 	}
 	
 	/**
@@ -91,7 +87,7 @@ public class GameController {
 			// Iterate over players in game
 			for (Player p : gameModel.getGamePlayers()) {
 				
-				currentPlayer = p; // TODO: remove this?
+				currentPlayer = p;
 				
 				// Take a number of actions
 				actionController.takeActions(p, drawCardsController);
@@ -157,7 +153,7 @@ public class GameController {
 	public void endGame(GameEndings ending) {
 		
 		// Display ending message to user and exit application
-		gameView.showEnding(ending);
+		Messages.showEnding(ending);
 		System.exit(0);
 	}
 	

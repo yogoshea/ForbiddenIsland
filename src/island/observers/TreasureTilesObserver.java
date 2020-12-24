@@ -7,6 +7,7 @@ import island.controllers.GameController;
 import island.controllers.GameEndings;
 import island.players.GamePlayers;
 import island.view.GameView;
+import island.view.Messages;
 
 public class TreasureTilesObserver implements Observer {
 
@@ -52,10 +53,7 @@ public class TreasureTilesObserver implements Observer {
 		
 		// first check if treasure has been captured already, then check if other tile remaining on board
 		IslandTile updatedTile = (IslandTile) subject; // down-cast to IslandTile
-		Treasure associatedTreasure = updatedTile.getAssociatedTreasure(); // TODO: check for null Treasure or change to NO_TREASURE or try catch exception maybe?
-		
-		// Check if IslandTile has an associated Treasure
-		//if(associatedTreasure != null) { //TODO: can remove this if check. Also remove from sequence diagram (and fix getAssociatedTreasure in diagram)
+		Treasure associatedTreasure = updatedTile.getAssociatedTreasure();
 			
 		// Check if associated Treasure has already been captured
 		if (! players.getCapturedTreasures().contains(associatedTreasure)) {
@@ -69,9 +67,9 @@ public class TreasureTilesObserver implements Observer {
 					// Check if this IslandTile has already sunk
 					if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
 						
-						gameView.showTreasureSunk(otherTreasureTile, updatedTile);
+						Messages.showTreasureSunk(otherTreasureTile, updatedTile);
 						// Invoke GameController method to end the game
-						gameController.endGame(GameEndings.TREASURE_SUNK); //TODO: improve use of gameView and/or GameEndings
+						gameController.endGame(GameEndings.TREASURE_SUNK);
 					}
 				}
 			}

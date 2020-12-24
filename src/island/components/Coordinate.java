@@ -25,7 +25,7 @@ public class Coordinate {
 	 * @param row integer value of new Coordinate.
 	 * @param column integer value of new Coordinate.
 	 */
-	public Coordinate(int rowIndex, int columnIndex) { //TODO: make names clearer so can tell which are indexes and which are coordinates easier?
+	public Coordinate(int rowIndex, int columnIndex) {
 		this.rowIndex = rowIndex;
 		this.columnIndex = columnIndex;
 	}

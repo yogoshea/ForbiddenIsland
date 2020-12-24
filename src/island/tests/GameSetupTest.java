@@ -161,7 +161,7 @@ public class GameSetupTest {
 		for(Player p : playersList) {
 			for(Card<?> playerCard : p.getCards()) {
 				for(Card<?> deckCard : treasureDeck.getAllCards()) {
-					assertFalse("Player does not have the smae card as one in deck", playerCard == deckCard); //TODO: does this make sense?
+					assertFalse("Player does not have the same card as one in deck", playerCard == deckCard); //TODO: does this make sense?
 				}
 			}
 		}

@@ -43,7 +43,6 @@ public class WaterMeterObserver implements Observer {
 	 */
 	@Override
 	public void update(Subject subject) {
-		// TODO: add call to GameView whenever water level increases!
 		WaterMeter updatedWaterMeter = (WaterMeter) subject;
 		if (updatedWaterMeter.getWaterLevel() >= WaterMeter.MAX_WATER_LEVEL)
 			gameController.endGame(GameEndings.MAX_WATER_LEVEL);

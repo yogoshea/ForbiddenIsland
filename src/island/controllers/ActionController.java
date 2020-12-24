@@ -9,6 +9,7 @@ import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
 import island.view.GameView;
+import island.view.Messages;
 
 /**
  * Controller class for retrieving player choices for GameView and change 
@@ -62,15 +63,15 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		do {
 			
-			gameView.showEnterToContinue();
+			Prompts.promptEnterToContinue();
 			gameView.updateView(gameModel, p); // display updated full game view after every action
 			
-			actionChoice = gameView.pickAction(remainingTurns); //Get the players choice of action
+			actionChoice = Prompts.pickAction(remainingTurns); //Get the players choice of action
 			
 			switch(actionChoice) {
 			
 			case MOVE:
-				actionSuccessfullyTaken = move(p); // TODO: check for validity in GameView, throw Exception
+				actionSuccessfullyTaken = move(p);
 				break;
 			
 			case SHORE_UP:
@@ -86,7 +87,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 				break;
 
 			case NONE:
-				gameView.showSkippingActions();
+				Messages.showSkippingActions();
 				return;
 					
 			}
@@ -108,13 +109,13 @@ public class ActionController { //Name PlayerActionController for clarity?
 		
 		if(! adjTiles.isEmpty()) {
 			
-			destination = gameView.pickTileDestination(adjTiles);
+			destination = Prompts.pickTileDestination(adjTiles);
 			p.getPawn().setTile(destination); // TODO: check for errors with simple function in GameView
-			gameView.showSuccessfulMove(p, destination);
+			Messages.showSuccessfulMove(p, destination);
 			return true;
 			
 		} else {
-			gameView.showNoMoveTiles();
+			Messages.showNoMoveTiles();
 			return false;
 		}
 	}
@@ -140,26 +141,26 @@ public class ActionController { //Name PlayerActionController for clarity?
 		// If there are flooded tiles available, prompt user for shore-up choice
 		if(! adjTiles.isEmpty()) {
 			
-			tileChoice = gameView.pickShoreUpTile(adjTiles);
+			tileChoice = Prompts.pickShoreUpTile(adjTiles);
 			tileChoice.setToSafe(); //shore-up tile
 			adjTiles.remove(tileChoice);
-			gameView.showSuccessfulShoreUp(tileChoice);
+			Messages.showSuccessfulShoreUp(tileChoice);
 		
 			// Check if current players role allows second shore up
 			if (! adjTiles.isEmpty() && p.getShoreUpQuantity() == 2 ) {
 				
 				//If engineer wishes to shore-up another tile
-				if(gameView.shoreUpAnother()) {
+				if(Prompts.shoreUpAnother()) {
 					
-					tileChoice = gameView.pickShoreUpTile(adjTiles);
+					tileChoice = Prompts.pickShoreUpTile(adjTiles);
 					tileChoice.setToSafe(); //shore-up tile
-					gameView.showSuccessfulShoreUp(tileChoice); // TODO: print this outside loop?? just once taking arrayList as input?
+					Messages.showSuccessfulShoreUp(tileChoice);
 				}
 				
 			}
 			return true;
 		}
-		gameView.showNoShoreUpTiles();
+		Messages.showNoShoreUpTiles();
 		return false;
 	}
 	
@@ -179,7 +180,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		playersOnSameTile = p.getCardReceivablePlayers(gameModel.getGamePlayers());
 		
 		if(playersOnSameTile.isEmpty()) {
-			gameView.showNoAvailablePlayers();
+			Messages.showNoAvailablePlayers();
 			return false;
 		}
 		
@@ -188,22 +189,22 @@ public class ActionController { //Name PlayerActionController for clarity?
 		System.out.println(treasureCards);
 		
 		if(treasureCards.isEmpty()) {
-			gameView.showNoTreasureCards();
+			Messages.showNoTreasureCards();
 			return false;
 		}
 		
 		// User chooses player to give card to
-		playerToRecieve = gameView.pickPlayerToRecieveCard(playersOnSameTile);
+		playerToRecieve = Prompts.pickPlayerToRecieveCard(playersOnSameTile);
 		
 		// User chooses card to give
-		card = gameView.pickCardToGive(treasureCards);
+		card = Prompts.pickCardToGive(treasureCards);
 		
 		// Give card to other player
 		drawCardsController.addCardToHand(playerToRecieve, card);
 		
 		//remove from players hand
 		p.removeCard(card);
-		gameView.showCardGiven(card, p, playerToRecieve);
+		Messages.showCardGiven(card, p, playerToRecieve);
 
 		return true;
 		
@@ -222,7 +223,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 		if(treasure != null) {
 			
 			if( gameModel.getGamePlayers().getCapturedTreasures().contains(treasure) ) {
-				gameView.showAlreadyCaptured(treasure);
+				Messages.showAlreadyCaptured(treasure);
 				return false;
 			}
 			
@@ -243,19 +244,19 @@ public class ActionController { //Name PlayerActionController for clarity?
 					// Discard the 4 treasure cards and capture treasure
 					gameModel.getTreasureDiscardPile().getAllCards().addAll(tradeCards);
 					gameModel.getGamePlayers().addTreasure(treasure);
-					gameView.showTreasureCaptured(treasure);
+					Messages.showTreasureCaptured(treasure);
 					return true;
 				}
 			}
 			
 			// If could not capture treasure, show message and return cards to deck
-			gameView.showNotEnoughCards(p.getPawn().getTile().getAssociatedTreasure());
+			Messages.showNotEnoughCards(p.getPawn().getTile().getAssociatedTreasure());
 			p.getCards().addAll(tradeCards);
 			return false;
 			
 		}
 		// If no treasure found on island tile
-		gameView.showNoTreasure(p.getPawn().getTile());
+		Messages.showNoTreasure(p.getPawn().getTile());
 		return false;
 	}
 

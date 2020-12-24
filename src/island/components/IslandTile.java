@@ -134,7 +134,7 @@ public enum IslandTile implements Subject {
 //	}
 	
 	@Override
-	public String toString() { // TODO: GameView dependent on toString()
+	public String toString() {
 		return name;
 	}
 	

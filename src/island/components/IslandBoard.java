@@ -19,7 +19,7 @@ public class IslandBoard {
 	private static IslandBoard islandBoard;
 	
 	private IslandTile[][] boardStructure; // 2D array of IslandTiles to represent game board
-	private Map<IslandTile, Coordinate> tileCoordinates; //TODO: name index as just storing index not coordinates?
+	private Map<IslandTile, Coordinate> tileCoordinates; //TODO: name tileIndexes as just storing index not coordinates?
 	
 	/**
 	 * Private constructor for IslandBoard singleton.

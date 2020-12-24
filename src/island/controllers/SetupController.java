@@ -119,9 +119,6 @@ public class SetupController {
 		// Iterate over number of players
 		for (String playerName : playerNames) {
 			
-			// TODO: check if player name already given in game view, this could be allowable
-			// e.g. Dave the Explorer and Dave the Messenger is okay I suppose
-			
 			// Instantiate specific player subclasses 
 			switch (possibleRoles.pop()) {
 

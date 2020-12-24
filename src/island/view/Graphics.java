@@ -64,7 +64,7 @@ public class Graphics {
 	 * Method to print the island board structure on console screen.
 	 * @param Reference to GameModel.
 	 */
-	private static void displayIslandBoard(GameModel gameModel) { //TODO: display associated treasure on board/print somewhere in list
+	private static void displayIslandBoard(GameModel gameModel) {
 
 		String outputString = "";
 		String vertBars = "-".repeat(tileCharWidth);
