@@ -155,10 +155,8 @@ public class Prompts {
 		
 		//Check each player to see if they wish to take the lift
 		for(Player player : players) {
-			prompt = "Does " + player.getName() + " wish to move to " + destination.getName() + "? [Y]/[N]";
-			System.out.println(prompt);
-//			if(userInput.nextLine().equals("Y")) { //Doesn't use pickFromList as players aren't allowed play a special card at this point
-			if(gameView.pickFromList(Arrays.asList("Yes", "No"), prompt).equals("Yes")) { //Doesn't use pickFromList as players aren't allowed play a special card at this point
+			prompt = "Does " + player.getName() + " wish to move to " + destination.getName() + "?";
+			if(gameView.pickFromList(Arrays.asList("Yes", "No"), prompt).equals("Yes")) {
 				heliPlayers.add(player);
 			}
 		}
