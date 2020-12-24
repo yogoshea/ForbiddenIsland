@@ -156,14 +156,9 @@ public abstract class Player {
 		return giveCardPlayers;
 	}
 
-//	@Override
-//	public String toString() {
-//		return this.name + " - " + this.role;
-//	}
-	
 	@Override
 	public String toString() {
-		return this.name; // TODO: remove above, gameView tosTring dependent for printFromList
+		return this.name;
 	}
 
 }

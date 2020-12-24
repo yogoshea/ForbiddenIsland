@@ -1,8 +1,8 @@
 package island.main;
 
-import island.game.GameController;
-import island.game.GameModel;
-import island.game.GameView;
+import island.components.GameModel;
+import island.controllers.GameController;
+import island.view.GameView;
 
 /**
  * Main class controls the game events at the highest level; client code for game

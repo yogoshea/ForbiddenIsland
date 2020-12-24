@@ -1,7 +1,5 @@
-package island.game;
+package island.components;
 
-import island.components.IslandBoard;
-import island.components.WaterMeter;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;

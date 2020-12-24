@@ -12,16 +12,16 @@ import org.junit.Test;
 
 import island.cards.SpecialCard;
 import island.cards.SpecialCardAbility;
+import island.components.GameModel;
 import island.components.IslandTile;
 import island.components.Treasure;
-import island.game.GameController;
-import island.game.GameModel;
-import island.game.GameView;
-import island.game.SpecialCardController;
+import island.controllers.GameController;
+import island.controllers.SpecialCardController;
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.GamePlayers;
 import island.players.Player;
+import island.view.GameView;
 
 public class GameWinTest {
 	
@@ -98,7 +98,7 @@ public class GameWinTest {
 		// Attempt Helicopter Lift off the island
 		try {
 			
-			SpecialCardController.getInstance(gameModel, gameView, gameController).specialCardRequest("HELI");
+			SpecialCardController.getInstance(gameModel, gameView, gameController).specialCardRequest(GameView.HELI);
 			
         } catch (GameExitException e) {
            assertEquals("Check game exit status", 0, e.status);

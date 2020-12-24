@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence-diagram version="1.2.4" icons="true" generate-combined-fragments="true">  
-  <object id="1" language="java" name="island.game.DrawCardsController" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/game/DrawCardsController.java" binary="false" 
-    label="drawCardsController1" type="class" autoSize="true">    
+  <object id="1" language="java" name="island.controllers.DrawCardsController" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/src/island/controllers/DrawCardsController.java" binary="false" label="drawCardsController1" 
+    type="class" autoSize="true">    
     <position height="-1" width="-1" x="21" y="0"/>    
     <execution id="2">      
       <position height="1269" width="143" x="5" y="122"/>    
     </execution>  
   </object>  
-  <object id="7" language="java" name="island.game.DrawCardsController" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/game/DrawCardsController.java" binary="false" 
-    label="drawCardsController" type="class" autoSize="true">    
+  <object id="7" language="java" name="island.controllers.DrawCardsController" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/src/island/controllers/DrawCardsController.java" binary="false" label="drawCardsController" 
+    type="class" autoSize="true">    
     <position height="-1" width="-1" x="12" y="0"/>  
   </object>  
   <object id="8" language="java" name="island.components.IslandTile" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" label="islandTile" 
-    type="enumeration" autoSize="false">    
+    file="/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" label="islandTile" type="enumeration" 
+    autoSize="false">    
     <position height="1203" width="222" x="94" y="0"/>    
     <execution id="6">      
       <position height="894" width="0" x="0" y="476"/>    
@@ -28,8 +28,8 @@
     </execution>  
   </object>  
   <object id="18" language="java" name="island.components.WaterMeter" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/WaterMeter.java" binary="false" label="waterMeter" 
-    type="class" autoSize="true">    
+    file="/ForbiddenIsland/src/island/components/WaterMeter.java" binary="false" label="waterMeter" type="class" 
+    autoSize="true">    
     <position height="-1" width="-1" x="320" y="0"/>    
     <execution id="4">      
       <position height="253" width="0" x="0" y="143"/>    
@@ -39,44 +39,44 @@
     </execution>  
   </object>  
   <object id="23" language="java" name="island.observers.WaterMeterObserver" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/observers/WaterMeterObserver.java" binary="false" 
-    label="waterMeterObserver" type="class" autoSize="true">    
+    file="/ForbiddenIsland/src/island/observers/WaterMeterObserver.java" binary="false" label="waterMeterObserver" 
+    type="class" autoSize="true">    
     <position height="-1" width="-1" x="318" y="0"/>    
     <execution id="22">      
       <position height="148" width="144" x="496" y="206"/>    
     </execution>  
   </object>  
   <object id="26" language="java" name="island.observers.FoolsLandingObserver" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/observers/FoolsLandingObserver.java" binary="false" 
-    label="foolsLandingObserver" type="class" autoSize="true">    
+    file="/ForbiddenIsland/src/island/observers/FoolsLandingObserver.java" binary="false" label="foolsLandingObserver" 
+    type="class" autoSize="true">    
     <position height="-1" width="-1" x="294" y="0"/>    
     <execution id="12">      
       <position height="105" width="151" x="188" y="577"/>    
     </execution>  
   </object>  
   <object id="29" language="java" name="island.observers.TreasureTilesObserver" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/observers/TreasureTilesObserver.java" binary="false" 
-    label="treasureTilesObserver" type="class" autoSize="true">    
+    file="/ForbiddenIsland/src/island/observers/TreasureTilesObserver.java" binary="false" label="treasureTilesObserver" 
+    type="class" autoSize="true">    
     <position height="-1" width="-1" x="563" y="0"/>    
     <execution id="14">      
       <position height="311" width="154" x="488" y="740"/>    
     </execution>  
   </object>  
   <object id="35" language="java" name="island.components.IslandTile" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" label="updatedTile" 
-    type="enumeration" autoSize="true">    
+    file="/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" label="updatedTile" type="enumeration" 
+    autoSize="true">    
     <position height="0" width="0" x="0" y="0"/>  
   </object>  
   <object id="36" language="java" name="island.observers.PlayerSunkObserver" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/observers/PlayerSunkObserver.java" binary="false" 
-    label="playerSunkObserver" type="class" autoSize="true">    
+    file="/ForbiddenIsland/src/island/observers/PlayerSunkObserver.java" binary="false" label="playerSunkObserver" 
+    type="class" autoSize="true">    
     <position height="-1" width="-1" x="431" y="0"/>    
     <execution id="16">      
       <position height="246" width="141" x="501" y="1082"/>    
     </execution>  
   </object>  
-  <object id="41" language="java" name="island.game.GameController" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/game/GameController.java" binary="false" label="gameController" 
+  <object id="41" language="java" name="island.controllers.GameController" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/src/island/controllers/GameController.java" binary="false" label="gameController" 
     type="class" autoSize="true">    
     <position height="0" width="0" x="0" y="0"/>    
     <execution id="40">      
@@ -92,9 +92,8 @@
       <position height="63" width="0" x="0" y="598"/>    
     </execution>  
   </object>  
-  <object id="50" language="java" name="island.game.GameView" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/game/GameView.java" binary="false" label="gameView" type="class" 
-    autoSize="true">    
+  <object id="50" language="java" name="island.view.GameView" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/src/island/view/GameView.java" binary="false" label="gameView" type="class" autoSize="true">    
     <position height="0" width="0" x="0" y="0"/>    
     <execution id="38">      
       <position height="21" width="0" x="0" y="1202"/>    
@@ -125,9 +124,9 @@
       </interaction-operand>      
       <combined-fragment id="55" interaction-operator="OPT">        
         <interaction-operand id="56" constraint="If player can&apos;t move to safety">          
+          <fragment refId="37"/>          
           <fragment refId="39"/>          
-          <fragment refId="42"/>          
-          <fragment refId="37"/>        
+          <fragment refId="42"/>        
         </interaction-operand>      
       </combined-fragment>    
     </combined-fragment>  
@@ -140,14 +139,14 @@
   </combined-fragment>  
   <combined-fragment id="59" interaction-operator="ALT">    
     <interaction-operand id="60" constraint="If the tile is FoolsLanding">      
-      <fragment refId="48"/>      
       <fragment refId="27"/>      
+      <fragment refId="48"/>      
       <fragment refId="11"/>    
     </interaction-operand>    
     <interaction-operand id="61" constraint="If the tile has an associated treasure">      
-      <fragment refId="30"/>      
+      <fragment refId="62"/>      
       <fragment refId="13"/>      
-      <fragment refId="62"/>    
+      <fragment refId="30"/>    
     </interaction-operand>    
     <combined-fragment id="62" interaction-operator="OPT">      
       <interaction-operand id="63" constraint="If associated treasure has not already been captured">        
@@ -163,9 +162,9 @@
           </interaction-operand>          
           <combined-fragment id="68" interaction-operator="OPT">            
             <interaction-operand id="69" constraint="If other tile is also sunk">              
-              <fragment refId="46"/>              
+              <fragment refId="33"/>              
               <fragment refId="31"/>              
-              <fragment refId="33"/>            
+              <fragment refId="46"/>            
             </interaction-operand>          
           </combined-fragment>        
         </combined-fragment>      

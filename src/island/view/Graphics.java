@@ -1,8 +1,9 @@
-package island.game;
+package island.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import island.components.GameModel;
 import island.components.IslandTile;
 import island.players.Player;
 
@@ -12,7 +13,7 @@ import island.players.Player;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class GameGraphics {
+public class Graphics {
 
 	// display component dimensions
 	private final static int tileCharWidth = 25; // change to make tiles wider

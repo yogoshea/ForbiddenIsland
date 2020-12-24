@@ -1,4 +1,4 @@
-package island.game;
+package island.controllers;
 
 import java.util.List;
 
@@ -6,8 +6,10 @@ import island.cards.Card;
 import island.cards.FloodCard;
 import island.cards.SpecialCardAbility;
 import island.cards.TreasureCard;
+import island.components.GameModel;
 import island.components.IslandTile;
 import island.players.Player;
+import island.view.GameView;
 
 public class DrawCardsController {
 	

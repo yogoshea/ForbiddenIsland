@@ -17,16 +17,16 @@ import org.junit.Test;
 import island.cards.Card;
 import island.cards.FloodCard;
 import island.cards.SpecialCardAbility;
+import island.components.GameModel;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.WaterMeter;
+import island.controllers.GameController;
 import island.decks.FloodDeck;
 import island.decks.FloodDiscardPile;
 import island.decks.TreasureDeck;
-import island.game.GameController;
-import island.game.GameModel;
-import island.game.GameView;
 import island.players.Player;
+import island.view.GameView;
 
 public class GameSetupTest {
 	

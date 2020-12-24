@@ -1,13 +1,13 @@
 package island.observers;
 
+import island.components.GameModel;
 import island.components.IslandBoard;
 import island.components.IslandTile;
-import island.game.GameController;
-import island.game.GameEndings;
-import island.game.GameModel;
-import island.game.GameView;
+import island.controllers.GameController;
+import island.controllers.GameEndings;
 import island.players.GamePlayers;
 import island.players.Player;
+import island.view.GameView;
 
 /**
  * Observer class to react to IslandTiles that sink with players on them

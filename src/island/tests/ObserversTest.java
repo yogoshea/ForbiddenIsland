@@ -11,13 +11,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import island.components.GameModel;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.components.WaterMeter;
-import island.game.GameController;
-import island.game.GameModel;
-import island.game.GameView;
+import island.controllers.GameController;
 import island.observers.FoolsLandingObserver;
 import island.observers.PlayerSunkObserver;
 import island.observers.Subject;
@@ -26,6 +25,7 @@ import island.observers.WaterMeterObserver;
 import island.players.Engineer;
 import island.players.GamePlayers;
 import island.players.Player;
+import island.view.GameView;
 
 public class ObserversTest {
 	
