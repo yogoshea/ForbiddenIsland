@@ -10,6 +10,7 @@ import island.components.Treasure;
 import island.players.Player;
 import island.view.GameView;
 import island.view.Messages;
+import island.view.Prompts;
 
 /**
  * Controller class for retrieving player choices for GameView and change 

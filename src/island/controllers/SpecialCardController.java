@@ -11,6 +11,7 @@ import island.components.Treasure;
 import island.players.Player;
 import island.view.GameView;
 import island.view.Messages;
+import island.view.Prompts;
 
 /**
  * Controller class for implementing helicopter and sandbag card logic 
@@ -178,7 +179,7 @@ public class SpecialCardController {
 	 * Updates view to before special card was requested.
 	 */
 	private void showReturnToBefore() {
-		Prompts.showSpecialCardDone();
+		Prompts.promptSpecialCardDone();
 		gameView.updateView(gameModel, gameController.getCurrentPlayer());
 	}
 	

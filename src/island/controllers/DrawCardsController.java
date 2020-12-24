@@ -11,6 +11,7 @@ import island.components.IslandTile;
 import island.players.Player;
 import island.view.GameView;
 import island.view.Messages;
+import island.view.Prompts;
 
 public class DrawCardsController {
 	
@@ -116,7 +117,7 @@ public class DrawCardsController {
 		
 		Prompts.promptEnterToContinue();
 		gameView.updateView(gameModel, player);
-		Prompts.promptsDrawFloodCards();
+		Prompts.promptDrawFloodCards();
 		
 		FloodCard card;
 		IslandTile boardTile;

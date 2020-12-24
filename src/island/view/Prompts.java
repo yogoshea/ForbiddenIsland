@@ -13,10 +13,12 @@ import island.players.Player;
 /**
  * Class to provided static methods for specific user prompts. To be called from
  * controller classes. Part of View components for MVC design pattern.
- * @author eogha
+ * @author Eoghan O'Shea and Robert McCarthy
  *
  */
 public class Prompts {
+	
+	private static GameView gameView = GameView.getInstance();
 	
 	/*
 	 * The following are methods called by Controllers which call in turn pickFromList()
@@ -25,7 +27,8 @@ public class Prompts {
 	 * This is to match the MVC pattern and allow for different Views to be implemented
 	 * with the same Controllers and Model.
 	 */
-		
+	
+	
 	/**
 	 * Retrieve user choice of game's initial water level.
 	 * @return integer value representing selected water level.
@@ -33,7 +36,7 @@ public class Prompts {
 	public static int pickStartingWaterLevel() {
 		String prompt = "What water level would you like to start on?";
 		List<String> startingDifficulties = Arrays.asList("Novice", "Normal", "Elite", "Legendary");
-		return startingDifficulties.indexOf(GameView.pickFromList(startingDifficulties, prompt)) + 1;
+		return startingDifficulties.indexOf(gameView.pickFromList(startingDifficulties, prompt)) + 1;
 	}		
 	
 	/**
@@ -42,7 +45,7 @@ public class Prompts {
 	 */
 	public static Action pickAction(int availableActions) {
 		String prompt = "Select one of the following actions: ("+availableActions+" remaining)";
-		return GameView.pickFromList( Arrays.asList(Action.values()) , prompt);
+		return gameView.pickFromList( Arrays.asList(Action.values()) , prompt);
 	}
 	
 	/**
@@ -52,7 +55,7 @@ public class Prompts {
 	 */
 	public static IslandTile pickTileDestination(List<IslandTile> tiles) {
 		String prompt = "Which tile do you wish to move to?";
-		return GameView.pickFromList(tiles, prompt);
+		return gameView.pickFromList(tiles, prompt);
 	}
 	
 	/**
@@ -63,7 +66,7 @@ public class Prompts {
 	 */
 	public static IslandTile pickSwimmableTile(Player player, List<IslandTile> tiles) {
 		String prompt = player.toString()+", YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
-		return GameView.pickFromList(tiles, prompt);
+		return gameView.pickFromList(tiles, prompt);
 	}
 	
 	/**
@@ -73,17 +76,17 @@ public class Prompts {
 	 */
 	public static IslandTile pickShoreUpTile(List<IslandTile> tiles) {
 		String prompt = "Which tile do you wish to shore up?";
-		return GameView.pickFromList(tiles, prompt);
+		return gameView.pickFromList(tiles, prompt);
 	}
 	
 	/**
 	 * Check if player wishes to shore up another tile. this only applies to the Engineer. 
 	 * @return Boolean of choice outcome.
 	 */
-	public Boolean shoreUpAnother() {
+	public static Boolean shoreUpAnother() {
 		String prompt = "As an Engineer you may shore-up 2 tiles. Shore-up another?";
 		List<String> choices = Arrays.asList("Yes", "No"); //Create choices
-		String choice = GameView.pickFromList(choices, prompt);
+		String choice = gameView.pickFromList(choices, prompt);
 		return choice.equals("Yes");
 	}
 	
@@ -92,9 +95,9 @@ public class Prompts {
 	 * @param List of players that can receive cards of current player.
 	 * @return User's choice of player.
 	 */
-	public Player pickPlayerToRecieveCard(List<Player> players) {
+	public static Player pickPlayerToRecieveCard(List<Player> players) {
 		String prompt = "Which player do you wish to give a card to?";
-		return GameView.pickFromList(players, prompt);
+		return gameView.pickFromList(players, prompt);
 	}
 	
 	/**
@@ -102,9 +105,9 @@ public class Prompts {
 	 * @param List of possible treasure cards that can be given.
 	 * @return Choice of card from player.
 	 */
-	public Card<?> pickCardToGive(List<Card<?>> treasureCards) {
+	public static Card<?> pickCardToGive(List<Card<?>> treasureCards) {
 		String prompt = "Which card do you wish to give?";
-		return GameView.pickFromList(treasureCards, prompt);
+		return gameView.pickFromList(treasureCards, prompt);
 	}
 	
 	/**
@@ -112,15 +115,15 @@ public class Prompts {
 	 * @param Player which mustt discard a card.
 	 * @return Player's choice of card.
 	 */
-	public Card<?> pickCardToDiscard(Player player) {
+	public static Card<?> pickCardToDiscard(Player player) {
 		List<Card<?>> cards = player.getCards();
 		String prompt = player.getName() + ", you have too many cards in your hand, which do you wish to discard?";
-		Card<?> card = GameView.pickFromList(cards, prompt);
+		Card<?> card = gameView.pickFromList(cards, prompt);
 		System.out.println("You have discarded: " + card.getName()); //TODO: create show method for this
 		return card;
 	}
 	
-//	/**
+//	/** //TODO: get rid of commented methods
 //	 * Retrieves user input identifying who wants to use a Helicopter Lift card.
 //	 * @param List of players in game.
 //	 * @return User choice of player.
@@ -135,9 +138,9 @@ public class Prompts {
 	 * @param List of possible choices of IslandTiles.
 	 * @return Player's choice of IslandTile.
 	 */
-	public IslandTile pickHeliDestination(List<IslandTile> availableTiles) {
+	public static IslandTile pickHeliDestination(List<IslandTile> availableTiles) {
 		String prompt = "Which tile do you wish to helicopter to?";
-		return GameView.pickFromList(availableTiles, prompt);
+		return gameView.pickFromList(availableTiles, prompt);
 	}
 	
 //	/**
@@ -155,9 +158,9 @@ public class Prompts {
 	 * @param List of players in game.
 	 * @return User choice of player.
 	 */
-	public Player pickRequestPlayer(List<Player> players, SpecialCardAbility ability) {
+	public static Player pickRequestPlayer(List<Player> players, SpecialCardAbility ability) {
 		String prompt = "Which player wants to play a " +ability.toString()+ " card?";
-		return GameView.pickFromList(players, prompt);
+		return gameView.pickFromList(players, prompt);
 	}
 	
 	/**
@@ -166,7 +169,7 @@ public class Prompts {
 	 * @param IslandTile players will move to.
 	 * @return User's choice of players.
 	 */
-	public List<Player> pickHeliPlayers(List<Player> players, IslandTile destination) {
+	public static List<Player> pickHeliPlayers(List<Player> players, IslandTile destination) {
 		
 		String prompt;
 		List<Player> heliPlayers = new ArrayList<Player>();
@@ -176,7 +179,7 @@ public class Prompts {
 			prompt = "Does " + player.getName() + " wish to move to " + destination.getName() + "? [Y]/[N]";
 			System.out.println(prompt);
 //			if(userInput.nextLine().equals("Y")) { //Doesn't use pickFromList as players aren't allowed play a special card at this point
-			if(GameView.pickFromList(Arrays.asList("Yes", "No"), prompt).equals("Yes")) { //Doesn't use pickFromList as players aren't allowed play a special card at this point
+			if(gameView.pickFromList(Arrays.asList("Yes", "No"), prompt).equals("Yes")) { //Doesn't use pickFromList as players aren't allowed play a special card at this point
 				heliPlayers.add(player);
 			}
 		}
@@ -187,43 +190,43 @@ public class Prompts {
 	 * Retrieves players choice to keep or give drawn treasure card.
 	 * @return Player's choice of card.
 	 */
-	public Boolean pickKeepOrGive() {
+	public static Boolean pickKeepOrGive() {
 		String prompt = "Do you wish to keep your card or give it to another Player?";
 		List<String> choices = Arrays.asList("Keep", "Give");
-		String choice = GameView.pickFromList(choices, prompt);
+		String choice = gameView.pickFromList(choices, prompt);
 		return choice.equals("Keep");
 	}
 	
 	/**
 	 * Gets user to control continuation of game.
 	 */
-	public void promptEnterToContinue() {
+	public static void promptEnterToContinue() {
 		String prompt = "\nTo continue, press [Enter]...";
-		GameView.scanEnter(prompt);
+		gameView.scanEnter(prompt);
 	}
 	
 	/**
 	 * Gets user to proceed with drawing treasure cards.
 	 */
-	public void promptDrawTreasureCards() {
+	public static void promptDrawTreasureCards() {
 		String prompt = "\nTo draw your two treasure cards, press [Enter]...";
-		GameView.scanEnter(prompt);
+		gameView.scanEnter(prompt);
 	}
 	
 	/**
 	 * Gets user to proceed with drawing flood cards.
 	 */
-	public void promptDrawFloodCards() {
+	public static void promptDrawFloodCards() {
 		String prompt = "\nTo draw your flood cards, press [Enter]...";
-		GameView.scanEnter(prompt);
+		gameView.scanEnter(prompt);
 	}
 	
 	/**
 	 * Gets user to proceed with game after special card played.
 	 */
-	public void promptSpecialCardDone() {
+	public static void promptSpecialCardDone() {
 		String prompt = "\nTo return to before request was made, press Enter[]...";
-		GameView.scanEnter(prompt);
+		gameView.scanEnter(prompt);
 	}
 
 }

@@ -59,7 +59,7 @@ public class GameView {
 		//TODO: display num cards in flood deck and treasure deck?
 		Graphics.refreshDisplay(gameModel);
 		// Show who's turn it is
-		showPlayerTurn(p);		
+		Messages.showPlayerTurn(p); //TODO: move this?		
 	}
 	
 	/**
