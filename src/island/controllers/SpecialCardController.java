@@ -1,13 +1,15 @@
-package island.game;
+package island.controllers;
 
 import java.util.Arrays;
 import java.util.List;
 
 import island.cards.Card;
 import island.cards.SpecialCardAbility;
+import island.components.GameModel;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
+import island.view.GameView;
 
 /**
  * Controller class for implementing helicopter and sandbag card logic 

@@ -11,9 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import island.components.GameModel;
 import island.components.IslandBoard;
 import island.components.IslandTile;
-import island.game.GameModel;
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.Explorer;

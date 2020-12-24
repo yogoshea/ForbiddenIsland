@@ -1,4 +1,4 @@
-package island.game;
+package island.controllers;
 
 /**
  * Enum class to represent finite set of possible game endings. To be used

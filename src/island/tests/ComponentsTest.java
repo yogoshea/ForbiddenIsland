@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import island.components.IslandBoard;
 import island.components.IslandTile;
-import island.game.GameController;
+import island.controllers.GameController;
 
 public class ComponentsTest {
 	

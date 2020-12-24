@@ -1,4 +1,4 @@
-package island.game;
+package island.controllers;
 
 /**
  * Enum to represent all possible actions a player can take on

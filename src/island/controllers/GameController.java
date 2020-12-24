@@ -1,7 +1,8 @@
-package island.game;
+package island.controllers;
 
 import java.util.List;
 
+import island.components.GameModel;
 import island.components.IslandTile;
 import island.observers.PlayerSunkObserver;
 import island.observers.Subject;
@@ -9,6 +10,7 @@ import island.observers.FoolsLandingObserver;
 import island.observers.TreasureTilesObserver;
 import island.observers.WaterMeterObserver;
 import island.players.Player;
+import island.view.GameView;
 
 /**
  * Controls the flow of the game play and obtains player choices
@@ -25,6 +27,10 @@ public class GameController {
 	private GameView gameView;
 	private GameModel gameModel;
 	private Player currentPlayer;
+	
+	// Static variables
+	public static final int MIN_PLAYERS = 2;
+	public static final int MAX_PLAYERS = 4;
 	
 	/**
 	 * Constructor for GameController singleton, receives view and model instances.
@@ -45,7 +51,7 @@ public class GameController {
 	public static GameController getInstance(GameModel gameModel, GameView gameView) {
 		if (gameController == null) {
 			gameController = new GameController(gameModel, gameView);
-			gameView.setControllers(gameController, SpecialCardController.getInstance(gameModel, gameView, gameController));
+			gameView.setControllers(SpecialCardController.getInstance(gameModel, gameView, gameController));
 		}
 		return gameController;
 	}

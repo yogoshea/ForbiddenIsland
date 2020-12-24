@@ -1,8 +1,8 @@
 package island.observers;
 
 import island.components.WaterMeter;
-import island.game.GameController;
-import island.game.GameEndings;
+import island.controllers.GameController;
+import island.controllers.GameEndings;
 
 /**
  * Observer class to act on updates to state of WaterMeter class

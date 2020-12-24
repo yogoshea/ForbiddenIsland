@@ -3,10 +3,10 @@ package island.observers;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.components.Treasure;
-import island.game.GameController;
-import island.game.GameEndings;
-import island.game.GameView;
+import island.controllers.GameController;
+import island.controllers.GameEndings;
 import island.players.GamePlayers;
+import island.view.GameView;
 
 public class TreasureTilesObserver implements Observer {
 

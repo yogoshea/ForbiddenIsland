@@ -1,12 +1,14 @@
-package island.game;
+package island.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import island.cards.Card;
+import island.components.GameModel;
 import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
+import island.view.GameView;
 
 /**
  * Controller class for retrieving player choices for GameView and change 

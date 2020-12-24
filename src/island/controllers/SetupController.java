@@ -1,6 +1,7 @@
-package island.game;
+package island.controllers;
 
 import island.cards.*;
+import island.components.GameModel;
 import island.components.IslandBoard;
 import island.components.IslandTile;
 import island.decks.FloodDeck;
@@ -20,6 +21,7 @@ import island.players.Messenger;
 import island.players.Navigator;
 import island.players.Pilot;
 import island.players.Player;
+import island.view.GameView;
 
 
 public class SetupController { 

@@ -1,4 +1,4 @@
-package island.game;
+package island.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,12 +7,17 @@ import java.util.Scanner;
 
 import island.cards.Card;
 import island.cards.SpecialCardAbility;
+import island.components.GameModel;
 import island.components.IslandTile;
 import island.components.Treasure;
+import island.controllers.Action;
+import island.controllers.GameController;
+import island.controllers.GameEndings;
+import island.controllers.SpecialCardController;
 import island.players.Player;
 
 /**
- * Class to represent the user interface view
+ * Class to represent the user interface view, called from controller classes.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
@@ -23,10 +28,7 @@ public class GameView {
 
 	// GameView references
 	private Scanner userInput;
-	private GameController gameController;
 	private SpecialCardController specialCardController;
-	public static final int MIN_PLAYERS = 2;
-	public static final int MAX_PLAYERS = 4;//TODO: put these in controller?
 	public static final int MAX_NAME_LENGTH = 8;
 	public static final String HELI = "HELI";
 	public static final String SAND = "SAND";
@@ -50,14 +52,13 @@ public class GameView {
 		return gameView;
 	}
 	
-	
 	/**
 	 * Called from within model to provide latest game status to display
 	 */
 	public void updateView(GameModel gameModel, Player p) {
 		//TODO: display num cards in flood deck and treasure deck?
-		GameGraphics.refreshDisplay(gameModel);
-		//Show who's turn it is
+		Graphics.refreshDisplay(gameModel);
+		// Show who's turn it is
 		showPlayerTurn(p);		
 	}
 	
@@ -75,13 +76,13 @@ public class GameView {
 		
 		// Create string with each item in list as an option
 		int i = 1;
-		String options = "\n"; //TODO: remove?
+		String options = "\n";
 		for(E item : items) {
 			if(i==1) {
 				options += item.toString()+" ["+Integer.toString(i)+"]";
 			} else {
 				if(i % 5 == 1)
-					options += ",\n" + item.toString()+" ["+Integer.toString(i)+"]"; // TODO: have toString implemented in all classes??
+					options += ",\n" + item.toString()+" ["+Integer.toString(i)+"]";
 				else
 					options += ", " + item.toString()+" ["+Integer.toString(i)+"]";
 			}
@@ -91,29 +92,29 @@ public class GameView {
 		System.out.println(options);
 		// Scan in users choice
 		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
-		//return chosen item
+		// Return chosen item
 		return items.get(index);
 	}
 	
 	/**
 	 * Method to ensure user input is valid when an int must be input
-	 * @param prompt is the intitial prompt given to the player
+	 * @param prompt is the initial prompt given to the player
 	 * @param min is the minimum valid number that can be input
 	 * @param max is the maximum valid number that can be input
 	 * @return the valid user input
 	 */
-	public int scanValidInt(String prompt, int min, int max) {//TODO:print prompt in here?
+	public int scanValidInt(String prompt, int min, int max) {
 		int choice;
 		
 		// If input includes an int
 		if(userInput.hasNextInt()) {
 			choice = userInput.nextInt();
-			userInput.nextLine();//TODO: make tidier?
+			userInput.nextLine();
 			if(choice >= min && choice <= max) {
 				//If valid input then return input
 				return choice;
 			}
-			System.out.println("Please input a valid number\n"); //TODO: remove code duplication of prints
+			System.out.println("Please input a valid number\n");
 		
 		// If input is not an int and if a special card request has not been made
 		} else if (!checkSpecialCardRequest()) {
@@ -166,7 +167,7 @@ public class GameView {
 	}
 	
 	/**
-	 * When called, mehtod checks user input for a HELI or SAND special card request
+	 * When called, method checks user input for a HELI or SAND special card request
 	 * @return Boolean of whether or not a special request had been made
 	 */
 	public boolean checkSpecialCardRequest() {
@@ -177,7 +178,7 @@ public class GameView {
 		if(input.equals(HELI) || input.equals(SAND)) {
 			specialCardController.specialCardRequest(input);
 			return true;
-		} else{return false;}
+		} else {return false;}
 	}
 	
 	/**
@@ -191,7 +192,7 @@ public class GameView {
 		System.out.println(prompt);
 		
 		//Get amount of players to play
-		int playerCount = scanValidInt(prompt, MIN_PLAYERS, MAX_PLAYERS); //Ensures a valid number is chosen
+		int playerCount = scanValidInt(prompt, GameController.MIN_PLAYERS, GameController.MAX_PLAYERS); //Ensures a valid number is chosen
 		
 		List<String> playerNames = new ArrayList<String>();
 		
@@ -201,7 +202,6 @@ public class GameView {
 		}
 		return playerNames;
 	}
-	
 	
 //******************************************************************************************************
 //The following are methods called by Controllers which call in turn pickFromList() to get users choice of a particular type of objects.
@@ -324,7 +324,7 @@ public class GameView {
 	 * Displays welcome view
 	 */
 	public void showWelcome() {
-		GameGraphics.displayWelcomeMessage();
+		Graphics.displayWelcomeMessage();
 	}
 	
 	public void showSkippingActions() {
@@ -514,8 +514,7 @@ public class GameView {
 	 * Sets the views controller
 	 * @param GameController
 	 */
-	public void setControllers(GameController gameController, SpecialCardController specialCardController) {
-		this.gameController = gameController;
+	public void setControllers(SpecialCardController specialCardController) {
 		this.specialCardController = specialCardController;
 	}
 
