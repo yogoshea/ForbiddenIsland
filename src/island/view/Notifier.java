@@ -4,7 +4,6 @@ import island.cards.Card;
 import island.cards.SpecialCardAbility;
 import island.components.IslandTile;
 import island.components.Treasure;
-import island.controllers.GameEndings;
 import island.players.Player;
 
 /**
@@ -26,13 +25,6 @@ public class Notifier {
 	//This is to match the MVC pattern and allow for different Views to be implemented with the same Controllers and Model.
 	//******************************************************************************************************
 
-	/**
-	 * Displays welcome view
-	 */
-	public void showWelcome() {
-		Graphics.displayWelcomeMessage();
-	}
-	
 	/**
 	 * Displays message telling user they have skipped their action
 	 */
@@ -196,42 +188,5 @@ public class Notifier {
 	public void showPlayerSunk(Player player) {
 		gameView.show("\n"+player.toString()+" could not reach any safes tiles!!!");
 	}
-
-	/**
-	 * Displays ending view, with message giving reason for game end
-	 */
-	public void showEnding(GameEndings ending) {
-		
-		System.out.println(); // newline
-		switch(ending) {
-		
-		case FOOLS_LANDING_SUNK:
-			System.out.println("GAME OVER - Fools Landing has Sunk");
-			break;
-			
-		case TREASURE_SUNK:
-			System.out.println("GAME OVER - A treasure has Sunk");
-			break;
-			
-		case PLAYER_SUNK:
-			System.out.println("GAME OVER - A player has Sunk");
-			break;
-
-		case MAX_WATER_LEVEL:
-			System.out.println("GAME OVER - Maximum water level has been reached");
-			break;
-
-		case WIN:
-			System.out.println("!!!! The game has been won !!!!"); // TODO: add congratulations (Cluedoesque?)
-			break;
-			
-		default:
-			System.out.println("Game has ended");
-			break;
-				
-		}	
-	}
-
-
 
 }

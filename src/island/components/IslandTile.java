@@ -125,14 +125,6 @@ public enum IslandTile implements Subject {
 		notifyAllObservers();
 	}
 	
-//	@Override
-//	public String toString() {
-//		if (associatedTreasure == null) {
-//			return name;
-//		}
-//		return name + " *" + associatedTreasure.getName() + "*";
-//	}
-	
 	@Override
 	public String toString() {
 		return name;
