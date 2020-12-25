@@ -11,8 +11,6 @@ import island.observers.TreasureTilesObserver;
 import island.observers.WaterMeterObserver;
 import island.players.Player;
 import island.view.GameView;
-import island.view.Messages;
-import island.view.Prompts;
 
 /**
  * Controls the flow of the game play and obtains player choices
@@ -53,7 +51,7 @@ public class GameController {
 	public static GameController getInstance(GameModel gameModel, GameView gameView) {
 		if (gameController == null) {
 			gameController = new GameController(gameModel, gameView);
-			gameView.setControllers(SpecialCardController.getInstance(gameModel, gameView, gameController));
+			gameView.setController(SpecialCardController.getInstance(gameModel, gameView, gameController));
 		}
 		return gameController;
 	}
@@ -64,7 +62,7 @@ public class GameController {
 	public void setup() {
 		
 		// Show gameView welcome screen
-		Messages.showWelcome();
+		gameView.getNotifier().showWelcome();
 		
 		// Setup game components with new players obtain form user through GameView
 		SetupController setupController = SetupController.getInstance(gameModel, gameView);
@@ -142,7 +140,7 @@ public class GameController {
 		if (swimmableTiles.isEmpty()) {
 			return false;
 		} else {
-			player.getPawn().setTile(Prompts.pickSwimmableTile(player, swimmableTiles));
+			player.getPawn().setTile(gameView.getPrompter().pickSwimmableTile(player, swimmableTiles));
 			return true;
 		}
 	}
@@ -154,7 +152,7 @@ public class GameController {
 	public void endGame(GameEndings ending) {
 		
 		// Display ending message to user and exit application
-		Messages.showEnding(ending);
+		gameView.getNotifier().showEnding(ending);
 		System.exit(0);
 	}
 	

@@ -57,7 +57,6 @@ public class WaterMeter implements Subject {
 	 */
 	public void incrementLevel() {
 		this.waterLevel++;
-		// TODO: we should be refilling FloodDeck here, or in DrawCardsController!!!
 		notifyAllObservers(); // Notify observers of WaterMeter state
 	}
 	

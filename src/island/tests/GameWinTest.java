@@ -17,6 +17,10 @@ import island.components.IslandTile;
 import island.components.Treasure;
 import island.controllers.GameController;
 import island.controllers.SpecialCardController;
+import island.observers.FoolsLandingObserver;
+import island.observers.PlayerSunkObserver;
+import island.observers.TreasureTilesObserver;
+import island.observers.WaterMeterObserver;
 import island.players.Diver;
 import island.players.Engineer;
 import island.players.GamePlayers;
@@ -74,6 +78,13 @@ public class GameWinTest {
 		GameModel.reset();
 		GameView.reset();
 		GameController.reset();
+		FoolsLandingObserver.reset();
+		PlayerSunkObserver.reset();
+		TreasureTilesObserver.reset();
+		WaterMeterObserver.reset();
+		for (IslandTile tile : IslandTile.values())
+			tile.setToSafe();
+
 		System.setSecurityManager(null);
 	    System.setIn(backup); // Reset system input
 	}
@@ -81,7 +92,7 @@ public class GameWinTest {
 	@Test
 	public void test_winGame_gameExit() {
 		
-		players.addPlayer(new Diver("alice"));
+		players.addPlayer(new Diver("Alice"));
 		players.addPlayer(new Engineer("Bob"));
 		
 		// Let players capture all treasures

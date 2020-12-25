@@ -10,8 +10,6 @@ import island.components.IslandTile;
 import island.components.Treasure;
 import island.players.Player;
 import island.view.GameView;
-import island.view.Messages;
-import island.view.Prompts;
 
 /**
  * Controller class for implementing helicopter and sandbag card logic 
@@ -71,7 +69,7 @@ public class SpecialCardController {
 		}
 		
 		//Determine which player made the request
-		player = Prompts.pickRequestPlayer(gamePlayers, ability);
+		player = gameView.getPrompter().pickRequestPlayer(gamePlayers, ability);
 		
 		for(Card<?> card : player.getCards()) {
 			
@@ -97,7 +95,7 @@ public class SpecialCardController {
 		}
 		
 		//If no card found, return to before request was made
-		Messages.showNoSpecialCard(player, ability);
+		gameView.getNotifier().showNoSpecialCard(player, ability);
 		showReturnToBefore();
 	}
 	
@@ -115,14 +113,14 @@ public class SpecialCardController {
 		checkForGameWin();
 		
 		// Prompt user to pick destination and players who wish to move
-		destination = Prompts.pickHeliDestination(nonSunkTiles);
-		heliPlayers = Prompts.pickHeliPlayers(gamePlayers, destination);
+		destination = gameView.getPrompter().pickHeliDestination(nonSunkTiles);
+		heliPlayers = gameView.getPrompter().pickHeliPlayers(gamePlayers, destination);
 		
 		// If there are players who wish to move -> move them
 		if(heliPlayers.size() > 0) {
 			for(Player p: heliPlayers) {
 				p.getPawn().setTile(destination);
-				Messages.showSuccessfulMove(p, destination);
+				gameView.getNotifier().showSuccessfulMove(p, destination);
 			}
 			return true;
 		} else {
@@ -141,12 +139,12 @@ public class SpecialCardController {
 		
 		// If there are tiles available to shore-up then prompt user to choose
 		if(floodedTiles.size() > 0) {
-			tileChoice = Prompts.pickShoreUpTile(floodedTiles);
+			tileChoice = gameView.getPrompter().pickShoreUpTile(floodedTiles);
 			tileChoice.setToSafe();
-			Messages.showSuccessfulShoreUp(tileChoice);
+			gameView.getNotifier().showSuccessfulShoreUp(tileChoice);
 			return true;
 		} else {
-			Messages.showNoShoreUpTiles();
+			gameView.getNotifier().showNoShoreUpTiles();
 			return false; //If no tiles to shore-up then card has not been used
 		}		
 	}
@@ -179,7 +177,7 @@ public class SpecialCardController {
 	 * Updates view to before special card was requested.
 	 */
 	private void showReturnToBefore() {
-		Prompts.promptSpecialCardDone();
+		gameView.getPrompter().promptSpecialCardDone();
 		gameView.updateView(gameModel, gameController.getCurrentPlayer());
 	}
 	

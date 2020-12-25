@@ -1,18 +1,12 @@
 package island.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 import island.cards.Card;
-import island.cards.SpecialCardAbility;
 import island.components.GameModel;
-import island.components.IslandTile;
-import island.components.Treasure;
-import island.controllers.Action;
 import island.controllers.GameController;
-import island.controllers.GameEndings;
 import island.controllers.SpecialCardController;
 import island.players.Player;
 
@@ -29,6 +23,8 @@ public class GameView {
 	// GameView references
 	private Scanner userInput;
 	private SpecialCardController specialCardController;
+	private final Notifier notifier;
+	private final Prompter prompter;
 	public static final int MAX_NAME_LENGTH = 8;
 	public static final String HELI = "HELI";
 	public static final String SAND = "SAND";
@@ -39,6 +35,8 @@ public class GameView {
 	 */
 	private GameView() {
 		this.userInput = new Scanner(System.in);
+		notifier = new Notifier(this);
+		prompter = new Prompter(this);
 	}
 	
 	/**
@@ -59,7 +57,73 @@ public class GameView {
 		//TODO: display num cards in flood deck and treasure deck?
 		Graphics.refreshDisplay(gameModel);
 		// Show who's turn it is
-		Messages.showPlayerTurn(p); //TODO: move this?		
+		notifier.showPlayerTurn(p);
+	}
+	
+	/**
+	 * Getter method for GameView's notifier.
+	 * @return Notifier instance.
+	 */
+	public Notifier getNotifier() {
+		return notifier;
+	}
+	
+	/**
+	 * Getter method for GameView's prompter.
+	 * @return Prompter instance.
+	 */
+	public Prompter getPrompter() {
+		return prompter;
+	}
+	
+	/**
+	 * Sets the view's controller
+	 * @param SpecialCardController to be used by GameView.
+	 */
+	public void setController(SpecialCardController specialCardController) {
+		this.specialCardController = specialCardController;
+	}
+	
+	/**
+	 * Method to get the names of players who will be playing the game
+	 * @return a list of player names which will be added to the game
+	 */
+	public List<String> getPlayers() {
+		
+		//Prompt user
+		String prompt = "How many players are there? (2-4 players allowed)";
+		System.out.println(prompt);
+		
+		//Get amount of players to play
+		int playerCount = scanValidInt(prompt, GameController.MIN_PLAYERS, GameController.MAX_PLAYERS); //Ensures a valid number is chosen
+		
+		List<String> playerNames = new ArrayList<String>();
+		
+		// iterate over number of players to get each players name
+		for (int i = 1; i <= playerCount; i++) {
+			playerNames.add(scanValidName("Please enter the name of Player " + i + ": (Max 8 characters)", playerNames)); // checks for valid name input
+		}
+		return playerNames;
+	}
+	
+	/**
+	 * Simple method used by Notifier to indicate message to be displayed to user.
+	 * @param String of output message to show.
+	 */
+	protected void show(String output) {
+		System.out.println(output);
+	}
+	
+	/**
+	 * Method to scan in [Enter] inputs when they are requested.
+	 * @param prompt, prompting user to press [Enter] to continue
+	 */
+	protected void scanEnter(String prompt) {
+		System.out.println(prompt);
+		//If special card request is made then it is executed and scanEnter() is called again to return user to original position
+		if(checkSpecialCardRequest()) {
+			scanEnter(prompt);
+		}
 	}
 	
 	/**
@@ -69,9 +133,9 @@ public class GameView {
 	 * @param prompt to prompt player with
 	 * @return chosen item
 	 */
-	public <E> E pickFromList(List<E> items, String prompt){
+	protected <E> E pickFromList(List<E> items, String prompt){
+		
 		int index;
-		//int size = items.size();
 		// Prompt user to ask which item they would like to pick
 		System.out.println("\n" + prompt);
 		
@@ -93,53 +157,58 @@ public class GameView {
 		System.out.println(options);
 		// Scan in users choice
 		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
-//		if(items.size() != size) {
-//			System.out.println("By playing a special card, the cards in your hand have changed ");
-//			return pickFromList(items,prompt);
-//		}
+
 		// Return chosen item
 		return items.get(index);
 	}
 	
-	//Otherwise could implement pickFromList() like this and get rid of scanValidInt()
-	public Card<?> pickCardFromList(List<Card<?>> items, String prompt, boolean discardScenario){ 
+	/**
+	 * Method to prompt player to dicard a card when they have more than 5 cards. Ensures that when a HELI of SAND card from hand is used, a card no longer needs to be discarded 
+	 * @param cards of players hand from which 1 must be discarded
+	 * @param prompt player to discard a card
+	 * @return
+	 */
+	public Card<?> pickDiscardCard(List<Card<?>> cards, String prompt){ 
 		int choice;
-		int initialSize = items.size();
+		int initialSize = cards.size();
 		// Prompt user to ask which item they would like to pick
 		System.out.println("\n" + prompt);
 		
 		// Create string with each item in list as an option
 		int i = 1;
 		String options = "\n";
-		for(Card<?> item : items) {
+		for(Card<?> card : cards) {
 			if(i==1) {
-				options += item.toString()+" ["+Integer.toString(i)+"]";
+				options += card.toString()+" ["+Integer.toString(i)+"]";
 			} else {
 				if(i % 5 == 1)
-					options += ",\n" + item.toString()+" ["+Integer.toString(i)+"]";
+					options += ",\n" + card.toString()+" ["+Integer.toString(i)+"]";
 				else
-					options += ", " + item.toString()+" ["+Integer.toString(i)+"]";
+					options += ", " + card.toString()+" ["+Integer.toString(i)+"]";
 			}
 			i++;
 		}
 		// Print item options to user
 		System.out.println(options);
 		
+		//Checks for valid user input
 		if(userInput.hasNextInt()) {
 			choice = userInput.nextInt();
 			userInput.nextLine();
-			if(choice >= 1 && choice <= items.size()) {
+			if(choice >= 1 && choice <= cards.size()) {
 				//If valid input then return input
-				return items.get(choice-1);
+				return cards.get(choice-1);
 			}
-		// If input is not an int and if a special card request has not been made
-		} else if (checkSpecialCardRequest() && discardScenario) {
-			if(items.size() < initialSize) {
-				return null; //TODO: deal with null in chooseCardToDiscard()
+		// If input is not an int and a special card request has been made
+		} else if (checkSpecialCardRequest()) {
+			//If the special request results in the players card count decreasing --> Discard no longer required. Return null
+			if(cards.size() < initialSize) {
+				return null;
 			}
 		}
+		//If invalid input, try again
 		System.out.println("Please input a valid number\n");
-		return pickCardFromList(items, prompt, discardScenario);
+		return pickDiscardCard(cards, prompt);
 	}
 	
 	/**
@@ -149,7 +218,7 @@ public class GameView {
 	 * @param max is the maximum valid number that can be input
 	 * @return the valid user input
 	 */
-	public int scanValidInt(String prompt, int min, int max) {
+	private int scanValidInt(String prompt, int min, int max) {
 		int choice;
 		
 		// If input includes an int
@@ -177,7 +246,7 @@ public class GameView {
 	 * @param playerNames, the names of other players to ensure same name is not chosen twice
 	 * @return chosen name
 	 */
-	public String scanValidName(String prompt, List<String> playerNames) {
+	private String scanValidName(String prompt, List<String> playerNames) {
 		
 		String name;
 		System.out.println(prompt);
@@ -201,22 +270,10 @@ public class GameView {
 	}
 	
 	/**
-	 * Method to scan in [Enter] inputs when they are requested.
-	 * @param prompt, prompting user to press [Enter] to continue
-	 */
-	public void scanEnter(String prompt) {
-		System.out.println(prompt);
-		//If special card request is made then it is executed and scanEnter() is called again to return user to original position
-		if(checkSpecialCardRequest()) {
-			scanEnter(prompt);
-		}
-	}
-	
-	/**
 	 * When called, method checks user input for a HELI or SAND special card request
 	 * @return Boolean of whether or not a special request had been made
 	 */
-	public boolean checkSpecialCardRequest() {
+	private boolean checkSpecialCardRequest() {
 		
 		String input = userInput.nextLine();
 		
@@ -227,40 +284,9 @@ public class GameView {
 		} else {return false;}
 	}
 	
-	/**
-	 * Method to get the names of players who will be playing the game
-	 * @return a list of player names which will be added to the game
-	 */
-	public List<String> getPlayers() {
-		
-		//Prompt user
-		String prompt = "How many players are there? (2-4 players allowed)";
-		System.out.println(prompt);
-		
-		//Get amount of players to play
-		int playerCount = scanValidInt(prompt, GameController.MIN_PLAYERS, GameController.MAX_PLAYERS); //Ensures a valid number is chosen
-		
-		List<String> playerNames = new ArrayList<String>();
-		
-		// iterate over number of players to get each players name
-		for (int i = 1; i <= playerCount; i++) {
-			playerNames.add(scanValidName("Please enter the name of Player " + i + ": (Max 8 characters)", playerNames)); // checks for valid name input
-		}
-		return playerNames;
-	}
-	
-	/**
-	 * Sets the views controller
-	 * @param GameController
-	 */
-	public void setControllers(SpecialCardController specialCardController) {
-		this.specialCardController = specialCardController;
-	}
-
 	// Singleton reset for JUnit testing
 	public static void reset() {
 		gameView = null;
 	}
-	
 
 }

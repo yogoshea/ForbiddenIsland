@@ -151,9 +151,11 @@ public class ObserversTest {
 		safeTile.setToFlooded();
 		assertTrue("Checking tile flooded", safeTile.isFlooded());
 		
+		
 		// Set current tile to sunk; calls observer method
 		player1Tile.setToSunk();
 		
+		// Player should have move to only possible safe location
 		assertEquals("Checking player new location", safeTile, player1.getPawn().getTile());
 	    System.setIn(backup); // Reset system input
 	}
@@ -189,6 +191,7 @@ public class ObserversTest {
 			
 			// Sink players current tile
 			player2Tile.setToSunk();
+			player2 = null;
 			
         } catch (GameExitException e) {
            assertEquals("Check game exit status", 0, e.status);

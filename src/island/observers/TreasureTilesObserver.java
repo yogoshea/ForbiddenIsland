@@ -7,7 +7,6 @@ import island.controllers.GameController;
 import island.controllers.GameEndings;
 import island.players.GamePlayers;
 import island.view.GameView;
-import island.view.Messages;
 
 public class TreasureTilesObserver implements Observer {
 
@@ -44,7 +43,6 @@ public class TreasureTilesObserver implements Observer {
 		return treasureTilesObserver;
 	}
 	
-	//TODO: simplify/make more readable
 	/**
 	 * Update method called when state of IslandTile changes to sunk
 	 */
@@ -67,15 +65,13 @@ public class TreasureTilesObserver implements Observer {
 					// Check if this IslandTile has already sunk
 					if ((! otherTreasureTile.equals(updatedTile)) && (otherTreasureTile.isSunk())) {
 						
-						Messages.showTreasureSunk(otherTreasureTile, updatedTile);
+						gameView.getNotifier().showTreasureSunk(otherTreasureTile, updatedTile);
 						// Invoke GameController method to end the game
 						gameController.endGame(GameEndings.TREASURE_SUNK);
 					}
 				}
 			}
 		}
-			
-
 	}
 	
 	// Singleton reset for JUnit testing

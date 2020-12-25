@@ -19,7 +19,7 @@ public class IslandBoard {
 	private static IslandBoard islandBoard;
 	
 	private IslandTile[][] boardStructure; // 2D array of IslandTiles to represent game board
-	private Map<IslandTile, Coordinate> tileCoordinates; //TODO: name tileIndexes as just storing index not coordinates?
+	private Map<IslandTile, Coordinate> tileCoordinates;
 	
 	/**
 	 * Private constructor for IslandBoard singleton.
@@ -79,54 +79,16 @@ public class IslandBoard {
 	 * @param Specific IslandTile to retrieve adjacent tiles for.
 	 * @return List containing relevant IslandTile instances.
 	 */
-	public List<IslandTile> getAdjacentTiles(IslandTile tile) { // TODO: simplify this function!
+	public List<IslandTile> getAdjacentTiles(IslandTile tile) {
 
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
-		Coordinate currentCoord = tileCoordinates.get(tile);
-		int currentRow = currentCoord.getRowIndex();
-		int currentColumn = currentCoord.getColumnIndex();
-		
-		int curRowLength = boardStructure[currentRow].length;
-		int curRowOffset = ((curRowLength * 2) % 6) / 2;
-		
-		//First search left and right
-		for(int i = -1; i <= 1; i += 2) {
-			int searchCol = currentColumn + i;
-			if(searchCol >= 0 && searchCol <= 5 - (2*curRowOffset)) { //if within bounds of board
-				if(! boardStructure[currentRow][searchCol].isSunk()) { //or use instanceof IslandTile??
-					adjTiles.add(boardStructure[currentRow][searchCol]);
-				}
-			}
-		}
-		
-		//Then search up and down
-		for(int i = -1; i <= 1; i += 2) {
-			int searchRow = currentRow + i;
-			if(searchRow >= 0 && searchRow <= 5) {
-				//takes offsets into account with 'shift'
-				int searchRowLength = boardStructure[searchRow].length; // TODO: use getRowOffset function
-				int searchRowOffset = ((searchRowLength * 2) % 6) / 2;
-				int shift = curRowOffset - searchRowOffset;
-				int searchCol = currentColumn + shift;
-				if(searchCol >= 0 && searchCol <= 5 - (2*searchRowOffset)) {
-					if(! boardStructure[searchRow][searchCol].isSunk()) {
-						adjTiles.add(boardStructure[searchRow][searchCol]);
-					}
-				}
+		for (IslandTile otherTile : this.getNonSunkTiles()) {
+			if (Coordinate.calcDistanceBetweenCoordinates(tileCoordinates.get(tile), tileCoordinates.get(otherTile)) == 1.0) {//TODO: something is going wrong here when finding shore up tiles. 
+				adjTiles.add(otherTile);
 			}
 		}
 		return adjTiles;
 	}
-	
-//	/**
-//	 * Gets instance of specific island tile placed on board
-//	 * @param IslandTile to retrieve from board
-//	 * @return IslandTile instance present within IslandBoard
-//	 */
-//	public IslandTile getTile(IslandTile islandTile) {
-//		Coordinate tileCoord = tileCoordinates.get(islandTile);
-//		return this.boardStructure[tileCoord.getRowIndex()][tileCoord.getColumnIndex()];
-//	}
 	
 	/**
 	 * Forms List of IslandTile instances

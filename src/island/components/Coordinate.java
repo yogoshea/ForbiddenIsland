@@ -39,7 +39,7 @@ public class Coordinate {
 		if (aRowIndex < 3)
 			return 2 - aRowIndex;
 		else
-			return - 3 + aRowIndex;
+			return aRowIndex - 3;
 	}
 	
 	/**
