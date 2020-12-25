@@ -5,28 +5,67 @@ import java.util.List;
 
 import island.components.GameModel;
 import island.components.IslandTile;
+import island.controllers.GameEndings;
 import island.players.Player;
 
 /**
  * Class populated with static methods for displaying the game play
  * through the console or terminal window.
+ * 
+ * ASCII Art sourced form and generated using the following:
+ * https://www.ascii-art-generator.org/
+ * https://www.asciiart.eu/vehicles/choppers (Art by Graeme Porter)
+ * https://www.asciiart.eu/nature/islands (Art by sjw)
+ * https://textfancy.com/multiline-text-art/
+ * 
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class Graphics {
+class Graphics {
 
 	// display component dimensions
 	private final static int tileCharWidth = 25; // change to make tiles wider
 	private final static int displayCharWidth = 6 * tileCharWidth; // display width in characters
 	
-	protected static void displayWelcomeMessage() {
-		System.out.println("Welcome to Forbidden Island!");
-		
-		System.out.println("\nYour objective is to collect all of the four treasures and escape the island. After");
-		System.out.println("collecting each of the four treasures, all players must go to Fool's Landing and");
-		System.out.println("take a helicopter lift off of the island.");
-		
-		System.out.println("\nLet's begin...\n");
+	protected static void displayWelcome() {
+		System.out.println("		__      __      _                             _                             ");
+		System.out.println("		\\ \\    / / ___ | | __  ___  _ __   ___       | |_  ___                      ");
+		System.out.println("		 \\ \\/\\/ / / -_)| |/ _|/ _ \\| '  \\ / -_)      |  _|/ _ \\  _      _      _    ");
+		System.out.println("		  \\_/\\_/  \\___||_|\\__|\\___/|_|_|_|\\___|       \\__|\\___/ (_)    (_)    (_)   ");
+		System.out.println("");
+		System.out.println("                  __..-----')");
+		System.out.println("        ,.--._ .-'_..--...-'");
+		System.out.println("       '-\"'. _/_ /  ..--''\"\"'-.				 ______         _     _     _     _              _____     _                 _ ");
+		System.out.println("       _.--\"\"...:._:(_ ..:\"::. \\			|  ____|       | |   (_)   | |   | |            |_   _|   | |               | |");
+		System.out.println("    .-' ..::--\"\"_(##)#)\"':. \\ \\)    \\ _|_ /		| |__ ___  _ __| |__  _  __| | __| | ___ _ __     | |  ___| | __ _ _ __   __| |");
+		System.out.println("   /_:-:'/  :__(##)##)    ): )   '-./'   '\\.-'		|  __/ _ \\| '__| '_ \\| |/ _` |/ _` |/ _ \\ '_ \\    | | / __| |/ _` | '_ \\ / _` |");
+		System.out.println("   \"  / |  :' :/\"\"\\///)  /:.'    --(       )--		| | | (_) | |  | |_) | | (_| | (_| |  __/ | | |  _| |_\\__ \\ | (_| | | | | (_| |");
+		System.out.println("     / :( :( :(   (#//)  \"       .-'\\.___./'-.		|_|  \\___/|_|  |_.__/|_|\\__,_|\\__,_|\\___|_| |_| |_____|___/_|\\__,_|_| |_|\\__,_|");
+		System.out.println("    / :/|\\ :\\_:\\   \\#//\\            /  |  \\");
+		System.out.println("    |:/ | \"\"--':\\   (#//)              '");
+		System.out.println("    \\/  \\ :|  \\ :\\  (#//)");
+		System.out.println("         \\:\\   '.':. \\#//\\");
+		System.out.println("          ':|    \"--'(#///)");
+		System.out.println("                     (#///)				Your objective is to collect all of the four treasures and escape the");
+		System.out.println("                     (#///)         ___/\"\"\\		island. After collecting each of the four treasures, all players must");
+		System.out.println("                      \\#///\\           oo##		go to Fool's Landing and take a helicopter lift off of the island.");
+		System.out.println("                      (##///)         `-6 #");
+		System.out.println("                      (##///)          ,'`.");
+		System.out.println("                      (##///)         // `.\\");
+		System.out.println("                      (##///)        ||o   \\\\");
+		System.out.println("                       \\##///\\        \\-+--//");
+		System.out.println("                       (###///)       :_|_(/				 _           _    _       _              _         _");
+		System.out.println("                       (sjw////)__...--:: :...__			| |   ___  _| |_ |/ ___  | |_  ___  ___ [_] _ _   | |");
+		System.out.println("                       (#/::'''        :: :     \"\"--.._			| |_ / ._]  | |    [_-[  | . \\/ ._]/ . || || ' |  |_/");
+		System.out.println("                  __..-'''           __;: :            \"-._		|___|\\___.  |_|    /__/  |___/\\___.\\_. ||_||_|_|  [_]");
+		System.out.println("          __..--\"\"                  `---/ ;                '._	                                  	   [___|");
+		System.out.println(" ___..--\"\"                             `-'                    \"-..___");
+		System.out.println("");
+		System.out.println("   (_ \"\"---....___                                     __...--\"\" _)");
+		System.out.println("     \"\"\"--...  ___\"\"\"\"\"-----......._______......----\"\"\"     --\"\"\"");
+		System.out.println("                   \"\"\"\"       ---.....   ___....-");
+		System.out.println("");
+		System.out.println("");
 	}
 	
 	/**
@@ -36,8 +75,12 @@ public class Graphics {
 	protected static void refreshDisplay(GameModel gameModel) {
 		
 		System.out.println("=".repeat(displayCharWidth));
-		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
-				"FORBIDDEN ISLAND", "WATER LEVEL: " + gameModel.getWaterMeter().getWaterLevel()));
+//		System.out.println(String.format("%-" + displayCharWidth/2 + "s" + "%-" + displayCharWidth/2 + "s", 
+//				"FORBIDDEN ISLAND", "WATER LEVEL: " + gameModel.getWaterMeter().getWaterLevel()));
+		System.out.println(String.format("||| FORBIDDEN ISLAND |||\t\t\tWATER METER: %s\t  ||\tTREASURE DECK: %s / 28 Cards\t||\tFLOOD DECK: %s / 24 Cards",
+				gameModel.getWaterMeter().getWaterLevel(),
+				gameModel.getTreasureDeck().getAllCards().size(),
+				gameModel.getFloodDeck().getAllCards().size()));
 		System.out.println("=".repeat(displayCharWidth));
 		displayIslandBoard(gameModel);
 		
@@ -244,5 +287,73 @@ public class Graphics {
 			System.out.println(); //newline
 		}
 	}
+	
+	/**
+	 * Displays ending view, with message giving reason for game end
+	 */
+	protected static void displayEnding(GameEndings ending) {
+		
+		String gameOverSign = "";
+		gameOverSign += "\t\t   _____          __  __ ______    ______      ________ _____\n";
+		gameOverSign += "\t\t  / ____|   /\\   |  \\/  |  ____|  / __ \\ \\    / /  ____|  __ \\\n";
+		gameOverSign += "\t\t | |  __   /  \\  | \\  / | |__    | |  | \\ \\  / /| |__  | |__) |\n";
+		gameOverSign += "\t\t | | |_ | / /\\ \\ | |\\/| |  __|   | |  | |\\ \\/ / |  __| |  _  /\n";
+		gameOverSign += "\t\t | |__| |/ ____ \\| |  | | |____  | |__| | \\  /  | |____| | \\ \\\n";
+		gameOverSign += "\t\t  \\_____/_/    \\_\\_|  |_|______|  \\____/   \\/   |______|_|  \\_\\\n";
+		
+		System.out.println(); // newline
+		switch(ending) {
+		
+		case FOOLS_LANDING_SUNK:
+			System.out.println("Fool's Landing has sunk, which means it is...");
+			System.out.println(gameOverSign);
+			break;
+			
+		case TREASURE_SUNK:
+			System.out.println("A treasure has sunk, which means it is...");
+			System.out.println(gameOverSign);
+			break;
+			
+		case PLAYER_SUNK:
+			System.out.println("A player has sunk, which means it is...");
+			System.out.println(gameOverSign);
+			break;
+
+		case MAX_WATER_LEVEL:
+			System.out.println("The maximum water level has been reached, which means it is...");
+			System.out.println(gameOverSign);
+			break;
+
+		case WIN:
+			System.out.println("You have succesfully escaped the island with all of the treasures, you have won the game!\n"); // TODO: add congratulations (Cluedoesque?)
+			System.out.println("	    _____                            _         _       _   _                     _");
+			System.out.println("	   / ____|                          | |       | |     | | (_)                   | |");
+			System.out.println("	  | |     ___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_ _  ___  _ __  ___    | |");
+			System.out.println("	  | |    / _ \\| '_ \\ / _` | '__/ _` | __| | | | |/ _` | __| |/ _ \\| '_ \\/ __|   | |");
+			System.out.println("	  | |___| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \\__ \\   |_|");
+			System.out.println("	   \\_____\\___/|_| |_|\\__, |_|  \\__,_|\\__|\\__,_|_|\\__,_|\\__|_|\\___/|_| |_|___/   (_)");
+			System.out.println("			     __/  |");   
+			System.out.println("			    |____/");                                               
+
+			break;
+			
+		default:
+			System.out.println("The game has ended");
+			System.out.println(gameOverSign);
+			break;
+				
+		}	
+		System.out.println("\nThank you for playing!");
+	}
+	
+// TODO: delete this if not needed but might be cool
+//	          ______.........--=T=--.........______
+//			     .             |:|
+//			:-. //           /""""""-.
+//			': '-._____..--""(""""""()`---.__
+//			 /:   _..__   ''  ":""""'[] |""`\\
+//			 ': :'     `-.     _:._     '"""" :
+//			  ::          '--=:____:.___....-"
+//			                    O"       O" grp
 
 }

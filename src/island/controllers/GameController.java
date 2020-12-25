@@ -62,7 +62,7 @@ public class GameController {
 	public void setup() {
 		
 		// Show gameView welcome screen
-		gameView.getNotifier().showWelcome();
+		gameView.showWelcome();
 		
 		// Setup game components with new players obtain form user through GameView
 		SetupController setupController = SetupController.getInstance(gameModel, gameView);
@@ -152,7 +152,7 @@ public class GameController {
 	public void endGame(GameEndings ending) {
 		
 		// Display ending message to user and exit application
-		gameView.getNotifier().showEnding(ending);
+		gameView.showEnding(ending);
 		System.exit(0);
 	}
 	

@@ -7,6 +7,7 @@ import java.util.Scanner;
 import island.cards.Card;
 import island.components.GameModel;
 import island.controllers.GameController;
+import island.controllers.GameEndings;
 import island.controllers.SpecialCardController;
 import island.players.Player;
 
@@ -48,6 +49,20 @@ public class GameView {
 			gameView = new GameView();
 		}
 		return gameView;
+	}
+	
+	/**
+	 * Displays welcome graphics.
+	 */
+	public void showWelcome() {
+		Graphics.displayWelcome();
+	}
+	
+	/**
+	 * Displays ending graphics.
+	 */
+	public void showEnding(GameEndings ending) {
+		Graphics.displayEnding(ending);
 	}
 	
 	/**
