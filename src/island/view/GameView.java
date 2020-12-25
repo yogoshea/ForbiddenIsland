@@ -71,7 +71,7 @@ public class GameView {
 	 */
 	public <E> E pickFromList(List<E> items, String prompt){
 		int index;
-		int size = items.size();
+		//int size = items.size();
 		// Prompt user to ask which item they would like to pick
 		System.out.println("\n" + prompt);
 		
@@ -93,12 +93,53 @@ public class GameView {
 		System.out.println(options);
 		// Scan in users choice
 		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
-		if(items.size() != size) {
-			System.out.println("Size has changed");
-			return pickFromList(items,prompt);
-		}
+//		if(items.size() != size) {
+//			System.out.println("By playing a special card, the cards in your hand have changed ");
+//			return pickFromList(items,prompt);
+//		}
 		// Return chosen item
 		return items.get(index);
+	}
+	
+	//Otherwise could implement pickFromList() like this and get rid of scanValidInt()
+	public Card<?> pickCardFromList(List<Card<?>> items, String prompt, boolean discardScenario){ 
+		int choice;
+		int initialSize = items.size();
+		// Prompt user to ask which item they would like to pick
+		System.out.println("\n" + prompt);
+		
+		// Create string with each item in list as an option
+		int i = 1;
+		String options = "\n";
+		for(Card<?> item : items) {
+			if(i==1) {
+				options += item.toString()+" ["+Integer.toString(i)+"]";
+			} else {
+				if(i % 5 == 1)
+					options += ",\n" + item.toString()+" ["+Integer.toString(i)+"]";
+				else
+					options += ", " + item.toString()+" ["+Integer.toString(i)+"]";
+			}
+			i++;
+		}
+		// Print item options to user
+		System.out.println(options);
+		
+		if(userInput.hasNextInt()) {
+			choice = userInput.nextInt();
+			userInput.nextLine();
+			if(choice >= 1 && choice <= items.size()) {
+				//If valid input then return input
+				return items.get(choice-1);
+			}
+		// If input is not an int and if a special card request has not been made
+		} else if (checkSpecialCardRequest() && discardScenario) {
+			if(items.size() < initialSize) {
+				return null; //TODO: deal with null in chooseCardToDiscard()
+			}
+		}
+		System.out.println("Please input a valid number\n");
+		return pickCardFromList(items, prompt, discardScenario);
 	}
 	
 	/**
@@ -145,8 +186,8 @@ public class GameView {
 		while(true) {
 			name = userInput.nextLine();
 			//If name too long
-			if(name.length() > MAX_NAME_LENGTH) {
-				System.out.println("The max character length is 8");
+			if(name.length() > MAX_NAME_LENGTH || name.length() < 1) {
+				System.out.println("Name must be between 1 and 8 characters");
 			//If name already taken
 			} else if(playerNames.contains(name)) {
 				System.out.println("This name has already been taken");

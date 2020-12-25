@@ -187,6 +187,14 @@ public class Messages {
 	public static void showPlayerSunk(Player player) {
 		System.out.println("\n"+player.toString()+" could not reach any safes tiles!!!");
 	}
+	
+	/**
+	 * Tell user they have discarded a card
+	 * @param card to discard
+	 */
+	public static void showCardDiscarded(Card<?> card) {
+		System.out.println("You have discarded a "+card.toString());
+	}
 
 	/**
 	 * Displays ending view, with message giving reason for game end

@@ -167,8 +167,13 @@ public class DrawCardsController {
 		
 		// Remove chosen card from hand and discard it
 		Card<?> card = Prompts.pickCardToDiscard(player);
+		if(card == null) {
+			return; //TODO: print message somewhere
+		}
+		
 		player.getCards().remove(card);
 		gameModel.getTreasureDiscardPile().addCard(card);
+		Messages.showCardDiscarded(card);
 		
 	}
 	
