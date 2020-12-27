@@ -69,7 +69,7 @@ public class GameView {
 	 * Called from within model to provide latest game status to display
 	 */
 	public void updateView(GameModel gameModel, Player p) {
-		//TODO: display num cards in flood deck and treasure deck?
+		
 		Graphics.refreshDisplay(gameModel);
 		// Show who's turn it is
 		notifier.showPlayerTurn(p);

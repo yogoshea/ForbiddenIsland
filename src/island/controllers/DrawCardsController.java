@@ -111,7 +111,7 @@ public class DrawCardsController {
 	 * Method to draw flood cards during a players turn.
 	 * @param Reference to player to draw cards.
 	 */
-	public void drawFloodCards(Player player) { //TODO: if tile sunk remove its card? (Probably not)
+	public void drawFloodCards(Player player) { //TODO: If tile sunk remove its flood card? (Probably not)
 		
 		gameView.getPrompter().promptEnterToContinue();
 		gameView.updateView(gameModel, player);

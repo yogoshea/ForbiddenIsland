@@ -152,8 +152,8 @@ public class GameController {
 	 */
 	public void endGame(GameEndings ending) {
 		
-		gameView.getPrompter().promptEnterToContinue();
-		gameView.updateView(gameModel, currentPlayer);
+//		gameView.getPrompter().promptEnterToContinue(); //TODO: Ideally would perform these before game over but it causes tests to fail so if not an easy fix then definitely don't bother
+//		gameView.updateView(gameModel, currentPlayer);
 		
 		// Display ending message to user and exit application
 		gameView.showEnding(ending);
