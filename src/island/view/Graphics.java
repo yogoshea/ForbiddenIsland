@@ -325,7 +325,7 @@ class Graphics {
 			break;
 
 		case WIN:
-			System.out.println("You have succesfully escaped the island with all of the treasures, you have won the game!\n"); // TODO: add congratulations (Cluedoesque?)
+			System.out.println("You have succesfully escaped the island with all of the treasures, you have won the game!\n");
 			System.out.println("	    _____                            _         _       _   _                     _");
 			System.out.println("	   / ____|                          | |       | |     | | (_)                   | |");
 			System.out.println("	  | |     ___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_ _  ___  _ __  ___    | |");
@@ -355,5 +355,6 @@ class Graphics {
 //			 ': :'     `-.     _:._     '"""" :
 //			  ::          '--=:____:.___....-"
 //			                    O"       O" grp
+//Nice, could call a gameView.showHeliCutScene(), and move it across
 
 }

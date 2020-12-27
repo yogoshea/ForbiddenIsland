@@ -95,7 +95,7 @@ public class Notifier {
 	 * Tells user which players turn it is
 	 */
 	public void showPlayerTurn(Player p) {
-		gameView.show("It is the turn of: " + p.getName());
+		gameView.show("PLAYER TURN: " + p.getName());
 	}
 	
 	/**
@@ -109,7 +109,7 @@ public class Notifier {
 	 * Tells user that treasure cards are being drawn
 	 */
 	public void showTreasureCardDrawn(Card<?> card) {
-		gameView.show("\n--> You have drawn: " + card.getName());
+		gameView.show("\n> You have drawn: " + card.getName());
 	}
 	
 	/**
@@ -175,7 +175,7 @@ public class Notifier {
 	 * @param secondTile, the other treasure tile that sunk
 	 */
 	public void showTreasureSunk(IslandTile firstTile, IslandTile secondTile) {
-		gameView.show("\n" + firstTile.toString()+" and "+secondTile.toString()+" are both sunk and "+firstTile.getAssociatedTreasure()+" hasn't been captured");
+		gameView.show("\n" + firstTile.toString()+" and "+secondTile.toString()+" have sunk and the "+firstTile.getAssociatedTreasure()+" hasn't been captured...");
 	}
 	
 	/**
@@ -196,7 +196,7 @@ public class Notifier {
 	
 	
 	public void showDiscardCancelled(Player player) {
-		System.out.println("\n" + player.toString() + ", num cards in hand has decreased to 5. Discard no longer needed.");
+		System.out.println("\n" + player.toString() + ": Cards in hand has decreased to 5. Discard no longer required.");
 	}
 
 }

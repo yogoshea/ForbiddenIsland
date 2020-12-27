@@ -83,7 +83,7 @@ public class IslandBoard {
 
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
 		for (IslandTile otherTile : this.getNonSunkTiles()) {
-			if (Coordinate.calcDistanceBetweenCoordinates(tileCoordinates.get(tile), tileCoordinates.get(otherTile)) == 1.0) {//TODO: something is going wrong here when finding shore up tiles. 
+			if (Coordinate.calcDistanceBetweenCoordinates(tileCoordinates.get(tile), tileCoordinates.get(otherTile)) == 1.0) {//TODO: Double check this works in all scenarios (had a issue which I couldn't recreate)
 				adjTiles.add(otherTile);
 			}
 		}

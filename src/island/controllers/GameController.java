@@ -11,6 +11,7 @@ import island.observers.TreasureTilesObserver;
 import island.observers.WaterMeterObserver;
 import island.players.Player;
 import island.view.GameView;
+import island.view.Prompter;
 
 /**
  * Controls the flow of the game play and obtains player choices
@@ -150,6 +151,9 @@ public class GameController {
 	 * @param Enum type specifying how game has ended.
 	 */
 	public void endGame(GameEndings ending) {
+		
+		gameView.getPrompter().promptEnterToContinue();
+		gameView.updateView(gameModel, currentPlayer);
 		
 		// Display ending message to user and exit application
 		gameView.showEnding(ending);

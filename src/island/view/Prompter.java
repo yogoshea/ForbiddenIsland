@@ -72,7 +72,7 @@ public class Prompter {
 	 * @return Player's choice of IslandTile.
 	 */
 	public IslandTile pickSwimmableTile(Player player, List<IslandTile> tiles) {
-		String prompt = player.toString()+", YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
+		String prompt = player.toString()+": YOUR TILE HAS SUNK!!\nWhich tile do you wish to move to?";
 		return gameView.pickFromList(tiles, prompt);
 	}
 	
@@ -124,7 +124,7 @@ public class Prompter {
 	 */
 	public Card<?> pickCardToDiscard(Player player) {
 		List<Card<?>> cards = player.getCards();
-		String prompt = player.getName() + ", you have too many cards in your hand, which do you wish to discard?";
+		String prompt = player.getName() + ": You have too many cards in your hand, which do you wish to discard?";
 		Card<?> card = gameView.pickDiscardCard(cards, prompt);
 		return card;
 	}
