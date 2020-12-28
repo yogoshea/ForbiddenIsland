@@ -66,7 +66,7 @@ public class GameView {
 	}
 	
 	/**
-	 * Called from within model to provide latest game status to display
+	 * Called from within controller to display latest game status
 	 */
 	public void updateView(GameModel gameModel, Player p) {
 		
@@ -92,7 +92,7 @@ public class GameView {
 	}
 	
 	/**
-	 * Sets the view's controller
+	 * Sets the view's Special Card controller
 	 * @param SpecialCardController to be used by GameView.
 	 */
 	public void setController(SpecialCardController specialCardController) {
@@ -135,25 +135,77 @@ public class GameView {
 	 */
 	protected void scanEnter(String prompt) {
 		System.out.println(prompt);
-		//If special card request is made then it is executed and scanEnter() is called again to return user to original position
+		//If a special card request is made then it is executed and scanEnter() is called again to return user to original position
 		if(checkSpecialCardRequest()) {
 			scanEnter(prompt);
 		}
 	}
 	
 	/**
-	 * Method to take in any list of items and get item choice from player. Via this method, all input is checked for special card requests 
+	 * Method to take in any list of items and get an item choice from the user. Via this method, all input is checked for special card requests 
 	 * @param <E> type of items player will be choosing from
 	 * @param items list for the player to choose from
 	 * @param prompt to prompt player with
 	 * @return chosen item
 	 */
 	protected <E> E pickFromList(List<E> items, String prompt){
-		
 		int index;
+		String options = createOptionsString(items);
+		
 		// Prompt user to ask which item they would like to pick
 		System.out.println("\n" + prompt);
+		// Print item options to user
+		System.out.println(options);
+		// Scan in users choice of item
+		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
+
+		// Return chosen item
+		return items.get(index);
+	}
+	
+	/**
+	 * Method to prompt player to discard a card when they have more than 5 cards. Ensures that when a HELI of SAND card is played from hand, a card no longer needs to be discarded 
+	 * @param cards of players hand from which 1 must be discarded
+	 * @param prompt player to discard a card
+	 * @return
+	 */
+	public Card<?> pickDiscardCard(List<Card<?>> cards, String prompt){ 
+		int choice;
+		int initialSize = cards.size();
+		String options = createOptionsString(cards);
 		
+		// Prompt user to ask which item they would like to pick
+		System.out.println("\n" + prompt);
+		// Print item options to user
+		System.out.println(options);
+		
+		//Check for valid user input
+		if(userInput.hasNextInt()) {
+			choice = userInput.nextInt();
+			userInput.nextLine();
+			if(choice >= 1 && choice <= cards.size()) {
+				//If valid input then return input
+				return cards.get(choice-1);
+			}
+		// If input is not valid and a special card request has been made
+		} else if (checkSpecialCardRequest()) {
+			//If the special request results in the players card count decreasing --> Discard no longer required. Return null
+			if(cards.size() < initialSize) {
+				return null;
+			}
+		}
+		//If invalid input, try again
+		System.out.println("Please input a valid number\n");
+		return pickDiscardCard(cards, prompt);
+	}
+	
+	/**
+	 * Creates a String used to tell user what their options are, based on the provided list of items
+	 * @param <E> - the type of the items to be chosen
+	 * @param items - the list of items user is choosing from
+	 * @return String that is created
+	 */
+	private <E> String createOptionsString(List<E> items) {
 		// Create string with each item in list as an option
 		int i = 1;
 		String options = "\n";
@@ -168,69 +220,14 @@ public class GameView {
 			}
 			i++;
 		}
-		// Print item options to user
-		System.out.println(options);
-		// Scan in users choice
-		index = scanValidInt(prompt+"\n"+options, 1, items.size()) - 1;
-
-		// Return chosen item
-		return items.get(index);
+		return options; //Return string of options
 	}
 	
 	/**
-	 * Method to prompt player to discard a card when they have more than 5 cards. Ensures that when a HELI of SAND card from hand is used, a card no longer needs to be discarded 
-	 * @param cards of players hand from which 1 must be discarded
-	 * @param prompt player to discard a card
-	 * @return
-	 */
-	public Card<?> pickDiscardCard(List<Card<?>> cards, String prompt){ 
-		int choice;
-		int initialSize = cards.size();
-		// Prompt user to ask which item they would like to pick
-		System.out.println("\n" + prompt);
-		
-		// Create string with each item in list as an option
-		int i = 1;
-		String options = "\n";
-		for(Card<?> card : cards) {
-			if(i==1) {
-				options += card.toString()+" ["+Integer.toString(i)+"]";
-			} else {
-				if(i % 5 == 1)
-					options += ",\n" + card.toString()+" ["+Integer.toString(i)+"]";
-				else
-					options += ", " + card.toString()+" ["+Integer.toString(i)+"]";
-			}
-			i++;
-		}
-		// Print item options to user
-		System.out.println(options);
-		
-		//Checks for valid user input
-		if(userInput.hasNextInt()) {
-			choice = userInput.nextInt();
-			userInput.nextLine();
-			if(choice >= 1 && choice <= cards.size()) {
-				//If valid input then return input
-				return cards.get(choice-1);
-			}
-		// If input is not an int and a special card request has been made
-		} else if (checkSpecialCardRequest()) {
-			//If the special request results in the players card count decreasing --> Discard no longer required. Return null
-			if(cards.size() < initialSize) {
-				return null;
-			}
-		}
-		//If invalid input, try again
-		System.out.println("Please input a valid number\n");
-		return pickDiscardCard(cards, prompt);
-	}
-	
-	/**
-	 * Method to ensure user input is valid when an int must be input
-	 * @param prompt is the initial prompt given to the player
-	 * @param min is the minimum valid number that can be input
-	 * @param max is the maximum valid number that can be input
+	 * Method to ensure user input is valid when the input must be an int
+	 * @param prompt - the initial prompt given to the player
+	 * @param min - the minimum valid number that can be input
+	 * @param - the maximum valid number that can be input
 	 * @return the valid user input
 	 */
 	private int scanValidInt(String prompt, int min, int max) {
@@ -240,8 +237,8 @@ public class GameView {
 		if(userInput.hasNextInt()) {
 			choice = userInput.nextInt();
 			userInput.nextLine();
+			//If valid input then return input
 			if(choice >= min && choice <= max) {
-				//If valid input then return input
 				return choice;
 			}
 			System.out.println("Please input a valid number\n");
@@ -257,27 +254,25 @@ public class GameView {
 	
 	/**
 	 * Method to ensure input player names are valid
-	 * @param prompt is the prompt asking what the players names are
-	 * @param playerNames, the names of other players to ensure same name is not chosen twice
+	 * @param prompt asking what the players names are
+	 * @param playerNames - the names of other players to ensure same name is not chosen twice
 	 * @return chosen name
 	 */
 	private String scanValidName(String prompt, List<String> playerNames) {
-		
 		String name;
 		System.out.println(prompt);
 		
-		//Loop until valid name found
+		//Loop until valid name is input
 		while(true) {
 			name = userInput.nextLine();
-			//If name too long
+			//If name too long or short
 			if(name.length() > MAX_NAME_LENGTH || name.length() < 1) {
 				System.out.println("Name must be between 1 and 8 characters");
 			//If name already taken
 			} else if(playerNames.contains(name)) {
 				System.out.println("This name has already been taken");
 			} else {
-				//Return valid name
-				return name;
+				return name; //Return valid name
 			}
 			//If name not valid then reprint prompt and try again
 			System.out.println("\n"+prompt);
@@ -285,7 +280,7 @@ public class GameView {
 	}
 	
 	/**
-	 * When called, method checks user input for a HELI or SAND special card request
+	 * When called, this method checks user input for a HELI or SAND special card request
 	 * @return Boolean of whether or not a special request had been made
 	 */
 	private boolean checkSpecialCardRequest() {
@@ -298,6 +293,7 @@ public class GameView {
 			return true;
 		} else {return false;}
 	}
+	
 	
 	// Singleton reset for JUnit testing
 	public static void reset() {

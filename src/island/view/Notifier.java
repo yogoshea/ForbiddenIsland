@@ -19,11 +19,11 @@ public class Notifier {
 		this.gameView = gameView;
 	}
 	
-	//******************************************************************************************************
-	//The following are methods called by Controllers, displaying a message to the user giving information of game events.
+	//*********************************************************************************************************************
+	//The following are methods called by Controllers, displaying a message to the user, giving information of game events.
 	//This ensures the gameView can decide how exactly to tell the user about the event.
 	//This is to match the MVC pattern and allow for different Views to be implemented with the same Controllers and Model.
-	//******************************************************************************************************
+	//*********************************************************************************************************************
 
 	/**
 	 * Displays message telling user they have skipped their action
@@ -40,7 +40,7 @@ public class Notifier {
 	}
 	
 	/**
-	 * Displays message to show a successfull move has been made
+	 * Displays message to show a successful move has been made
 	 * @param player who moved
 	 * @param tile player moved to
 	 */
@@ -116,7 +116,7 @@ public class Notifier {
 	 * Displays message showing card has been given to another player
 	 * @param card that was given
 	 * @param giver, player who gave card
-	 * @param reciever, player who recieved card
+	 * @param reciever, player who received card
 	 */
 	public void showCardGiven(Card<?> card,Player giver, Player reciever) {
 		gameView.show(giver.toString()+ " has given " +card.toString()+ " to " +reciever.toString());

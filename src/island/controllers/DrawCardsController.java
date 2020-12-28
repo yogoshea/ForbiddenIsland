@@ -92,7 +92,7 @@ public class DrawCardsController {
 					if(availablePlayers.isEmpty()) {
 						gameView.getNotifier().showNoAvailablePlayers();
 					} else {
-						//If players available, prompt to pick one, then give card
+						//If players available, prompt to pick a player, then give card away to choice
 						Player reciever = gameView.getPrompter().pickPlayerToRecieveCard(availablePlayers);
 						addCardToHand(reciever, drawnCard);
 						gameView.getNotifier().showCardGiven(drawnCard, player, reciever);
@@ -100,7 +100,7 @@ public class DrawCardsController {
 					}	
 				}
 			} 
-			//If card has not been used yet, add to hand
+			//If card was not a water rise card and was not given away, add to hand
 			if(drawnCard != null) {
 				addCardToHand(player, drawnCard);
 			}
@@ -120,9 +120,9 @@ public class DrawCardsController {
 		
 		FloodCard card;
 		IslandTile boardTile;
-		int cardCount = gameModel.getWaterMeter().getWaterLevel();
+		int cardCount = gameModel.getWaterMeter().getWaterLevel();// Draw same number of flood cards as the water level
 		
-		// Iterate over appropriate card count
+		// Iterate over card count
 		for(int i = 0; i < cardCount; i++) {
 			
 			// Draw a card from flood deck
@@ -134,7 +134,7 @@ public class DrawCardsController {
 				boardTile.setToFlooded();
 				gameView.getNotifier().showTileFlooded(boardTile);
 			} else if (boardTile.isFlooded()) {
-				gameView.getNotifier().showTileSunk(boardTile); //Print first so player can see that their tile has sunk
+				gameView.getNotifier().showTileSunk(boardTile); //Prints first so player can see that their tile has sunk
 				boardTile.setToSunk();
 			}
 			
@@ -177,6 +177,7 @@ public class DrawCardsController {
 		gameView.getNotifier().showCardDiscarded(card);
 		
 	}
+	
 	
 	// Singleton reset for JUnit testing
 	public static void reset() {

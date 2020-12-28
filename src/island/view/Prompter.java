@@ -11,7 +11,7 @@ import island.controllers.Action;
 import island.players.Player;
 
 /**
- * Class to provided methods for specific user prompts. To be called from
+ * Class providing methods for specific user prompts. To be called from
  * controller classes. Part of View components for MVC design pattern.
  * @author Eoghan O'Shea and Robert McCarthy
  *
@@ -30,7 +30,7 @@ public class Prompter {
 	
 	/*
 	 * The following are methods called by Controllers which call in turn pickFromList()
-	 * to get users choice of a particular type of objects. This ensures the gameView can
+	 * to get users choice from a particular type of objects. This ensures the gameView can
 	 * decide how exactly to prompt the user, without a controller specifying a string.
 	 * This is to match the MVC pattern and allow for different Views to be implemented
 	 * with the same Controllers and Model.
@@ -92,7 +92,7 @@ public class Prompter {
 	 */
 	public Boolean shoreUpAnother() {
 		String prompt = "As an Engineer you may shore-up 2 tiles. Shore-up another?";
-		List<String> choices = Arrays.asList("Yes", "No"); //Create choices
+		List<String> choices = Arrays.asList("Yes", "No");
 		String choice = gameView.pickFromList(choices, prompt);
 		return choice.equals("Yes");
 	}
@@ -145,12 +145,12 @@ public class Prompter {
 	 * @return User choice of player.
 	 */
 	public Player pickRequestPlayer(List<Player> players, SpecialCardAbility ability) {
-		String prompt = "Which player wants to play a " +ability.toString()+ " card?";
+		String prompt = "Which player wants to play a " + ability.toString() + " card?";
 		return gameView.pickFromList(players, prompt);
 	}
 	
 	/**
-	 * Retrieves user's choice of players looking to avail of the Helicopter Lift.
+	 * Retrieves user's choice of players looking to avail of a Helicopter Lift.
 	 * @param List of players in game.
 	 * @param IslandTile players will move to.
 	 * @return User's choice of players.

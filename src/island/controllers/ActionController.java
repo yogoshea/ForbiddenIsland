@@ -11,8 +11,8 @@ import island.players.Player;
 import island.view.GameView;
 
 /**
- * Controller class for retrieving player choices for GameView and change 
- * game model accordingly.
+ * Controller class for retrieving player action choices from GameView and changing 
+ * the game model accordingly.
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
@@ -63,7 +63,7 @@ public class ActionController {
 		do {
 			
 			gameView.getPrompter().promptEnterToContinue();
-			gameView.updateView(gameModel, p); // display updated full game view after every action
+			gameView.updateView(gameModel, p); // display updated game view after every action
 			
 			actionChoice = gameView.getPrompter().pickAction(remainingTurns); //Get the players choice of action
 			
@@ -106,6 +106,7 @@ public class ActionController {
 		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getPawn().getTile());
 		IslandTile destination;
 		
+		// If there are available tiles to move to
 		if(! adjTiles.isEmpty()) {
 			
 			destination = gameView.getPrompter().pickTileDestination(adjTiles);
@@ -115,18 +116,18 @@ public class ActionController {
 			
 		} else {
 			gameView.getNotifier().showNoMoveTiles();
-			return false;
+			return false; // Move has not been made as no tiles available
 		}
 	}
 	
 	/**
 	 * Performs shore up action on island tile of user's choice
-	 * @return true if shore-up action successful, false otherwise
+	 * @return true if a shore-up action is made, false otherwise
 	 */
 	private boolean shoreUpAction(Player p) {
 
-		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getPawn().getTile()); //List of potential tiles to shore up
-		adjTiles.add(p.getPawn().getTile()); //can also shore-up your current tile
+		List<IslandTile> adjTiles = gameModel.getIslandBoard().getAdjacentTiles(p.getPawn().getTile()); // List of potential tiles to shore up
+		adjTiles.add(p.getPawn().getTile()); // Current tile is added to shore-up list
 		List<IslandTile> holder = new ArrayList<>(adjTiles);
 		IslandTile tileChoice;
 		
@@ -137,53 +138,54 @@ public class ActionController {
 			}
 		}
 		
-		// If there are flooded tiles available, prompt user for shore-up choice
+		// If there are flooded tiles available, prompt user for a shore-up choice
 		if(! adjTiles.isEmpty()) {
 			
 			tileChoice = gameView.getPrompter().pickShoreUpTile(adjTiles);
-			tileChoice.setToSafe(); //shore-up tile
+			tileChoice.setToSafe(); // shore-up tile choice
 			adjTiles.remove(tileChoice);
 			gameView.getNotifier().showSuccessfulShoreUp(tileChoice);
 		
-			// Check if current players role allows second shore up
+			// Check if current player's role allows second shore up
 			if ((! adjTiles.isEmpty()) && p.getShoreUpQuantity() == 2 ) {
 				
-				//If engineer wishes to shore-up another tile
+				// If engineer wishes to shore-up another tile
 				if(gameView.getPrompter().shoreUpAnother()) {
 					
 					tileChoice = gameView.getPrompter().pickShoreUpTile(adjTiles);
-					tileChoice.setToSafe(); //shore-up tile
+					tileChoice.setToSafe(); // shore-up tile choice
 					gameView.getNotifier().showSuccessfulShoreUp(tileChoice);
 				}
 				
 			}
 			return true;
 		}
+		// If no shore-up action can be made, return false
 		gameView.getNotifier().showNoShoreUpTiles();
 		return false;
 	}
 	
 	
 	/**
-	 * Gives a treasure card from hand to another player on the same island tile
-	 * @return whether or not treasure successfully given
+	 * Method to gives a treasure card from hand to another player during a turn
+	 * @return Boolean indicating whether or not treasure card successfully given
 	 */
 	private boolean giveTreasureCard(Player p, DrawCardsController drawCardsController) {
 		
-		List<Player> playersOnSameTile = new ArrayList<Player>();
+		List<Player> receivablePlayers = new ArrayList<Player>();
 		List<Card<?>> treasureCards = new ArrayList<Card<?>>();
 		Player playerToRecieve;
 		Card<?> card;
 		
-		// Find players on same tile
-		playersOnSameTile = p.getCardReceivablePlayers(gameModel.getGamePlayers());
+		// Find players that card can be given to
+		receivablePlayers = p.getCardReceivablePlayers(gameModel.getGamePlayers());
 		
-		if(playersOnSameTile.isEmpty()) {
+		if(receivablePlayers.isEmpty()) {
 			gameView.getNotifier().showNoAvailablePlayers();
 			return false;
 		}
 		
-		// Find treasure cards in hand
+		// Get players treasure cards
 		treasureCards = p.getTreasureCards();
 		
 		if(treasureCards.isEmpty()) {
@@ -192,54 +194,52 @@ public class ActionController {
 		}
 		
 		// User chooses player to give card to
-		playerToRecieve = gameView.getPrompter().pickPlayerToRecieveCard(playersOnSameTile);
+		playerToRecieve = gameView.getPrompter().pickPlayerToRecieveCard(receivablePlayers);
 		
 		// User chooses card to give
 		card = gameView.getPrompter().pickCardToGive(treasureCards);
 		
-		// Give card to other player
+		// Give card to chosen player
 		drawCardsController.addCardToHand(playerToRecieve, card);
 		
-		//remove from players hand
+		//remove card from current players hand
 		p.removeCard(card);
 		gameView.getNotifier().showCardGiven(card, p, playerToRecieve);
-
 		return true;
-		
 	}
 	
 	
 	/**
-	 * Performs action of capturing a treasure from current tile.
+	 * Method to perform a treasure capture action.
 	 * @return Boolean indicating whether or not treasure successfully captured.
 	 */
 	private boolean captureTreasure(Player p) {
 		
 		Treasure treasure = p.getPawn().getTile().getAssociatedTreasure();
 		
-		// If treasure exists - Collect all cards which can be used to capture treasure
+		// If treasure exists -> Attempt to capture it
 		if(treasure != null) {
 			
+			// If treasure already captured, return null
 			if( gameModel.getGamePlayers().getCapturedTreasures().contains(treasure) ) {
 				gameView.getNotifier().showAlreadyCaptured(treasure);
 				return false;
 			}
 			
 			List<Card<?>> tradeCards = new ArrayList<Card<?>>();
-			int cardsFound = 0;
 			
 			// Take out all relevant treasure cards from player's hand
 			for(Card<?> c : p.getTreasureCards()) {
+				
 				if(c.getUtility().equals(treasure)) {
-					tradeCards.add(c);
+					tradeCards.add(c); // Add relevant card to 'tradeCards' and remove from hand
 					p.removeCard(c);
-					cardsFound++;
 				}
 				
-				//If player has enough cards -> capture treasure
-				if(cardsFound == cardsRequiredForCapture) {
+				//If enough cards are found -> capture the treasure
+				if(tradeCards.size() == cardsRequiredForCapture) {
 					
-					// Discard the 4 treasure cards and capture treasure
+					// Discard the 4 treasure cards and capture the treasure
 					gameModel.getTreasureDiscardPile().getAllCards().addAll(tradeCards);
 					gameModel.getGamePlayers().addTreasure(treasure);
 					gameView.getNotifier().showTreasureCaptured(treasure);
@@ -247,17 +247,19 @@ public class ActionController {
 				}
 			}
 			
-			// If could not capture treasure, show message and return cards to deck
+			// If not enough cards to capture treasure, return cards to players hand
 			gameView.getNotifier().showNotEnoughCards(p.getPawn().getTile().getAssociatedTreasure());
 			p.getCards().addAll(tradeCards);
 			return false;
 			
 		}
-		// If no treasure found on island tile
+		// If no treasure found on island tile, return false
 		gameView.getNotifier().showNoTreasure(p.getPawn().getTile());
 		return false;
 	}
 
+	
+	
 	// Singleton reset for JUnit testing
 	public static void reset() {
 		actionController = null;
