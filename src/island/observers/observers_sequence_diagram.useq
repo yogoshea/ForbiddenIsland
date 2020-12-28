@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.4" icons="true" automaticImage="PNG" generate-combined-fragments="true">  
+  <object id="1" language="java" name="island.controllers.DrawCardsController" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/controllers/DrawCardsController.java" binary="false" 
+    label="drawCardsController" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="86" y="0"/>    
+    <execution id="2">      
+      <position height="1407" width="143" x="5" y="134"/>    
+    </execution>  
+  </object>  
+  <object id="7" language="java" name="island.components.WaterMeter" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/WaterMeter.java" binary="false" label="waterMeter" 
+    type="class" autoSize="true">    
+    <position height="-1" width="-1" x="159" y="0"/>    
+    <execution id="4">      
+      <position height="243" width="91" x="152" y="155"/>    
+    </execution>    
+    <execution id="9">      
+      <position height="180" width="0" x="0" y="197"/>    
+    </execution>  
+  </object>  
+  <object id="12" language="java" name="island.components.IslandTile" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" label="islandTile" 
+    type="enumeration" autoSize="true">    
+    <position height="-1" width="-1" x="218" y="0"/>    
+    <execution id="6">      
+      <position height="1056" width="85" x="247" y="464"/>    
+    </execution>    
+    <execution id="14">      
+      <position height="21" width="0" x="0" y="506"/>    
+    </execution>    
+    <execution id="21">      
+      <position height="21" width="7" x="286" y="773"/>    
+    </execution>  
+  </object>  
+  <object id="22" language="java" name="island.observers.WaterMeterObserver" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/observers/WaterMeterObserver.java" binary="false" 
+    label="waterMeterObserver" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="450" y="0"/>    
+    <execution id="11">      
+      <position height="138" width="144" x="336" y="218"/>    
+    </execution>  
+  </object>  
+  <object id="25" language="java" name="island.observers.FoolsLandingObserver" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/observers/FoolsLandingObserver.java" binary="false" 
+    label="foolsLandingObserver" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="482" y="0"/>    
+    <execution id="16">      
+      <position height="105" width="151" x="484" y="603"/>    
+    </execution>  
+  </object>  
+  <object id="28" language="java" name="island.observers.TreasureTilesObserver" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/observers/TreasureTilesObserver.java" binary="false" 
+    label="treasureTilesObserver" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="635" y="0"/>    
+    <execution id="18">      
+      <position height="353" width="154" x="639" y="736"/>    
+    </execution>  
+  </object>  
+  <object id="36" language="java" name="island.observers.PlayerSunkObserver" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/observers/PlayerSunkObserver.java" binary="false" 
+    label="playerSunkObserver" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="639" y="0"/>    
+    <execution id="20">      
+      <position height="288" width="141" x="797" y="1211"/>    
+    </execution>  
+  </object>  
+  <object id="43" language="java" name="island.controllers.GameController" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/controllers/GameController.java" binary="false" 
+    label="gameController" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="579" y="0"/>    
+    <execution id="24">      
+      <position height="63" width="112" x="484" y="272"/>    
+    </execution>    
+    <execution id="35">      
+      <position height="63" width="0" x="0" y="1005"/>    
+    </execution>    
+    <execution id="27">      
+      <position height="63" width="0" x="0" y="624"/>    
+    </execution>    
+    <execution id="42">      
+      <position height="63" width="0" x="0" y="1415"/>    
+    </execution>  
+  </object>  
+  <object id="52" language="java" name="island.view.Notifier" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/view/Notifier.java" binary="false" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="33">      
+      <position height="21" width="0" x="0" y="963"/>    
+    </execution>    
+    <execution id="40">      
+      <position height="21" width="75" x="1137" y="1368"/>    
+    </execution>  
+  </object>  
+  <object id="53" language="java" name="island.view.GameView" project="ForbiddenIsland" 
+    file="/ForbiddenIsland/ForbiddenIsland/src/island/view/GameView.java" binary="false" label="gameView" type="class" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="648" y="0"/>    
+    <execution id="45">      
+      <position height="21" width="0" x="0" y="293"/>    
+    </execution>    
+    <execution id="31">      
+      <position height="21" width="0" x="0" y="921"/>    
+    </execution>    
+    <execution id="47">      
+      <position height="21" width="0" x="0" y="1026"/>    
+    </execution>    
+    <execution id="49">      
+      <position height="21" width="0" x="0" y="645"/>    
+    </execution>    
+    <execution id="38">      
+      <position height="21" width="0" x="0" y="1331"/>    
+    </execution>    
+    <execution id="51">      
+      <position height="21" width="0" x="0" y="1436"/>    
+    </execution>  
+  </object>  
+  <combined-fragment id="54" interaction-operator="OPT">    
+    <interaction-operand id="55" constraint="If water level &gt;= 5">      
+      <fragment refId="23"/>      
+      <fragment refId="44"/>    
+    </interaction-operand>  
+  </combined-fragment>  
+  <combined-fragment id="56" interaction-operator="LOOP">    
+    <interaction-operand id="57" constraint="for each observer">      
+      <fragment refId="58"/>    
+    </interaction-operand>    
+    <combined-fragment id="58" interaction-operator="ALT">      
+      <interaction-operand id="59" constraint="if sunk tile is FoolsLanding">        
+        <fragment refId="15"/>        
+        <fragment refId="26"/>        
+        <fragment refId="48"/>      
+      </interaction-operand>      
+      <interaction-operand id="60" constraint="if sunk tile has an associated treasure">        
+        <fragment refId="17"/>        
+        <fragment refId="61"/>        
+        <fragment refId="29"/>      
+      </interaction-operand>      
+      <combined-fragment id="61" interaction-operator="OPT">        
+        <interaction-operand id="62" constraint="If associated treasure has not yet been captured">          
+          <fragment refId="63"/>        
+        </interaction-operand>        
+        <combined-fragment id="63" interaction-operator="LOOP">          
+          <interaction-operand id="64" constraint="for each island tile">            
+            <fragment refId="65"/>          
+          </interaction-operand>          
+          <combined-fragment id="65" interaction-operator="OPT">            
+            <interaction-operand id="66" constraint="if other tile has same associated treaure as the sunk tile">              
+              <fragment refId="67"/>            
+            </interaction-operand>            
+            <combined-fragment id="67" interaction-operator="OPT">              
+              <interaction-operand id="68" constraint="if other tile is also sunk">                
+                <fragment refId="30"/>                
+                <fragment refId="46"/>                
+                <fragment refId="34"/>                
+                <fragment refId="32"/>              
+              </interaction-operand>            
+            </combined-fragment>          
+          </combined-fragment>        
+        </combined-fragment>      
+      </combined-fragment>    
+    </combined-fragment>  
+  </combined-fragment>  
+  <combined-fragment id="69" interaction-operator="LOOP">    
+    <interaction-operand id="70" constraint="for each player">      
+      <fragment refId="71"/>    
+    </interaction-operand>    
+    <combined-fragment id="71" interaction-operator="OPT">      
+      <interaction-operand id="72" constraint="if player is on the sunk tile">        
+        <fragment refId="73"/>      
+      </interaction-operand>      
+      <combined-fragment id="73" interaction-operator="OPT">        
+        <interaction-operand id="74" constraint="if player can&apos;t move to safety">          
+          <fragment refId="39"/>          
+          <fragment refId="41"/>          
+          <fragment refId="50"/>          
+          <fragment refId="37"/>        
+        </interaction-operand>      
+      </combined-fragment>    
+    </combined-fragment>  
+  </combined-fragment>  
+  <message id="3" operation="incrementLevel():void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" operation="setToSunk():void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="8" operation="notifyAllObservers():void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="10" operation="update(island.observers.Subject):void" asynchronous="false">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="13" operation="notifyAllObservers():void" asynchronous="false">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="14"/>  
+  </message>  
+  <message id="15" operation="update(island.observers.Subject):void" asynchronous="false">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="16"/>  
+  </message>  
+  <message id="17" operation="update(island.observers.Subject):void" asynchronous="false">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="18"/>  
+  </message>  
+  <message id="19" operation="update(island.observers.Subject):void" asynchronous="false">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="20"/>  
+  </message>  
+  <message id="23" operation="endGame(island.controllers.GameEndings):void" asynchronous="false">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="24"/>  
+  </message>  
+  <message id="26" operation="endGame(island.controllers.GameEndings):void" asynchronous="false">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="27"/>  
+  </message>  
+  <message id="29" operation="getAssociatedTreasure():island.components.Treasure" asynchronous="false">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="21"/>  
+  </message>  
+  <message id="30" operation="getNotifier():island.view.Notifier" asynchronous="false">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="31"/>  
+  </message>  
+  <message id="32" operation="showTreasureSunk(island.components.IslandTile,island.components.IslandTile):void" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="33"/>  
+  </message>  
+  <message id="34" operation="endGame(island.controllers.GameEndings):void" asynchronous="false">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="35"/>  
+  </message>  
+  <message id="37" operation="getNotifier():island.view.Notifier" asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="38"/>  
+  </message>  
+  <message id="39" operation="showPlayerSunk(island.players.Player):void" asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="40"/>  
+  </message>  
+  <message id="41" operation="endGame(island.controllers.GameEndings):void" asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="42"/>  
+  </message>  
+  <message id="44" operation="showEnding(island.controllers.GameEndings):void" asynchronous="false">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="45"/>  
+  </message>  
+  <message id="46" operation="showEnding(island.controllers.GameEndings):void" asynchronous="false">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="47"/>  
+  </message>  
+  <message id="48" operation="showEnding(island.controllers.GameEndings):void" asynchronous="false">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="49"/>  
+  </message>  
+  <message id="50" operation="showEnding(island.controllers.GameEndings):void" asynchronous="false">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="51"/>  
+  </message>
+</sequence-diagram>
