@@ -14,7 +14,6 @@ import island.players.Player;
  * 
  * ASCII Art sourced from and generated using the following:
  * https://www.ascii-art-generator.org/
- * https://www.asciiart.eu/vehicles/choppers (Art by Graeme Porter)
  * https://www.asciiart.eu/nature/islands (Art by sjw)
  * https://textfancy.com/multiline-text-art/
  * 
@@ -346,15 +345,4 @@ class Graphics {
 		System.out.println("\nThank you for playing!");
 	}
 	
-// TODO: delete this if not needed but might be cool
-//	          ______.........--=T=--.........______
-//			     .             |:|
-//			:-. //           /""""""-.
-//			': '-._____..--""(""""""()`---.__
-//			 /:   _..__   ''  ":""""'[] |""`\\
-//			 ': :'     `-.     _:._     '"""" :
-//			  ::          '--=:____:.___....-"
-//			                    O"       O" grp
-//Nice, could call a gameView.showHeliCutScene(), and move it across
-
 }

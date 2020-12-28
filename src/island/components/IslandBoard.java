@@ -80,11 +80,14 @@ public class IslandBoard {
 	 * @return List containing relevant IslandTile instances.
 	 */
 	public List<IslandTile> getAdjacentTiles(IslandTile tile) {
+		
+		// Error threshold when equating doubles
+		final double ERROR_THRESHOLD = 0.0001;
 
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
 		for (IslandTile otherTile : this.getNonSunkTiles()) {
-			if (Coordinate.calcDistanceBetweenCoordinates(tileCoordinates.get(tile), tileCoordinates.get(otherTile)) == 1.0) {//TODO: Double check this works in all scenarios (had a issue which I couldn't recreate)
-				adjTiles.add(otherTile); // TODO: change to <= 1.05 to allow for rounding errors?
+			if (Math.abs(Coordinate.calcDistanceBetweenCoordinates(tileCoordinates.get(tile), tileCoordinates.get(otherTile)) - 1.0) < ERROR_THRESHOLD) {
+				adjTiles.add(otherTile);
 			}
 		}
 		return adjTiles;
