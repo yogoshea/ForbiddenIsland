@@ -14,7 +14,7 @@ import island.observers.Subject;
  */
 public class WaterMeter implements Subject {
 	
-	// Eager initialisation of singleton
+	// Singleton instance
 	private static WaterMeter waterMeter;
 	
 	// Water meter attributes
@@ -27,7 +27,7 @@ public class WaterMeter implements Subject {
 	 */
 	private WaterMeter() {
 		
-		// Initial water meter set to 1 by default
+		// Initial water level set to 1 by default
 		this.waterLevel = 1;
 	}
 	
@@ -38,7 +38,6 @@ public class WaterMeter implements Subject {
 	public static WaterMeter getInstance() {
 		if (waterMeter == null) {
 			waterMeter = new WaterMeter();
-			
 		}
 		return waterMeter;
 	}

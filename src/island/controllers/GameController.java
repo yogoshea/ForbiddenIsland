@@ -86,7 +86,7 @@ public class GameController {
 			// Iterate over players in game
 			for (Player p : gameModel.getGamePlayers()) {
 				
-				currentPlayer = p;
+				currentPlayer = p; // Player whose turn it is
 				
 				// Take a number of actions
 				actionController.takeActions(p, drawCardsController);

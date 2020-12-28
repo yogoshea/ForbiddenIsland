@@ -82,7 +82,7 @@ public class DrawCardsController {
 			//If the drawn card is a treasure card, offer chance to give it to another player
 			} else if(drawnCard instanceof TreasureCard) {
 				
-				boolean keepCard = gameView.getPrompter().pickKeepOrGive();
+				boolean keepCard = gameView.getPrompter().pickKeepOrGive(drawnCard);
 				
 				//If player wishes to give away card
 				if(!keepCard) {

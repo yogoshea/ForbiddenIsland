@@ -66,7 +66,6 @@ public class SetupController {
 	 */
 	public void setupGame() {
 		
-//		List<String> playerNames = gameView.getPlayers();
 		startIslandSinking();
 		assignPlayerRoles(gameView.getPlayers());
 		handOutInitialTreasureCards();

@@ -174,8 +174,8 @@ public class Prompter {
 	 * Retrieves players choice to keep or give drawn treasure card.
 	 * @return Player's choice of card.
 	 */
-	public Boolean pickKeepOrGive() {
-		String prompt = "Do you wish to keep your card or give it to another Player?";
+	public Boolean pickKeepOrGive(Card<?> drawnCard) {
+		String prompt = "Do you wish to keep your " + drawnCard + " or give it to another Player?";
 		List<String> choices = Arrays.asList("Keep", "Give");
 		String choice = gameView.pickFromList(choices, prompt);
 		return choice.equals("Keep");
