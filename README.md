@@ -6,7 +6,7 @@ Authors: Eoghan O'Shea and Robert McCarthy
 
 ### System modelling
 
-A collection of images generated when moddeling this application can be found in the docs/system_modelling_images folder.
+A collection of images generated when moddeling this application can be found in the 'docs/system_modelling_images' folder. The actual models can be found in the relevant packages in the 'src' directory.
 
 ### Gameplay
 
