@@ -12,7 +12,7 @@ import island.players.Player;
  * Class populated with static methods for displaying the game play
  * through the console or terminal window.
  * 
- * ASCII Art sourced form and generated using the following:
+ * ASCII Art sourced from and generated using the following:
  * https://www.ascii-art-generator.org/
  * https://www.asciiart.eu/vehicles/choppers (Art by Graeme Porter)
  * https://www.asciiart.eu/nature/islands (Art by sjw)

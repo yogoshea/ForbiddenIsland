@@ -84,7 +84,7 @@ public class IslandBoard {
 		List<IslandTile> adjTiles = new ArrayList<IslandTile>();
 		for (IslandTile otherTile : this.getNonSunkTiles()) {
 			if (Coordinate.calcDistanceBetweenCoordinates(tileCoordinates.get(tile), tileCoordinates.get(otherTile)) == 1.0) {//TODO: Double check this works in all scenarios (had a issue which I couldn't recreate)
-				adjTiles.add(otherTile);
+				adjTiles.add(otherTile); // TODO: change to <= 1.05 to allow for rounding errors?
 			}
 		}
 		return adjTiles;

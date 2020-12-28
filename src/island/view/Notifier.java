@@ -195,6 +195,10 @@ public class Notifier {
 	}
 	
 	
+	/**
+	 * Tell user that discard choice no longer required.
+	 * @param player that was asked to discard card.
+	 */
 	public void showDiscardCancelled(Player player) {
 		System.out.println("\n" + player.toString() + ": Cards in hand has decreased to 5. Discard no longer required.");
 	}

@@ -9,7 +9,7 @@ public enum Treasure {
 
 	THE_CRYSTAL_OF_FIRE("Crystal of Fire"),
 	THE_EARTH_STONE("Earth Stone"),
-	THE_OCEANS_CHALICE("Oceans Chalice"),
+	THE_OCEANS_CHALICE("Ocean's Chalice"),
 	THE_STATUE_OF_THE_WIND("Statue of the Wind");
 	
 	private String name;

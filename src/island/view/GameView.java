@@ -178,7 +178,7 @@ public class GameView {
 	}
 	
 	/**
-	 * Method to prompt player to dicard a card when they have more than 5 cards. Ensures that when a HELI of SAND card from hand is used, a card no longer needs to be discarded 
+	 * Method to prompt player to discard a card when they have more than 5 cards. Ensures that when a HELI of SAND card from hand is used, a card no longer needs to be discarded 
 	 * @param cards of players hand from which 1 must be discarded
 	 * @param prompt player to discard a card
 	 * @return

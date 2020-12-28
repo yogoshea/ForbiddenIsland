@@ -2,7 +2,7 @@ package island.components;
 
 /**
  * Class to allow for easy representation of IslandTile locations
- * on the IslandBoard
+ * on the IslandBoard and their corresponding array index.
  * @author Eoghan O'Shea and Robert McCarthy
  */
 public class Coordinate {
@@ -11,7 +11,7 @@ public class Coordinate {
 	private int columnIndex;
 	
 	//  IslandBoard Layout        IslandBoard Array
-	//   (X,Y) Coordinate        [Column][Row] index
+	//   (X,Y) coordinate        [Column][Row] index
 	//
 	//	       [][]                 [][]
 	// 		 [][][][]               [][][][]
@@ -84,7 +84,7 @@ public class Coordinate {
 	}
 	
 	/**
-	 * Getter method for column value  on island board grid.
+	 * Getter method for column value on island board grid.
 	 * @return integer value representing column grid line.
 	 */
 	public int getXCoordinate() {

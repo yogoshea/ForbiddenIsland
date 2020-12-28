@@ -4,6 +4,12 @@ import java.util.List;
 
 import island.cards.Card;
 
+/**
+ * Interface to be implemented by Card storage classes in game.
+ * @author Eoghan O'Shea and Robert McCarthy
+ *
+ * @param <E> Type of Card subclass to be stored by a CardCollection
+ */
 public interface CardCollection<E extends Card<?>> {
 	
 	/**

@@ -68,6 +68,10 @@ public abstract class Deck<E extends Card<?>> implements CardCollection<E> {
 		this.shuffle();
 	}
 	
+	/**
+	 * Setter method for discard pile to be associated with a given deck.
+	 * @param DiscardPile instance to be paired with the deck.
+	 */
 	public void setCorrespondingDiscardPile(DiscardPile<E> discardPile) {
 		this.correspondingDiscardPile = discardPile;
 	}

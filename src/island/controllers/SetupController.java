@@ -22,7 +22,12 @@ import island.players.Pilot;
 import island.players.Player;
 import island.view.GameView;
 
-
+/**
+ * Controller class for setting up the initial state of the game; initialises 
+ * game components in accordance with user's setup preferences.
+ * @author Eoghan O'Shea and Robert McCarthy
+ *
+ */
 public class SetupController { 
 	
 	// Singleton instance
@@ -90,8 +95,6 @@ public class SetupController {
 			// Flood corresponding IslandTile on board
 			tile.setToFlooded();
 			
-//			gameView.showTileFlooded(tile);
-
 			// Add card to flood discard pile
 			floodDiscardPile.addCard(newFloodCard);
 		}

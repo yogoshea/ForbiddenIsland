@@ -2,7 +2,7 @@
 <class-diagram version="1.2.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <enumeration id="1" language="java" name="island.components.IslandTile.FloodStatus" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" corner="BOTTOM_RIGHT">    
+    file="/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1073" y="1036"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -11,7 +11,7 @@
     </display>  
   </enumeration>  
   <class id="2" language="java" name="island.components.Pawn" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/Pawn.java" binary="false" corner="BOTTOM_RIGHT">    
+    file="/ForbiddenIsland/src/island/components/Pawn.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="383" y="618"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -20,7 +20,7 @@
     </display>  
   </class>  
   <enumeration id="3" language="java" name="island.components.Treasure" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/Treasure.java" binary="false" corner="BOTTOM_RIGHT">    
+    file="/ForbiddenIsland/src/island/components/Treasure.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1113" y="781"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -29,8 +29,8 @@
     </display>  
   </enumeration>  
   <class id="4" language="java" name="island.components.WaterMeter" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/WaterMeter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="387" y="289"/>    
+    file="/ForbiddenIsland/src/island/components/WaterMeter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="386" y="303"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -38,7 +38,7 @@
     </display>  
   </class>  
   <enumeration id="5" language="java" name="island.components.IslandTile" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" corner="BOTTOM_RIGHT">    
+    file="/ForbiddenIsland/src/island/components/IslandTile.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="680" y="835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -47,7 +47,7 @@
     </display>  
   </enumeration>  
   <class id="6" language="java" name="island.components.Coordinate" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/Coordinate.java" binary="false" corner="BOTTOM_RIGHT">    
+    file="/ForbiddenIsland/src/island/components/Coordinate.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1492" y="403"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -56,7 +56,7 @@
     </display>  
   </class>  
   <class id="7" language="java" name="island.components.IslandBoard" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/components/IslandBoard.java" binary="false" corner="BOTTOM_RIGHT">    
+    file="/ForbiddenIsland/src/island/components/IslandBoard.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1039" y="342"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -65,7 +65,7 @@
     </display>  
   </class>  
   <class id="8" language="java" name="island.players.Player" project="ForbiddenIsland" 
-    file="/ForbiddenIsland/ForbiddenIsland/src/island/players/Player.java" binary="false" corner="BOTTOM_RIGHT">    
+    file="/ForbiddenIsland/src/island/players/Player.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="46" y="671"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -75,7 +75,7 @@
   </class>  
   <association id="9">    
     <bendpoint x="896" y="1037"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
+    <end type="SOURCE" refId="5" navigable="false" variant="ASSOCIATION">      
       <attribute id="10" name="status">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
@@ -83,113 +83,113 @@
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="12">    
-    <bendpoint x="1238" y="399"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="13" name="tileCoordinates">        
+    <end type="SOURCE" refId="7" navigable="false" variant="ASSOCIATION">      
+      <attribute id="13" name="islandBoard">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="14" minimum="0" maximum="2147483647">        
+      <multiplicity id="14" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="15">    
+  <association id="15">    
+    <bendpoint x="374" y="835"/>    
+    <end type="SOURCE" refId="8" navigable="false" variant="ASSOCIATION">      
+      <attribute id="16" name="startingTile">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="18">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="1"/>  
   </nesting>  
-  <association id="16">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="17" name="waterMeter">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="18" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <association id="19">    
-    <bendpoint x="833" y="512"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="20" name="boardStructure">        
+    <bendpoint x="254" y="621"/>    
+    <end type="SOURCE" refId="8" navigable="false" variant="ASSOCIATION">      
+      <attribute id="20" name="pawn">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="21" minimum="0" maximum="2147483647">        
+      <multiplicity id="21" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="22">    
-    <bendpoint x="529" y="619"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="23" name="currentTile">        
-        <position height="18" width="59" x="505" y="663"/>      
+    <bendpoint x="1238" y="399"/>    
+    <end type="SOURCE" refId="7" navigable="false" variant="ASSOCIATION">      
+      <attribute id="23" name="tileCoordinates">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="24" minimum="0" maximum="1">        
+      <multiplicity id="24" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="25">    
-    <bendpoint x="839" y="783"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="26" name="associatedTreasure">        
-        <position height="0" width="0" x="0" y="0"/>      
+    <end type="SOURCE" refId="4" navigable="false" variant="ASSOCIATION">      
+      <attribute id="26" name="waterMeter">        
+        <position height="0" width="0" x="-1" y="14"/>      
       </attribute>      
       <multiplicity id="27" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" x="-1" y="14"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="28">    
-    <bendpoint x="374" y="835"/>    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="29" name="startingTile">        
+    <bendpoint x="833" y="512"/>    
+    <end type="SOURCE" refId="7" navigable="false" variant="ASSOCIATION">      
+      <attribute id="29" name="boardStructure">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="30" minimum="0" maximum="1">        
+      <multiplicity id="30" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="31">    
-    <bendpoint x="254" y="621"/>    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="32" name="pawn">        
+    <bendpoint x="839" y="783"/>    
+    <end type="SOURCE" refId="5" navigable="false" variant="ASSOCIATION">      
+      <attribute id="32" name="associatedTreasure">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="33" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="34">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="35" name="islandBoard">        
-        <position height="0" width="0" x="0" y="0"/>      
+    <bendpoint x="529" y="619"/>    
+    <end type="SOURCE" refId="2" navigable="false" variant="ASSOCIATION">      
+      <attribute id="35" name="currentTile">        
+        <position height="18" width="59" x="505" y="663"/>      
       </attribute>      
       <multiplicity id="36" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

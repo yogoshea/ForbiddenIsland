@@ -16,7 +16,7 @@ import island.view.GameView;
  * @author Eoghan O'Shea and Robert McCarthy
  *
  */
-public class ActionController { //Name PlayerActionController for clarity?
+public class ActionController {
 	
 	// Singleton to be instantiated
 	private static ActionController actionController;
@@ -146,7 +146,7 @@ public class ActionController { //Name PlayerActionController for clarity?
 			gameView.getNotifier().showSuccessfulShoreUp(tileChoice);
 		
 			// Check if current players role allows second shore up
-			if (! adjTiles.isEmpty() && p.getShoreUpQuantity() == 2 ) {
+			if ((! adjTiles.isEmpty()) && p.getShoreUpQuantity() == 2 ) {
 				
 				//If engineer wishes to shore-up another tile
 				if(gameView.getPrompter().shoreUpAnother()) {

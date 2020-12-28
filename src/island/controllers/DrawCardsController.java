@@ -11,6 +11,11 @@ import island.components.IslandTile;
 import island.players.Player;
 import island.view.GameView;
 
+/**
+ * Controller class for handling cards drawn by players during the game.
+ * @author Eoghan O'Shea and Robert McCarthy
+ *
+ */
 public class DrawCardsController {
 	
 	private static DrawCardsController drawCardsController;
@@ -94,16 +99,12 @@ public class DrawCardsController {
 						drawnCard = null;
 					}	
 				}
-				
 			} 
-			
 			//If card has not been used yet, add to hand
 			if(drawnCard != null) {
 				addCardToHand(player, drawnCard);
 			}
-			
 		}
-		
 	}
 	
 	
@@ -111,7 +112,7 @@ public class DrawCardsController {
 	 * Method to draw flood cards during a players turn.
 	 * @param Reference to player to draw cards.
 	 */
-	public void drawFloodCards(Player player) { //TODO: If tile sunk remove its flood card? (Probably not)
+	public void drawFloodCards(Player player) {
 		
 		gameView.getPrompter().promptEnterToContinue();
 		gameView.updateView(gameModel, player);
